@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Orion</title>
+
+    <!-- Bootstrap -->
+    <link href="./resources/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Font Awesome -->
+    <link href="./resources/css/font-awesome.min.css" rel="stylesheet"/>
+    <!-- Animate.css -->
+    <link href="./resources/css/animate.min.css" rel="stylesheet"/>
+
+    <!-- Custom Theme Style -->
+    <link href="./resources/css/custom.min.css" rel="stylesheet"/>
+  </head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form>
+              <h1>Iniciar sesion</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Usuario" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Contraseña" required="" />
+              </div>
+              <div>
+                <a class="btn btn-default submit" href="home.xhtml">Iniciar sesion</a>
+                <a class="reset_pass" href="#">Olvidaste tu contraseña?</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">No tienes cuenta?
+                  <a href="#signup" class="to_register"> Solicita una cuenta </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-star"></i> Orion Incubating!</h1>
+                  <p>Copyright © 2019. Orion Incubating! es un sistema de informacion para institutos tecnicos de Bolivia.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form>
+              <h1>Crear Cuenta</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Usuario" required="" />
+              </div>
+              <div>
+                <input type="email" class="form-control" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Contraseña" required="" />
+              </div>
+              <div>
+                <a class="btn btn-default submit" href="index.html">Aceptar</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">Ya tienes cuenta ?
+                  <a href="#signin" class="to_register"> Inicia sesion </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-star"></i> Orion incubating!</h1>
+                  <p>Copyright © 2019. Orion Incubating! es un sistema de informacion para institutos tecnicos de Bolivia.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
