@@ -32,7 +32,7 @@ public class JavaMail implements Runnable {
 
     public JavaMail(List<String> to, String subject, String html) throws NamingException {
         InitialContext ctx = new InitialContext();
-        mailSession = (Session) ctx.lookup("siic-mailing");
+        mailSession = (Session) ctx.lookup("orionMailing");
 
         this.to = to;
         this.subject = subject;

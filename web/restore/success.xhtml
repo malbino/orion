@@ -7,33 +7,24 @@
 
     <body>
 
-        <ui:composition template="./WEB-INF/loginTemplate.xhtml">
+        <ui:composition template="./../WEB-INF/loginTemplate.xhtml">
 
             <ui:define name="content">
                 <h:form>
-                    <h1>Iniciar sesión</h1>
+                    <h1>Restaurar</h1>
+
+                    <p>
+                        Tu contraseña a sido restaurada con exito. Para ingresar al sistema utiliza tu
+                        nueva contraseña.
+                    </p>
 
                     <div>
-                        <p:messages id="messages"/> 
-                    </div>
-
-                    <div>
-                        <p:inputText value="#{LoginController.usuario}" placeholder="Nombre de usuario" required="true" requiredMessage="* Nombre de usuario requerido"/>
-                    </div>
-                    <div>
-                        <p:password value="#{LoginController.contrasena}" placeholder="Contraseña" required="true" requiredMessage="* Contraseña requerida"/>
-                    </div>
-                    <div>
-                        <p:commandButton value="Ingresar" icon="fa fa-user" actionListener="#{LoginController.login()}" update="messages"/>
+                        <p:button value="Iniciar sesión" icon="fa fa-sign-in" outcome="/login" />
                     </div>
 
                     <div class="clearfix"></div>
 
                     <div class="separator">
-                        <p class="change_link">¿Olvidaste tu contraseña?
-                                    <p:link value="Restaura tu contraseña" outcome="/restore/pin"/>
-                        </p>
-
                         <div class="clearfix"></div>
                         <br />
 
