@@ -18,7 +18,7 @@ import org.primefaces.PrimeFaces;
  *
  * @author malbino
  */
-public abstract class Controller implements Serializable {
+public abstract class AbstractController implements Serializable {
 
     protected void mensajeDeError(String mensaje) {
         FacesContext context = FacesContext.getCurrentInstance();

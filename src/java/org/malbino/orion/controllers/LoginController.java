@@ -5,10 +5,13 @@
 package org.malbino.orion.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.malbino.orion.entities.Recurso;
 import org.malbino.orion.entities.Usuario;
+import org.malbino.orion.facades.RecursoFacade;
 import org.malbino.orion.facades.UsuarioFacade;
 import org.malbino.orion.util.Encriptador;
 
@@ -18,10 +21,12 @@ import org.malbino.orion.util.Encriptador;
  */
 @Named("LoginController")
 @SessionScoped
-public class LoginController extends Controller {
+public class LoginController extends AbstractController {
 
     @EJB
     UsuarioFacade usuarioFacade;
+    @EJB
+    RecursoFacade recursoFacade;
 
     private String usuario;
     private String contrasena;
@@ -43,6 +48,19 @@ public class LoginController extends Controller {
 
             mensajeDeError("Usuario invalido.");
         }
+    }
+
+    public String display(String nombre) {
+        String s = "none";
+
+        if (usr != null) {
+            List<Recurso> listaRecursos = recursoFacade.buscarPorPersonaNombre(usr.getId_persona(), nombre);
+            if (!listaRecursos.isEmpty()) {
+                s = "anything";
+            }
+        }
+
+        return s;
     }
 
     public void logout() throws IOException {

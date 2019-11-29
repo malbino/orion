@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -30,6 +32,12 @@ public class Rol implements Serializable {
 
     @Column(unique = true)
     private String nombre;
+
+    @JoinTable(name = "privilegio", catalog = "orion", schema = "public", joinColumns = {
+        @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_recurso", referencedColumnName = "id_recurso")})
+    @ManyToMany
+    private List<Recurso> recursos;
 
     @ManyToMany(mappedBy = "roles")
     private List<Usuario> usuarios;
@@ -66,6 +74,20 @@ public class Rol implements Serializable {
     }
 
     /**
+     * @return the recursos
+     */
+    public List<Recurso> getRecursos() {
+        return recursos;
+    }
+
+    /**
+     * @param recursos the recursos to set
+     */
+    public void setRecursos(List<Recurso> recursos) {
+        this.recursos = recursos;
+    }
+
+    /**
      * @return the usuarios
      */
     public List<Usuario> getUsuarios() {
@@ -81,8 +103,8 @@ public class Rol implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.id_rol);
+        int hash = 5;
+        hash = 31 * hash + Objects.hashCode(this.id_rol);
         return hash;
     }
 
@@ -108,5 +130,4 @@ public class Rol implements Serializable {
     public String toString() {
         return nombre;
     }
-
 }

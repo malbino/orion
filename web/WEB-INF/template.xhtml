@@ -18,13 +18,16 @@
         <link rel="shortcut icon" href="/orion/resources/images/favicon.png" />
 
         <!-- Bootstrap -->
-        <link href="./resources/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="/orion/resources/css/bootstrap.min.css" rel="stylesheet"/>
 
         <!-- Font Awesome -->
-        <link href="./resources/css/font-awesome.min.css" rel="stylesheet"/>
+        <link href="/orion/resources/css/font-awesome.min.css" rel="stylesheet"/>
+        
+        <!-- NProgress -->
+        <link href="/orion/resources/css/nprogress.css" rel="stylesheet"/>
 
         <!-- Custom Theme Style -->
-        <link href="./resources/css/custom.min.css" rel="stylesheet"/>
+        <link href="/orion/resources/css/custom.min.css" rel="stylesheet"/>
 
     </h:head>
 
@@ -35,7 +38,7 @@
                     <div class="col-md-3 left_col">
                         <div class="left_col scroll-view">
                             <div class="navbar nav_title" style="border: 0;">
-                                <a href="home.xhtml" class="site_title"><i class="fa fa-star"></i> <span>Orion Incubating!</span></a>
+                                <a href="/orion/home.xhtml" class="site_title"><i class="fa fa-star"></i> <span>Orion Incubating!</span></a>
                             </div>
 
                             <div class="clearfix"></div>
@@ -57,105 +60,93 @@
                             <!-- sidebar menu -->
                             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                                 <div class="menu_section">
-                                    <h3>General</h3>
+                                    <h3>Contenido</h3>
                                     <ul class="nav side-menu">
-                                        <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.display('Administrador')}"><a><i class="fa fa-linux"></i> Administrador <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="index.html">Dashboard</a></li>
-                                                <li><a href="index2.html">Dashboard2</a></li>
-                                                <li><a href="index3.html">Dashboard3</a></li>
+                                                <li><a href="/orion/administrador/roles.xhtml">Roles</a></li>
+                                                <li><a href="/orion/administrador/usuarios.xhtml">Usuarios</a></li>
                                             </ul>
                                         </li>
-                                        <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li><a href="form.html">General Form</a></li>
-                                                <li><a href="form_advanced.html">Advanced Components</a></li>
-                                                <li><a href="form_validation.html">Form Validation</a></li>
-                                                <li><a href="form_wizards.html">Form Wizard</a></li>
-                                                <li><a href="form_upload.html">Form Upload</a></li>
-                                                <li><a href="form_buttons.html">Form Buttons</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li><a href="general_elements.html">General Elements</a></li>
-                                                <li><a href="media_gallery.html">Media Gallery</a></li>
-                                                <li><a href="typography.html">Typography</a></li>
-                                                <li><a href="icons.html">Icons</a></li>
-                                                <li><a href="glyphicons.html">Glyphicons</a></li>
-                                                <li><a href="widgets.html">Widgets</a></li>
-                                                <li><a href="invoice.html">Invoice</a></li>
-                                                <li><a href="inbox.html">Inbox</a></li>
-                                                <li><a href="calendar.html">Calendar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li><a href="tables.html">Tables</a></li>
-                                                <li><a href="tables_dynamic.html">Table Dynamic</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li><a href="chartjs.html">Chart JS</a></li>
-                                                <li><a href="chartjs2.html">Chart JS2</a></li>
-                                                <li><a href="morisjs.html">Moris JS</a></li>
-                                                <li><a href="echarts.html">ECharts</a></li>
-                                                <li><a href="other_charts.html">Other Charts</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                                                <li><a href="fixed_footer.html">Fixed Footer</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="menu_section">
-                                    <h3>Live On</h3>
-                                    <ul class="nav side-menu">
-                                        <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li><a href="e_commerce.html">E-commerce</a></li>
-                                                <li><a href="projects.html">Projects</a></li>
-                                                <li><a href="project_detail.html">Project Detail</a></li>
-                                                <li><a href="contacts.html">Contacts</a></li>
-                                                <li><a href="profile.html">Profile</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li><a href="page_403.html">403 Error</a></li>
-                                                <li><a href="page_404.html">404 Error</a></li>
-                                                <li><a href="page_500.html">500 Error</a></li>
-                                                <li><a href="plain_page.html">Plain Page</a></li>
-                                                <li><a href="login.xhtml">Login Page</a></li>
-                                                <li><a href="pricing_tables.html">Pricing Tables</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li><a href="#level1_1">Level One</a>
-                                                    <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                                                        <ul class="nav child_menu">
-                                                            <li class="sub_menu"><a href="level2.html">Level Two</a>
-                                                            </li>
-                                                            <li><a href="#level2_1">Level Two</a>
-                                                            </li>
-                                                            <li><a href="#level2_2">Level Two</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="#level1_2">Level One</a>
-                                                    </li>
-                                                </li>
-                                            </ul>
-                                        </li>                  
-                                        <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
-                                    </ul>
-                                </div>
 
+                                        <li style="display: #{LoginController.display('Planes de Estudio')}"><a><i class="fa fa-share-alt"></i> Planes de Estudio <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Carreras</a></li>
+                                                <li><a href="#">Materias</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li style="display: #{LoginController.display('Gestiónes Académicas')}"><a><i class="fa fa-calendar"></i> Gestiónes Académicas <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Calendario academico</a></li>
+                                                <li><a href="#">Gestiones Academicas</a></li>
+                                                <li><a href="#">Grupos</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li style="display: #{LoginController.display('Pagos')}"><a><i class="fa fa-dollar"></i> Pagos <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Matricula</a></li>
+                                                <li><a href="#">Cuotas</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li style="display: #{LoginController.display('Inscripciones')}"><a><i class="fa fa-user-plus"></i> Inscripciones <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Estudiante Nuevo</a></li>
+                                                <li><a href="#">Estudiante Regular</a></li>
+                                                <li><a href="#">Cambio de carrera</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li style="display: #{LoginController.display('Estudiante')}"><a><i class="fa fa-user"></i> Estudiante <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Kardex Academico</a></li>
+                                                <li><a href="#">Kardex Economico</a></li>
+                                                <li><a href="#">File Estudiante</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li style="display: #{LoginController.display('Registro Docente')}"><a><i class="fa fa-folder"></i> Registro Docente <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Primer Parcial</a></li>
+                                                <li><a href="#">Segundo Parcial</a></li>
+                                                <li><a href="#">Tercer Parcial</a></li>
+                                                <li><a href="#">Cuarto Parcial</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li style="display: #{LoginController.display('Kardex Estudiante')}"><a><i class="fa fa-table"></i> Kardex Estudiante <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Kardex Academico</a></li>
+                                                <li><a href="#">Kardex Economico</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li style="display: #{LoginController.display('Reportes')}"><a><i class="fa fa-bar-chart"></i> Reportes <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Malla Curricular</a></li>
+                                                <li><a href="#">Libro de Inscripciones</a></li>
+                                                <li><a href="#">Matricula</a></li>
+                                                <li><a href="#">Kardex Academico</a></li>
+                                                <li><a href="#">Karde Economico</a></li>
+                                                <li><a href="#">Historial Academico</a></li>
+                                                <li><a href="#">Centralizador Calificaciones</a></li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+
+                                    <h3>Soporte</h3>
+                                    <ul class="nav side-menu">
+                                        <li><a><i class="fa fa-question-circle"></i> Ayuda <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#">Soporte Tecnico</a></li>
+                                                <li><a href="#">Acerca de</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <!-- /sidebar menu -->
 
@@ -293,13 +284,16 @@
         </h:form>
 
         <!-- jQuery -->
-        <script src="./resources/js/jquery.min.js"></script>
+        <script src="/orion/resources/js/jquery.min.js"></script>
 
         <!-- Bootstrap -->
-        <script src="./resources/js/bootstrap.bundle.min.js"></script>
+        <script src="/orion/resources/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Nprogress -->
+        <script src="/orion/resources/js/nprogress.js"></script>
 
         <!-- Custom Theme Scripts -->
-        <script src="./resources/js/custom.min.js"></script>
+        <script src="/orion/resources/js/custom.min.js"></script>
     </h:body>
 
 </html>
