@@ -20,6 +20,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -44,8 +45,8 @@ public abstract class Persona implements Serializable {
     private String dni;
     private String lugar;
     @Temporal(TemporalType.DATE)
-    private Date fechaAacimiento;
-    private String lugarAacimiento;
+    private Date fechaNacimiento;
+    private String lugarNacimiento;
     private String nacionalidad;
     private String sexo;
     private String direccion;
@@ -142,31 +143,31 @@ public abstract class Persona implements Serializable {
     }
 
     /**
-     * @return the fechaAacimiento
+     * @return the fechaNacimiento
      */
-    public Date getFechaAacimiento() {
-        return fechaAacimiento;
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
     /**
-     * @param fechaAacimiento the fechaAacimiento to set
+     * @param fechaNacimiento the fechaNacimiento to set
      */
-    public void setFechaAacimiento(Date fechaAacimiento) {
-        this.fechaAacimiento = fechaAacimiento;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     /**
-     * @return the lugarAacimiento
+     * @return the lugarNacimiento
      */
-    public String getLugarAacimiento() {
-        return lugarAacimiento;
+    public String getLugarNacimiento() {
+        return lugarNacimiento;
     }
 
     /**
-     * @param lugarAacimiento the lugarAacimiento to set
+     * @param lugarNacimiento the lugarNacimiento to set
      */
-    public void setLugarAacimiento(String lugarAacimiento) {
-        this.lugarAacimiento = lugarAacimiento;
+    public void setLugarNacimiento(String lugarNacimiento) {
+        this.lugarNacimiento = lugarNacimiento;
     }
 
     /**
@@ -302,4 +303,11 @@ public abstract class Persona implements Serializable {
         return s;
     }
 
+    public String getDniLugar(){
+        return dni + " " + lugar;
+    }
+    
+    public String getfechaNacimiento_ddMMyyyy(){
+        return Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
+    }
 }

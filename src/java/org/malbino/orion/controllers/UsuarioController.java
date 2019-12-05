@@ -38,7 +38,7 @@ public class UsuarioController extends AbstractController implements Serializabl
 
     private List<Usuario> usuarios;
     private Usuario seleccionUsuario;
-    private boolean restaurar_contrasena;
+    private boolean restaurarContrasena;
 
     private Boolean filter;
     private String keyword;
@@ -47,7 +47,7 @@ public class UsuarioController extends AbstractController implements Serializabl
     public void init() {
         usuarios = usuarioFacade.listaUsuarios();
         seleccionUsuario = null;
-        restaurar_contrasena = false;
+        restaurarContrasena = false;
 
         filter = false;
         keyword = null;
@@ -56,7 +56,7 @@ public class UsuarioController extends AbstractController implements Serializabl
     public void reinit() {
         usuarios = usuarioFacade.listaUsuarios();
         seleccionUsuario = null;
-        restaurar_contrasena = false;
+        restaurarContrasena = false;
 
         filter = false;
         keyword = null;
@@ -84,7 +84,7 @@ public class UsuarioController extends AbstractController implements Serializabl
 
     public void editarUsuario() throws IOException {
         if (usuarioFacade.buscarPorUsuario(seleccionUsuario.getUsuario(), seleccionUsuario.getId_persona()) == null) {
-            if (restaurar_contrasena) {
+            if (restaurarContrasena) {
                 if (seleccionUsuario.getEmail() != null) {
                     String contrasena = Generador.generarContrasena();
                     seleccionUsuario.setContrasenaSinEncriptar(contrasena);
@@ -144,11 +144,11 @@ public class UsuarioController extends AbstractController implements Serializabl
     }
 
     public void toEditarUsuario() throws IOException {
-        this.redireccionarViewId("/administrador/editarUsuario");
+        this.redireccionarViewId("/administrador/usuario/editarUsuario");
     }
 
     public void toUsuarios() throws IOException {
-        this.redireccionarViewId("/administrador/usuarios");
+        this.redireccionarViewId("/administrador/usuario/usuarios");
     }
 
     /**
@@ -168,15 +168,15 @@ public class UsuarioController extends AbstractController implements Serializabl
     /**
      * @return the reset
      */
-    public boolean isRestaurar_contrasena() {
-        return restaurar_contrasena;
+    public boolean isRestaurarContrasena() {
+        return restaurarContrasena;
     }
 
     /**
-     * @param restaurar_contrasena the reset to set
+     * @param restaurarContrasena the reset to set
      */
-    public void setRestaurar_contrasena(boolean restaurar_contrasena) {
-        this.restaurar_contrasena = restaurar_contrasena;
+    public void setRestaurarContrasena(boolean restaurarContrasena) {
+        this.restaurarContrasena = restaurarContrasena;
     }
 
     /**
