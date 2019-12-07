@@ -82,8 +82,6 @@ public class CampusController extends AbstractController implements Serializable
     public void editarCampus() throws IOException {
         if (campusFacade.buscarPorSucursal(seleccionCampus.getSucursal(), seleccionCampus.getId_campus()) == null) {
             if (campusFacade.edit(seleccionCampus)) {
-                reinit();
-
                 this.toCampus();
             } else {
                 this.mensajeDeError("No se pudo editar el campus.");
