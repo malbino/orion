@@ -69,7 +69,7 @@ public class InstitutoController extends AbstractController implements Serializa
             this.mensajeDeError("No se pudo editar el instituto.");
         }
     }
-
+    
     /**
      * @return the instituto
      */

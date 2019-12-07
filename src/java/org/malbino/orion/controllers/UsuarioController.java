@@ -93,8 +93,6 @@ public class UsuarioController extends AbstractController implements Serializabl
                     if (usuarioFacade.edit(seleccionUsuario)) {
                         enviarCorreo(seleccionUsuario);
 
-                        reinit();
-
                         this.toUsuarios();
                     } else {
                         this.mensajeDeError("No se pudo editar el usuario.");
@@ -104,8 +102,6 @@ public class UsuarioController extends AbstractController implements Serializabl
                 }
             } else {
                 if (usuarioFacade.edit(seleccionUsuario)) {
-                    reinit();
-
                     this.toUsuarios();
                 } else {
                     this.mensajeDeError("No se pudo editar el usuario.");
@@ -148,6 +144,8 @@ public class UsuarioController extends AbstractController implements Serializabl
     }
 
     public void toUsuarios() throws IOException {
+        reinit();
+        
         this.redireccionarViewId("/administrador/usuario/usuarios");
     }
 

@@ -70,8 +70,6 @@ public class EmpleadoController extends AbstractController implements Serializab
     public void crearEmpleado() throws IOException {
         if (empleadoFacade.buscarPorDni(nuevoEmpleado.getDni()) == null) {
             if (empleadoFacade.create(nuevoEmpleado)) {
-                reinit();
-
                 this.toEmpleados();
             } else {
                 this.mensajeDeError("No se pudo crear el empleado.");
@@ -84,8 +82,6 @@ public class EmpleadoController extends AbstractController implements Serializab
     public void editarEmpleado() throws IOException {
         if (empleadoFacade.buscarPorDni(seleccionEmpleado.getDni(), seleccionEmpleado.getId_persona()) == null) {
             if (empleadoFacade.edit(seleccionEmpleado)) {
-                reinit();
-
                 this.toEmpleados();
             } else {
                 this.mensajeDeError("No se pudo editar el empleado.");
@@ -104,6 +100,8 @@ public class EmpleadoController extends AbstractController implements Serializab
     }
 
     public void toEmpleados() throws IOException {
+        reinit();
+        
         this.redireccionarViewId("/administrador/empleado/empleados");
     }
 

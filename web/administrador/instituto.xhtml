@@ -93,7 +93,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:button value="Cancelar" icon="fa fa-remove" outcome="/home"/>
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{InstitutoController.reinit()}" update="form"/>
                                         </div>
                                     </div>
                                 </h:form>

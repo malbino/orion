@@ -122,7 +122,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:button value="Cancelar" icon="fa fa-remove" outcome="/administrador/empleado/empleados"/>
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{EmpleadoController.toEmpleados()}"/>
                                         </div>
                                     </div>
                                 </h:form>
