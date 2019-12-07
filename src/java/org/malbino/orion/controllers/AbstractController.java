@@ -7,11 +7,16 @@ package org.malbino.orion.controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import org.malbino.orion.entities.Empleado;
+import org.malbino.orion.facades.EmpleadoFacade;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -19,6 +24,9 @@ import org.primefaces.PrimeFaces;
  * @author malbino
  */
 public abstract class AbstractController implements Serializable {
+
+    @EJB
+    EmpleadoFacade empleadoFacade;
 
     protected void mensajeDeError(String mensaje) {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -83,5 +91,18 @@ public abstract class AbstractController implements Serializable {
 
     protected void ejecutar(String js) {
         PrimeFaces.current().executeScript(js);
+    }
+
+    public List<Empleado> completarEmpleado(String consulta) {
+        List<Empleado> empleados = empleadoFacade.listaEmpleados();
+        List<Empleado> empleadosFiltrados = new ArrayList();
+
+        for (Empleado e : empleados) {
+            if (e.toString().toLowerCase().contains(consulta.toLowerCase())) {
+                empleadosFiltrados.add(e);
+            }
+        }
+
+        return empleadosFiltrados;
     }
 }

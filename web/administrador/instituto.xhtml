@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Instituto <small>registrar datos del instituto</small></h2>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:messages/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:graphicImage id="logo" title="Logo instituto" value="./../../files/#{InstitutoController.instituto.logo}" class="img-fluid"/>
+                                            <p:fileUpload fileUploadListener="#{InstitutoController.subirArchivo}" mode="advanced" label="Seleccionar" auto="true" update="logo"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombreRegulador" value="Nombre regulador:" style="font-size: small"/>
+                                            <p:inputText id="nombreRegulador" value="#{InstitutoController.instituto.nombreRegulador}" required="true" requiredMessage="* Nombre regulador requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="ubicacion" value="Ubicacion:" style="font-size: small"/>
+                                            <p:inputText id="ubicacion" value="#{InstitutoController.instituto.ubicacion}" required="true" requiredMessage="* Ubicación requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="caracter" value="Caracter:"/>
+                                            <p:selectOneMenu id="caracter" value="#{InstitutoController.instituto.caracter}" required="true" requiredMessage="* Caracter requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItem itemLabel="Convenio" itemValue="Convenio" />
+                                                <f:selectItem itemLabel="Privado" itemValue="Privado" />
+                                                <f:selectItem itemLabel="Publico" itemValue="Publico" />
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombreImpuestos" value="Nombre impuestos:" style="font-size: small"/>
+                                            <p:inputText id="nombreImpuestos" value="#{InstitutoController.instituto.nombreImpuestos}" />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nit" value="NIT:" style="font-size: small"/>
+                                            <p:inputText id="nit" value="#{InstitutoController.instituto.nit}" />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="actividadEconomoca" value="Actividad economica:" style="font-size: small"/>
+                                            <p:inputText id="actividadEconomoca" value="#{InstitutoController.instituto.actividadEconomica}" />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="resolucionMinisterial" value="Resolución ministerial:" style="font-size: small"/>
+                                            <p:inputText id="resolucionMinisterial" value="#{InstitutoController.instituto.resolucionMinisterial}" required="true" requiredMessage="* Resolución ministerial requerida."/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="rector" value="Rector:"/>
+                                            <p:autoComplete id="rector" value="#{InstitutoController.instituto.rector}" completeMethod="#{InstitutoController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
+                                                            var="rector" itemLabel="#{rector.toString()}" itemValue="#{rector}" converter="#{EmpleadoConverter}" forceSelection="true"
+                                                            required="true" requiredMessage="* Rector requerido."/>
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="directorAcademico" value="Director Académico:"/>
+                                            <p:autoComplete id="directorAcademico" value="#{InstitutoController.instituto.directorAcademico}" completeMethod="#{InstitutoController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
+                                                            var="directorAcademico" itemLabel="#{directorAcademico.toString()}" itemValue="#{directorAcademico}" converter="#{EmpleadoConverter}" forceSelection="true"
+                                                            required="true" requiredMessage="* Director académico requerido."/>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{InstitutoController.editarInstituto()}" update="form"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:button value="Cancelar" icon="fa fa-remove" outcome="/home"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

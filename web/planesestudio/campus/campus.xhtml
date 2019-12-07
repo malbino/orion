@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Empleados <small>gestión de empleados</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:button icon="fa fa-plus" title="Nuevo" outcome="/administrador/empleado/nuevoEmpleado"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{EmpleadoController.filtro()}" update="form" rendered="#{!EmpleadoController.filter}"/>
+                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{EmpleadoController.filtro()}" update="form" rendered="#{EmpleadoController.filter}"/>
+
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="empleados" fileName="empleados" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <p:outputPanel id="filtro" rendered="#{EmpleadoController.filter}">
+                                        <div class="ui-g ui-fluid">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <div class="ui-inputgroup">
+                                                    <p:inputText value="#{EmpleadoController.keyword}" style="height: 100%"/>
+                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EmpleadoController.buscar()}" update="empleados"/>           
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </p:outputPanel>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="empleados" var="empleado" value="#{EmpleadoController.empleados}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{empleado.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Primer Apellido" >  
+                                            <h:outputText value="#{empleado.primerApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Segundo Apellido" >  
+                                            <h:outputText value="#{empleado.segundoApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="DNI" >  
+                                            <h:outputText value="#{empleado.dniLugar}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Fecha Nacimiento" >  
+                                            <h:outputText value="#{empleado.fechaNacimiento_ddMMyyyy}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Lugar Nacimiento" >  
+                                            <h:outputText value="#{empleado.lugarNacimiento}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Nacionalidad" >  
+                                            <h:outputText value="#{empleado.nacionalidad}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Dirección" >  
+                                            <h:outputText value="#{empleado.direccion}"/> 
+                                        </p:column>
+                                        
+                                        <p:column headerText="Email" >  
+                                            <h:outputText value="#{empleado.email}"/> 
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  
+                                                    <f:setPropertyActionListener value="#{empleado}" target="#{EmpleadoController.seleccionEmpleado}" />
+
+                                                    <f:actionListener binding="#{EmpleadoController.toEditarEmpleado()}"/>
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
