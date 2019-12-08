@@ -69,7 +69,6 @@ public class CarreraFacade extends AbstractFacade<Carrera> {
 
         try {
             Query q = em.createQuery("SELECT c FROM Carrera c ORDER BY c.nombre");
-            q.setMaxResults(100);
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -79,15 +78,49 @@ public class CarreraFacade extends AbstractFacade<Carrera> {
         return l;
     }
 
+    public List<Carrera> listaCarreras(int id_campus) {
+        List<Carrera> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Carrera c JOIN c.campus a WHERE a.id_campus=:id_campus ORDER BY c.nombre");
+            q.setParameter("id_campus", id_campus);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
     public List<Carrera> buscar(String keyword) {
         List<Carrera> l = new ArrayList();
 
         try {
             Query q = em.createQuery("SELECT c FROM Carrera c WHERE "
-                    + "LOWER(c.nombre) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.codigo) LIKE LOWER(:keyword) OR "
                     + "LOWER(c.nombre) LIKE LOWER(:keyword) OR "
                     + "LOWER(c.resolucionMinisterial) LIKE LOWER(:keyword) "
                     + "ORDER BY c.nombre");
+            q.setParameter("keyword", "%" + keyword + "%");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return l;
+    }
+
+    public List<Carrera> buscar(String keyword, int id_campus) {
+        List<Carrera> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Carrera c JOIN c.campus a WHERE a.id_campus=:id_campus AND "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.nombre) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.resolucionMinisterial) LIKE LOWER(:keyword)) "
+                    + "ORDER BY c.nombre");
+            q.setParameter("id_campus", id_campus);
             q.setParameter("keyword", "%" + keyword + "%");
 
             l = q.getResultList();

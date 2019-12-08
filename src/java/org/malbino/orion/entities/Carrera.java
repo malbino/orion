@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.malbino.orion.enums.NivelAcademico;
+import org.malbino.orion.enums.Regimen;
 
 /**
  *
@@ -31,6 +33,8 @@ public class Carrera implements Serializable {
     @Column(unique = true)
     private String codigo;
     private String nombre;
+    private Regimen regimen;
+    private NivelAcademico nivelAcademico;
     private Integer version;
     private String resolucionMinisterial;
     private Double precioMatricula;
@@ -82,6 +86,34 @@ public class Carrera implements Serializable {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    /**
+     * @return the regimen
+     */
+    public Regimen getRegimen() {
+        return regimen;
+    }
+
+    /**
+     * @param regimen the regimen to set
+     */
+    public void setRegimen(Regimen regimen) {
+        this.regimen = regimen;
+    }
+
+    /**
+     * @return the nivelAcademico
+     */
+    public NivelAcademico getNivelAcademico() {
+        return nivelAcademico;
+    }
+
+    /**
+     * @param nivelAcademico the nivelAcademico to set
+     */
+    public void setNivelAcademico(NivelAcademico nivelAcademico) {
+        this.nivelAcademico = nivelAcademico;
     }
 
     /**

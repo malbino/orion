@@ -15,7 +15,13 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import org.malbino.orion.entities.Campus;
+import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Empleado;
+import org.malbino.orion.enums.NivelAcademico;
+import org.malbino.orion.enums.Regimen;
+import org.malbino.orion.facades.CampusFacade;
+import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.EmpleadoFacade;
 import org.primefaces.PrimeFaces;
 
@@ -27,6 +33,10 @@ public abstract class AbstractController implements Serializable {
 
     @EJB
     EmpleadoFacade empleadoFacade;
+    @EJB
+    CampusFacade campusFacade;
+    @EJB
+    CarreraFacade carreraFacade;
 
     protected void mensajeDeError(String mensaje) {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -104,5 +114,21 @@ public abstract class AbstractController implements Serializable {
         }
 
         return empleadosFiltrados;
+    }
+
+    public List<Campus> listaCampus() {
+        return campusFacade.listaCampus();
+    }
+
+    public List<Carrera> listaCarreras() {
+        return carreraFacade.listaCarreras();
+    }
+
+    public Regimen[] listaRegimenes() {
+        return Regimen.values();
+    }
+
+    public NivelAcademico[] listaNivelesAcademicos() {
+        return NivelAcademico.values();
     }
 }

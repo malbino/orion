@@ -12,7 +12,10 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Campus;
+import org.malbino.orion.entities.Instituto;
 import org.malbino.orion.facades.CampusFacade;
+import org.malbino.orion.facades.InstitutoFacade;
+import org.malbino.orion.util.Constantes;
 
 /**
  *
@@ -24,10 +27,13 @@ public class CampusController extends AbstractController implements Serializable
 
     @EJB
     CampusFacade campusFacade;
+    @EJB
+    InstitutoFacade institutoFacade;
 
     private List<Campus> campus;
     private Campus nuevoCampus;
     private Campus seleccionCampus;
+    private Instituto instituto;
 
     private Boolean filter;
     private String keyword;
@@ -37,6 +43,7 @@ public class CampusController extends AbstractController implements Serializable
         campus = campusFacade.listaCampus();
         nuevoCampus = new Campus();
         seleccionCampus = null;
+        instituto = institutoFacade.buscarPorId(Constantes.ID_INSTITUTO);
 
         filter = false;
         keyword = null;
@@ -68,6 +75,7 @@ public class CampusController extends AbstractController implements Serializable
     }
 
     public void crearCampus() throws IOException {
+        nuevoCampus.setInstituto(instituto);
         if (campusFacade.buscarPorSucursal(nuevoCampus.getSucursal()) == null) {
             if (campusFacade.create(nuevoCampus)) {
                 this.toCampus();

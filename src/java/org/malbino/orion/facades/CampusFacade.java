@@ -69,7 +69,6 @@ public class CampusFacade extends AbstractFacade<Campus> {
 
         try {
             Query q = em.createQuery("SELECT c FROM Campus c ORDER BY c.nombre");
-            q.setMaxResults(100);
 
             l = q.getResultList();
         } catch (Exception e) {

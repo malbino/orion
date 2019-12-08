@@ -6,6 +6,7 @@
 package org.malbino.orion.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +14,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.malbino.orion.enums.Nivel;
 
 /**
  *
@@ -28,12 +32,20 @@ public class Materia implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_materia;
 
+    private Integer numero;
     @Column(unique = true)
     private String codigo;
     private String nombre;
-    private Integer horasSemana;
-    private Double numeroCreditos;
+    private Nivel nivel;
+    private Integer horas;
+    private Double creditos;
     private Boolean curricular;
+
+    @JoinTable(name = "prerequisito", catalog = "orion", schema = "public", joinColumns = {
+        @JoinColumn(name = "id_materia", referencedColumnName = "id_materia")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_prerequisito", referencedColumnName = "id_materia")})
+    @ManyToMany
+    private List<Materia> prerequisitos;
 
     @JoinColumn(name = "id_carrera")
     @ManyToOne
@@ -54,6 +66,20 @@ public class Materia implements Serializable {
      */
     public void setId_materia(Integer id_materia) {
         this.id_materia = id_materia;
+    }
+
+    /**
+     * @return the numero
+     */
+    public Integer getNumero() {
+        return numero;
+    }
+
+    /**
+     * @param numero the numero to set
+     */
+    public void setNumero(Integer numero) {
+        this.numero = numero;
     }
 
     /**
@@ -85,31 +111,45 @@ public class Materia implements Serializable {
     }
 
     /**
-     * @return the horasSemana
+     * @return the nivel
      */
-    public Integer getHorasSemana() {
-        return horasSemana;
+    public Nivel getNivel() {
+        return nivel;
     }
 
     /**
-     * @param horasSemana the horasSemana to set
+     * @param nivel the nivel to set
      */
-    public void setHorasSemana(Integer horasSemana) {
-        this.horasSemana = horasSemana;
+    public void setNivel(Nivel nivel) {
+        this.nivel = nivel;
     }
 
     /**
-     * @return the numeroCreditos
+     * @return the horas
      */
-    public Double getNumeroCreditos() {
-        return numeroCreditos;
+    public Integer getHoras() {
+        return horas;
     }
 
     /**
-     * @param numeroCreditos the numeroCreditos to set
+     * @param horas the horas to set
      */
-    public void setNumeroCreditos(Double numeroCreditos) {
-        this.numeroCreditos = numeroCreditos;
+    public void setHoras(Integer horas) {
+        this.horas = horas;
+    }
+
+    /**
+     * @return the creditos
+     */
+    public Double getCreditos() {
+        return creditos;
+    }
+
+    /**
+     * @param creditos the creditos to set
+     */
+    public void setCreditos(Double creditos) {
+        this.creditos = creditos;
     }
 
     /**
@@ -127,6 +167,20 @@ public class Materia implements Serializable {
     }
 
     /**
+     * @return the prerequisitos
+     */
+    public List<Materia> getPrerequisitos() {
+        return prerequisitos;
+    }
+
+    /**
+     * @param prerequisitos the prerequisitos to set
+     */
+    public void setPrerequisitos(List<Materia> prerequisitos) {
+        this.prerequisitos = prerequisitos;
+    }
+
+    /**
      * @return the carrera
      */
     public Carrera getCarrera() {
@@ -138,6 +192,22 @@ public class Materia implements Serializable {
      */
     public void setCarrera(Carrera carrera) {
         this.carrera = carrera;
+    }
+
+    public String curricularToString() {
+        return curricular ? "Sí" : "No";
+    }
+    
+    public String prerequisitosToString() {
+        String s = "";
+        for (Materia m : prerequisitos) {
+            if (s.compareTo("") == 0) {
+                s += m.getCodigo();
+            } else {
+                s += ", " + m.getCodigo();
+            }
+        }
+        return s;
     }
 
     @Override
@@ -167,7 +237,6 @@ public class Materia implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + " [" + codigo + "]";
+        return nombre;
     }
-
 }

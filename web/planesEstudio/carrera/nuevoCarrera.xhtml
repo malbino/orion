@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -35,6 +36,22 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="regimen" value="Régimen:" style="font-size: small"/>
+                                            <p:selectOneMenu id="regimen" value="#{CarreraController.nuevaCarrera.regimen}" converter="#{RegimenConverter}" required="true" requiredMessage="* Regimen requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{CarreraController.listaRegimenes()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nivelAcademico" value="Nivel académico:" style="font-size: small"/>
+                                            <p:selectOneMenu id="nivelAcademico" value="#{CarreraController.nuevaCarrera.nivelAcademico}" converter="#{NivelAcademicoConverter}" required="true" requiredMessage="* Nivel académico requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{CarreraController.listaNivelesAcademicos()}" var="nivelAcademico" itemLabel="#{nivelAcademico.toString()}" itemValue="#{nivelAcademico}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="version" value="Versión:" style="font-size: small"/>
                                             <p:inputText id="version" value="#{CarreraController.nuevaCarrera.version}" required="true" requiredMessage="* Versión requerida." />
                                         </div>
@@ -47,6 +64,14 @@
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="precioMatricula" value="Precio matricula:" style="font-size: small"/>
                                             <p:inputText id="precioMatricula" value="#{CarreraController.nuevaCarrera.precioMatricula}" required="true" requiredMessage="* Precio matricula requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="campus" value="Campus:" style="font-size: small"/>
+                                            <p:selectOneMenu id="campus" value="#{CarreraController.nuevaCarrera.campus}" converter="#{CampusConverter}" autoWidth="false" required="true" requiredMessage="* Campus requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{CarreraController.listaCampus()}" var="campus" itemLabel="#{campus.toString()}" itemValue="#{campus}"/>
+                                            </p:selectOneMenu>
                                         </div>
                                     </div>
 

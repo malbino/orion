@@ -69,7 +69,6 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
 
         try {
             Query q = em.createQuery("SELECT e FROM Empleado e ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
-            q.setMaxResults(100);
 
             l = q.getResultList();
         } catch (Exception e) {

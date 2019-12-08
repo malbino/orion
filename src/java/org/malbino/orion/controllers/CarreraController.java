@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.malbino.orion.entities.Campus;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.facades.CarreraFacade;
 
@@ -28,6 +29,7 @@ public class CarreraController extends AbstractController implements Serializabl
     private List<Carrera> carreras;
     private Carrera nuevaCarrera;
     private Carrera seleccionCarrera;
+    private Campus seleccionCampus;
 
     private Boolean filter;
     private String keyword;
@@ -43,7 +45,11 @@ public class CarreraController extends AbstractController implements Serializabl
     }
 
     public void reinit() {
-        carreras = carreraFacade.listaCarreras();
+        if (seleccionCampus == null) {
+            carreras = carreraFacade.listaCarreras();
+        } else {
+            carreras = carreraFacade.listaCarreras(seleccionCampus.getId_campus());
+        }
         nuevaCarrera = new Carrera();
         seleccionCarrera = null;
 
@@ -56,7 +62,11 @@ public class CarreraController extends AbstractController implements Serializabl
             filter = false;
             keyword = null;
 
-            carreras = carreraFacade.listaCarreras();
+            if (seleccionCampus == null) {
+                carreras = carreraFacade.listaCarreras();
+            } else {
+                carreras = carreraFacade.listaCarreras(seleccionCampus.getId_campus());
+            }
         } else {
             filter = true;
             keyword = null;
@@ -64,7 +74,11 @@ public class CarreraController extends AbstractController implements Serializabl
     }
 
     public void buscar() {
-        carreras = carreraFacade.buscar(keyword);
+        if (seleccionCampus == null) {
+            carreras = carreraFacade.buscar(keyword);
+        } else {
+            carreras = carreraFacade.buscar(keyword, seleccionCampus.getId_campus());
+        }
     }
 
     public void crearCarrera() throws IOException {
@@ -175,4 +189,17 @@ public class CarreraController extends AbstractController implements Serializabl
         this.keyword = keyword;
     }
 
+    /**
+     * @return the seleccionCampus
+     */
+    public Campus getSeleccionCampus() {
+        return seleccionCampus;
+    }
+
+    /**
+     * @param seleccionCampus the seleccionCampus to set
+     */
+    public void setSeleccionCampus(Campus seleccionCampus) {
+        this.seleccionCampus = seleccionCampus;
+    }
 }

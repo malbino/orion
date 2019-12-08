@@ -14,20 +14,22 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 ">
                         <h:form id="form">
+                            <p:messages/>
+
                             <div class="x_panel">
                                 <div class="x_title">
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-8">
-                                            <h2>Carrera <small>gestión de carreras</small></h2>
+                                            <h2>Materia <small>gestión de materias</small></h2>
 
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="campus" value="#{CarreraController.seleccionCampus}" converter="#{CampusConverter}" autoWidth="false">
+                                            <p:selectOneMenu id="campus" value="#{MateriaController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
                                                 <f:selectItem itemLabel="" itemValue=""/>
-                                                <f:selectItems value="#{CarreraController.listaCampus()}" var="campus" itemLabel="#{campus.toString()}" itemValue="#{campus}"/>
+                                                <f:selectItems value="#{MateriaController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>
 
-                                                <p:ajax listener="#{CarreraController.reinit()}" update="carreras"/>
+                                                <p:ajax listener="#{MateriaController.reinit()}" update="materias"/>
                                             </p:selectOneMenu>
                                         </div>
                                     </div>   
@@ -35,19 +37,19 @@
                                     <div class="clearfix"></div>
                                 </div>
 
-                                <div class="x_content">                  
+                                <div class="x_content">
                                     <p:toolbar>
                                         <f:facet name="left">
-                                            <p:button icon="fa fa-plus" title="Nuevo" outcome="/planesEstudio/carrera/nuevoCarrera"/>
+                                            <p:commandButton icon="fa fa-plus" title="Nuevo" actionListener="#{MateriaController.toNuevaMateria()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{CarreraController.filtro()}" update="form" rendered="#{!CarreraController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{CarreraController.filtro()}" update="form" rendered="#{CarreraController.filter}"/>
+                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{MateriaController.filtro()}" update="form" rendered="#{!MateriaController.filter}"/>
+                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{MateriaController.filtro()}" update="form" rendered="#{MateriaController.filter}"/>
 
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
-                                                    <p:dataExporter type="xls" target="carreras" fileName="carreras" />
+                                                    <p:dataExporter type="xls" target="materias" fileName="materias" />
                                                 </p:menuitem>
                                             </p:menuButton>
                                         </f:facet>
@@ -55,57 +57,57 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{CarreraController.filter}">
+                                    <p:outputPanel id="filtro" rendered="#{MateriaController.filter}">
                                         <div class="ui-g ui-fluid">
                                             <div class="ui-g-12 ui-md-12">
                                                 <div class="ui-inputgroup">
-                                                    <p:inputText value="#{CarreraController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{CarreraController.buscar()}" update="carreras"/>           
+                                                    <p:inputText value="#{MateriaController.keyword}" style="height: 100%"/>
+                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{MateriaController.buscar()}" update="materias"/>           
                                                 </div>
                                             </div>
                                         </div>    
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="carreras" var="carrera" value="#{CarreraController.carreras}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                    <p:dataTable id="materias" var="materia" value="#{MateriaController.materias}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nivel" groupRow="true">
+                                             <h:outputText value="#{materia.nivel.toString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Numero" >  
+                                            <h:outputText value="#{materia.numero}"/>
+                                        </p:column>
+
                                         <p:column headerText="Codigo" >  
-                                            <h:outputText value="#{carrera.codigo}"/>
+                                            <h:outputText value="#{materia.codigo}"/>
                                         </p:column>
 
                                         <p:column headerText="Nombre" >  
-                                            <h:outputText value="#{carrera.nombre}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="Regimen" >  
-                                            <h:outputText value="#{carrera.regimen.toString()}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="Nivel Académico" >  
-                                            <h:outputText value="#{carrera.nivelAcademico.toString()}"/>
+                                            <h:outputText value="#{materia.nombre}"/>
                                         </p:column>
 
-                                        <p:column headerText="Versión" >  
-                                            <h:outputText value="#{carrera.version}"/>
+                                        <p:column headerText="Horas" >  
+                                            <h:outputText value="#{materia.horas}"/>
                                         </p:column>
 
-                                        <p:column headerText="Resolución ministerial" >  
-                                            <h:outputText value="#{carrera.resolucionMinisterial}"/> 
+                                        <p:column headerText="Creditos" >  
+                                            <h:outputText value="#{materia.creditos}"/> 
                                         </p:column>
 
-                                        <p:column headerText="Precio matricula" >  
-                                            <h:outputText value="#{carrera.precioMatricula}"/> 
+                                        <p:column headerText="Curricular" >  
+                                            <h:outputText value="#{materia.curricularToString()}"/> 
                                         </p:column>
 
-                                        <p:column headerText="Campus" >  
-                                            <h:outputText value="#{carrera.campus}"/> 
+                                        <p:column headerText="Prerequisitos" >  
+                                            <h:outputText value="#{materia.prerequisitosToString()}"/> 
                                         </p:column>
 
                                         <p:column exportable="false"> 
                                             <h:panelGroup id="group" >
                                                 <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  
-                                                    <f:setPropertyActionListener value="#{carrera}" target="#{CarreraController.seleccionCarrera}" />
+                                                    <f:setPropertyActionListener value="#{materia}" target="#{MateriaController.seleccionMateria}" />
 
-                                                    <f:actionListener binding="#{CarreraController.toEditarCarrera()}"/>
+                                                    <f:actionListener binding="#{MateriaController.toEditarMateria()}"/>
                                                 </p:commandButton>
                                             </h:panelGroup>
                                         </p:column> 
