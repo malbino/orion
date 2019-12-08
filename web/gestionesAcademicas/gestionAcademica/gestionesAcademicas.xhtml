@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <h:form id="form">
+                            <p:messages/>
+
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-8">
+                                            <h2>Gestiones Académicas <small>administración de gestiones académicas</small></h2>
+
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:selectOneMenu id="regimen" value="#{GestionAcademicaController.seleccionRegimen}" converter="#{RegimenConverter}" required="true" requiredMessage="* Regimen requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GestionAcademicaController.listaRegimenes()}" var="regimen" itemLabel="#{regimen.toString()}" itemValue="#{regimen}"/>  
+                                                
+                                                <p:ajax listener="#{GestionAcademicaController.reinit()}" update="gestionesAcademicas"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+                                    </div>   
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">                  
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-plus" title="Nuevo" actionListener="#{GestionAcademicaController.toNuevaGestionAcademica()}" update="form"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{GestionAcademicaController.filtro()}" update="form" rendered="#{!GestionAcademicaController.filter}"/>
+                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{GestionAcademicaController.filtro()}" update="form" rendered="#{GestionAcademicaController.filter}"/>
+
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="gestionesAcademicas" fileName="gestionesAcademicas" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <p:outputPanel id="filtro" rendered="#{GestionAcademicaController.filter}">
+                                        <div class="ui-g ui-fluid">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <div class="ui-inputgroup">
+                                                    <p:inputText value="#{GestionAcademicaController.keyword}" style="height: 100%"/>
+                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GestionAcademicaController.buscar()}" update="gestionesAcademicas"/>           
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </p:outputPanel>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="gestionesAcademicas" var="gestionAcademica" value="#{GestionAcademicaController.gestionesAcademicas}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Numero" >  
+                                            <h:outputText value="#{gestionAcademica.numero}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Codigo" >  
+                                            <h:outputText value="#{gestionAcademica.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Regimen" >  
+                                            <h:outputText value="#{gestionAcademica.regimen.toString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Inicio" >  
+                                            <h:outputText value="#{gestionAcademica.inicioToString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fin" >  
+                                            <h:outputText value="#{gestionAcademica.finToString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Vigente" >  
+                                            <h:outputText value="#{gestionAcademica.vigenteToString()}"/>
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  
+                                                    <f:setPropertyActionListener value="#{gestionAcademica}" target="#{GestionAcademicaController.seleccionGestionAcademica}" />
+
+                                                    <f:actionListener binding="#{GestionAcademicaController.toEditarGestionAcademica()}"/>
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
