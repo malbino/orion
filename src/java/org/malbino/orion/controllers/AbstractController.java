@@ -18,11 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.malbino.orion.entities.Campus;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Empleado;
+import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.enums.NivelAcademico;
 import org.malbino.orion.enums.Regimen;
+import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.CampusFacade;
 import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.EmpleadoFacade;
+import org.malbino.orion.facades.GestionAcademicaFacade;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -37,6 +40,8 @@ public abstract class AbstractController implements Serializable {
     CampusFacade campusFacade;
     @EJB
     CarreraFacade carreraFacade;
+    @EJB
+    GestionAcademicaFacade gestionAcademicaFacade;
 
     protected void mensajeDeError(String mensaje) {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -130,5 +135,13 @@ public abstract class AbstractController implements Serializable {
 
     public NivelAcademico[] listaNivelesAcademicos() {
         return NivelAcademico.values();
+    }
+
+    public List<GestionAcademica> listaGestionesAcademicas() {
+        return gestionAcademicaFacade.listaGestionAcademica();
+    }
+
+    public Turno[] listaTurnos() {
+        return Turno.values();
     }
 }

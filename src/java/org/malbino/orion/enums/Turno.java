@@ -9,18 +9,19 @@ package org.malbino.orion.enums;
  *
  * @author Martin
  */
-public enum Regimen {
-    SEMESTRAL("Semestral", "S", 5),
-    ANUAL("Anual", "A", 10);
+public enum Turno {
+    MAÑANA("Mañana", "M", 1),
+    TARDE("Tarde", "T", 2),
+    NOCHE("Noche", "N", 3);
 
     private String nombre;
     private String inicial;
-    private Integer cuotas;
+    private Integer numero;
 
-    private Regimen(String nombre, String inicial, Integer cuotas) {
+    private Turno(String nombre, String inicial, Integer numero) {
         this.nombre = nombre;
         this.inicial = inicial;
-        this.cuotas = cuotas;
+        this.numero = numero;
     }
 
     /**
@@ -52,17 +53,17 @@ public enum Regimen {
     }
 
     /**
-     * @return the cuotas
+     * @return the numero
      */
-    public Integer getCuotas() {
-        return cuotas;
+    public Integer getNumero() {
+        return numero;
     }
 
     /**
-     * @param cuotas the cuotas to set
+     * @param numero the numero to set
      */
-    public void setCuotas(Integer cuotas) {
-        this.cuotas = cuotas;
+    public void setNumero(Integer numero) {
+        this.numero = numero;
     }
 
     @Override

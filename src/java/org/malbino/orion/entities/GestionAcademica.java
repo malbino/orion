@@ -180,6 +180,6 @@ public class GestionAcademica implements Serializable {
 
     @Override
     public String toString() {
-        return codigo;
+        return codigo + regimen.getInicial();
     }
 }

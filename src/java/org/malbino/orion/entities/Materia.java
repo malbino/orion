@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Nivel;
 
 /**
@@ -25,7 +26,7 @@ import org.malbino.orion.enums.Nivel;
  * @author malbino
  */
 @Entity
-@Table(name = "materia", catalog = "orion", schema = "public")
+@Table(name = "materia", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "carrera"}))
 public class Materia implements Serializable {
 
     @Id
@@ -33,7 +34,6 @@ public class Materia implements Serializable {
     private Integer id_materia;
 
     private Integer numero;
-    @Column(unique = true)
     private String codigo;
     private String nombre;
     private Nivel nivel;

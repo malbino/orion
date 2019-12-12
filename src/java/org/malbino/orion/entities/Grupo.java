@@ -1,0 +1,190 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.malbino.orion.entities;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import org.malbino.orion.enums.Turno;
+
+/**
+ *
+ * @author malbino
+ */
+@Entity
+@Table(name = "grupo", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "turno", "gestionAcademica", "materia"}))
+public class Grupo implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id_grupo;
+
+    private String codigo;
+    private Integer capacidad;
+    private Turno turno;
+    private Boolean abierto;
+
+    @JoinColumn(name = "id_gestionacademica")
+    @ManyToOne
+    private GestionAcademica gestionAcademica;
+
+    @JoinColumn(name = "id_materia")
+    @ManyToOne
+    private Materia materia;
+
+    public Grupo() {
+    }
+
+    public Grupo(String codigo, Integer capacidad, Turno turno, Boolean abierto, GestionAcademica gestionAcademica, Materia materia) {
+        this.codigo = codigo;
+        this.capacidad = capacidad;
+        this.turno = turno;
+        this.abierto = abierto;
+        this.gestionAcademica = gestionAcademica;
+        this.materia = materia;
+    }
+    
+    
+
+    /**
+     * @return the id_grupo
+     */
+    public Integer getId_grupo() {
+        return id_grupo;
+    }
+
+    /**
+     * @param id_grupo the id_grupo to set
+     */
+    public void setId_grupo(Integer id_grupo) {
+        this.id_grupo = id_grupo;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the capacidad
+     */
+    public Integer getCapacidad() {
+        return capacidad;
+    }
+
+    /**
+     * @param capacidad the capacidad to set
+     */
+    public void setCapacidad(Integer capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    /**
+     * @return the turno
+     */
+    public Turno getTurno() {
+        return turno;
+    }
+
+    /**
+     * @param turno the turno to set
+     */
+    public void setTurno(Turno turno) {
+        this.turno = turno;
+    }
+
+    /**
+     * @return the abierto
+     */
+    public Boolean getAbierto() {
+        return abierto;
+    }
+
+    /**
+     * @param abierto the abierto to set
+     */
+    public void setAbierto(Boolean abierto) {
+        this.abierto = abierto;
+    }
+
+    /**
+     * @return the gestionAcademica
+     */
+    public GestionAcademica getGestionAcademica() {
+        return gestionAcademica;
+    }
+
+    /**
+     * @param gestionAcademica the gestionAcademica to set
+     */
+    public void setGestionAcademica(GestionAcademica gestionAcademica) {
+        this.gestionAcademica = gestionAcademica;
+    }
+
+    /**
+     * @return the materia
+     */
+    public Materia getMateria() {
+        return materia;
+    }
+
+    /**
+     * @param materia the materia to set
+     */
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
+
+    public String abiertoToString() {
+        return abierto ? "Sí" : "No";
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.id_grupo);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Grupo other = (Grupo) obj;
+        if (!Objects.equals(this.id_grupo, other.id_grupo)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return codigo;
+    }
+}

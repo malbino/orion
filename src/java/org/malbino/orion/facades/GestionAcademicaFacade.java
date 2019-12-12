@@ -81,6 +81,20 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         return l;
     }
+    
+    public List<GestionAcademica> listaGestionAcademica() {
+        List<GestionAcademica> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.vigente=TRUE ORDER BY ga.numero");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 
     public List<GestionAcademica> buscar(String keyword, Regimen regimen) {
         List<GestionAcademica> l = new ArrayList();

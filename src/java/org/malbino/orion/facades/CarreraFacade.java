@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.enums.Regimen;
 
 /**
  *
@@ -84,6 +85,21 @@ public class CarreraFacade extends AbstractFacade<Carrera> {
         try {
             Query q = em.createQuery("SELECT c FROM Carrera c JOIN c.campus a WHERE a.id_campus=:id_campus ORDER BY c.nombre");
             q.setParameter("id_campus", id_campus);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Carrera> listaCarreras(Regimen regimen) {
+        List<Carrera> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Carrera c WHERE c.regimen=:regimen ORDER BY c.nombre");
+            q.setParameter("regimen", regimen);
 
             l = q.getResultList();
         } catch (Exception e) {

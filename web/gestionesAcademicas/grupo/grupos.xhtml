@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <h:form id="form">
+                            <p:messages/>
+
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <h2>Grupos <small>gestión de grupos</small></h2>
+
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:selectOneMenu id="gestionAcademica" value="#{GrupoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" required="true" requiredMessage="* GestionAcademica requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GrupoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+
+                                                <p:ajax listener="#{GrupoController.reinit()}" update="carrera grupos"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:selectOneMenu id="carrera" value="#{GrupoController.seleccionCarrera}" converter="#{CarreraConverter}" required="true" requiredMessage="* Carrera requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GrupoController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
+
+                                                <p:ajax listener="#{GrupoController.reinit()}" update="grupos"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>   
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">                  
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-group" title="Programar Grupos" actionListener="#{GrupoController.toProgramarGrupos()}" update="form"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{GrupoController.filtro()}" update="form" rendered="#{!GrupoController.filter}"/>
+                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{GrupoController.filtro()}" update="form" rendered="#{GrupoController.filter}"/>
+
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="grupos" fileName="grupos" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <p:outputPanel id="filtro" rendered="#{GrupoController.filter}">
+                                        <div class="ui-g ui-fluid">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <div class="ui-inputgroup">
+                                                    <p:inputText value="#{GrupoController.keyword}" style="height: 100%"/>
+                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GrupoController.buscar()}" update="grupos"/>           
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </p:outputPanel>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="grupos" var="grupo" value="#{GrupoController.grupos}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nivel" groupRow="true">  
+                                            <h:outputText value="#{grupo.materia.nivel.toString()}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Turno">  
+                                            <h:outputText value="#{grupo.turno}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Codigo" >  
+                                            <h:outputText value="#{grupo.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Materia" >  
+                                            <h:outputText value="#{grupo.materia}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Capacidad" >  
+                                            <h:outputText value="#{grupo.capacidad}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Abierto" >  
+                                            <h:outputText value="#{grupo.abiertoToString()}"/>
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  
+                                                    <f:setPropertyActionListener value="#{grupo}" target="#{GrupoController.seleccionGrupo}" />
+
+                                                    <f:actionListener binding="#{GrupoController.toEditarGrupo()}"/>
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
