@@ -26,13 +26,16 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="numero" value="Numero:" style="font-size: small"/>
-                                            <p:inputText id="numero" value="#{GestionAcademicaController.seleccionGestionAcademica.numero}" required="true" requiredMessage="* Numero requerido." />
+                                            <p:outputLabel for="gestion" value="Gestión:" style="font-size: small"/>
+                                            <p:inputText id="gestion" value="#{GestionAcademicaController.seleccionGestionAcademica.gestion}" required="true" requiredMessage="* Gestion requerida." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="codigo" value="Codigo:" style="font-size: small"/>
-                                            <p:inputText id="codigo" value="#{GestionAcademicaController.seleccionGestionAcademica.codigo}" required="true" requiredMessage="* Codigo requerido." />
+                                            <p:outputLabel for="periodo" value="Periodo:" style="font-size: small"/>
+                                            <p:selectOneMenu id="periodo" value="#{GestionAcademicaController.seleccionGestionAcademica.periodo}" converter="#{PeriodoConverter}" required="true" requiredMessage="* Periodo requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GestionAcademicaController.listaPeriodos()}" var="periodo" itemLabel="#{periodo.toString()}" itemValue="#{periodo}"/>  
+                                            </p:selectOneMenu> 
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">

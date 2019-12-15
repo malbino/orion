@@ -85,8 +85,6 @@ public class CarreraController extends AbstractController implements Serializabl
         if (carreraFacade.buscarPorCodigo(nuevaCarrera.getCodigo()) == null) {
             if (carreraFacade.create(nuevaCarrera)) {
                 this.toCarreras();
-            } else {
-                this.mensajeDeError("No se pudo crear la carrera.");
             }
         } else {
             this.mensajeDeError("Carrera repetida.");
@@ -97,8 +95,6 @@ public class CarreraController extends AbstractController implements Serializabl
         if (carreraFacade.buscarPorCodigo(seleccionCarrera.getCodigo(), seleccionCarrera.getId_carrera()) == null) {
             if (carreraFacade.edit(seleccionCarrera)) {
                 this.toCarreras();
-            } else {
-                this.mensajeDeError("No se pudo editar el campus.");
             }
         } else {
             this.mensajeDeError("Carrera repetido.");

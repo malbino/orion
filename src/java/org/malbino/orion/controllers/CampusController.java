@@ -79,8 +79,6 @@ public class CampusController extends AbstractController implements Serializable
         if (campusFacade.buscarPorSucursal(nuevoCampus.getSucursal()) == null) {
             if (campusFacade.create(nuevoCampus)) {
                 this.toCampus();
-            } else {
-                this.mensajeDeError("No se pudo crear el campus.");
             }
         } else {
             this.mensajeDeError("Campus repetido.");
@@ -91,8 +89,6 @@ public class CampusController extends AbstractController implements Serializable
         if (campusFacade.buscarPorSucursal(seleccionCampus.getSucursal(), seleccionCampus.getId_campus()) == null) {
             if (campusFacade.edit(seleccionCampus)) {
                 this.toCampus();
-            } else {
-                this.mensajeDeError("No se pudo editar el campus.");
             }
         } else {
             this.mensajeDeError("Campus repetido.");

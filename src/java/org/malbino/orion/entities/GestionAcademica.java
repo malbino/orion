@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.util.Fecha;
 
@@ -24,15 +25,15 @@ import org.malbino.orion.util.Fecha;
  * @author malbino
  */
 @Entity
-@Table(name = "gestionacademica", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "regimen"}))
+@Table(name = "gestionacademica", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"gestion", "periodo", "regimen"}))
 public class GestionAcademica implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_gestionacademica;
 
-    private Integer numero;
-    private String codigo;
+    private Integer gestion;
+    private Periodo periodo;
     private Regimen regimen;
     @Temporal(TemporalType.DATE)
     private Date inicio;
@@ -58,31 +59,31 @@ public class GestionAcademica implements Serializable {
     }
 
     /**
-     * @return the numero
+     * @return the gestion
      */
-    public Integer getNumero() {
-        return numero;
+    public Integer getGestion() {
+        return gestion;
     }
 
     /**
-     * @param numero the numero to set
+     * @param gestion the gestion to set
      */
-    public void setNumero(Integer numero) {
-        this.numero = numero;
+    public void setGestion(Integer gestion) {
+        this.gestion = gestion;
     }
 
     /**
-     * @return the codigo
+     * @return the periodo
      */
-    public String getCodigo() {
-        return codigo;
+    public Periodo getPeriodo() {
+        return periodo;
     }
 
     /**
-     * @param codigo the codigo to set
+     * @param periodo the periodo to set
      */
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
     }
 
     /**
@@ -140,16 +141,16 @@ public class GestionAcademica implements Serializable {
     public void setVigente(Boolean vigente) {
         this.vigente = vigente;
     }
-    
-    public String inicioToString(){
+
+    public String inicioToString() {
         return Fecha.formatearFecha_ddMMyyyy(inicio);
     }
-    
-    public String finToString(){
+
+    public String finToString() {
         return Fecha.formatearFecha_ddMMyyyy(fin);
     }
-    
-     public String vigenteToString() {
+
+    public String vigenteToString() {
         return vigente ? "Sí" : "No";
     }
 
@@ -180,6 +181,6 @@ public class GestionAcademica implements Serializable {
 
     @Override
     public String toString() {
-        return codigo + regimen.getInicial();
+        return periodo.getPeriodoRomano() + gestion + regimen.getInicial();
     }
 }

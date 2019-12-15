@@ -111,6 +111,22 @@ public class MateriaFacade extends AbstractFacade<Materia> {
 
         return l;
     }
+    
+    public long creditajeMaterias(int id_carrera, Nivel nivel) {
+        long l = 0;
+
+        try {
+            Query q = em.createQuery("SELECT SUM(m.creditajeMateria) FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.nivel=:nivel");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+
+            l = (long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 
     public List<Materia> buscar(String keyword, int id_carrera) {
         List<Materia> l = new ArrayList();

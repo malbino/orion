@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Regimen;
 
 /**
@@ -34,12 +35,13 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
         return em;
     }
 
-    public GestionAcademica buscarPorCodigoRegimen(String codigo, Regimen regimen) {
+    public GestionAcademica buscarPorCodigoRegimen(Integer gestion, Periodo periodo, Regimen regimen) {
         GestionAcademica ga = null;
 
         try {
-            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.codigo=:codigo AND ga.regimen=:regimen");
-            q.setParameter("codigo", codigo);
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.gestion=:gestion AND ga.periodo=:periodo AND ga.regimen=:regimen");
+            q.setParameter("gestion", gestion);
+            q.setParameter("periodo", periodo);
             q.setParameter("regimen", regimen);
 
             ga = (GestionAcademica) q.getSingleResult();
@@ -49,13 +51,14 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         return ga;
     }
-    
-     public GestionAcademica buscarPorCodigoRegimen(String codigo, Regimen regimen, int id_gestionacademica) {
+
+    public GestionAcademica buscarPorCodigoRegimen(Integer gestion, Periodo periodo, Regimen regimen, int id_gestionacademica) {
         GestionAcademica ga = null;
 
         try {
-            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.codigo=:codigo AND ga.regimen=:regimen AND ga.id_gestionacademica!=:id_gestionacademica");
-            q.setParameter("codigo", codigo);
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.gestion=:gestion AND ga.periodo=:periodo AND ga.regimen=:regimen AND ga.id_gestionacademica!=:id_gestionacademica");
+            q.setParameter("gestion", gestion);
+            q.setParameter("periodo", periodo);
             q.setParameter("regimen", regimen);
             q.setParameter("id_gestionacademica", id_gestionacademica);
 
@@ -71,7 +74,7 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
         List<GestionAcademica> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.regimen=:regimen ORDER BY ga.numero");
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.regimen=:regimen ORDER BY ga.gestion, ga.periodo");
             q.setParameter("regimen", regimen);
 
             l = q.getResultList();
@@ -81,12 +84,12 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         return l;
     }
-    
+
     public List<GestionAcademica> listaGestionAcademica() {
         List<GestionAcademica> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.vigente=TRUE ORDER BY ga.numero");
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.vigente=TRUE ORDER BY ga.gestion, ga.periodo");
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -101,8 +104,8 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         try {
             Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.regimen=:regimen AND "
-                    + "LOWER(ga.codigo) LIKE LOWER(:keyword) "
-                    + "ORDER BY ga.numero");
+                    + "LOWER(CAST(ga.gestion AS TEXT)) LIKE LOWER(:keyword) "
+                    + "ORDER BY ga.gestion, ga.periodo");
             q.setParameter("regimen", regimen);
             q.setParameter("keyword", "%" + keyword + "%");
 

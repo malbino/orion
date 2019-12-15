@@ -8,10 +8,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
@@ -37,24 +36,17 @@ public class ProgramacionGruposFacade {
     @EJB
     GrupoFacade grupoFacade;
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean programarGrupos(GestionAcademica gestionAcademica, Carrera carrera, Nivel nivel, Turno turno, Integer capacidad) {
-        boolean b = true;
+        List<Materia> materias = materiaFacade.listaMaterias(carrera.getId_carrera(), nivel);
+        for (Materia materia : materias) {
+            long cantidadGrupos = grupoFacade.cantidadGrupos(gestionAcademica.getId_gestionacademica(), materia.getId_materia());
+            String codigo = "G" + (cantidadGrupos + 1);
 
-        try {
-            List<Materia> materias = materiaFacade.listaMaterias(carrera.getId_carrera(), nivel);
-            for (Materia materia : materias) {
-                long cantidadGrupos = grupoFacade.cantidadGrupos(gestionAcademica.getId_gestionacademica(), materia.getId_materia());
-                String codigo = "G" + (cantidadGrupos + 1);
-
-                Grupo grupo = new Grupo(codigo, capacidad, turno, true, gestionAcademica, materia);
-                em.persist(grupo);
-            }
-        } catch (Exception e) {
-            b = false;
+            Grupo grupo = new Grupo(codigo, capacidad, turno, true, gestionAcademica, materia);
+            em.persist(grupo);
         }
-
-        return b;
+        return true;
     }
 
 }

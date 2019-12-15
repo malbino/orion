@@ -20,9 +20,7 @@ import org.malbino.orion.entities.Rol;
 @Stateless
 @LocalBean
 public class RolFacade extends AbstractFacade<Rol> {
-
-    private static final String COD_ADM = "ADM";
-
+    
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;
 

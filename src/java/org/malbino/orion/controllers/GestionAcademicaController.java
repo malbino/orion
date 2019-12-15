@@ -78,11 +78,9 @@ public class GestionAcademicaController extends AbstractController implements Se
 
     public void crearGestionAcademica() throws IOException {
         nuevaGestionAcademica.setRegimen(seleccionRegimen);
-        if (gestionAcademicaFacade.buscarPorCodigoRegimen(nuevaGestionAcademica.getCodigo(), seleccionRegimen) == null) {
+        if (gestionAcademicaFacade.buscarPorCodigoRegimen(nuevaGestionAcademica.getGestion(), nuevaGestionAcademica.getPeriodo(), seleccionRegimen) == null) {
             if (gestionAcademicaFacade.create(nuevaGestionAcademica)) {
                 this.toGestionesAcademicas();
-            } else {
-                this.mensajeDeError("No se pudo crear la gestión académica.");
             }
         } else {
             this.mensajeDeError("Gestión académica repetida.");
@@ -90,11 +88,9 @@ public class GestionAcademicaController extends AbstractController implements Se
     }
 
     public void editarGestionAcademica() throws IOException {
-        if (gestionAcademicaFacade.buscarPorCodigoRegimen(seleccionGestionAcademica.getCodigo(), seleccionRegimen, seleccionGestionAcademica.getId_gestionacademica()) == null) {
+        if (gestionAcademicaFacade.buscarPorCodigoRegimen(seleccionGestionAcademica.getGestion(), seleccionGestionAcademica.getPeriodo(), seleccionRegimen, seleccionGestionAcademica.getId_gestionacademica()) == null) {
             if (gestionAcademicaFacade.edit(seleccionGestionAcademica)) {
                 this.toGestionesAcademicas();
-            } else {
-                this.mensajeDeError("No se pudo editar la gestión académica.");
             }
         } else {
             this.mensajeDeError("Gestión académica repetida.");

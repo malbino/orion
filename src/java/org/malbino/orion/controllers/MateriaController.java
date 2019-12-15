@@ -7,7 +7,6 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -79,7 +78,7 @@ public class MateriaController extends AbstractController implements Serializabl
     }
 
     public Nivel[] listaNiveles() {
-        return Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
+        return Nivel.values(seleccionCarrera.getRegimen());
     }
 
     public List<Materia> listaMateriasCrear() {
@@ -95,8 +94,6 @@ public class MateriaController extends AbstractController implements Serializabl
         if (materiaFacade.buscarPorCodigo(nuevaMateria.getCodigo()) == null) {
             if (materiaFacade.create(nuevaMateria)) {
                 this.toMaterias();
-            } else {
-                this.mensajeDeError("No se pudo crear la materia.");
             }
         } else {
             this.mensajeDeError("Materia repetida.");
@@ -110,8 +107,6 @@ public class MateriaController extends AbstractController implements Serializabl
             } else {
                 this.mensajeDeError("No se pudo editar la materia.");
             }
-        } else {
-            this.mensajeDeError("Materia repetida.");
         }
     }
 

@@ -70,8 +70,6 @@ public class RestoreController extends AbstractController implements Serializabl
                         reinit();
 
                         toSuccess();
-                    } else {
-                        this.mensajeDeError("No se pudo editar el usuario.");
                     }
                 } else {
                     this.mensajeDeError("PIN Invalido.");

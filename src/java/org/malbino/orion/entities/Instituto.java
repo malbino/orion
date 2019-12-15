@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.malbino.orion.enums.Caracter;
 
 /**
  *
@@ -29,10 +30,11 @@ public class Instituto implements Serializable {
 
     private String nombreRegulador;
     private String ubicacion;
-    private String caracter;
+    private Caracter caracter;
     private String nombreImpuestos;
     private String nit;
     private String actividadEconomica;
+    private Integer precioCredito;
     private String resolucionMinisterial;
     private String logo;
 
@@ -92,14 +94,14 @@ public class Instituto implements Serializable {
     /**
      * @return the caracter
      */
-    public String getCaracter() {
+    public Caracter getCaracter() {
         return caracter;
     }
 
     /**
      * @param caracter the caracter to set
      */
-    public void setCaracter(String caracter) {
+    public void setCaracter(Caracter caracter) {
         this.caracter = caracter;
     }
 
@@ -143,6 +145,20 @@ public class Instituto implements Serializable {
      */
     public void setActividadEconomica(String actividadEconomica) {
         this.actividadEconomica = actividadEconomica;
+    }
+
+    /**
+     * @return the precioCredito
+     */
+    public Integer getPrecioCredito() {
+        return precioCredito;
+    }
+
+    /**
+     * @param precioCredito the precioCredito to set
+     */
+    public void setPrecioCredito(Integer precioCredito) {
+        this.precioCredito = precioCredito;
     }
 
     /**

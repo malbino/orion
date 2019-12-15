@@ -5,6 +5,8 @@
  */
 package org.malbino.orion.enums;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Martin
@@ -91,5 +93,9 @@ public enum Nivel {
     @Override
     public String toString() {
         return nombre;
+    }
+    
+    public static Nivel[] values(Regimen regimen){
+        return Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(regimen)).toArray(Nivel[]::new);
     }
 }

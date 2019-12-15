@@ -24,39 +24,18 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
 
     public boolean create(T entity) {
-        boolean res = true;
-
-        try {
-            getEntityManager().persist(entity);
-        } catch (Exception e) {
-            res = false;
-        }
-
-        return res;
+        getEntityManager().persist(entity);
+        return true;
     }
 
     public boolean edit(T entity) {
-        boolean res = true;
-
-        try {
-            getEntityManager().merge(entity);
-        } catch (Exception e) {
-            res = false;
-        }
-
-        return res;
+        getEntityManager().merge(entity);
+        return true;
     }
 
     public boolean remove(T entity) {
-        boolean res = true;
-
-        try {
-            getEntityManager().remove(getEntityManager().merge(entity));
-        } catch (Exception e) {
-            res = false;
-        }
-
-        return res;
+        getEntityManager().remove(getEntityManager().merge(entity));
+        return true;
     }
 
     public T find(Object id) {

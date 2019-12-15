@@ -15,7 +15,6 @@ public class Generador {
     public static final String MAYUSCULAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static final String MINUSCULAS = "abcdefghijklmnopqrstuvwxyz";
 
-    public static final int TAM_MIN_SIS = 8;
     public static final int TAM_PWD = 8;
     public static final int TAM_COD = 5;
     public static final int TAM_PIN = 4;
@@ -24,7 +23,7 @@ public class Generador {
         String pwd = "";
 
         String key = NUMEROS + MAYUSCULAS;
-        for (int i = 0; i < TAM_MIN_SIS; i++) {
+        for (int i = 0; i < TAM_PWD; i++) {
             pwd += key.charAt((int) (Math.random() * key.length()));
         }
 

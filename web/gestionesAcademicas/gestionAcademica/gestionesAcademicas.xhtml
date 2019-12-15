@@ -70,12 +70,16 @@
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="gestionesAcademicas" var="gestionAcademica" value="#{GestionAcademicaController.gestionesAcademicas}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        <p:column headerText="Numero" >  
-                                            <h:outputText value="#{gestionAcademica.numero}"/>
-                                        </p:column>
-
                                         <p:column headerText="Codigo" >  
-                                            <h:outputText value="#{gestionAcademica.codigo}"/>
+                                            <h:outputText value="#{gestionAcademica.toString()}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Gestión" >  
+                                            <h:outputText value="#{gestionAcademica.gestion}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Periodo" >  
+                                            <h:outputText value="#{gestionAcademica.periodo.toString()}"/>
                                         </p:column>
 
                                         <p:column headerText="Regimen" >  

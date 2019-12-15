@@ -8,7 +8,6 @@ package org.malbino.orion.entities;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,7 +37,7 @@ public class Materia implements Serializable {
     private String nombre;
     private Nivel nivel;
     private Integer horas;
-    private Double creditos;
+    private Integer creditajeMateria;
     private Boolean curricular;
 
     @JoinTable(name = "prerequisito", catalog = "orion", schema = "public", joinColumns = {
@@ -139,17 +138,17 @@ public class Materia implements Serializable {
     }
 
     /**
-     * @return the creditos
+     * @return the creditajeMateria
      */
-    public Double getCreditos() {
-        return creditos;
+    public Integer getCreditajeMateria() {
+        return creditajeMateria;
     }
 
     /**
-     * @param creditos the creditos to set
+     * @param creditajeMateria the creditajeMateria to set
      */
-    public void setCreditos(Double creditos) {
-        this.creditos = creditos;
+    public void setCreditajeMateria(Integer creditajeMateria) {
+        this.creditajeMateria = creditajeMateria;
     }
 
     /**
@@ -197,7 +196,7 @@ public class Materia implements Serializable {
     public String curricularToString() {
         return curricular ? "Sí" : "No";
     }
-    
+
     public String prerequisitosToString() {
         String s = "";
         for (Materia m : prerequisitos) {

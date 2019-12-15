@@ -65,8 +65,6 @@ public class InstitutoController extends AbstractController implements Serializa
             reinit();
 
             this.mensajeDeInformacion("Guardado.");
-        } else {
-            this.mensajeDeError("No se pudo editar el instituto.");
         }
     }
     

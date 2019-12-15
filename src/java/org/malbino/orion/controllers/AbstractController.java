@@ -19,8 +19,12 @@ import org.malbino.orion.entities.Campus;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Empleado;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.enums.Caracter;
+import org.malbino.orion.enums.LugarExpedicion;
 import org.malbino.orion.enums.NivelAcademico;
+import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Regimen;
+import org.malbino.orion.enums.Sexo;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.CampusFacade;
 import org.malbino.orion.facades.CarreraFacade;
@@ -143,5 +147,21 @@ public abstract class AbstractController implements Serializable {
 
     public Turno[] listaTurnos() {
         return Turno.values();
+    }
+
+    public Periodo[] listaPeriodos() {
+        return Periodo.values();
+    }
+
+    public LugarExpedicion[] listaLugaresExpedicion() {
+        return LugarExpedicion.values();
+    }
+
+    public Sexo[] listaSexos() {
+        return Sexo.values();
+    }
+
+    public Caracter[] listaCaracteres() {
+        return Caracter.values();
     }
 }

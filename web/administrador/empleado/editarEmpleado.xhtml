@@ -37,7 +37,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="segundoApellido" value="Segundo apellido:" style="font-size: small"/>
-                                            <p:inputText id="segundoApellido" value="#{EmpleadoController.seleccionEmpleado.segundoApellido}" required="true" requiredMessage="* Segundo apellido requerido." />
+                                            <p:inputText id="segundoApellido" value="#{EmpleadoController.seleccionEmpleado.segundoApellido}" />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
@@ -46,24 +46,15 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="lugar" value="Lugar:"/>
-                                            <p:selectOneMenu id="lugar" value="#{EmpleadoController.seleccionEmpleado.lugar}" required="true" requiredMessage="* Lugar requerido."> 
+                                            <p:outputLabel for="lugarExpedicion" value="Lugar expedición:" style="font-size: small"/>
+                                            <p:selectOneMenu id="lugarExpedicion" value="#{EmpleadoController.seleccionEmpleado.lugarExpedicion}" converter="#{LugarExpedicionConverter}" required="true" requiredMessage="* Lugar expedición requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItem itemLabel="BN" itemValue="BN" />
-                                                <f:selectItem itemLabel="CH" itemValue="CH" />
-                                                <f:selectItem itemLabel="CB" itemValue="CB" />
-                                                <f:selectItem itemLabel="LP" itemValue="LP" />
-                                                <f:selectItem itemLabel="OR" itemValue="OR" />
-                                                <f:selectItem itemLabel="PN" itemValue="PN" />
-                                                <f:selectItem itemLabel="PT" itemValue="PT" />
-                                                <f:selectItem itemLabel="SC" itemValue="SC" />
-                                                <f:selectItem itemLabel="TJ" itemValue="TJ" />
-                                                <f:selectItem itemLabel="OTRO" itemValue="OTRO" />
+                                                <f:selectItems value="#{EmpleadoController.listaLugaresExpedicion()}" var="lugarExpedicion" itemLabel="#{lugarExpedicion}" itemValue="#{lugarExpedicion}"/>  
                                             </p:selectOneMenu> 
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="fechaNacimiento" value="Fecha de nacimiento:"/>
+                                            <p:outputLabel for="fechaNacimiento" value="Fecha de nacimiento:" style="font-size: small"/>
                                             <p:calendar id="fechaNacimiento" value="#{EmpleadoController.seleccionEmpleado.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
                                         </div>
 
@@ -78,11 +69,10 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="sexo" value="Sexo:"/>
-                                            <p:selectOneMenu id="sexo" value="#{EmpleadoController.seleccionEmpleado.sexo}" required="true" requiredMessage="* Sexo requerido."> 
+                                            <p:outputLabel for="sexo" value="Sexo:" style="font-size: small"/>
+                                            <p:selectOneMenu id="sexo" value="#{EmpleadoController.seleccionEmpleado.sexo}" converter="#{SexoConverter}" required="true" requiredMessage="* Sexo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItem itemLabel="FEMENINO" itemValue="FEMENINO" />
-                                                <f:selectItem itemLabel="MASCULINO" itemValue="MASCULINO" />
+                                                <f:selectItems value="#{EmpleadoController.listaSexos()}" var="sexo" itemLabel="#{sexo}" itemValue="#{sexo}"/>  
                                             </p:selectOneMenu> 
                                         </div>
 
@@ -92,19 +82,19 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="telefono" value="Teléfono:"/> 
+                                            <p:outputLabel for="telefono" value="Teléfono:" style="font-size: small"/> 
                                             <p:inputMask id="telefono" value="#{EmpleadoController.seleccionEmpleado.telefono}" mask="9999999" required="false"/>
 
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="celular" value="Celular:"/> 
+                                            <p:outputLabel for="celular" value="Celular:" style="font-size: small"/> 
                                             <p:inputMask id="celular" value="#{EmpleadoController.seleccionEmpleado.celular}" mask="99999999" required="false"/>
 
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="email" value="Email:"/> 
+                                            <p:outputLabel for="email" value="Email:" style="font-size: small"/> 
                                             <p:inputText id="email" value="#{EmpleadoController.seleccionEmpleado.email}" required="true" requiredMessage="* Email requerido.">
                                                 <f:validator validatorId="validators.emailValidator" />
                                             </p:inputText>

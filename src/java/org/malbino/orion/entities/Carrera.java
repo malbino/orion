@@ -37,7 +37,7 @@ public class Carrera implements Serializable {
     private NivelAcademico nivelAcademico;
     private Integer version;
     private String resolucionMinisterial;
-    private Double precioMatricula;
+    private Integer creditajeMatricula;
 
     @JoinColumn(name = "id_campus")
     @ManyToOne
@@ -145,17 +145,17 @@ public class Carrera implements Serializable {
     }
 
     /**
-     * @return the precioMatricula
+     * @return the creditajeMatricula
      */
-    public Double getPrecioMatricula() {
-        return precioMatricula;
+    public Integer getCreditajeMatricula() {
+        return creditajeMatricula;
     }
 
     /**
-     * @param precioMatricula the precioMatricula to set
+     * @param creditajeMatricula the creditajeMatricula to set
      */
-    public void setPrecioMatricula(Double precioMatricula) {
-        this.precioMatricula = precioMatricula;
+    public void setCreditajeMatricula(Integer creditajeMatricula) {
+        this.creditajeMatricula = creditajeMatricula;
     }
 
     /**

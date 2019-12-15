@@ -111,16 +111,12 @@ public class GrupoController extends AbstractController implements Serializable 
     public void programarGrupos() throws IOException {
         if (programacionGruposFacade.programarGrupos(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionTurno, capacidad)) {
             toGrupos();
-        } else {
-            this.mensajeDeError("No se pudo programar los grupos.");
         }
     }
 
     public void editarGrupo() throws IOException {
         if (grupoFacade.edit(seleccionGrupo)) {
             this.toGrupos();
-        } else {
-            this.mensajeDeError("No se pudo editar el grupo.");
         }
     }
 

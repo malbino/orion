@@ -94,8 +94,6 @@ public class UsuarioController extends AbstractController implements Serializabl
                         enviarCorreo(seleccionUsuario);
 
                         this.toUsuarios();
-                    } else {
-                        this.mensajeDeError("No se pudo editar el usuario.");
                     }
                 } else {
                     this.mensajeDeError("No se puede restaurar la contraseña. El usuario no tiene email.");
@@ -103,8 +101,6 @@ public class UsuarioController extends AbstractController implements Serializabl
             } else {
                 if (usuarioFacade.edit(seleccionUsuario)) {
                     this.toUsuarios();
-                } else {
-                    this.mensajeDeError("No se pudo editar el usuario.");
                 }
             }
         } else {

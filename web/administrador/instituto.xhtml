@@ -43,12 +43,10 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="caracter" value="Caracter:"/>
-                                            <p:selectOneMenu id="caracter" value="#{InstitutoController.instituto.caracter}" required="true" requiredMessage="* Caracter requerido."> 
+                                            <p:outputLabel for="caracter" value="Caracter:" style="font-size: small"/>
+                                            <p:selectOneMenu id="caracter" value="#{InstitutoController.instituto.caracter}" converter="#{CaracterConverter}" required="true" requiredMessage="* Caracter requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItem itemLabel="Convenio" itemValue="Convenio" />
-                                                <f:selectItem itemLabel="Privado" itemValue="Privado" />
-                                                <f:selectItem itemLabel="Publico" itemValue="Publico" />
+                                                <f:selectItems value="#{InstitutoController.listaCaracteres()}" var="caracter" itemLabel="#{caracter}" itemValue="#{caracter}"/>  
                                             </p:selectOneMenu> 
                                         </div>
 
@@ -66,6 +64,11 @@
                                             <p:outputLabel for="actividadEconomoca" value="Actividad economica:" style="font-size: small"/>
                                             <p:inputText id="actividadEconomoca" value="#{InstitutoController.instituto.actividadEconomica}" />
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="precioCredito" value="Precio credito:" style="font-size: small"/>
+                                            <p:inputText id="precioCredito" value="#{InstitutoController.instituto.precioCredito}" />
+                                        </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="resolucionMinisterial" value="Resolución ministerial:" style="font-size: small"/>
@@ -78,7 +81,7 @@
                                                             var="rector" itemLabel="#{rector.toString()}" itemValue="#{rector}" converter="#{EmpleadoConverter}" forceSelection="true"
                                                             required="true" requiredMessage="* Rector requerido."/>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="directorAcademico" value="Director Académico:"/>
                                             <p:autoComplete id="directorAcademico" value="#{InstitutoController.instituto.directorAcademico}" completeMethod="#{InstitutoController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"

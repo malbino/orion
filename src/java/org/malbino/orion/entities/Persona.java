@@ -20,6 +20,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.malbino.orion.enums.LugarExpedicion;
+import org.malbino.orion.enums.Sexo;
 import org.malbino.orion.util.Fecha;
 
 /**
@@ -43,12 +45,12 @@ public abstract class Persona implements Serializable {
     private String segundoApellido;
     @Column(unique = true)
     private String dni;
-    private String lugar;
+    private LugarExpedicion lugarExpedicion;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     private String lugarNacimiento;
     private String nacionalidad;
-    private String sexo;
+    private Sexo sexo;
     private String direccion;
     private Integer telefono;
     private Integer celular;
@@ -129,17 +131,17 @@ public abstract class Persona implements Serializable {
     }
 
     /**
-     * @return the lugar
+     * @return the lugarExpedicion
      */
-    public String getLugar() {
-        return lugar;
+    public LugarExpedicion getLugarExpedicion() {
+        return lugarExpedicion;
     }
 
     /**
-     * @param lugar the lugar to set
+     * @param lugarExpedicion the lugarExpedicion to set
      */
-    public void setLugar(String lugar) {
-        this.lugar = lugar;
+    public void setLugarExpedicion(LugarExpedicion lugarExpedicion) {
+        this.lugarExpedicion = lugarExpedicion;
     }
 
     /**
@@ -187,14 +189,14 @@ public abstract class Persona implements Serializable {
     /**
      * @return the sexo
      */
-    public String getSexo() {
+    public Sexo getSexo() {
         return sexo;
     }
 
     /**
      * @param sexo the sexo to set
      */
-    public void setSexo(String sexo) {
+    public void setSexo(Sexo sexo) {
         this.sexo = sexo;
     }
 
@@ -267,6 +269,14 @@ public abstract class Persona implements Serializable {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+    
+     public String dniLugar(){
+        return dni + " " + lugarExpedicion;
+    }
+    
+    public String fechaNacimiento_ddMMyyyy(){
+        return Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
+    }
 
     @Override
     public int hashCode() {
@@ -301,13 +311,5 @@ public abstract class Persona implements Serializable {
         }
         s += " " + this.nombre;
         return s;
-    }
-
-    public String getDniLugar(){
-        return dni + " " + lugar;
-    }
-    
-    public String getfechaNacimiento_ddMMyyyy(){
-        return Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
     }
 }

@@ -71,8 +71,6 @@ public class EmpleadoController extends AbstractController implements Serializab
         if (empleadoFacade.buscarPorDni(nuevoEmpleado.getDni()) == null) {
             if (empleadoFacade.create(nuevoEmpleado)) {
                 this.toEmpleados();
-            } else {
-                this.mensajeDeError("No se pudo crear el empleado.");
             }
         } else {
             this.mensajeDeError("Empleado repetido.");
@@ -83,8 +81,6 @@ public class EmpleadoController extends AbstractController implements Serializab
         if (empleadoFacade.buscarPorDni(seleccionEmpleado.getDni(), seleccionEmpleado.getId_persona()) == null) {
             if (empleadoFacade.edit(seleccionEmpleado)) {
                 this.toEmpleados();
-            } else {
-                this.mensajeDeError("No se pudo editar el empleado.");
             }
         } else {
             this.mensajeDeError("Empleado repetido.");
