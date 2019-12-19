@@ -233,6 +233,6 @@ public class Inscrito implements Serializable {
 
     @Override
     public String toString() {
-        return gestionAcademica.toString();
+        return carrera.toString() + " - " + gestionAcademica.toString();
     }
 }

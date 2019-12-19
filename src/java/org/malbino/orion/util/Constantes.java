@@ -12,4 +12,5 @@ package org.malbino.orion.util;
 public class Constantes {
     
     public static final int ID_INSTITUTO = 1;
+    public static final int ID_ROL_ESTUDIANTE = 2;
 }

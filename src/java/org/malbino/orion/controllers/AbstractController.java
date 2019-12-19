@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.malbino.orion.entities.Campus;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Empleado;
+import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.LugarExpedicion;
@@ -29,6 +30,7 @@ import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.CampusFacade;
 import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.EmpleadoFacade;
+import org.malbino.orion.facades.EstudianteFacade;
 import org.malbino.orion.facades.GestionAcademicaFacade;
 import org.primefaces.PrimeFaces;
 
@@ -40,6 +42,8 @@ public abstract class AbstractController implements Serializable {
 
     @EJB
     EmpleadoFacade empleadoFacade;
+    @EJB
+    EstudianteFacade estudianteFacade;
     @EJB
     CampusFacade campusFacade;
     @EJB
@@ -123,6 +127,19 @@ public abstract class AbstractController implements Serializable {
         }
 
         return empleadosFiltrados;
+    }
+
+    public List<Estudiante> completarEstudiante(String consulta) {
+        List<Estudiante> estudiantes = estudianteFacade.listaEstudiantes();
+        List<Estudiante> estudiantesFiltrados = new ArrayList();
+
+        for (Estudiante e : estudiantes) {
+            if (e.toString().toLowerCase().contains(consulta.toLowerCase())) {
+                estudiantesFiltrados.add(e);
+            }
+        }
+
+        return estudiantesFiltrados;
     }
 
     public List<Campus> listaCampus() {

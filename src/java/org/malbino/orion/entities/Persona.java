@@ -8,7 +8,6 @@ package org.malbino.orion.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -43,7 +42,6 @@ public abstract class Persona implements Serializable {
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
-    @Column(unique = true)
     private String dni;
     private LugarExpedicion lugarExpedicion;
     @Temporal(TemporalType.DATE)
@@ -269,12 +267,12 @@ public abstract class Persona implements Serializable {
     public void setFoto(String foto) {
         this.foto = foto;
     }
-    
-     public String dniLugar(){
+
+    public String dniLugar() {
         return dni + " " + lugarExpedicion;
     }
-    
-    public String fechaNacimiento_ddMMyyyy(){
+
+    public String fechaNacimiento_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
     }
 

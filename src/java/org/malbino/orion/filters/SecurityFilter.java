@@ -27,7 +27,7 @@ import org.malbino.orion.facades.RecursoFacade;
  *
  * @author malbino
  */
-@WebFilter(urlPatterns = {"/home.xhtml", "/administrador/*"})
+@WebFilter(urlPatterns = {"/home.xhtml", "/administrador/*", "/planesEstudio/*", "/gestionesAcademicas/*", "/inscripciones/*", "/pagos/*"})
 public class SecurityFilter implements Filter {
 
     @Inject
@@ -44,7 +44,7 @@ public class SecurityFilter implements Filter {
         if (usr != null) {
             String uri = req.getRequestURI();
             List<Recurso> listaRecursos = recursoFacade.buscarPorPersonaUri(usr.getId_persona(), uri);
-            if(!listaRecursos.isEmpty()){
+            if (!listaRecursos.isEmpty()) {
                 chain.doFilter(request, response);
             } else {
                 res.sendRedirect("/orion/page_403.xhtml");

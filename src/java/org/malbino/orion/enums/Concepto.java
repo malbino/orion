@@ -32,13 +32,13 @@ public enum Concepto {
     CUOTA10_ANUAL("Cuota 10", "C10", 10, Regimen.ANUAL);
 
     private String nombre;
-    private String abreviatura;
+    private String codigo;
     private Integer numero;
     private Regimen regimen;
 
     private Concepto(String nombre, String abreviatura, Integer numero, Regimen regimen) {
         this.nombre = nombre;
-        this.abreviatura = abreviatura;
+        this.codigo = abreviatura;
         this.numero = numero;
         this.regimen = regimen;
     }
@@ -58,17 +58,17 @@ public enum Concepto {
     }
 
     /**
-     * @return the abreviatura
+     * @return the codigo
      */
-    public String getAbreviatura() {
-        return abreviatura;
+    public String getCodigo() {
+        return codigo;
     }
 
     /**
-     * @param abreviatura the abreviatura to set
+     * @param codigo the codigo to set
      */
-    public void setAbreviatura(String abreviatura) {
-        this.abreviatura = abreviatura;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     /**

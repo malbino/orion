@@ -4,7 +4,9 @@
  */
 package org.malbino.orion.facades.negocio;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -16,6 +18,7 @@ import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Pago;
+import org.malbino.orion.entities.Rol;
 import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.Concepto;
 import org.malbino.orion.enums.Nivel;
@@ -23,6 +26,8 @@ import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.enums.Tipo;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.MateriaFacade;
+import org.malbino.orion.facades.RolFacade;
+import org.malbino.orion.util.Constantes;
 import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Redondeo;
 
@@ -32,7 +37,7 @@ import org.malbino.orion.util.Redondeo;
  */
 @Stateless
 @LocalBean
-public class EstudianteNuevoFacade {
+public class InscripcionesFacade {
 
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;
@@ -41,6 +46,8 @@ public class EstudianteNuevoFacade {
     InscritoFacade inscritoFacade;
     @EJB
     MateriaFacade materiaFacade;
+    @EJB
+    RolFacade rolFacade;
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudianteNuevo(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
@@ -48,6 +55,9 @@ public class EstudianteNuevoFacade {
         String codigo = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + String.format("%04d", (c1 + 1));
         estudiante.setCodigo(codigo);
         estudiante.setUsuario(codigo);
+        List<Rol> roles = new ArrayList();
+        roles.add(rolFacade.find(Constantes.ID_ROL_ESTUDIANTE));
+        estudiante.setRoles(roles);
         em.persist(estudiante);
 
         Date fecha = Fecha.getDate();
@@ -59,7 +69,7 @@ public class EstudianteNuevoFacade {
         if (carrera.getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carrera.getCampus().getInstituto().getCaracter().equals(Caracter.PUBLICO)) {
             Integer monto = carrera.getCreditajeMatricula() * carrera.getCampus().getInstituto().getPrecioCredito();
 
-            Pago pago = new Pago(Concepto.MATRICULA, monto, inscrito);
+            Pago pago = new Pago(Concepto.MATRICULA, monto, false, inscrito);
             em.persist(pago);
         } else {
             Long creditajeMaterias = materiaFacade.creditajeMaterias(carrera.getId_carrera(), carrera.getRegimen().equals(Regimen.SEMESTRAL) ? Nivel.PRIMER_SEMESTRE : Nivel.PRIMER_AÑO);
@@ -69,7 +79,7 @@ public class EstudianteNuevoFacade {
                 Double montoCuotaSinRedondear = monto.doubleValue() / cuotas.doubleValue();
                 Integer montoCuotaRedondeado = Redondeo.redondear_UP(montoCuotaSinRedondear, 0).intValue();
 
-                Pago pago = new Pago(concepto, montoCuotaRedondeado, inscrito);
+                Pago pago = new Pago(concepto, montoCuotaRedondeado, false, inscrito);
                 em.persist(pago);
 
                 monto -= montoCuotaRedondeado;

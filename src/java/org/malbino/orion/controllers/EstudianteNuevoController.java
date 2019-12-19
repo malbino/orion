@@ -14,7 +14,8 @@ import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
-import org.malbino.orion.facades.negocio.EstudianteNuevoFacade;
+import org.malbino.orion.facades.EstudianteFacade;
+import org.malbino.orion.facades.negocio.InscripcionesFacade;
 
 /**
  *
@@ -25,7 +26,9 @@ import org.malbino.orion.facades.negocio.EstudianteNuevoFacade;
 public class EstudianteNuevoController extends AbstractController implements Serializable {
 
     @EJB
-    EstudianteNuevoFacade estudianteNuevoFacade;
+    InscripcionesFacade inscripcionesFacade;
+    @EJB
+    EstudianteFacade estudianteFacade;
 
     private Estudiante nuevoEstudiante;
     private GestionAcademica seleccionGestionAcademica;
@@ -54,12 +57,16 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     }
 
     public void registrarEstudiante() {
-        if (estudianteNuevoFacade.registrarEstudianteNuevo(nuevoEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
-            reinit();
+        if (estudianteFacade.buscarPorDni(nuevoEstudiante.getDni()) == null) {
+            if (inscripcionesFacade.registrarEstudianteNuevo(nuevoEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
+                reinit();
 
-            this.mensajeDeInformacion("Guardado.");
+                this.mensajeDeInformacion("Guardado.");
+            } else {
+                this.mensajeDeError("No se pudo registrar al estudiante.");
+            }
         } else {
-            this.mensajeDeError("No se pudo registrar al estudiante.");
+            this.mensajeDeError("Estudiante repetido.");
         }
     }
 

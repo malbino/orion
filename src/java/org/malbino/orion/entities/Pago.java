@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.malbino.orion.enums.Concepto;
 
 /**
@@ -30,21 +31,24 @@ public class Pago implements Serializable {
 
     private Concepto concepto;
     private Integer monto;
-    
+    private Boolean pagado;
+
+    @Transient
+    private Integer montoAcumulado;
+
     @JoinColumn(name = "id_inscrito")
     @ManyToOne
-    private Inscrito inscrito; 
+    private Inscrito inscrito;
 
     public Pago() {
     }
 
-    public Pago(Concepto concepto, Integer monto, Inscrito inscrito) {
+    public Pago(Concepto concepto, Integer monto, Boolean pagado, Inscrito inscrito) {
         this.concepto = concepto;
         this.monto = monto;
+        this.pagado = pagado;
         this.inscrito = inscrito;
     }
-    
-    
 
     /**
      * @return the id_pago
@@ -89,6 +93,20 @@ public class Pago implements Serializable {
     }
 
     /**
+     * @return the pagado
+     */
+    public Boolean getPagado() {
+        return pagado;
+    }
+
+    /**
+     * @param pagado the pagado to set
+     */
+    public void setPagado(Boolean pagado) {
+        this.pagado = pagado;
+    }
+
+    /**
      * @return the inscrito
      */
     public Inscrito getInscrito() {
@@ -100,6 +118,20 @@ public class Pago implements Serializable {
      */
     public void setInscrito(Inscrito inscrito) {
         this.inscrito = inscrito;
+    }
+
+    /**
+     * @return the montoAcumulado
+     */
+    public Integer getMontoAcumulado() {
+        return montoAcumulado;
+    }
+
+    /**
+     * @param montoAcumulado the montoAcumulado to set
+     */
+    public void setMontoAcumulado(Integer montoAcumulado) {
+        this.montoAcumulado = montoAcumulado;
     }
 
     @Override
@@ -126,6 +158,4 @@ public class Pago implements Serializable {
         }
         return true;
     }
-
-    
 }

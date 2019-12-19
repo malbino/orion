@@ -4,6 +4,8 @@
  */
 package org.malbino.orion.facades;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -59,6 +61,21 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
             l = (long) q.getSingleResult();
         } catch (Exception e) {
 
+        }
+
+        return l;
+    }
+
+    public List<Inscrito> listaInscritos(int id_persona) {
+        List<Inscrito> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.estudiante e JOIN i.carrera c JOIN i.gestionAcademica ga WHERE e.id_persona=:id_persona ORDER BY c.nombre, ga.gestion, ga.periodo");
+            q.setParameter("id_persona", id_persona);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
         return l;
