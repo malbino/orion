@@ -4,6 +4,7 @@
  */
 package org.malbino.orion.controllers;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,9 @@ import org.malbino.orion.entities.Pago;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.PagosFacade;
+import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
+import org.malbino.orion.util.Generador;
 
 /**
  *
@@ -27,20 +30,20 @@ import org.malbino.orion.util.Fecha;
 @Named("NuevoPagoController")
 @SessionScoped
 public class NuevoPagoController extends AbstractController implements Serializable {
-    
+
     @EJB
     private PagosFacade pagosFacade;
     @EJB
     InscritoFacade inscritoFacade;
     @EJB
     PagoFacade pagoFacade;
-    
+
     private Comprobante nuevoComprobante;
     private Estudiante seleccionEstudiante;
     private Inscrito seleccionInscrito;
     private List<Pago> pagos;
     private List<Pago> seleccionPagos;
-    
+
     @PostConstruct
     public void init() {
         nuevoComprobante = new Comprobante();
@@ -49,7 +52,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
         pagos = new ArrayList();
         seleccionPagos = new ArrayList();
     }
-    
+
     public void reinit() {
         nuevoComprobante = new Comprobante();
         seleccionEstudiante = null;
@@ -57,7 +60,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
         pagos = new ArrayList();
         seleccionPagos = new ArrayList();
     }
-    
+
     public List<Inscrito> listaInscritos() {
         List<Inscrito> l = new ArrayList();
         if (seleccionEstudiante != null) {
@@ -65,31 +68,79 @@ public class NuevoPagoController extends AbstractController implements Serializa
         }
         return l;
     }
-    
+
     public void actualizarPagos() {
         if (seleccionInscrito != null) {
             pagos = pagoFacade.listaPagosAdeudados(seleccionInscrito.getId_inscrito());
             int montoAcumulado = 0;
             for (Pago pago : pagos) {
                 montoAcumulado += pago.getMonto();
-                
+
                 pago.setMontoAcumulado(montoAcumulado);
             }
         }
     }
-    
-    public void crearPago() {
-        nuevoComprobante.setFecha(Fecha.getDate());
-        nuevoComprobante.setValido(true);
-        if (!seleccionPagos.isEmpty()) {
-            if(pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos)){
-                reinit();
-                
-                this.mensajeDeInformacion("Guardado.");
+
+    public void crearPago() throws IOException {
+        List<Pago> pagosPagados = pagoFacade.listaPagosPagados(seleccionInscrito.getId_inscrito());
+        if (pagosPagados.isEmpty()) {
+            nuevoComprobante.setFecha(Fecha.getDate());
+            nuevoComprobante.setValido(true);
+            nuevoComprobante.setInscrito(seleccionInscrito);
+
+            String contrasena = Generador.generarContrasena();
+            seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));
+            seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
+
+            String codigo1 = Generador.generarCodigo();
+            seleccionInscrito.setCodigo1(Encriptador.encriptar(codigo1));
+            seleccionInscrito.setCodigo1SinEncriptar(codigo1);
+            String codigo2 = Generador.generarCodigo();
+            seleccionInscrito.setCodigo2(Encriptador.encriptar(codigo2));
+            seleccionInscrito.setCodigo2SinEncriptar(codigo2);
+            String codigo3 = Generador.generarCodigo();
+            seleccionInscrito.setCodigo3(Encriptador.encriptar(codigo3));
+            seleccionInscrito.setCodigo3SinEncriptar(codigo3);
+
+            if (!seleccionPagos.isEmpty()) {
+                if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos, seleccionEstudiante, seleccionInscrito)) {
+                    this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
+                    this.insertarParametro("estudiante", seleccionEstudiante);
+                    this.insertarParametro("inscrito", seleccionInscrito);
+
+                    this.reinit();
+
+                    this.toComprobantePago();
+                }
+            } else {
+                this.mensajeDeError("Ningun pago seleccionado.");
             }
         } else {
-            this.mensajeDeError("Ningun pago seleccionado.");
+            nuevoComprobante.setFecha(Fecha.getDate());
+            nuevoComprobante.setValido(true);
+            nuevoComprobante.setInscrito(seleccionInscrito);
+            if (!seleccionPagos.isEmpty()) {
+                if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos)) {
+                    this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
+                    this.insertarParametro("estudiante", null);
+                    this.insertarParametro("inscrito", null);
+
+                    this.reinit();
+
+                    this.toComprobantePago();
+                }
+            } else {
+                this.mensajeDeError("Ningun pago seleccionado.");
+            }
         }
+    }
+
+    public void toComprobantePago() throws IOException {
+        this.redireccionarViewId("/pagos/nuevoPago/comprobantePago");
+    }
+
+    public void toNuevoPago() throws IOException {
+        this.redireccionarViewId("/pagos/nuevoPago/nuevoPago");
     }
 
     /**
@@ -161,5 +212,5 @@ public class NuevoPagoController extends AbstractController implements Serializa
     public void setSeleccionPagos(List<Pago> seleccionPagos) {
         this.seleccionPagos = seleccionPagos;
     }
-    
+
 }

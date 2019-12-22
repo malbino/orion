@@ -8,7 +8,7 @@
 
     <body>
 
-        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
 
             <ui:define name="content">
                 <div class="row">
@@ -60,7 +60,7 @@
                                         <p:column headerText="Monto (Bs.)" >  
                                             <h:outputText value="#{pago.monto}" style="float: right"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Monto Acumulado (Bs.)">  
                                             <h:outputText value="#{pago.montoAcumulado}" style="float: right"/>
                                         </p:column>

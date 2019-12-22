@@ -11,9 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -28,17 +31,15 @@ public class Comprobante implements Serializable {
     private Integer id_comprobante;
 
     private String codigo;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     private Boolean valido;
+    
+    @JoinColumn(name = "id_inscrito")
+    @ManyToOne
+    private Inscrito inscrito;
 
     public Comprobante() {
-    }
-
-    public Comprobante(String codigo, Date fecha, Boolean valido) {
-        this.codigo = codigo;
-        this.fecha = fecha;
-        this.valido = this.valido;
     }
 
     /**
@@ -95,6 +96,24 @@ public class Comprobante implements Serializable {
      */
     public void setValido(Boolean valido) {
         this.valido = valido;
+    }
+
+    /**
+     * @return the inscrito
+     */
+    public Inscrito getInscrito() {
+        return inscrito;
+    }
+
+    /**
+     * @param inscrito the inscrito to set
+     */
+    public void setInscrito(Inscrito inscrito) {
+        this.inscrito = inscrito;
+    }
+    
+    public String getFecha_ddMMyyyy(){
+        return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
 
 }
