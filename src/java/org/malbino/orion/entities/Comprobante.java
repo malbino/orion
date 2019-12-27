@@ -118,4 +118,7 @@ public class Comprobante implements Serializable {
         return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
 
+    public String validoToString() {
+        return valido ? "Sí" : "No";
+    }
 }

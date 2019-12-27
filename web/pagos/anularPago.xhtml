@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Anular Pago <small>anulación de pagos</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:toolbar>
+                                        <f:facet name="left">
+
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{AnularPagoController.filtro()}" update="form" rendered="#{!AnularPagoController.filter}"/>
+                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{AnularPagoController.filtro()}" update="form" rendered="#{AnularPagoController.filter}"/>
+
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="comprobantes" fileName="comprobantes" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <p:outputPanel id="filtro" rendered="#{AnularPagoController.filter}">
+                                        <div class="ui-g ui-fluid">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <div class="ui-inputgroup">
+                                                    <p:inputText value="#{AnularPagoController.keyword}" style="height: 100%"/>
+                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{AnularPagoController.buscar()}" update="comprobantes"/>           
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </p:outputPanel>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="comprobantes" var="comprobante" value="#{AnularPagoController.comprobantes}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Codigo" >  
+                                            <h:outputText value="#{comprobante.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" >  
+                                            <h:outputText value="#{comprobante.fecha_ddMMyyyy}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Estudiante" >  
+                                            <h:outputText value="#{comprobante.inscrito.estudiante.toString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Carrera" >  
+                                            <h:outputText value="#{comprobante.inscrito.carrera.toString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Gestión Académica" >  
+                                            <h:outputText value="#{comprobante.inscrito.gestionAcademica.toString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Valido" >  
+                                            <h:outputText value="#{comprobante.validoToString()}"/>
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="anular" process="@this" icon="fa fa-remove" title="Anular" update="form">  
+                                                    <f:setPropertyActionListener value="#{comprobante}" target="#{AnularPagoController.seleccionComprobante}" />
+
+                                                    <f:actionListener binding="#{AnularPagoController.anularPago()}"/>
+                                                    <p:confirm header="Confirmación" message="Esta seguro?" icon="fa fa-exclamation-triangle" />
+                                                </p:commandButton>
+
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+                                    </p:confirmDialog>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
