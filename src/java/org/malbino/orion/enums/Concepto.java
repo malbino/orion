@@ -13,13 +13,11 @@ import java.util.Arrays;
  */
 public enum Concepto {
     MATRICULA("Matricula", "MA", 0, null),
-    
     CUOTA1_SEMESTRAL("Cuota 1", "C1", 1, Regimen.SEMESTRAL),
     CUOTA2_SEMESTRAL("Cuota 2", "C2", 2, Regimen.SEMESTRAL),
     CUOTA3_SEMESTRAL("Cuota 3", "C3", 3, Regimen.SEMESTRAL),
     CUOTA4_SEMESTRAL("Cuota 4", "C4", 4, Regimen.SEMESTRAL),
     CUOTA5_SEMESTRAL("Cuota 5", "C5", 5, Regimen.SEMESTRAL),
-    
     CUOTA1_ANUAL("Cuota 1", "C1", 1, Regimen.ANUAL),
     CUOTA2_ANUAL("Cuota 2", "C2", 2, Regimen.ANUAL),
     CUOTA3_ANUAL("Cuota 3", "C3", 3, Regimen.ANUAL),
@@ -104,7 +102,7 @@ public enum Concepto {
         return nombre;
     }
 
-    public static Concepto[] values(Regimen regimen){
+    public static Concepto[] values(Regimen regimen) {
         return Arrays.stream(Concepto.values()).filter(concepto -> concepto.getRegimen() != null && concepto.getRegimen().equals(regimen)).toArray(Concepto[]::new);
     }
 }

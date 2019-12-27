@@ -7,6 +7,7 @@ package org.malbino.orion.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,7 @@ public class Comprobante implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_comprobante;
 
+    @Column(unique = true)
     private String codigo;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;

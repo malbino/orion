@@ -4,13 +4,12 @@
  */
 package org.malbino.orion.facades;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Instituto;
 
 /**

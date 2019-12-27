@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Concepto;
 
 /**
@@ -22,7 +23,7 @@ import org.malbino.orion.enums.Concepto;
  * @author malbino
  */
 @Entity
-@Table(name = "pago", catalog = "orion", schema = "public")
+@Table(name = "pago", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"concepto", "inscrito"}))
 public class Pago implements Serializable {
 
     @Id

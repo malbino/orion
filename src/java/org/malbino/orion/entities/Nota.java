@@ -14,13 +14,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import org.malbino.orion.enums.Condicion;
 
 /**
  *
  * @author malbino
  */
 @Entity
-@Table(name = "nota", catalog = "orion", schema = "public")
+@Table(name = "nota", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"inscrito", "grupo"}))
 public class Nota implements Serializable {
 
     @Id
@@ -33,6 +35,7 @@ public class Nota implements Serializable {
     private Integer cuartoParcial;
     private Integer notaFinal;
     private Integer recuperatorio;
+    private Condicion condicion;
     
     @JoinColumn(name = "id_inscrito")
     @ManyToOne
@@ -146,6 +149,20 @@ public class Nota implements Serializable {
      */
     public void setRecuperatorio(Integer recuperatorio) {
         this.recuperatorio = recuperatorio;
+    }
+    
+    /**
+     * @return the condicion
+     */
+    public Condicion getCondicion() {
+        return condicion;
+    }
+
+    /**
+     * @param condicion the condicion to set
+     */
+    public void setCondicion(Condicion condicion) {
+        this.condicion = condicion;
     }
 
     /**

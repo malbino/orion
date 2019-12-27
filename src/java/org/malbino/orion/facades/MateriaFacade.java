@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.Materia;
+import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Nivel;
 
 /**
@@ -111,7 +112,7 @@ public class MateriaFacade extends AbstractFacade<Materia> {
 
         return l;
     }
-    
+
     public long creditajeMaterias(int id_carrera, Nivel nivel) {
         long l = 0;
 
@@ -141,6 +142,40 @@ public class MateriaFacade extends AbstractFacade<Materia> {
 
             l = q.getResultList();
         } catch (Exception e) {
+        }
+
+        return l;
+    }
+    
+    public List<Nivel> nivelesPendientes(int id_persona, int id_carrera){
+         List<Nivel> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT m.nivel FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.id_materia NOT IN (SELECT m.id_materia FROM Nota n JOIN n.inscrito i JOIN i.estudiante e JOIN i.carrera c JOIN n.grupo g JOIN g.materia m WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion) ORDER BY m.nivel, m.numero");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Materia> listaMateriaAprobadas(int id_persona, int id_carrera){
+         List<Materia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT m FROM Nota n JOIN n.inscrito i JOIN i.estudiante e JOIN i.carrera c JOIN n.grupo g JOIN g.materia m WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion ORDER BY m.numero");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
         }
 
         return l;

@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Tipo;
 
 /**
@@ -25,7 +26,7 @@ import org.malbino.orion.enums.Tipo;
  * @author malbino
  */
 @Entity
-@Table(name = "inscrito", catalog = "orion", schema = "public")
+@Table(name = "inscrito", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"estudiante", "carrera", "gestionAcademica"}))
 public class Inscrito implements Serializable {
 
     @Id

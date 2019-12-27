@@ -10,17 +10,19 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum Regimen {
-    SEMESTRAL("Semestral", "S", 5),
-    ANUAL("Anual", "A", 10);
+    SEMESTRAL("Semestral", "S", 5, 2),
+    ANUAL("Anual", "A", 10, 3);
 
     private String nombre;
     private String inicial;
     private Integer cuotas;
+    private Integer cantidadMaximaReprobaciones;
 
-    private Regimen(String nombre, String inicial, Integer cuotas) {
+    private Regimen(String nombre, String inicial, Integer cuotas, Integer cantidadMaximaReprobaciones) {
         this.nombre = nombre;
         this.inicial = inicial;
         this.cuotas = cuotas;
+        this.cantidadMaximaReprobaciones = cantidadMaximaReprobaciones;
     }
 
     /**
@@ -63,6 +65,20 @@ public enum Regimen {
      */
     public void setCuotas(Integer cuotas) {
         this.cuotas = cuotas;
+    }
+
+    /**
+     * @return the cantidadMaximaReprobaciones
+     */
+    public Integer getCantidadMaximaReprobaciones() {
+        return cantidadMaximaReprobaciones;
+    }
+
+    /**
+     * @param cantidadMaximaReprobaciones the cantidadMaximaReprobaciones to set
+     */
+    public void setCantidadMaximaReprobaciones(Integer cantidadMaximaReprobaciones) {
+        this.cantidadMaximaReprobaciones = cantidadMaximaReprobaciones;
     }
 
     @Override

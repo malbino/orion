@@ -75,10 +75,26 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            System.out.println(e);
+
         }
 
         return l;
     }
 
+    public Inscrito buscarInscrito(int id_persona, int id_carrera, int id_gestionacademica) {
+        Inscrito i = null;
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.estudiante e JOIN i.carrera c JOIN i.gestionAcademica ga WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND ga.id_gestionacademica=:id_gestionacademica");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+
+            i = (Inscrito) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return i;
+    }
 }
