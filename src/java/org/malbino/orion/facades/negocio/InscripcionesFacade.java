@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,17 +18,20 @@ import javax.transaction.Transactional;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Materia;
+import org.malbino.orion.entities.Nota;
 import org.malbino.orion.entities.Pago;
 import org.malbino.orion.entities.Rol;
 import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.Concepto;
 import org.malbino.orion.enums.Nivel;
-import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.enums.Tipo;
+import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.MateriaFacade;
+import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.RolFacade;
 import org.malbino.orion.util.Constantes;
 import org.malbino.orion.util.Fecha;
@@ -50,6 +54,10 @@ public class InscripcionesFacade {
     MateriaFacade materiaFacade;
     @EJB
     RolFacade rolFacade;
+    @EJB
+    GrupoFacade grupoFacade;
+    @EJB
+    NotaFacade notaFacade;
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudianteNuevo(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
@@ -74,7 +82,7 @@ public class InscripcionesFacade {
             Pago pago = new Pago(Concepto.MATRICULA, monto, false, inscrito);
             em.persist(pago);
         } else {
-            Long creditajeMaterias = materiaFacade.creditajeMaterias(carrera.getId_carrera(), carrera.getRegimen().equals(Regimen.SEMESTRAL) ? Nivel.PRIMER_SEMESTRE : Nivel.PRIMER_AÑO);
+            Long creditajeMaterias = creditajeOferta(inscrito);
             Integer monto = creditajeMaterias.intValue() * carrera.getCampus().getInstituto().getPrecioCredito();
             Integer cuotas = carrera.getRegimen().getCuotas();
             for (Concepto concepto : Concepto.values(carrera.getRegimen())) {
@@ -93,6 +101,9 @@ public class InscripcionesFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudianteRegular(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
+        estudiante.setContrasena(null);
+        em.merge(estudiante);
+        
         Date fecha = Fecha.getDate();
         long c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
         String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", (c1 + 1));
@@ -125,6 +136,9 @@ public class InscripcionesFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean cambioCarrera(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
+        estudiante.setContrasena(null);
+        em.merge(estudiante);
+        
         Date fecha = Fecha.getDate();
         long c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
         String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", (c1 + 1));
@@ -137,7 +151,7 @@ public class InscripcionesFacade {
             Pago pago = new Pago(Concepto.MATRICULA, monto, false, inscrito);
             em.persist(pago);
         } else {
-            Long creditajeMaterias = materiaFacade.creditajeMaterias(carrera.getId_carrera(), carrera.getRegimen().equals(Regimen.SEMESTRAL) ? Nivel.PRIMER_SEMESTRE : Nivel.PRIMER_AÑO);
+            Long creditajeMaterias = creditajeOferta(inscrito);
             Integer monto = creditajeMaterias.intValue() * carrera.getCampus().getInstituto().getPrecioCredito();
             Integer cuotas = carrera.getRegimen().getCuotas();
             for (Concepto concepto : Concepto.values(carrera.getRegimen())) {
@@ -201,5 +215,38 @@ public class InscripcionesFacade {
         }
 
         return oferta;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public boolean tomarMaterias(List<Nota> notas) {
+        for (Nota nota : notas) {
+            Grupo grupo = nota.getGrupo();
+            long cantidadNotasGrupo = grupoFacade.cantidadNotasGrupo(grupo.getId_grupo());
+            if (cantidadNotasGrupo + 1 < grupo.getCapacidad()) {
+                em.persist(nota);
+            } else if (cantidadNotasGrupo + 1 == grupo.getCapacidad()) {
+                em.persist(nota);
+
+                grupo.setAbierto(Boolean.FALSE);
+                em.merge(grupo);
+            } else {
+                throw new EJBException("Grupo(s) lleno(s).");
+            }
+        }
+
+        return true;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public List<Materia> ofertaTomaMaterias(Inscrito inscrito) {
+        List<Materia> ofertaTomaMaterias = oferta(inscrito);
+
+        List<Nota> estadoInscripcion = notaFacade.listaNotas(inscrito.getId_inscrito());
+        for (Nota nota : estadoInscripcion) {
+            ofertaTomaMaterias.remove(nota.getGrupo().getMateria());
+        }
+
+        return ofertaTomaMaterias;
+
     }
 }

@@ -358,72 +358,40 @@ public class ComprobantePago extends HttpServlet {
             //fila 1
             cell = new PdfPCell(new Phrase(" ", NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(25);
-            cell.setBorder(Rectangle.LEFT | Rectangle.TOP);
-            table.addCell(cell);
-
-            Phrase codigo = new Phrase();
-            codigo.add(new Chunk("Codigo: ", NEGRITA));
-            codigo.add(new Chunk(estudiante.getCodigo(), NORMAL));
-            cell = new PdfPCell(codigo);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(25);
-            cell.setBorder(Rectangle.TOP);
-            table.addCell(cell);
-
-            Phrase contrasena = new Phrase();
-            contrasena.add(new Chunk("Contraseña: ", NEGRITA));
-            contrasena.add(new Chunk(estudiante.getContrasenaSinEncriptar(), NORMAL));
-            cell = new PdfPCell(contrasena);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(25);
-            cell.setBorder(Rectangle.TOP);
-            table.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(" ", NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(25);
-            cell.setBorder(Rectangle.TOP | Rectangle.RIGHT);
-            table.addCell(cell);
-
-            //fila 2
-            cell = new PdfPCell(new Phrase(" ", NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(20);
-            cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM);
+            cell.setBorder(Rectangle.BOTTOM | Rectangle.LEFT | Rectangle.TOP);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase("Codigo: ", NEGRITA));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setColspan(15);
+            cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase(estudiante.getCodigo(), NORMAL));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setColspan(15);
+            cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
+            cell.setBackgroundColor(BaseColor.DARK_GRAY);
             table.addCell(cell);
 
-            Phrase codigo1 = new Phrase();
-            codigo1.add(new Chunk("Codigo 1: ", NEGRITA));
-            codigo1.add(new Chunk(inscrito.getCodigo1SinEncriptar(), NORMAL));
-            cell = new PdfPCell(codigo1);
+            cell = new PdfPCell(new Phrase("Contraseña: ", NEGRITA));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(20);
-            cell.setBorder(Rectangle.BOTTOM);
+            cell.setColspan(15);
+            cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
             table.addCell(cell);
-
-            Phrase codigo2 = new Phrase();
-            codigo2.add(new Chunk("Codigo 2: ", NEGRITA));
-            codigo2.add(new Chunk(inscrito.getCodigo2SinEncriptar(), NORMAL));
-            cell = new PdfPCell(codigo2);
+            
+            cell = new PdfPCell(new Phrase(estudiante.getContrasenaSinEncriptar(), NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(20);
-            cell.setBorder(Rectangle.BOTTOM);
-            table.addCell(cell);
-
-            Phrase codigo3 = new Phrase();
-            codigo3.add(new Chunk("Codigo 3: ", NEGRITA));
-            codigo3.add(new Chunk(inscrito.getCodigo3SinEncriptar(), NORMAL));
-            cell = new PdfPCell(codigo3);
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(20);
-            cell.setBorder(Rectangle.BOTTOM);
+            cell.setColspan(15);
+            cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
+            cell.setBackgroundColor(BaseColor.DARK_GRAY);
             table.addCell(cell);
 
             cell = new PdfPCell(new Phrase(" ", NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(20);
-            cell.setBorder(Rectangle.BOTTOM | Rectangle.RIGHT);
+            cell.setBorder(Rectangle.TOP | Rectangle.RIGHT | Rectangle.BOTTOM);
             table.addCell(cell);
         }
 

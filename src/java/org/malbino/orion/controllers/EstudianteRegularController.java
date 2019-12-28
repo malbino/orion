@@ -69,12 +69,16 @@ public class EstudianteRegularController extends AbstractController implements S
 
     public void registrarEstudiante() throws IOException {
         if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
-            if (inscripcionesFacade.registrarEstudianteRegular(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
-                reinit();
+            if (seleccionEstudiante.getTituloBachiller()) {
+                if (inscripcionesFacade.registrarEstudianteRegular(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
+                    reinit();
 
-                this.mensajeDeInformacion("Guardado.");
+                    this.mensajeDeInformacion("Guardado.");
+                } else {
+                    this.mensajeDeError("No se pudo registrar al estudiante.");
+                }
             } else {
-                this.mensajeDeError("No se pudo registrar al estudiante.");
+                this.mensajeDeError("Estudiante sin titulo de bachiller.");
             }
         } else {
             this.mensajeDeError("Estudiante repetido.");

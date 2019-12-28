@@ -92,16 +92,6 @@ public class NuevoPagoController extends AbstractController implements Serializa
             seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));
             seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
 
-            String codigo1 = Generador.generarCodigo();
-            seleccionInscrito.setCodigo1(Encriptador.encriptar(codigo1));
-            seleccionInscrito.setCodigo1SinEncriptar(codigo1);
-            String codigo2 = Generador.generarCodigo();
-            seleccionInscrito.setCodigo2(Encriptador.encriptar(codigo2));
-            seleccionInscrito.setCodigo2SinEncriptar(codigo2);
-            String codigo3 = Generador.generarCodigo();
-            seleccionInscrito.setCodigo3(Encriptador.encriptar(codigo3));
-            seleccionInscrito.setCodigo3SinEncriptar(codigo3);
-
             if (!seleccionPagos.isEmpty()) {
                 if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos, seleccionEstudiante, seleccionInscrito)) {
                     this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());

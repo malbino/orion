@@ -38,18 +38,6 @@ public class Inscrito implements Serializable {
     private Tipo tipo;
 
     private String matricula;
-    private String codigo1;
-    private String codigo2;
-    private String codigo3;
-    
-    @Transient
-    private String codigo1SinEncriptar;
-    @Transient
-    private String codigo2SinEncriptar;
-    @Transient
-    private String codigo3SinEncriptar;
-    
-    
 
     @JoinColumn(name = "id_persona")
     @ManyToOne
@@ -131,90 +119,6 @@ public class Inscrito implements Serializable {
      */
     public void setMatricula(String matricula) {
         this.matricula = matricula;
-    }
-
-    /**
-     * @return the codigo1
-     */
-    public String getCodigo1() {
-        return codigo1;
-    }
-
-    /**
-     * @param codigo1 the codigo1 to set
-     */
-    public void setCodigo1(String codigo1) {
-        this.codigo1 = codigo1;
-    }
-
-    /**
-     * @return the codigo2
-     */
-    public String getCodigo2() {
-        return codigo2;
-    }
-
-    /**
-     * @param codigo2 the codigo2 to set
-     */
-    public void setCodigo2(String codigo2) {
-        this.codigo2 = codigo2;
-    }
-
-    /**
-     * @return the codigo3
-     */
-    public String getCodigo3() {
-        return codigo3;
-    }
-
-    /**
-     * @param codigo3 the codigo3 to set
-     */
-    public void setCodigo3(String codigo3) {
-        this.codigo3 = codigo3;
-    }
-    
-    /**
-     * @return the codigo1SinEncriptar
-     */
-    public String getCodigo1SinEncriptar() {
-        return codigo1SinEncriptar;
-    }
-
-    /**
-     * @param codigo1SinEncriptar the codigo1SinEncriptar to set
-     */
-    public void setCodigo1SinEncriptar(String codigo1SinEncriptar) {
-        this.codigo1SinEncriptar = codigo1SinEncriptar;
-    }
-
-    /**
-     * @return the codigo2SinEncriptar
-     */
-    public String getCodigo2SinEncriptar() {
-        return codigo2SinEncriptar;
-    }
-
-    /**
-     * @param codigo2SinEncriptar the codigo2SinEncriptar to set
-     */
-    public void setCodigo2SinEncriptar(String codigo2SinEncriptar) {
-        this.codigo2SinEncriptar = codigo2SinEncriptar;
-    }
-
-    /**
-     * @return the codigo3SinEncriptar
-     */
-    public String getCodigo3SinEncriptar() {
-        return codigo3SinEncriptar;
-    }
-
-    /**
-     * @param codigo3SinEncriptar the codigo3SinEncriptar to set
-     */
-    public void setCodigo3SinEncriptar(String codigo3SinEncriptar) {
-        this.codigo3SinEncriptar = codigo3SinEncriptar;
     }
 
     /**

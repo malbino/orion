@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.Grupo;
-import org.malbino.orion.enums.Turno;
 
 /**
  *
@@ -80,6 +79,55 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
             l = q.getResultList();
         } catch (Exception e) {
+        }
+
+        return l;
+    }
+    
+    public List<Grupo> listaGrupos(int id_gestionacademica, int id_carrera, int id_materia) {
+        List<Grupo> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT g FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m JOIN m.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.id_materia=:id_materia ORDER BY g.turno, g.codigo");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_materia", id_materia);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Grupo> listaGruposAbiertos(int id_gestionacademica, int id_carrera, int id_materia) {
+        List<Grupo> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT g FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m JOIN m.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.id_materia=:id_materia AND g.abierto=TRUE ORDER BY g.turno, g.codigo");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_materia", id_materia);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            System.out.println(">>> " + e);
+        }
+
+        return l;
+    }
+
+    public long cantidadNotasGrupo(int id_grupo) {
+        long l = 0;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(n) FROM Nota n JOIN n.grupo g WHERE g.id_grupo=:id_grupo");
+            q.setParameter("id_grupo", id_grupo);
+
+            l = (long) q.getSingleResult();
+        } catch (Exception e) {
+
         }
 
         return l;

@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Nivel;
 
@@ -49,6 +50,9 @@ public class Materia implements Serializable {
     @JoinColumn(name = "id_carrera")
     @ManyToOne
     private Carrera carrera;
+
+    @Transient
+    private Grupo grupo;
 
     public Materia() {
     }
@@ -191,6 +195,20 @@ public class Materia implements Serializable {
      */
     public void setCarrera(Carrera carrera) {
         this.carrera = carrera;
+    }
+
+    /**
+     * @return the grupo
+     */
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    /**
+     * @param grupo the grupo to set
+     */
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     public String curricularToString() {

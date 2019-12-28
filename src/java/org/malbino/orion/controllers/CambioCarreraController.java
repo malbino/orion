@@ -60,12 +60,16 @@ public class CambioCarreraController extends AbstractController implements Seria
 
     public void registrarEstudiante() throws IOException {
         if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
+            if (seleccionEstudiante.getTituloBachiller()) {
             if (inscripcionesFacade.cambioCarrera(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
                 reinit();
 
                 this.mensajeDeInformacion("Guardado.");
             } else {
                 this.mensajeDeError("No se pudo registrar al estudiante.");
+            }
+            } else {
+                this.mensajeDeError("Estudiante sin titulo de bachiller.");
             }
         } else {
             this.mensajeDeError("Estudiante repetido.");
