@@ -114,7 +114,7 @@ public class Comprobante implements Serializable {
         this.inscrito = inscrito;
     }
     
-    public String getFecha_ddMMyyyy(){
+    public String fecha_ddMMyyyy(){
         return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
 

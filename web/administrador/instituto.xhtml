@@ -76,14 +76,14 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="rector" value="Rector:"/>
+                                            <p:outputLabel for="rector" value="Rector:" style="font-size: small"/>
                                             <p:autoComplete id="rector" value="#{InstitutoController.instituto.rector}" completeMethod="#{InstitutoController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
                                                             var="rector" itemLabel="#{rector.toString()}" itemValue="#{rector}" converter="#{EmpleadoConverter}" forceSelection="true"
                                                             required="true" requiredMessage="* Rector requerido."/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="directorAcademico" value="Director Académico:"/>
+                                            <p:outputLabel for="directorAcademico" value="Director Académico:" style="font-size: small"/>
                                             <p:autoComplete id="directorAcademico" value="#{InstitutoController.instituto.directorAcademico}" completeMethod="#{InstitutoController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
                                                             var="directorAcademico" itemLabel="#{directorAcademico.toString()}" itemValue="#{directorAcademico}" converter="#{EmpleadoConverter}" forceSelection="true"
                                                             required="true" requiredMessage="* Director académico requerido."/>

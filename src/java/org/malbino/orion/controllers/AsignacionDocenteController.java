@@ -17,31 +17,24 @@ import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.enums.Nivel;
-import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
-import org.malbino.orion.facades.negocio.ProgramacionGruposFacade;
 
 /**
  *
  * @author Tincho
  */
-@Named("GrupoController")
+@Named("AsignacionDocenteController")
 @SessionScoped
-public class GrupoController extends AbstractController implements Serializable {
+public class AsignacionDocenteController extends AbstractController implements Serializable {
 
     @EJB
     GrupoFacade grupoFacade;
-    @EJB
-    ProgramacionGruposFacade programacionGruposFacade;
 
     private List<Grupo> grupos;
     private Grupo seleccionGrupo;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
-    private Nivel seleccionNivel;
-    private Turno seleccionTurno;
-    private Integer capacidad;
 
     private Boolean filter;
     private String keyword;
@@ -53,9 +46,6 @@ public class GrupoController extends AbstractController implements Serializable 
 
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
-        seleccionNivel = null;
-        seleccionTurno = null;
-        capacidad = null;
 
         filter = false;
         keyword = null;
@@ -66,10 +56,6 @@ public class GrupoController extends AbstractController implements Serializable 
             grupos = grupoFacade.listaGrupos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
         }
         seleccionGrupo = null;
-
-        seleccionNivel = null;
-        seleccionTurno = null;
-        capacidad = null;
 
         filter = false;
         keyword = null;
@@ -107,35 +93,25 @@ public class GrupoController extends AbstractController implements Serializable 
             grupos = grupoFacade.buscar(keyword, seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
         }
     }
-    
-    public long cantidadNotasGrupo(Grupo grupo){
+
+    public long cantidadNotasGrupo(Grupo grupo) {
         return grupoFacade.cantidadNotasGrupo(grupo.getId_grupo());
     }
 
-    public void programarGrupos() throws IOException {
-        if (programacionGruposFacade.programarGrupos(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionTurno, capacidad)) {
-            toGrupos();
-        }
-    }
-
-    public void editarGrupo() throws IOException {
+    public void cambiarDocente() throws IOException {
         if (grupoFacade.edit(seleccionGrupo)) {
-            this.toGrupos();
+            this.toAsignacionDocente();
         }
     }
 
-    public void toProgramarGrupos() throws IOException {
-        this.redireccionarViewId("/gestionesAcademicas/grupo/programarGrupos");
+    public void toCambiarDocente() throws IOException {
+        this.redireccionarViewId("/horarios/asignacionDocente/cambiarDocente");
     }
 
-    public void toEditarGrupo() throws IOException {
-        this.redireccionarViewId("/gestionesAcademicas/grupo/editarGrupo");
-    }
-
-    public void toGrupos() throws IOException {
+    public void toAsignacionDocente() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/gestionesAcademicas/grupo/grupos");
+        this.redireccionarViewId("/horarios/asignacionDocente/asignacionDocente");
     }
 
     /**
@@ -192,48 +168,6 @@ public class GrupoController extends AbstractController implements Serializable 
      */
     public void setSeleccionCarrera(Carrera seleccionCarrera) {
         this.seleccionCarrera = seleccionCarrera;
-    }
-
-    /**
-     * @return the seleccionNivel
-     */
-    public Nivel getSeleccionNivel() {
-        return seleccionNivel;
-    }
-
-    /**
-     * @param seleccionNivel the seleccionNivel to set
-     */
-    public void setSeleccionNivel(Nivel seleccionNivel) {
-        this.seleccionNivel = seleccionNivel;
-    }
-
-    /**
-     * @return the seleccionTurno
-     */
-    public Turno getSeleccionTurno() {
-        return seleccionTurno;
-    }
-
-    /**
-     * @param seleccionTurno the seleccionTurno to set
-     */
-    public void setSeleccionTurno(Turno seleccionTurno) {
-        this.seleccionTurno = seleccionTurno;
-    }
-
-    /**
-     * @return the capacidad
-     */
-    public Integer getCapacidad() {
-        return capacidad;
-    }
-
-    /**
-     * @param capacidad the capacidad to set
-     */
-    public void setCapacidad(Integer capacidad) {
-        this.capacidad = capacidad;
     }
 
     /**

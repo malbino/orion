@@ -42,6 +42,10 @@ public class Grupo implements Serializable {
     @ManyToOne
     private Materia materia;
 
+    @JoinColumn(name = "id_persona")
+    @ManyToOne
+    private Empleado empleado;
+
     public Grupo() {
     }
 
@@ -53,8 +57,6 @@ public class Grupo implements Serializable {
         this.gestionAcademica = gestionAcademica;
         this.materia = materia;
     }
-    
-    
 
     /**
      * @return the id_grupo
@@ -154,6 +156,20 @@ public class Grupo implements Serializable {
         this.materia = materia;
     }
 
+    /**
+     * @return the empleado
+     */
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    /**
+     * @param empleado the empleado to set
+     */
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
     public String abiertoToString() {
         return abierto ? "Sí" : "No";
     }
@@ -185,6 +201,10 @@ public class Grupo implements Serializable {
 
     @Override
     public String toString() {
-        return codigo;
+        String s = codigo + " [" + turno.getNombre() + ", Por designar]";
+        if (empleado != null) {
+            s = codigo + " [" + turno.getNombre() + ", " + empleado.toString() + "]";
+        }
+        return s;
     }
 }

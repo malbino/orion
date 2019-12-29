@@ -142,11 +142,11 @@ public class GestionAcademica implements Serializable {
         this.vigente = vigente;
     }
 
-    public String inicioToString() {
+    public String inicio_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(inicio);
     }
 
-    public String finToString() {
+    public String fin_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fin);
     }
 

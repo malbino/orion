@@ -43,7 +43,7 @@
                             <!-- menu profile quick info -->
                             <div class="profile clearfix">
                                 <div class="profile_pic">
-                                    <img src="/orion/resources/images/img.jpg" alt="..." class="img-circle profile_img"/>
+                                    <img src="/orion/resources/images/user.png" alt="..." class="img-circle profile_img"/>
                                 </div>
                                 <div class="profile_info">
                                     <span>Bienvenido,</span>
@@ -78,9 +78,15 @@
 
                                         <li style="display: #{LoginController.display('Gestiones Académicas')}"><a><i class="fa fa-calendar"></i> Gestiónes Académicas <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#">Calendario academico</a></li>
+                                                <li><a href="/orion/gestionesAcademicas/calendarioAcademico/calendarioAcademico.xhtml">Calendario academico</a></li>
                                                 <li><a href="/orion/gestionesAcademicas/gestionAcademica/gestionesAcademicas.xhtml">Gestiones Académicas</a></li>
                                                 <li><a href="/orion/gestionesAcademicas/grupo/grupos.xhtml">Grupos</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li style="display: #{LoginController.display('Horarios')}"><a><i class="fa fa-clock-o"></i> Horarios <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="/orion/horarios/asignacionDocente/asignacionDocente.xhtml">Asignación Docente</a></li>
                                             </ul>
                                         </li>
 
@@ -180,7 +186,7 @@
                                 <ul class=" navbar-right">
                                     <li class="nav-item dropdown open" style="padding-left: 15px;">
                                         <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                            <img src="/orion/resources/images/img.jpg" alt=""/>#{LoginController.usr.nombre}
+                                            <img src="/orion/resources/images/user.png" alt=""/>#{LoginController.usr.nombre}
                                         </a>
                                         <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item"  href="javascript:;"> Profile</a>
@@ -198,62 +204,31 @@
 
                                     <li role="presentation" class="nav-item dropdown open">
                                         <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa fa-envelope-o"></i>
-                                            <span class="badge bg-green">6</span>
+                                            <i class="fa fa-calendar-o"></i>
+                                            <span class="badge bg-green">#{LoginController.listaActividadesProximas.size()}</span>
                                         </a>
+
+
                                         <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
-                                            <li class="nav-item">
-                                                <a class="dropdown-item">
-                                                    <span class="image"><img src="/orion/resources/images/img.jpg" alt="Profile Image" /></span>
-                                                    <span>
-                                                        <span>John Smith</span>
-                                                        <span class="time">3 mins ago</span>
-                                                    </span>
-                                                    <span class="message">
-                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="dropdown-item">
-                                                    <span class="image"><img src="/orion/resources/images/img.jpg" alt="Profile Image" /></span>
-                                                    <span>
-                                                        <span>John Smith</span>
-                                                        <span class="time">3 mins ago</span>
-                                                    </span>
-                                                    <span class="message">
-                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="dropdown-item">
-                                                    <span class="image"><img src="/orion/resources/images/img.jpg" alt="Profile Image" /></span>
-                                                    <span>
-                                                        <span>John Smith</span>
-                                                        <span class="time">3 mins ago</span>
-                                                    </span>
-                                                    <span class="message">
-                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="dropdown-item">
-                                                    <span class="image"><img src="/orion/resources/images/img.jpg" alt="Profile Image" /></span>
-                                                    <span>
-                                                        <span>John Smith</span>
-                                                        <span class="time">3 mins ago</span>
-                                                    </span>
-                                                    <span class="message">
-                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                    </span>
-                                                </a>
-                                            </li>
+                                            <ui:repeat var="actividad" value="#{LoginController.listaActividadesProximas}">
+                                                <li class="nav-item">
+                                                    <a class="dropdown-item">
+                                                        <span class="image"><img src="/orion/resources/images/activity.png" alt="Actividad proxima" /></span>
+                                                        <span>
+                                                            <span>#{actividad.gestionAcademica.toString()}</span>
+                                                            <span class="time">#{actividad.inicio_ddMMyyyy()}</span>
+                                                        </span>
+                                                        <span class="message">
+                                                            #{actividad.descripcion}
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ui:repeat>
+                                            
                                             <li class="nav-item">
                                                 <div class="text-center">
                                                     <a class="dropdown-item">
-                                                        <strong>See All Alerts</strong>
+                                                        <strong>Ver todas las alertas</strong>
                                                         <i class="fa fa-angle-right"></i>
                                                     </a>
                                                 </div>

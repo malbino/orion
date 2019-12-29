@@ -202,7 +202,7 @@ public class ComprobantePago extends HttpServlet {
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(comprobante.getFecha_ddMMyyyy(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.fecha_ddMMyyyy(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setColspan(25);
         cell.setBorder(Rectangle.LEFT | Rectangle.TOP | Rectangle.RIGHT);

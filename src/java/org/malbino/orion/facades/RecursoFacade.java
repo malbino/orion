@@ -33,13 +33,12 @@ public class RecursoFacade extends AbstractFacade<Recurso> {
         return em;
     }
 
-    public List<Recurso> buscarPorPersonaNombre(int id_persona, String nombre) {
+    public List<Recurso> buscarPorPersonaNombre(int id_persona) {
         List<Recurso> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT r.id_recurso FROM Recurso r JOIN r.roles o JOIN o.usuarios u WHERE u.id_persona=:id_persona AND r.nombre=:nombre");
+            Query q = em.createQuery("SELECT r FROM Recurso r JOIN r.roles o JOIN o.usuarios u WHERE u.id_persona=:id_persona");
             q.setParameter("id_persona", id_persona);
-            q.setParameter("nombre", nombre);
 
             l = q.getResultList();
         } catch (Exception e) {
