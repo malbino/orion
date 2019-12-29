@@ -11,7 +11,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Nota;
 
 /**
@@ -44,6 +43,22 @@ public class NotaFacade extends AbstractFacade<Nota> {
             l = q.getResultList();
         } catch (Exception e) {
 
+        }
+
+        return l;
+    }
+    
+    public List<Nota> kardexAcademico(int id_persona, int id_carrera) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.inscrito i JOIN i.estudiante e JOIN i.gestionAcademica ga JOIN n.grupo g JOIN g.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera ORDER BY ga.gestion, ga.periodo, m.nivel");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            
         }
 
         return l;

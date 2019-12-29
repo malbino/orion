@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Modalidad;
+import org.malbino.orion.enums.Regimen;
 
 /**
  *
@@ -233,5 +234,5 @@ public class Nota implements Serializable {
         }
         return true;
     }
-
+    
 }

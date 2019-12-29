@@ -10,5 +10,45 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum Modalidad {
-    REGULAR, CONVALIDACION, TRASPASO;
+    REGULAR("Regular", "R"),
+    CONVALIDACION("Convalidacion", "C"),
+    TRASPASO("Traspaso", "T");
+    
+    private String nombre;
+    private String abreviatura;
+
+    private Modalidad(String nombre, String abreviatura) {
+        this.nombre = nombre;
+        this.abreviatura = abreviatura;
+    }
+    
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * @return the abreviatura
+     */
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    /**
+     * @param abreviatura the abreviatura to set
+     */
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
+    
+    
 }
