@@ -47,4 +47,20 @@ public class DetalleFacade extends AbstractFacade<Detalle> {
 
         return l;
     }
+    
+    public List<Detalle> kardexEconomico(int id_persona, int id_carrera) {
+        List<Detalle> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT d FROM Detalle d JOIN d.combrobante c JOIN c.inscrito i JOIN i.estudiante e JOIN i.carrera a JOIN i.gestionAcademica ga WHERE e.id_persona=:id_persona AND a.id_carrera=:id_carrera AND c.valido=TRUE ORDER BY ga.gestion, ga.periodo, c.fecha, d.concepto");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }
