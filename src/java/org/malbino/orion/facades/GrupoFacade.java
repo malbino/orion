@@ -112,7 +112,7 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            System.out.println(">>> " + e);
+            
         }
 
         return l;
@@ -126,6 +126,23 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
             q.setParameter("id_grupo", id_grupo);
 
             l = (long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Grupo> listaGruposEmpleado(int id_gestionacademica, int id_carrera, int id_persona) {
+        List<Grupo> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT g FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m JOIN m.carrera c JOIN g.empleado e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND e.id_persona=:id_persona ORDER BY m.nombre, g.turno");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_persona", id_persona);
+
+            l = q.getResultList();
         } catch (Exception e) {
 
         }

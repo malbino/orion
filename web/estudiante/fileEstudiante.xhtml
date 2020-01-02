@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>File Estudiante <small>tu datos personales</small></h2>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:messages/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombre" value="Nombre:" style="font-size: small"/>
+                                            <p:inputText id="nombre" value="#{FileEstudianteController.estudiante.nombre}" disabled="true" required="true" requiredMessage="* Nombre requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="primerApellido" value="Primer apellido:" style="font-size: small"/>
+                                            <p:inputText id="primerApellido" value="#{FileEstudianteController.estudiante.primerApellido}" disabled="true" required="true" requiredMessage="* Primer apellido requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="segundoApellido" value="Segundo apellido:" style="font-size: small"/>
+                                            <p:inputText id="segundoApellido" value="#{FileEstudianteController.estudiante.segundoApellido}" disabled="true"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="dni" value="DNI:" style="font-size: small"/>
+                                            <p:inputText id="dni" value="#{FileEstudianteController.estudiante.dni}" disabled="true" required="true" requiredMessage="* DNI requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="lugarExpedicion" value="Lugar expedición:" style="font-size: small"/>
+                                            <p:selectOneMenu id="lugarExpedicion" value="#{FileEstudianteController.estudiante.lugarExpedicion}" converter="#{LugarExpedicionConverter}" disabled="true" required="true" requiredMessage="* Lugar expedición requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{FileEstudianteController.listaLugaresExpedicion()}" var="lugarExpedicion" itemLabel="#{lugarExpedicion}" itemValue="#{lugarExpedicion}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="fechaNacimiento" value="Fecha de nacimiento:" style="font-size: small"/>
+                                            <p:calendar id="fechaNacimiento" value="#{FileEstudianteController.estudiante.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" disabled="true" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="lugarNacimiento" value="Lugar de nacimiento:" style="font-size: small"/>
+                                            <p:inputText id="lugarNacimiento" value="#{FileEstudianteController.estudiante.lugarNacimiento}" disabled="true" required="true" requiredMessage="* Lugar de nacimiento requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nacionalidad" value="Nacionalidad:" style="font-size: small"/>
+                                            <p:inputText id="nacionalidad" value="#{FileEstudianteController.estudiante.nacionalidad}" disabled="true" required="true" requiredMessage="* Nacionalidad requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="sexo" value="Sexo:" style="font-size: small"/>
+                                            <p:selectOneMenu id="sexo" value="#{FileEstudianteController.estudiante.sexo}" converter="#{SexoConverter}" disabled="true" required="true" requiredMessage="* Sexo requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{EmpleadoController.listaSexos()}" var="sexo" itemLabel="#{sexo}" itemValue="#{sexo}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="direccion" value="Dirección:" style="font-size: small"/>
+                                            <p:inputText id="direccion" value="#{FileEstudianteController.estudiante.direccion}" required="true" requiredMessage="* Dirección requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="telefono" value="Teléfono:" style="font-size: small"/> 
+                                            <p:inputMask id="telefono" value="#{FileEstudianteController.estudiante.telefono}" mask="9999999" required="false"/>
+
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="celular" value="Celular:" style="font-size: small"/> 
+                                            <p:inputMask id="celular" value="#{FileEstudianteController.estudiante.celular}" mask="99999999" required="false"/>
+
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="email" value="Email:" style="font-size: small"/> 
+                                            <p:inputText id="email" value="#{FileEstudianteController.estudiante.email}" required="true" requiredMessage="* Email requerido.">
+                                                <f:validator validatorId="validators.emailValidator" />
+                                            </p:inputText>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{FileEstudianteController.editarFileEstudiante()}" update="form"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{FileEstudianteController.reinit()}" update="form"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

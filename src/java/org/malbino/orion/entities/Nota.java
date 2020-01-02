@@ -17,7 +17,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Modalidad;
-import org.malbino.orion.enums.Regimen;
 
 /**
  *
@@ -39,14 +38,14 @@ public class Nota implements Serializable {
     private Integer recuperatorio;
     private Modalidad modalidad;
     private Condicion condicion;
-    
+
     @JoinColumn(name = "id_inscrito")
     @ManyToOne
     private Inscrito inscrito;
 
     @JoinColumn(name = "id_grupo")
     @ManyToOne
-    private Grupo grupo;   
+    private Grupo grupo;
 
     public Nota() {
     }
@@ -153,7 +152,7 @@ public class Nota implements Serializable {
     public void setRecuperatorio(Integer recuperatorio) {
         this.recuperatorio = recuperatorio;
     }
-    
+
     /**
      * @return the modalidad
      */
@@ -167,7 +166,7 @@ public class Nota implements Serializable {
     public void setModalidad(Modalidad modalidad) {
         this.modalidad = modalidad;
     }
-    
+
     /**
      * @return the condicion
      */
@@ -234,5 +233,5 @@ public class Nota implements Serializable {
         }
         return true;
     }
-    
+
 }

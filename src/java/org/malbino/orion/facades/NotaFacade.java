@@ -63,4 +63,39 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return l;
     }
+    
+    public List<Nota> listaNotasGrupo(int id_grupo) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.grupo g JOIN n.inscrito i JOIN i.estudiante e WHERE g.id_grupo=:id_grupo ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("id_grupo", id_grupo);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Nota> buscar(String keyword, int id_grupo) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.grupo g JOIN n.inscrito.estudiante e WHERE g.id_grupo=:id_grupo AND "
+                    + "(LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(e.nombre) LIKE LOWER(:keyword)) "
+                    + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("id_grupo", id_grupo);
+            q.setParameter("keyword", "%" + keyword + "%");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }
