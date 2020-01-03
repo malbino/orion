@@ -103,7 +103,7 @@ public class InscripcionesFacade {
     public boolean registrarEstudianteRegular(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         estudiante.setContrasena(null);
         em.merge(estudiante);
-        
+
         Date fecha = Fecha.getDate();
         long c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
         String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", (c1 + 1));
@@ -138,7 +138,7 @@ public class InscripcionesFacade {
     public boolean cambioCarrera(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         estudiante.setContrasena(null);
         em.merge(estudiante);
-        
+
         Date fecha = Fecha.getDate();
         long c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
         String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", (c1 + 1));
@@ -190,7 +190,7 @@ public class InscripcionesFacade {
         List<Nivel> nivelesPendientes = materiaFacade.nivelesPendientes(inscrito.getEstudiante().getId_persona(), inscrito.getCarrera().getId_carrera());
 
         ListIterator<Nivel> listIterator = nivelesPendientes.listIterator();
-        List<Materia> listaMaterias = null;
+        List<Materia> listaMaterias = new ArrayList();
         if (listIterator.hasNext()) {
             listaMaterias = materiaFacade.listaMaterias(inscrito.getCarrera().getId_carrera(), listIterator.next());
             listaMaterias.removeAll(listaMateriaAprobadas);
@@ -202,7 +202,7 @@ public class InscripcionesFacade {
                 }
             }
         }
-        if (listIterator.hasNext() && !oferta.containsAll(listaMaterias)) {
+        if (listIterator.hasNext() && !oferta.containsAll(listaMaterias) && oferta.size() <= inscrito.getCarrera().getRegimen().getCantidadMaximaReprobaciones()) {
             listaMaterias = materiaFacade.listaMaterias(inscrito.getCarrera().getId_carrera(), listIterator.next());
             listaMaterias.removeAll(listaMateriaAprobadas);
 

@@ -14,7 +14,8 @@ public enum Funcionalidad {
     REGISTRO_NOTAS_PRIMER_PARCIAL("Registro notas primer parcial"),
     REGISTRO_NOTAS_SEGUNDO_PARCIAL("Registro notas segundo parcial"),
     REGISTRO_NOTAS_TERCER_PARCIAL("Registro notas tercer parcial"),
-    REGISTRO_NOTAS_CUARTO_PARCIAL("Registro notas cuarto parcial");
+    REGISTRO_NOTAS_CUARTO_PARCIAL("Registro notas cuarto parcial"),
+    REGISTRO_NOTAS_PRUEBA_RECUPERACION("Registro notas prueba recuperacion");
     
     private String nombre;
 

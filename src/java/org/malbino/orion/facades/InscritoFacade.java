@@ -11,7 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Tipo;
 
 /**
@@ -96,5 +98,23 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         }
 
         return i;
+    }
+    
+    public List<Inscrito> listaInscritosPruebaRecuperacion(GestionAcademica gestionAcademica, int id_persona) {
+        List<Inscrito> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN n.grupo g JOIN g.empleado e WHERE ga.id_gestionacademica=:id_gestionacademica AND e.id_persona=:id_persona AND n.notaFinal<:notaMinimaAprobacion GROUP BY i HAVING COUNT(n) >= 1 AND COUNT(n) <=:cantidadMaximaReprobaciones");
+            q.setParameter("id_gestionacademica", gestionAcademica.getId_gestionacademica());
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("notaMinimaAprobacion", gestionAcademica.getRegimen().getNotaMinimaAprobacion());
+            q.setParameter("cantidadMaximaReprobaciones", gestionAcademica.getRegimen().getCantidadMaximaReprobaciones());
+            
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
     }
 }

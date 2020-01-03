@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <h:form id="form">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <div class="ui-g ui-fluid">
+                                        <h2>Prueba Recuperacion <small>registro notas pruebas de recuperacion</small></h2>
+                                    </div>   
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <p:messages id="messages"/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:selectOneMenu id="gestionAcademica" value="#{PruebaRecuperacionController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" required="true" requiredMessage="* Gestion academica requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{PruebaRecuperacionController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+
+                                                <p:ajax listener="#{PruebaRecuperacionController.actualizarNotas()}" update="toolbar panelNotas"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+
+                                    <p:spacer/>
+
+                                    <p:toolbar id="toolbar">
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-save" title="Guardar" actionListener="#{PruebaRecuperacionController.guardar()}" update=":form:messages :form:panelNotas"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{PruebaRecuperacionController.seleccionGestionAcademica.regimen.cantidadParciales == 3}">
+                                                    <p:dataExporter type="xls" target="notasSemestral" fileName="notas" />
+                                                </p:menuitem>
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{PruebaRecuperacionController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
+                                                    <p:dataExporter type="xls" target="notasAnual" fileName="notas" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <p:outputPanel id="panelNotas">
+                                        <p:dataTable id="notasSemestral" var="nota" value="#{PruebaRecuperacionController.notas}"
+                                                     rowIndexVar="rowIndex" editable="true" editMode="cell" reflow="true" 
+                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                     rendered="#{PruebaRecuperacionController.seleccionGestionAcademica.regimen.cantidadParciales == 3}">
+
+                                            <p:column headerText="Nro">  
+                                                <h:outputText value="#{rowIndex + 1}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Estudiante">  
+                                                <h:outputText value="#{nota.inscrito.estudiante.toString()}"/>
+                                            </p:column>
+
+                                           <p:column headerText="Carrera">  
+                                                <h:outputText value="#{nota.grupo.materia.carrera.toString()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Materia">  
+                                                <h:outputText value="#{nota.grupo.materia.toString()}"/>
+                                            </p:column>
+                                            
+                                            <p:column headerText="Grupo">  
+                                                <h:outputText value="#{nota.grupo.codigo}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Modalidad" style="text-align: center;">  
+                                                <h:outputText value="#{nota.modalidad.abreviatura}"/>
+                                            </p:column>
+
+                                            <p:column headerText="1P" style="text-align: center;">  
+                                                <h:outputText value="#{nota.primerParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="2P" style="text-align: center;">  
+                                                <h:outputText value="#{nota.segundoParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="3P" style="text-align: center;">  
+                                                <h:outputText value="#{nota.tercerParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="NF" style="text-align: center;">
+                                                <h:outputText value="#{nota.notaFinal}"/> 
+                                            </p:column>
+
+                                            <p:column headerText="RE" style="text-align: center;">  
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{nota.recuperatorio}" /></f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputNumber value="#{nota.recuperatorio}" minValue="0" maxValue="#{nota.grupo.materia.carrera.regimen.notaMinimaAprobacion}" decimalPlaces="0" size="3">
+                                                            <p:ajax listener="#{PruebaRecuperacionController.editarNota(nota)}" update="condicion" />  
+                                                        </p:inputNumber>
+                                                    </f:facet> 
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="Condicion" style="text-align: center;">
+                                                <h:outputText id="condicion" value="#{nota.condicion}"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+                                        <p:dataTable id="notasAnual" var="nota" value="#{PruebaRecuperacionController.notas}" 
+                                                     rowIndexVar="rowIndex" editable="true" editMode="cell" reflow="true" 
+                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                     rendered="#{PruebaRecuperacionController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
+
+                                            <p:column headerText="Nro">  
+                                                <h:outputText value="#{rowIndex + 1}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Estudiante">  
+                                                <h:outputText value="#{nota.inscrito.estudiante.toString()}"/>
+                                            </p:column>
+                                            
+                                            <p:column headerText="Carrera">  
+                                                <h:outputText value="#{nota.grupo.materia.carrera.toString()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Materia">  
+                                                <h:outputText value="#{nota.grupo.materia.toString()}"/>
+                                            </p:column>
+                                            
+                                            <p:column headerText="Grupo">  
+                                                <h:outputText value="#{nota.grupo.codigo}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Modalidad" style="text-align: center;">  
+                                                <h:outputText value="#{nota.modalidad.abreviatura}"/>
+                                            </p:column>
+
+                                            <p:column headerText="1P" style="text-align: center;">  
+                                                <h:outputText value="#{nota.primerParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="2P" style="text-align: center;">  
+                                                <h:outputText value="#{nota.segundoParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="3P" style="text-align: center;">  
+                                                
+                                            </p:column>
+
+                                            <p:column headerText="4P" style="text-align: center;">  
+                                                <h:outputText value="#{nota.cuartoParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="NF" style="text-align: center;">
+                                                <h:outputText value="#{nota.notaFinal}"/>
+                                            </p:column>
+
+                                            <p:column headerText="RE" style="text-align: center;">  
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{nota.recuperatorio}" /></f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputNumber value="#{nota.recuperatorio}" minValue="0" maxValue="#{nota.grupo.materia.carrera.regimen.notaMinimaAprobacion}" decimalPlaces="0" size="3">
+                                                            <p:ajax listener="#{PruebaRecuperacionController.editarNota(nota)}" update="condicion"/>
+                                                        </p:inputNumber>
+                                                    </f:facet> 
+                                                </p:cellEditor>
+                                            </p:column>
+
+
+                                            <p:column headerText="Condicion" style="text-align: center;">
+                                                <h:outputText id="condicion" value="#{nota.condicion}"/>
+                                            </p:column>
+
+                                        </p:dataTable>
+                                    </p:outputPanel>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

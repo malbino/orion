@@ -30,16 +30,16 @@ public class HistorialAcademicoEstudianteController extends AbstractController i
     NotaFacade notaFacade;
 
     private Carrera seleccionCarrera;
-    private List<Nota> kardexAcademico;
+    private List<Nota> historialAcademico;
 
     @PostConstruct
     public void init() {
-        kardexAcademico = new ArrayList();
+        historialAcademico = new ArrayList();
     }
 
     public void reinit() {
         if (seleccionCarrera != null) {
-            kardexAcademico = notaFacade.kardexAcademico(loginController.getUsr().getId_persona(), seleccionCarrera.getId_carrera());
+            historialAcademico = notaFacade.historialAcademico(loginController.getUsr().getId_persona(), seleccionCarrera.getId_carrera());
         }
     }
 
@@ -67,17 +67,17 @@ public class HistorialAcademicoEstudianteController extends AbstractController i
     }
 
     /**
-     * @return the kardexAcademico
+     * @return the historialAcademico
      */
-    public List<Nota> getKardexAcademico() {
-        return kardexAcademico;
+    public List<Nota> getHistorialAcademico() {
+        return historialAcademico;
     }
 
     /**
-     * @param kardexAcademico the kardexAcademico to set
+     * @param historialAcademico the historialAcademico to set
      */
-    public void setKardexAcademico(List<Nota> kardexAcademico) {
-        this.kardexAcademico = kardexAcademico;
+    public void setHistorialAcademico(List<Nota> historialAcademico) {
+        this.historialAcademico = historialAcademico;
     }
 
 }

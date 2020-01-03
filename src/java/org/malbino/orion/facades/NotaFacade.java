@@ -11,7 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.enums.Condicion;
 
 /**
  *
@@ -47,8 +49,8 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return l;
     }
-    
-    public List<Nota> kardexAcademico(int id_persona, int id_carrera) {
+
+    public List<Nota> historialAcademico(int id_persona, int id_carrera) {
         List<Nota> l = new ArrayList();
 
         try {
@@ -58,12 +60,12 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            
+
         }
 
         return l;
     }
-    
+
     public List<Nota> listaNotasGrupo(int id_grupo) {
         List<Nota> l = new ArrayList();
 
@@ -78,7 +80,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return l;
     }
-    
+
     public List<Nota> buscar(String keyword, int id_grupo) {
         List<Nota> l = new ArrayList();
 
@@ -94,6 +96,24 @@ public class NotaFacade extends AbstractFacade<Nota> {
             l = q.getResultList();
         } catch (Exception e) {
 
+        }
+
+        return l;
+    }
+
+    public List<Nota> listaNotasPruebaRecuperacion(Inscrito inscrito, int id_persona) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.inscrito i JOIN n.grupo g JOIN g.empleado e JOIN g.materia m WHERE i.id_inscrito=:id_inscrito AND e.id_persona=:id_persona AND n.notaFinal>=:notaMinimaPruebaRecuperacion AND n.notaFinal<:notaMinimaAprobacion ORDER BY m.nivel, m.numero");
+            q.setParameter("id_inscrito", inscrito.getId_inscrito());
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion());
+            q.setParameter("notaMinimaAprobacion", inscrito.getCarrera().getRegimen().getNotaMinimaAprobacion());
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            
         }
 
         return l;
