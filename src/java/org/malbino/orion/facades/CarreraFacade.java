@@ -113,7 +113,7 @@ public class CarreraFacade extends AbstractFacade<Carrera> {
         List<Carrera> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT DISTINCT c FROM Inscrito i JOIN i.estudiante e JOIN i.carrera c WHERE e.id_persona=:id_persona ORDER BY c.nombre");
+            Query q = em.createQuery("SELECT c FROM Estudiante e JOIN e.carreras c WHERE e.id_persona=:id_persona ORDER BY c.nombre");
             q.setParameter("id_persona", id_persona);
 
             l = q.getResultList();

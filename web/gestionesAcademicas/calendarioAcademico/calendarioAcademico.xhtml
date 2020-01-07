@@ -24,7 +24,7 @@
 
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="gestionAcademica" value="#{CalendarioAcademicoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" required="true" requiredMessage="* Gestion academica requerida."> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{CalendarioAcademicoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{CalendarioAcademicoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
 

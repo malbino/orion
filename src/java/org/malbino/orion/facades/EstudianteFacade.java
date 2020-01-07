@@ -5,6 +5,7 @@
 package org.malbino.orion.facades;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -12,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -96,6 +98,23 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
             l = q.getResultList();
         } catch (Exception e) {
+        }
+
+        return l;
+    }
+    
+    public long cantidadEstudiantes(Date fecha) {
+        long l = 0;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(e) FROM Estudiante e WHERE e.fecha BETWEEN :inicio AND :fin");
+            q.setParameter("inicio", Fecha.getInicioAño(fecha));
+            q.setParameter("fin", Fecha.getFinAño(fecha));
+            
+
+            l = (long) q.getSingleResult();
+        } catch (Exception e) {
+
         }
 
         return l;

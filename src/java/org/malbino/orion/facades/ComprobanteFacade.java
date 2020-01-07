@@ -87,4 +87,20 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
 
         return l;
     }
+    
+    public Comprobante buscarComprobanteValido(int id_pago) {
+        Comprobante c = null;
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Detalle d JOIN d.combrobante c JOIN d.pago p WHERE p.id_pago=:id_pago AND c.valido=TRUE");
+            q.setParameter("id_pago", id_pago);
+            q.setMaxResults(1);
+
+            c = (Comprobante) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return c;
+    }
 }

@@ -10,6 +10,7 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum Funcionalidad {
+    INSCRIPCION("Inscripcion"),
     INSCRIPCION_INTERNET("Inscripcion por Internet"),
     REGISTRO_NOTAS_PRIMER_PARCIAL("Registro notas primer parcial"),
     REGISTRO_NOTAS_SEGUNDO_PARCIAL("Registro notas segundo parcial"),

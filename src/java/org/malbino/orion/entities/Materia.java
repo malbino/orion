@@ -254,6 +254,6 @@ public class Materia implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return nombre + " [" + codigo + "]";
     }
 }

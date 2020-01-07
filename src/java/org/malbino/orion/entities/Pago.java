@@ -159,4 +159,8 @@ public class Pago implements Serializable {
         }
         return true;
     }
+    
+    public String pagadoToString() {
+        return pagado ? "Sí" : "No";
+    }
 }

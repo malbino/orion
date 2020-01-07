@@ -28,7 +28,7 @@
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
-                                            <p:selectOneMenu id="carrera" value="#{HistorialEconomicoEstudianteController.seleccionCarrera}" converter="#{CarreraConverter}" required="true" requiredMessage="* Carrera requerida."> 
+                                            <p:selectOneMenu id="carrera" value="#{HistorialEconomicoEstudianteController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{HistorialEconomicoEstudianteController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
 
@@ -39,37 +39,30 @@
 
                                     <p:spacer/>
 
-                                    <p:dataTable id="historialEconomico" var="detalle" value="#{HistorialEconomicoEstudianteController.historialEconomico}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        <p:column headerText="Gestion Academica" groupRow="true">  
-                                            <h:outputText value="#{detalle.combrobante.inscrito.gestionAcademica.toString()}"/>
-                                        </p:column>
-
-                                        <p:column headerText="Comprobante">  
-                                            <h:outputText value="#{detalle.combrobante.codigo}"/>
-                                        </p:column>
-
-                                        <p:column headerText="Fecha" >  
-                                            <h:outputText value="#{detalle.combrobante.fecha_ddMMyyyy()}"/>
+                                    <p:dataTable id="historialEconomico" var="pago" value="#{HistorialEconomicoEstudianteController.historialEconomico}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Gestion" groupRow="true">  
+                                            <h:outputText value="#{pago.inscrito.gestionAcademica.toString()}"/>
                                         </p:column>
 
                                         <p:column headerText="Codigo" >  
-                                            <h:outputText value="#{detalle.concepto.codigo}"/>
+                                            <h:outputText value="#{pago.concepto.codigo}"/>
                                         </p:column>
 
                                         <p:column headerText="Concepto" >  
-                                            <h:outputText value="#{detalle.concepto.nombre}"/>
+                                            <h:outputText value="#{pago.concepto.nombre}"/>
                                         </p:column>
 
-                                        <p:column headerText="Monto" style="text-align: right">  
-                                            <h:outputText value="#{detalle.monto}"/>
+                                        <p:column headerText="Pagado" >  
+                                            <h:outputText value="#{pago.pagadoToString()}"/>
                                         </p:column>
 
-                                        <p:columnGroup type="footer">
-                                            <p:row>
-                                                <p:column colspan="5" footerText="Total: " style="text-align:right; font-weight: bold"/>
-                                                <p:column footerText="#{HistorialEconomicoEstudianteController.total()}" style="text-align:right"/>
-                                            </p:row>
-                                        </p:columnGroup>
+                                        <p:column headerText="Comprobante" >  
+                                            <h:outputText value="#{HistorialEconomicoController.comprobante(pago)}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Monto (Bs.)" >  
+                                            <h:outputText value="#{pago.monto}" style="float: right"/>
+                                        </p:column>
                                     </p:dataTable>
                                 </div>
                             </div>

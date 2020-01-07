@@ -28,70 +28,125 @@
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
-                                            <p:selectOneMenu id="carrera" value="#{HistorialAcademicoEstudianteController.seleccionCarrera}" converter="#{CarreraConverter}" required="true" requiredMessage="* Carrera requerida."> 
+                                            <p:selectOneMenu id="carrera" value="#{HistorialAcademicoEstudianteController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{HistorialAcademicoEstudianteController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
 
-                                                <p:ajax listener="#{HistorialAcademicoEstudianteController.reinit()}" update="historialAcademico"/>
+                                                <p:ajax listener="#{HistorialAcademicoEstudianteController.reinit()}" update="panelHistorialAcademico"/>
                                             </p:selectOneMenu>
                                         </div>
                                     </div>
 
                                     <p:spacer/>
+                                    <p:outputPanel id="panelHistorialAcademico">
+                                        <p:dataTable id="historialAcademicoSemestral" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}" reflow="true" 
+                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                     rendered="#{HistorialAcademicoEstudianteController.seleccionCarrera.regimen.cantidadParciales == 3}">
+                                            <p:column headerText="Gestion" groupRow="true">  
+                                                <h:outputText value="#{nota.gestionAcademica.toString()}"/>
+                                            </p:column>
 
-                                    <p:dataTable id="historialAcademico" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        <p:column headerText="Gestion Academica" groupRow="true">  
-                                            <h:outputText value="#{nota.grupo.gestionAcademica.toString()}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="Nivel">  
-                                            <h:outputText value="#{nota.grupo.materia.nivel.toString()}"/>
-                                        </p:column>
+                                            <p:column headerText="Nivel">  
+                                                <h:outputText value="#{nota.materia.nivel.toString()}"/>
+                                            </p:column>
 
-                                        <p:column headerText="Codigo" >  
-                                            <h:outputText value="#{nota.grupo.materia.codigo}"/>
-                                        </p:column>
+                                            <p:column headerText="Codigo" >  
+                                                <h:outputText value="#{nota.materia.codigo}"/>
+                                            </p:column>
 
-                                        <p:column headerText="Materia" >  
-                                            <h:outputText value="#{nota.grupo.materia.nombre}"/>
-                                        </p:column>
+                                            <p:column headerText="Materia" >  
+                                                <h:outputText value="#{nota.materia.nombre}"/>
+                                            </p:column>
 
-                                        <p:column headerText="Grupo" >  
-                                            <h:outputText value="#{nota.grupo.codigo}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="Modalidad" >  
-                                            <h:outputText value="#{nota.modalidad.abreviatura}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="1P" >  
-                                            <h:outputText value="#{nota.primerParcial}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="2P" >  
-                                            <h:outputText value="#{nota.segundoParcial}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="3P" >  
-                                            <h:outputText value="#{nota.tercerParcial}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="4P">  
-                                            <h:outputText value="#{nota.cuartoParcial}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="NF" >  
-                                            <h:outputText value="#{nota.notaFinal}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="RE" >  
-                                            <h:outputText value="#{nota.recuperatorio}"/>
-                                        </p:column>
-                                        
-                                        <p:column headerText="Condicion" >  
-                                            <h:outputText value="#{nota.condicion}"/>
-                                        </p:column>
-                                    </p:dataTable>
+                                            <p:column headerText="Grupo" >  
+                                                <h:outputText value="#{nota.grupo.codigo}"/>
+                                            </p:column>
+
+                                            <p:column headerText="MO" >  
+                                                <h:outputText value="#{nota.modalidad.abreviatura}"/>
+                                            </p:column>
+
+                                            <p:column headerText="1P" >  
+                                                <h:outputText value="#{nota.primerParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="2P" >  
+                                                <h:outputText value="#{nota.segundoParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="3P" >  
+                                                <h:outputText value="#{nota.tercerParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="NF" >  
+                                                <h:outputText value="#{nota.notaFinal}"/>
+                                            </p:column>
+
+                                            <p:column headerText="RE" >  
+                                                <h:outputText value="#{nota.recuperatorio}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Condicion" >  
+                                                <h:outputText value="#{nota.condicion}"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+                                        <p:dataTable id="historialAcademicoAnual" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}" reflow="true" 
+                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                     rendered="#{HistorialAcademicoEstudianteController.seleccionCarrera.regimen.cantidadParciales == 4}">
+                                            <p:column headerText="Gestion" groupRow="true">  
+                                                <h:outputText value="#{nota.gestionAcademica.toString()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nivel">  
+                                                <h:outputText value="#{nota.materia.nivel.toString()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Codigo" >  
+                                                <h:outputText value="#{nota.materia.codigo}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Materia" >  
+                                                <h:outputText value="#{nota.materia.nombre}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Grupo" >  
+                                                <h:outputText value="#{nota.grupo.codigo}"/>
+                                            </p:column>
+
+                                            <p:column headerText="MO" >  
+                                                <h:outputText value="#{nota.modalidad.abreviatura}"/>
+                                            </p:column>
+
+                                            <p:column headerText="1P" >  
+                                                <h:outputText value="#{nota.primerParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="2P" >  
+                                                <h:outputText value="#{nota.segundoParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="3P" >  
+                                                <h:outputText value="#{nota.tercerParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="4P">  
+                                                <h:outputText value="#{nota.cuartoParcial}"/>
+                                            </p:column>
+
+                                            <p:column headerText="NF" >  
+                                                <h:outputText value="#{nota.notaFinal}"/>
+                                            </p:column>
+
+                                            <p:column headerText="RE" >  
+                                                <h:outputText value="#{nota.recuperatorio}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Condicion" >  
+                                                <h:outputText value="#{nota.condicion}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:outputPanel>
                                 </div>
                             </div>
                         </h:form>

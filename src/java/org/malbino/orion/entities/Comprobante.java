@@ -7,6 +7,7 @@ package org.malbino.orion.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -113,6 +114,38 @@ public class Comprobante implements Serializable {
     public void setInscrito(Inscrito inscrito) {
         this.inscrito = inscrito;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.id_comprobante);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Comprobante other = (Comprobante) obj;
+        if (!Objects.equals(this.id_comprobante, other.id_comprobante)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return codigo + " [" + fecha_ddMMyyyy() + "]";
+    }
+    
+    
     
     public String fecha_ddMMyyyy(){
         return Fecha.formatearFecha_ddMMyyyy(fecha);

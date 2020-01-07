@@ -27,7 +27,7 @@
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nivel" value="Nivel:" style="font-size: small"/>
-                                            <p:selectOneMenu id="nivel" value="#{MateriaController.seleccionMateria.nivel}" converter="#{NivelMateriaConverter}" required="true" requiredMessage="* Nivel requerido."> 
+                                            <p:selectOneMenu id="nivel" value="#{MateriaController.seleccionMateria.nivel}" converter="#{NivelMateriaConverter}" autoWidth="false" required="true" requiredMessage="* Nivel requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{MateriaController.listaNiveles()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
                                             </p:selectOneMenu> 

@@ -57,7 +57,7 @@ public class PruebaRecuperacionController extends AbstractController implements 
 
     public void editarNota(Nota nota) {
         if (nota.getRecuperatorio() != null) {
-            if (nota.getRecuperatorio() >= nota.getGrupo().getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+            if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                 nota.setCondicion(Condicion.APROBADO);
             } else {
                 nota.setCondicion(Condicion.REPROBADO);

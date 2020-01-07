@@ -47,7 +47,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="lugarExpedicion" value="Lugar expedición:" style="font-size: small"/>
-                                            <p:selectOneMenu id="lugarExpedicion" value="#{EmpleadoController.seleccionEmpleado.lugarExpedicion}" converter="#{LugarExpedicionConverter}" required="true" requiredMessage="* Lugar expedición requerido."> 
+                                            <p:selectOneMenu id="lugarExpedicion" value="#{EmpleadoController.seleccionEmpleado.lugarExpedicion}" converter="#{LugarExpedicionConverter}" autoWidth="false" required="true" requiredMessage="* Lugar expedición requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EmpleadoController.listaLugaresExpedicion()}" var="lugarExpedicion" itemLabel="#{lugarExpedicion}" itemValue="#{lugarExpedicion}"/>  
                                             </p:selectOneMenu> 
@@ -70,7 +70,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="sexo" value="Sexo:" style="font-size: small"/>
-                                            <p:selectOneMenu id="sexo" value="#{EmpleadoController.seleccionEmpleado.sexo}" converter="#{SexoConverter}" required="true" requiredMessage="* Sexo requerido."> 
+                                            <p:selectOneMenu id="sexo" value="#{EmpleadoController.seleccionEmpleado.sexo}" converter="#{SexoConverter}" autoWidth="false" required="true" requiredMessage="* Sexo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EmpleadoController.listaSexos()}" var="sexo" itemLabel="#{sexo}" itemValue="#{sexo}"/>  
                                             </p:selectOneMenu> 

@@ -23,7 +23,7 @@ import org.malbino.orion.enums.Modalidad;
  * @author malbino
  */
 @Entity
-@Table(name = "nota", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"inscrito", "grupo"}))
+@Table(name = "nota", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"gestionAcademica", "materia", "estudiante"}))
 public class Nota implements Serializable {
 
     @Id
@@ -39,6 +39,18 @@ public class Nota implements Serializable {
     private Modalidad modalidad;
     private Condicion condicion;
 
+    @JoinColumn(name = "id_gestionacademica")
+    @ManyToOne
+    private GestionAcademica gestionAcademica;
+
+    @JoinColumn(name = "id_materia")
+    @ManyToOne
+    private Materia materia;
+
+    @JoinColumn(name = "id_estudiante")
+    @ManyToOne
+    private Estudiante estudiante;
+
     @JoinColumn(name = "id_inscrito")
     @ManyToOne
     private Inscrito inscrito;
@@ -50,10 +62,25 @@ public class Nota implements Serializable {
     public Nota() {
     }
 
-    public Nota(Modalidad modalidad, Condicion condicion, Inscrito inscrito, Grupo grupo) {
+    public Nota(Modalidad modalidad, Condicion condicion, GestionAcademica gestionAcademica, Materia materia, Estudiante estudiante, Inscrito inscrito, Grupo grupo) {
+        this.modalidad = modalidad;
+        this.condicion = condicion;
+        this.gestionAcademica = gestionAcademica;
+        this.materia = materia;
+        this.estudiante = estudiante;
         this.inscrito = inscrito;
         this.grupo = grupo;
     }
+
+    public Nota(Modalidad modalidad, Condicion condicion, GestionAcademica gestionAcademica, Materia materia, Estudiante estudiante) {
+        this.modalidad = modalidad;
+        this.condicion = condicion;
+        this.gestionAcademica = gestionAcademica;
+        this.materia = materia;
+        this.estudiante = estudiante;
+    }
+
+    
 
     /**
      * @return the id_nota
@@ -179,6 +206,48 @@ public class Nota implements Serializable {
      */
     public void setCondicion(Condicion condicion) {
         this.condicion = condicion;
+    }
+
+    /**
+     * @return the gestionAcademica
+     */
+    public GestionAcademica getGestionAcademica() {
+        return gestionAcademica;
+    }
+
+    /**
+     * @param gestionAcademica the gestionAcademica to set
+     */
+    public void setGestionAcademica(GestionAcademica gestionAcademica) {
+        this.gestionAcademica = gestionAcademica;
+    }
+
+    /**
+     * @return the materia
+     */
+    public Materia getMateria() {
+        return materia;
+    }
+
+    /**
+     * @param materia the materia to set
+     */
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
+
+    /**
+     * @return the estudiante
+     */
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    /**
+     * @param estudiante the estudiante to set
+     */
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 
     /**

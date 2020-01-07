@@ -6,11 +6,18 @@
 package org.malbino.orion.entities;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -25,7 +32,15 @@ public class Estudiante extends Usuario implements Serializable {
 
     @Column(unique = true)
     private String codigo;
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
     private Boolean tituloBachiller;
+
+    @JoinTable(name = "cursa", catalog = "orion", schema = "public", joinColumns = {
+        @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_carrera", referencedColumnName = "id_carrera")})
+    @ManyToMany
+    private List<Carrera> carreras;
 
     public Estudiante() {
     }
@@ -45,6 +60,20 @@ public class Estudiante extends Usuario implements Serializable {
     }
 
     /**
+     * @return the fecha
+     */
+    public Date getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @param fecha the fecha to set
+     */
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
      * @return the tituloBachiller
      */
     public Boolean getTituloBachiller() {
@@ -56,5 +85,19 @@ public class Estudiante extends Usuario implements Serializable {
      */
     public void setTituloBachiller(Boolean tituloBachiller) {
         this.tituloBachiller = tituloBachiller;
+    }
+
+    /**
+     * @return the carreras
+     */
+    public List<Carrera> getCarreras() {
+        return carreras;
+    }
+
+    /**
+     * @param carreras the carreras to set
+     */
+    public void setCarreras(List<Carrera> carreras) {
+        this.carreras = carreras;
     }
 }

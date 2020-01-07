@@ -99,16 +99,16 @@ public class SegundoParcialController extends AbstractController implements Seri
             if (nota.getTercerParcial() != null) {
                 sum += nota.getTercerParcial();
             }
-            if (nota.getGrupo().getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
+            if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
                 if (nota.getCuartoParcial() != null) {
                     sum += nota.getCuartoParcial();
                 }
             }
-            Double promedio = sum.doubleValue() / nota.getGrupo().getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
+            Double promedio = sum.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
             Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
             nota.setNotaFinal(promedioRedondeado);
 
-            if (nota.getNotaFinal() >= nota.getGrupo().getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+            if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                 nota.setCondicion(Condicion.APROBADO);
             } else {
                 nota.setCondicion(Condicion.REPROBADO);

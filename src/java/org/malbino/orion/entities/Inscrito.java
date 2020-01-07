@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Tipo;
 
@@ -62,8 +61,6 @@ public class Inscrito implements Serializable {
         this.carrera = carrera;
         this.gestionAcademica = gestionAcademica;
     }
-    
-    
 
     /**
      * @return the id_inscrito

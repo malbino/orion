@@ -23,6 +23,7 @@ import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.enums.LugarExpedicion;
+import org.malbino.orion.enums.Modalidad;
 import org.malbino.orion.enums.NivelAcademico;
 import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Regimen;
@@ -185,5 +186,9 @@ public abstract class AbstractController implements Serializable {
     
     public Funcionalidad[] listaFuncionalidades() {
         return Funcionalidad.values();
+    }
+    
+    public Modalidad[] listaModalidades() {
+        return Modalidad.values();
     }
 }

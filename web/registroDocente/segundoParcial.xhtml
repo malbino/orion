@@ -27,7 +27,7 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="gestionAcademica" value="#{SegundoParcialController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" required="true" requiredMessage="* Gestion academica requerida."> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{SegundoParcialController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{SegundoParcialController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
 
@@ -36,7 +36,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="carrera" value="#{SegundoParcialController.seleccionCarrera}" converter="#{CarreraConverter}" required="true" requiredMessage="* Carrera requerida."> 
+                                            <p:selectOneMenu id="carrera" value="#{SegundoParcialController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{SegundoParcialController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
 
@@ -45,7 +45,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="grupo" value="#{SegundoParcialController.seleccionGrupo}" converter="#{GrupoConverter}" required="true" requiredMessage="* Grupo requerido."> 
+                                            <p:selectOneMenu id="grupo" value="#{SegundoParcialController.seleccionGrupo}" converter="#{GrupoConverter}" autoWidth="false" required="true" requiredMessage="* Grupo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{SegundoParcialController.listaGrupos()}" var="grupo" itemLabel="#{grupo.toString()}" itemValue="#{grupo}"/>  
 
@@ -89,7 +89,7 @@
                                                 <h:outputText value="#{nota.inscrito.estudiante.toString()}"/>
                                             </p:column>
 
-                                            <p:column headerText="Modalidad" style="text-align: center;">  
+                                            <p:column headerText="MO" style="text-align: center;">  
                                                 <h:outputText value="#{nota.modalidad.abreviatura}"/>
                                             </p:column>
 
@@ -138,7 +138,7 @@
                                                 <h:outputText value="#{nota.inscrito.estudiante.toString()}"/>
                                             </p:column>
 
-                                            <p:column headerText="Modalidad" style="text-align: center;">  
+                                            <p:column headerText="MO" style="text-align: center;">  
                                                 <h:outputText value="#{nota.modalidad.abreviatura}"/>
                                             </p:column>
 

@@ -10,11 +10,11 @@
         <ui:composition template="./WEB-INF/loginTemplate.xhtml">
 
             <ui:define name="content">
-                <h:form>
+                <h:form id="form">
                     <h1>Iniciar sesión</h1>
 
                     <div>
-                        <p:messages id="messages"/> 
+                        <p:messages/> 
                     </div>
 
                     <div>
@@ -24,7 +24,7 @@
                         <p:password value="#{LoginController.contrasena}" placeholder="Contraseña" required="true" requiredMessage="* Contraseña requerida"/>
                     </div>
                     <div>
-                        <p:commandButton value="Ingresar" icon="fa fa-user" actionListener="#{LoginController.login()}" update="messages"/>
+                        <p:commandButton value="Ingresar" icon="fa fa-user" actionListener="#{LoginController.login()}" update="form"/>
                     </div>
 
                     <div class="clearfix"></div>

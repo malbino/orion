@@ -15,7 +15,6 @@ import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
-import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
 

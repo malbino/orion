@@ -32,19 +32,19 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="periodo" value="Periodo:" style="font-size: small"/>
-                                            <p:selectOneMenu id="periodo" value="#{GestionAcademicaController.nuevaGestionAcademica.periodo}" converter="#{PeriodoConverter}" required="true" requiredMessage="* Periodo requerido."> 
+                                            <p:selectOneMenu id="periodo" value="#{GestionAcademicaController.nuevaGestionAcademica.periodo}" converter="#{PeriodoConverter}" autoWidth="false" required="true" requiredMessage="* Periodo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{GestionAcademicaController.listaPeriodos()}" var="periodo" itemLabel="#{periodo.toString()}" itemValue="#{periodo}"/>  
                                             </p:selectOneMenu> 
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="inicio" value="Inicio:"/>
+                                            <p:outputLabel for="inicio" value="Inicio:" style="font-size: small"/>
                                             <p:calendar id="inicio" value="#{GestionAcademicaController.nuevaGestionAcademica.inicio}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Inicio requerido."/>  
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="fin" value="Fin:"/>
+                                            <p:outputLabel for="fin" value="Fin:" style="font-size: small"/>
                                             <p:calendar id="fin" value="#{GestionAcademicaController.nuevaGestionAcademica.fin}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Inicio requerido."/>  
                                         </div>
 

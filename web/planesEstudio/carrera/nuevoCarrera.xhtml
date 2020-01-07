@@ -37,7 +37,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="regimen" value="Régimen:" style="font-size: small"/>
-                                            <p:selectOneMenu id="regimen" value="#{CarreraController.nuevaCarrera.regimen}" converter="#{RegimenConverter}" required="true" requiredMessage="* Regimen requerido."> 
+                                            <p:selectOneMenu id="regimen" value="#{CarreraController.nuevaCarrera.regimen}" converter="#{RegimenConverter}" autoWidth="false" required="true" requiredMessage="* Regimen requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{CarreraController.listaRegimenes()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
                                             </p:selectOneMenu> 
@@ -45,7 +45,7 @@
                                         
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nivelAcademico" value="Nivel académico:" style="font-size: small"/>
-                                            <p:selectOneMenu id="nivelAcademico" value="#{CarreraController.nuevaCarrera.nivelAcademico}" converter="#{NivelAcademicoConverter}" required="true" requiredMessage="* Nivel académico requerido."> 
+                                            <p:selectOneMenu id="nivelAcademico" value="#{CarreraController.nuevaCarrera.nivelAcademico}" converter="#{NivelAcademicoConverter}" autoWidth="false" required="true" requiredMessage="* Nivel académico requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{CarreraController.listaNivelesAcademicos()}" var="nivelAcademico" itemLabel="#{nivelAcademico.toString()}" itemValue="#{nivelAcademico}"/>  
                                             </p:selectOneMenu> 

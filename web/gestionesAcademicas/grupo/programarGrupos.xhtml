@@ -27,7 +27,7 @@
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nivel" value="Nivel:" style="font-size: small"/>
-                                            <p:selectOneMenu id="nivel" value="#{GrupoController.seleccionNivel}" converter="#{NivelConverter}" required="true" requiredMessage="* Nivel requerido."> 
+                                            <p:selectOneMenu id="nivel" value="#{GrupoController.seleccionNivel}" converter="#{NivelConverter}" autoWidth="false" required="true" requiredMessage="* Nivel requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{GrupoController.listaNiveles()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
                                             </p:selectOneMenu> 
@@ -35,7 +35,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="turno" value="Turno:" style="font-size: small"/>
-                                            <p:selectOneMenu id="turno" value="#{GrupoController.seleccionTurno}" converter="#{TurnoConverter}" required="true" requiredMessage="* Turno requerido."> 
+                                            <p:selectOneMenu id="turno" value="#{GrupoController.seleccionTurno}" converter="#{TurnoConverter}" autoWidth="false" required="true" requiredMessage="* Turno requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{GrupoController.listaTurnos()}" var="turno" itemLabel="#{turno.toString()}" itemValue="#{turno}"/>  
                                             </p:selectOneMenu> 

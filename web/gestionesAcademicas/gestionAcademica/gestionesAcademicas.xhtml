@@ -25,7 +25,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="regimen" value="#{GestionAcademicaController.seleccionRegimen}" converter="#{RegimenConverter}" required="true" requiredMessage="* Regimen requerido."> 
+                                            <p:selectOneMenu id="regimen" value="#{GestionAcademicaController.seleccionRegimen}" converter="#{RegimenConverter}" autoWidth="false" required="true" requiredMessage="* Regimen requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{GestionAcademicaController.listaRegimenes()}" var="regimen" itemLabel="#{regimen.toString()}" itemValue="#{regimen}"/>  
                                                 
@@ -87,11 +87,11 @@
                                         </p:column>
 
                                         <p:column headerText="Inicio" >  
-                                            <h:outputText value="#{gestionAcademica.inicioToString()}"/>
+                                            <h:outputText value="#{gestionAcademica.inicio_ddMMyyyy()}"/>
                                         </p:column>
 
                                         <p:column headerText="Fin" >  
-                                            <h:outputText value="#{gestionAcademica.finToString()}"/>
+                                            <h:outputText value="#{gestionAcademica.fin_ddMMyyyy()}"/>
                                         </p:column>
 
                                         <p:column headerText="Vigente" >  

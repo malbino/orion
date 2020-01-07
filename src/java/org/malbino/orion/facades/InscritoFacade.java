@@ -13,8 +13,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
-import org.malbino.orion.enums.Condicion;
-import org.malbino.orion.enums.Tipo;
 
 /**
  *
@@ -34,22 +32,6 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
     @Override
     public EntityManager getEntityManager() {
         return em;
-    }
-
-    public long cantidadInscritos(int id_gestioncademica, Tipo tipo) {
-        long l = 0;
-
-        try {
-            Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga WHERE ga.id_gestionacademica=:id_gestionacademica AND i.tipo=:tipo");
-            q.setParameter("id_gestionacademica", id_gestioncademica);
-            q.setParameter("tipo", tipo);
-
-            l = (long) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return l;
     }
 
     public long cantidadInscritos(int id_gestioncademica, int id_carrera) {
@@ -99,7 +81,7 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
 
         return i;
     }
-    
+
     public List<Inscrito> listaInscritosPruebaRecuperacion(GestionAcademica gestionAcademica, int id_persona) {
         List<Inscrito> l = new ArrayList();
 
@@ -109,7 +91,7 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
             q.setParameter("id_persona", id_persona);
             q.setParameter("notaMinimaAprobacion", gestionAcademica.getRegimen().getNotaMinimaAprobacion());
             q.setParameter("cantidadMaximaReprobaciones", gestionAcademica.getRegimen().getCantidadMaximaReprobaciones());
-            
+
             l = q.getResultList();
         } catch (Exception e) {
 

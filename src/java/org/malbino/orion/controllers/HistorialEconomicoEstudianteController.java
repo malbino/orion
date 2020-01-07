@@ -14,7 +14,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Detalle;
+import org.malbino.orion.entities.Pago;
 import org.malbino.orion.facades.DetalleFacade;
+import org.malbino.orion.facades.PagoFacade;
 
 /**
  *
@@ -27,10 +29,10 @@ public class HistorialEconomicoEstudianteController extends AbstractController i
     @Inject
     LoginController loginController;
     @EJB
-    DetalleFacade detalleFacade;
+    PagoFacade pagoFacade;
 
     private Carrera seleccionCarrera;
-    private List<Detalle> historialEconomico;
+    private List<Pago> historialEconomico;
 
     @PostConstruct
     public void init() {
@@ -39,7 +41,7 @@ public class HistorialEconomicoEstudianteController extends AbstractController i
 
     public void reinit() {
         if (seleccionCarrera != null) {
-            historialEconomico = detalleFacade.kardexEconomico(loginController.getUsr().getId_persona(), seleccionCarrera.getId_carrera());
+            historialEconomico = pagoFacade.kardexEconomico(loginController.getUsr().getId_persona(), seleccionCarrera.getId_carrera());
         }
     }
 
@@ -50,14 +52,6 @@ public class HistorialEconomicoEstudianteController extends AbstractController i
             l = carreraFacade.listaCarrerasEstudiante(loginController.getUsr().getId_persona());
         }
         return l;
-    }
-
-    public int total() {
-        int t = 0;
-        for (Detalle detalle : historialEconomico) {
-            t += detalle.getMonto();
-        }
-        return t;
     }
 
     /**
@@ -77,14 +71,14 @@ public class HistorialEconomicoEstudianteController extends AbstractController i
     /**
      * @return the historialEconomico
      */
-    public List<Detalle> getHistorialEconomico() {
+    public List<Pago> getHistorialEconomico() {
         return historialEconomico;
     }
 
     /**
      * @param historialEconomico the historialEconomico to set
      */
-    public void setHistorialEconomico(List<Detalle> historialEconomico) {
+    public void setHistorialEconomico(List<Pago> historialEconomico) {
         this.historialEconomico = historialEconomico;
     }
 

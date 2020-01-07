@@ -25,7 +25,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="gestionAcademica" value="#{GrupoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" required="true" requiredMessage="* Gestion academica requerida."> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{GrupoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{GrupoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
 
@@ -34,7 +34,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="carrera" value="#{GrupoController.seleccionCarrera}" converter="#{CarreraConverter}" required="true" requiredMessage="* Carrera requerida."> 
+                                            <p:selectOneMenu id="carrera" value="#{GrupoController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{GrupoController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
 

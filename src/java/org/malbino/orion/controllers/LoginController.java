@@ -43,22 +43,16 @@ public class LoginController extends AbstractController {
     private List<Actividad> listaActividadesProximas;
 
     public void login() throws IOException {
-        usr = usuarioFacade.buscarPorUsuario(getUsuario());
-        if (usr != null) {
-            if (Encriptador.comparar(contrasena, usr.getContrasena())) {
-                listaRecursos = recursoFacade.buscarPorPersonaNombre(usr.getId_persona());
-                listaActividadesProximas = actividadFacade.listaActividadesProximas(Fecha.getInicioDia(Fecha.getDate()));
+        usr = usuarioFacade.buscarPorUsuario(usuario);
+        if (usr != null && usr.getContrasena() != null && Encriptador.comparar(contrasena, usr.getContrasena())) {
+            listaRecursos = recursoFacade.buscarPorPersonaNombre(usr.getId_persona());
+            listaActividadesProximas = actividadFacade.listaActividadesProximas(Fecha.getInicioDia(Fecha.getDate()));
 
-                toHome();
-            } else {
-                limpiar();
-
-                mensajeDeError("Contraseña invalida.");
-            }
+            toHome();
         } else {
             limpiar();
 
-            mensajeDeError("Usuario invalido.");
+            mensajeDeError("Autenticación fallida.");
         }
     }
 

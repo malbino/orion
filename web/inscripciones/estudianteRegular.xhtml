@@ -37,7 +37,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrera" value="Carrera:" style="font-size: small"/> 
-                                            <p:selectOneMenu id="carrera" value="#{EstudianteRegularController.seleccionCarrera}" converter="#{CarreraConverter}" required="true" requiredMessage="* Carrera requerida."> 
+                                            <p:selectOneMenu id="carrera" value="#{EstudianteRegularController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EstudianteRegularController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
 
@@ -47,7 +47,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="gestionAcademica" value="Gestion academica:" style="font-size: small"/> 
-                                            <p:selectOneMenu id="gestionAcademica" value="#{EstudianteRegularController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" required="true" requiredMessage="* Gestion academica requerida."> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{EstudianteRegularController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EstudianteRegularController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
                                             </p:selectOneMenu>

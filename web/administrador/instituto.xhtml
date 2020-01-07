@@ -44,7 +44,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="caracter" value="Caracter:" style="font-size: small"/>
-                                            <p:selectOneMenu id="caracter" value="#{InstitutoController.instituto.caracter}" converter="#{CaracterConverter}" required="true" requiredMessage="* Caracter requerido."> 
+                                            <p:selectOneMenu id="caracter" value="#{InstitutoController.instituto.caracter}" converter="#{CaracterConverter}" autoWidth="false" required="true" requiredMessage="* Caracter requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{InstitutoController.listaCaracteres()}" var="caracter" itemLabel="#{caracter}" itemValue="#{caracter}"/>  
                                             </p:selectOneMenu> 

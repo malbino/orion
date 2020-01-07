@@ -151,7 +151,7 @@ public class MateriaFacade extends AbstractFacade<Materia> {
          List<Nivel> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT DISTINCT m.nivel FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.id_materia NOT IN (SELECT m.id_materia FROM Nota n JOIN n.inscrito i JOIN i.estudiante e JOIN i.carrera c JOIN n.grupo g JOIN g.materia m WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion) ORDER BY m.nivel, m.numero");
+            Query q = em.createQuery("SELECT DISTINCT m.nivel FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.id_materia NOT IN (SELECT m.id_materia FROM Nota n JOIN n.estudiante e JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion) ORDER BY m.nivel, m.numero");
             q.setParameter("id_persona", id_persona);
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("condicion", Condicion.APROBADO);
@@ -168,7 +168,7 @@ public class MateriaFacade extends AbstractFacade<Materia> {
          List<Materia> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT m FROM Nota n JOIN n.inscrito i JOIN i.estudiante e JOIN i.carrera c JOIN n.grupo g JOIN g.materia m WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion ORDER BY m.numero");
+            Query q = em.createQuery("SELECT m FROM Nota n JOIN n.estudiante e JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion ORDER BY m.numero");
             q.setParameter("id_persona", id_persona);
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("condicion", Condicion.APROBADO);

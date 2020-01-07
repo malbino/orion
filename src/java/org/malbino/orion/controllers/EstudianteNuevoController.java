@@ -14,8 +14,10 @@ import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
-import org.malbino.orion.facades.EstudianteFacade;
+import org.malbino.orion.enums.Funcionalidad;
+import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -28,7 +30,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     @EJB
     InscripcionesFacade inscripcionesFacade;
     @EJB
-    EstudianteFacade estudianteFacade;
+    ActividadFacade actividadFacade;
 
     private Estudiante nuevoEstudiante;
     private GestionAcademica seleccionGestionAcademica;
@@ -57,16 +59,20 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     }
 
     public void registrarEstudiante() {
-        if (estudianteFacade.buscarPorDni(nuevoEstudiante.getDni()) == null) {
-            if (inscripcionesFacade.registrarEstudianteNuevo(nuevoEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
-                reinit();
+        if (!actividadFacade.listaActividades(nuevoEstudiante.getFecha(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
+            if (estudianteFacade.buscarPorDni(nuevoEstudiante.getDni()) == null) {
+                if (inscripcionesFacade.registrarEstudianteNuevo(nuevoEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
+                    reinit();
 
-                this.mensajeDeInformacion("Guardado.");
+                    this.mensajeDeInformacion("Guardado.");
+                } else {
+                    this.mensajeDeError("No se pudo registrar al estudiante.");
+                }
             } else {
-                this.mensajeDeError("No se pudo registrar al estudiante.");
+                this.mensajeDeError("Estudiante repetido.");
             }
         } else {
-            this.mensajeDeError("Estudiante repetido.");
+            this.mensajeDeError("Fuera de fecha.");
         }
     }
 

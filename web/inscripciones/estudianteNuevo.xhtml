@@ -47,7 +47,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="lugarExpedicion" value="Lugar expedición:" style="font-size: small"/>
-                                            <p:selectOneMenu id="lugarExpedicion" value="#{EstudianteNuevoController.nuevoEstudiante.lugarExpedicion}" converter="#{LugarExpedicionConverter}" required="true" requiredMessage="* Lugar expedición requerido."> 
+                                            <p:selectOneMenu id="lugarExpedicion" value="#{EstudianteNuevoController.nuevoEstudiante.lugarExpedicion}" converter="#{LugarExpedicionConverter}" autoWidth="false" required="true" requiredMessage="* Lugar expedición requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EstudianteNuevoController.listaLugaresExpedicion()}" var="lugarExpedicion" itemLabel="#{lugarExpedicion}" itemValue="#{lugarExpedicion}"/>  
                                             </p:selectOneMenu> 
@@ -70,7 +70,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="sexo" value="Sexo:" style="font-size: small"/>
-                                            <p:selectOneMenu id="sexo" value="#{EstudianteNuevoController.nuevoEstudiante.sexo}" converter="#{SexoConverter}" required="true" requiredMessage="* Sexo requerido."> 
+                                            <p:selectOneMenu id="sexo" value="#{EstudianteNuevoController.nuevoEstudiante.sexo}" converter="#{SexoConverter}" autoWidth="false" required="true" requiredMessage="* Sexo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EmpleadoController.listaSexos()}" var="sexo" itemLabel="#{sexo}" itemValue="#{sexo}"/>  
                                             </p:selectOneMenu> 
@@ -99,27 +99,30 @@
                                                 <f:validator validatorId="validators.emailValidator" />
                                             </p:inputText>
                                         </div>
-                                    </div>
 
-                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
+                                            <p:calendar id="fecha" value="#{EstudianteNuevoController.nuevoEstudiante.fecha}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
+                                        </div>
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="tituloBachiller" value="Título bachiller:" style="font-size: small"/>
                                             <p:selectBooleanButton id="tituloBachiller" value="#{EstudianteNuevoController.nuevoEstudiante.tituloBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="gestionAcademica" value="Gestion academica:" style="font-size: small"/> 
-                                            <p:selectOneMenu id="gestionAcademica" value="#{EstudianteNuevoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" required="true" requiredMessage="* Gestion academica requerida."> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{EstudianteNuevoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EstudianteNuevoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
 
                                                 <p:ajax update="carrera"/>
                                             </p:selectOneMenu>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrera" value="Carrera:" style="font-size: small"/> 
-                                            <p:selectOneMenu id="carrera" value="#{EstudianteNuevoController.seleccionCarrera}" converter="#{CarreraConverter}" required="true" requiredMessage="* Carrera requerida."> 
+                                            <p:selectOneMenu id="carrera" value="#{EstudianteNuevoController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EstudianteNuevoController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
                                             </p:selectOneMenu>
