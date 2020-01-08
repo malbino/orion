@@ -216,10 +216,10 @@ public class Materia implements Serializable {
     }
 
     public String prerequisitosToString() {
-        String s = "";
+        String s = " ";
         for (Materia m : prerequisitos) {
-            if (s.compareTo("") == 0) {
-                s += m.getCodigo();
+            if (s.compareTo(" ") == 0) {
+                s = m.getCodigo();
             } else {
                 s += ", " + m.getCodigo();
             }

@@ -146,9 +146,9 @@ public class MateriaFacade extends AbstractFacade<Materia> {
 
         return l;
     }
-    
-    public List<Nivel> nivelesPendientes(int id_persona, int id_carrera){
-         List<Nivel> l = new ArrayList();
+
+    public List<Nivel> nivelesPendientes(int id_persona, int id_carrera) {
+        List<Nivel> l = new ArrayList();
 
         try {
             Query q = em.createQuery("SELECT DISTINCT m.nivel FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.id_materia NOT IN (SELECT m.id_materia FROM Nota n JOIN n.estudiante e JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion) ORDER BY m.nivel, m.numero");
@@ -163,9 +163,9 @@ public class MateriaFacade extends AbstractFacade<Materia> {
 
         return l;
     }
-    
-    public List<Materia> listaMateriaAprobadas(int id_persona, int id_carrera){
-         List<Materia> l = new ArrayList();
+
+    public List<Materia> listaMateriaAprobadas(int id_persona, int id_carrera) {
+        List<Materia> l = new ArrayList();
 
         try {
             Query q = em.createQuery("SELECT m FROM Nota n JOIN n.estudiante e JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion ORDER BY m.numero");
@@ -174,6 +174,22 @@ public class MateriaFacade extends AbstractFacade<Materia> {
             q.setParameter("condicion", Condicion.APROBADO);
 
             l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public long cantidadMaximaMateriasNivel(int id_carrera) {
+        long l = 0;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(m) AS cantidad FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera GROUP BY m.nivel ORDER BY cantidad DESC");
+            q.setParameter("id_carrera", id_carrera);
+            q.setMaxResults(1);
+
+            l = (long) q.getSingleResult();
         } catch (Exception e) {
 
         }

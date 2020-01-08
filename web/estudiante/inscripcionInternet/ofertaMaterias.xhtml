@@ -40,11 +40,11 @@
 
                                         <p:column headerText="Grupo">
                                             <p:cellEditor>
-                                                <f:facet name="output"><h:outputText value="#{materia.grupo}"/></f:facet>
+                                                <f:facet name="output"><h:outputText value="#{materia.grupo.toString_InscripcionInternet()}"/></f:facet>
                                                 <f:facet name="input">
                                                     <h:selectOneMenu value="#{materia.grupo}" converter="#{GrupoConverter}" style="width:100%">
                                                         <f:selectItem itemLabel="" itemValue="" />
-                                                        <f:selectItems value="#{InscripcionInternetController.listaGruposAbiertos(materia)}" var="grupo" itemLabel="#{grupo}" itemValue="#{grupo}" />
+                                                        <f:selectItems value="#{InscripcionInternetController.listaGruposAbiertos(materia)}" var="grupo" itemLabel="#{grupo.toString_InscripcionInternet()}" itemValue="#{grupo}" />
                                                     </h:selectOneMenu>
                                                 </f:facet>
                                             </p:cellEditor>

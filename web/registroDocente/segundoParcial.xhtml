@@ -47,7 +47,7 @@
                                         <div class="ui-g-12 ui-md-4">
                                             <p:selectOneMenu id="grupo" value="#{SegundoParcialController.seleccionGrupo}" converter="#{GrupoConverter}" autoWidth="false" required="true" requiredMessage="* Grupo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{SegundoParcialController.listaGrupos()}" var="grupo" itemLabel="#{grupo.toString()}" itemValue="#{grupo}"/>  
+                                                <f:selectItems value="#{SegundoParcialController.listaGrupos()}" var="grupo" itemLabel="#{grupo.toString_RegistroParcial()}" itemValue="#{grupo}"/>  
 
                                                 <p:ajax listener="#{SegundoParcialController.actualizarNotas()}" update="toolbar panelNotas"/>
                                             </p:selectOneMenu>

@@ -201,10 +201,18 @@ public class Grupo implements Serializable {
 
     @Override
     public String toString() {
+        return codigo + " [" + turno.getNombre() + "]";
+    }
+
+    public String toString_InscripcionInternet() {
         String s = codigo + " [" + turno.getNombre() + ", Por designar]";
         if (empleado != null) {
             s = codigo + " [" + turno.getNombre() + ", " + empleado.toString() + "]";
         }
         return s;
+    }
+
+    public String toString_RegistroParcial() {
+        return materia.getNombre() + " [" + codigo + ", " + turno.getNombre() + "]";
     }
 }
