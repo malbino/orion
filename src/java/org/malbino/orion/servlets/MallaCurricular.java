@@ -155,7 +155,7 @@ public class MallaCurricular extends HttpServlet {
             cell.setBorder(Rectangle.NO_BORDER);
             subtable.addCell(cell);
 
-            long cantidadMaximaMateriasNivel = materiaFacade.cantidadMaximaMateriasNivel(carrera.getId_carrera());
+            Long cantidadMaximaMateriasNivel = materiaFacade.cantidadMaximaMateriasNivel(carrera.getId_carrera());
 
             List<Materia> materias = materiaFacade.listaMaterias(carrera.getId_carrera(), nivel);
             Iterator<Materia> iterator = materias.iterator();

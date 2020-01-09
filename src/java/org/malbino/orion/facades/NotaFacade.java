@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
@@ -136,7 +137,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return l;
     }
-    
+
     public List<Nota> listaNotasPrerequisito(int id_carrera, int id_persona, int id_materia) {
         List<Nota> l = new ArrayList();
 
@@ -148,7 +149,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            
+
         }
 
         return l;
@@ -166,9 +167,96 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            
+
         }
 
         return l;
+    }
+
+    public List<Nota> reporteHistorialAcademico(int id_persona, int id_carrera) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion, ga.periodo, m.nivel");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public GestionAcademica inicioFormacion(int id_carrera, int id_persona) {
+        GestionAcademica ga = null;
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT ga FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion, ga.periodo");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("condicion", Condicion.APROBADO);
+            q.setMaxResults(1);
+
+            ga = (GestionAcademica) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return ga;
+    }
+
+    public GestionAcademica finFormacion(int id_carrera, int id_persona) {
+        GestionAcademica ga = null;
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT ga FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion DESC, ga.periodo DESC");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("condicion", Condicion.APROBADO);
+            q.setMaxResults(1);
+
+            ga = (GestionAcademica) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return ga;
+    }
+
+    public Long cantidadNotasAprobadas(int id_carrera, int id_persona) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(n) FROM Nota n JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND m.curricular=TRUE AND n.condicion=:condicion");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public Double promedioReporteHistorialAcademico(int id_persona, int id_carrera) {
+        Double d = 0.0;
+
+        try {
+            Query q = em.createQuery("SELECT AVG(COALESCE(n.recuperatorio, n.notaFinal)) FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND m.curricular=TRUE AND n.condicion=:condicion");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            d = (Double) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return d;
     }
 }

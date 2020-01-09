@@ -181,15 +181,30 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return l;
     }
 
-    public long cantidadMaximaMateriasNivel(int id_carrera) {
-        long l = 0;
+    public Long cantidadMaximaMateriasNivel(int id_carrera) {
+        Long l = 0l;
 
         try {
             Query q = em.createQuery("SELECT COUNT(m) AS cantidad FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera GROUP BY m.nivel ORDER BY cantidad DESC");
             q.setParameter("id_carrera", id_carrera);
             q.setMaxResults(1);
 
-            l = (long) q.getSingleResult();
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public Long cantidadMaterias(int id_carrera) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(m) FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera");
+            q.setParameter("id_carrera", id_carrera);
+
+            l = (Long) q.getSingleResult();
         } catch (Exception e) {
 
         }

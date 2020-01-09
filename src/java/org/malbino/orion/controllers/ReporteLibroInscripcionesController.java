@@ -4,9 +4,11 @@
  */
 package org.malbino.orion.controllers;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
@@ -16,12 +18,23 @@ import org.malbino.orion.entities.GestionAcademica;
  *
  * @author Tincho
  */
-@Named("LibroInscripcionesController")
+@Named("ReporteLibroInscripcionesController")
 @SessionScoped
-public class LibroInscripcionesController extends AbstractController implements Serializable {
+public class ReporteLibroInscripcionesController extends AbstractController implements Serializable {
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
+
+    @PostConstruct
+    public void init() {
+        seleccionGestionAcademica = null;
+        seleccionCarrera = null;
+    }
+
+    public void reinit() {
+        seleccionGestionAcademica = null;
+        seleccionCarrera = null;
+    }
 
     @Override
     public List<Carrera> listaCarreras() {
@@ -32,11 +45,23 @@ public class LibroInscripcionesController extends AbstractController implements 
         return l;
     }
 
-    public void generarReporte() {
+    public void generarReporte() throws IOException {
         if (seleccionGestionAcademica != null && seleccionCarrera != null) {
             this.insertarParametro("id_gestionacademica", seleccionGestionAcademica.getId_gestionacademica());
             this.insertarParametro("id_carrera", seleccionCarrera.getId_carrera());
+
+            toLibroInscripciones();
         }
+    }
+
+    public void toReporteLibroInscripciones() throws IOException {
+        reinit();
+        
+        this.redireccionarViewId("/reportes/libroInscripciones/reporteLibroInscripciones");
+    }
+
+    public void toLibroInscripciones() throws IOException {
+        this.redireccionarViewId("/reportes/libroInscripciones/libroInscripciones");
     }
 
     /**
