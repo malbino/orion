@@ -35,15 +35,15 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
         return em;
     }
 
-    public long cantidadComprobantes(Date fecha) {
-        long l = 0;
+    public Long cantidadComprobantes(Date fecha) {
+        Long l = 0l;
 
         try {
             Query q = em.createQuery("SELECT COUNT(c) FROM Comprobante c WHERE c.fecha BETWEEN :inicio AND :fin");
             q.setParameter("inicio", Fecha.getInicioAño(fecha));
             q.setParameter("fin", Fecha.getFinAño(fecha));
 
-            l = (long) q.getSingleResult();
+            l = (Long) q.getSingleResult();
         } catch (Exception e) {
 
         }

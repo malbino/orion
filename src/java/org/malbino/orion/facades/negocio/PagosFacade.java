@@ -35,56 +35,56 @@ public class PagosFacade {
     ComprobanteFacade comprobanteFacade;
     @EJB
     DetalleFacade detalleFacade;
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean nuevoPago(Comprobante comprobante, List<Pago> pagos) {
-        long cantidadComprobantes = comprobanteFacade.cantidadComprobantes(comprobante.getFecha());
-        comprobante.setCodigo(String.format("%05d", (cantidadComprobantes + 1)) + "/" + Fecha.extrarAño(comprobante.getFecha()));
+        Integer c1 = comprobanteFacade.cantidadComprobantes(comprobante.getFecha()).intValue() + 1;
+        comprobante.setCodigo(String.format("%05d", c1) + "/" + Fecha.extrarAño(comprobante.getFecha()));
         em.persist(comprobante);
-        
+
         for (Pago pago : pagos) {
             Detalle detalle = new Detalle(pago.getConcepto(), pago.getMonto(), comprobante, pago);
             em.persist(detalle);
-            
+
             pago.setPagado(true);
             em.merge(pago);
         }
-        
+
         return true;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean nuevoPago(Comprobante comprobante, List<Pago> pagos, Estudiante estudiante, Inscrito inscrito) {
-        long cantidadComprobantes = comprobanteFacade.cantidadComprobantes(comprobante.getFecha());
-        comprobante.setCodigo(String.format("%05d", (cantidadComprobantes + 1)) + "/" + Fecha.extrarAño(comprobante.getFecha()));
+        Integer c1 = comprobanteFacade.cantidadComprobantes(comprobante.getFecha()).intValue() + 1;
+        comprobante.setCodigo(String.format("%05d", c1) + "/" + Fecha.extrarAño(comprobante.getFecha()));
         em.persist(comprobante);
-        
+
         for (Pago pago : pagos) {
             Detalle detalle = new Detalle(pago.getConcepto(), pago.getMonto(), comprobante, pago);
             em.persist(detalle);
-            
+
             pago.setPagado(true);
             em.merge(pago);
         }
-        
+
         em.merge(estudiante);
         em.merge(inscrito);
-        
+
         return true;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean anularPago(Comprobante comprobante) {
         comprobante.setValido(false);
         em.merge(comprobante);
-        
+
         List<Detalle> detalles = detalleFacade.listaDetalles(comprobante.getId_comprobante());
         for (Detalle detalle : detalles) {
             Pago pago = detalle.getPago();
             pago.setPagado(false);
             em.merge(pago);
         }
-        
+
         return true;
     }
 

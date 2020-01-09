@@ -199,7 +199,7 @@ public class Carrera implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + " [v" + version + "]";
+        return nombre + " [" + codigo + "]";
     }
 
 }

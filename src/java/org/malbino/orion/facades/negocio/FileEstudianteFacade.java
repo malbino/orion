@@ -106,8 +106,8 @@ public class FileEstudianteFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudiante(Estudiante estudiante) {
-        long c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha());
-        String codigo = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", (c1 + 1));
+        Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
+        String codigo = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
         estudiante.setCodigo(codigo);
         estudiante.setUsuario(codigo);
         List<Rol> roles = new ArrayList();
@@ -125,17 +125,17 @@ public class FileEstudianteFacade {
         List<Materia> listaMateriasCarrera = materiaFacade.listaMaterias(carrera.getId_carrera());
         List<Materia> listaMateriaAprobadas = materiaFacade.listaMateriaAprobadas(estudiante.getId_persona(), carrera.getId_carrera());
         listaMateriasCarrera.removeAll(listaMateriaAprobadas);
-        
+
         for (Materia materia : listaMateriasCarrera) {
             List<Materia> prerequisitos = materia.getPrerequisitos();
-            if(listaMateriaAprobadas.containsAll(prerequisitos)){
+            if (listaMateriaAprobadas.containsAll(prerequisitos)) {
                 oferta.add(materia);
             }
         }
 
         return oferta;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean crearNota(Nota nota) {
         if (nota.getNotaFinal() != null) {

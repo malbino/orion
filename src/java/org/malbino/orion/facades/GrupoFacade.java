@@ -49,15 +49,15 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
         return l;
     }
 
-    public long cantidadGrupos(int id_gestionacademica, int id_materia) {
-        long l = 0;
+    public Long cantidadGrupos(int id_gestionacademica, int id_materia) {
+        Long l = 0l;
 
         try {
             Query q = em.createQuery("SELECT COUNT(g) FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m WHERE ga.id_gestionacademica=:id_gestionacademica AND m.id_materia=:id_materia");
             q.setParameter("id_gestionacademica", id_gestionacademica);
             q.setParameter("id_materia", id_materia);
 
-            l = (long) q.getSingleResult();
+            l = (Long) q.getSingleResult();
         } catch (Exception e) {
 
         }
@@ -83,7 +83,7 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
         return l;
     }
-    
+
     public List<Grupo> listaGrupos(int id_gestionacademica, int id_carrera, int id_materia) {
         List<Grupo> l = new ArrayList();
 
@@ -100,7 +100,7 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
         return l;
     }
-    
+
     public List<Grupo> listaGruposAbiertos(int id_gestionacademica, int id_carrera, int id_materia) {
         List<Grupo> l = new ArrayList();
 
@@ -112,7 +112,7 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            
+
         }
 
         return l;
@@ -132,7 +132,7 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
         return l;
     }
-    
+
     public List<Grupo> listaGruposEmpleado(int id_gestionacademica, int id_carrera, int id_persona) {
         List<Grupo> l = new ArrayList();
 

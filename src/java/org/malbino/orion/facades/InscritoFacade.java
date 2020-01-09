@@ -34,15 +34,15 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         return em;
     }
 
-    public long cantidadInscritos(int id_gestioncademica, int id_carrera) {
-        long l = 0;
+    public Long cantidadInscritos(int id_gestioncademica, int id_carrera) {
+        Long l = 0l;
 
         try {
             Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
             q.setParameter("id_gestionacademica", id_gestioncademica);
             q.setParameter("id_carrera", id_carrera);
 
-            l = (long) q.getSingleResult();
+            l = (Long) q.getSingleResult();
         } catch (Exception e) {
 
         }
@@ -91,6 +91,22 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
             q.setParameter("id_persona", id_persona);
             q.setParameter("notaMinimaAprobacion", gestionAcademica.getRegimen().getNotaMinimaAprobacion());
             q.setParameter("cantidadMaximaReprobaciones", gestionAcademica.getRegimen().getCantidadMaximaReprobaciones());
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Inscrito> listaInscritos(int id_gestionacademica, int id_carrera) {
+        List<Inscrito> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera ORDER BY i.numero");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
 
             l = q.getResultList();
         } catch (Exception e) {

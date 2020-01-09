@@ -45,9 +45,10 @@ public class MallaCurricular extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
 
-    private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
-    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
+    private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
+    private static final Font SUBTITULO = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK);
+    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.BLACK);
+    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
 
     private static final int MARGEN_IZQUIERDO = -40;
     private static final int MARGEN_DERECHO = -40;
@@ -99,7 +100,7 @@ public class MallaCurricular extends HttpServlet {
         //cabecera
         String realPath = System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "files" + File.separator + carrera.getCampus().getInstituto().getLogo();
         Image image = Image.getInstance(realPath);
-        image.scaleToFit(60, 60);
+        image.scaleToFit(50, 50);
         image.setAlignment(Image.ALIGN_CENTER);
         PdfPCell cell = new PdfPCell();
         cell.addElement(image);
@@ -109,25 +110,19 @@ public class MallaCurricular extends HttpServlet {
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("MALLA CURRICULAR,", NORMAL));
+        cell = new PdfPCell(new Phrase("MALLA CURRICULAR,", SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(90);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(carrera.getNombre(), TITULO));
+        cell = new PdfPCell(new Phrase(carrera.toString(), TITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(90);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(carrera.getCodigo(), NEGRITA));
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setColspan(90);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase(carrera.getCampus().getInstituto().getNombreRegulador(), NORMAL));
+        cell = new PdfPCell(new Phrase(carrera.getCampus().getInstituto().getNombreRegulador(), SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(90);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -176,6 +171,7 @@ public class MallaCurricular extends HttpServlet {
                     cell = new PdfPCell(new Phrase(materia.getNombre(), NORMAL));
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
+                    cell.setFixedHeight(30);
                     subtable.addCell(cell);
 
                     cell = new PdfPCell(new Phrase(materia.prerequisitosToString(), NEGRITA));
@@ -191,6 +187,7 @@ public class MallaCurricular extends HttpServlet {
                     cell = new PdfPCell(new Phrase(" ", NORMAL));
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
+                    cell.setFixedHeight(30);
                     subtable.addCell(cell);
 
                     cell = new PdfPCell(new Phrase(" ", NEGRITA));

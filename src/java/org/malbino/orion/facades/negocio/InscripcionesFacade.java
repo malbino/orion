@@ -45,10 +45,10 @@ import org.malbino.orion.util.Redondeo;
 @Stateless
 @LocalBean
 public class InscripcionesFacade {
-    
+
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;
-    
+
     @EJB
     InscritoFacade inscritoFacade;
     @EJB
@@ -61,11 +61,11 @@ public class InscripcionesFacade {
     NotaFacade notaFacade;
     @EJB
     EstudianteFacade estudianteFacade;
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudianteNuevo(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
-        long c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha());
-        String codigo = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", (c1 + 1));
+        Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
+        String codigo = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
         estudiante.setCodigo(codigo);
         estudiante.setUsuario(codigo);
         List<Rol> roles = new ArrayList();
@@ -75,16 +75,16 @@ public class InscripcionesFacade {
         carreras.add(carrera);
         estudiante.setCarreras(carreras);
         em.persist(estudiante);
-        
+
         Date fecha = Fecha.getDate();
-        long c2 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
-        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", (c2 + 1));
-        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, matricula, estudiante, carrera, gestionAcademica);
+        Integer c2 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera()).intValue() + 1;
+        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c2);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, matricula, c2, estudiante, carrera, gestionAcademica);
         em.persist(inscrito);
-        
+
         if (carrera.getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carrera.getCampus().getInstituto().getCaracter().equals(Caracter.PUBLICO)) {
             Integer monto = carrera.getCreditajeMatricula() * carrera.getCampus().getInstituto().getPrecioCredito();
-            
+
             Pago pago = new Pago(Concepto.MATRICULA, monto, false, inscrito);
             em.persist(pago);
         } else {
@@ -94,31 +94,31 @@ public class InscripcionesFacade {
             for (Concepto concepto : Concepto.values(carrera.getRegimen())) {
                 Double montoCuotaSinRedondear = monto.doubleValue() / cuotas.doubleValue();
                 Integer montoCuotaRedondeado = Redondeo.redondear_UP(montoCuotaSinRedondear, 0).intValue();
-                
+
                 Pago pago = new Pago(concepto, montoCuotaRedondeado, false, inscrito);
                 em.persist(pago);
-                
+
                 monto -= montoCuotaRedondeado;
                 cuotas--;
             }
         }
         return true;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudianteRegular(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         estudiante.setContrasena(null);
         em.merge(estudiante);
-        
+
         Date fecha = Fecha.getDate();
-        long c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
-        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", (c1 + 1));
-        Inscrito inscrito = new Inscrito(fecha, Tipo.REGULAR, matricula, estudiante, carrera, gestionAcademica);
+        Integer c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera()).intValue() + 1;
+        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c1);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.REGULAR, matricula, c1, estudiante, carrera, gestionAcademica);
         em.persist(inscrito);
-        
+
         if (carrera.getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carrera.getCampus().getInstituto().getCaracter().equals(Caracter.PUBLICO)) {
             Integer monto = carrera.getCreditajeMatricula() * carrera.getCampus().getInstituto().getPrecioCredito();
-            
+
             Pago pago = new Pago(Concepto.MATRICULA, monto, false, inscrito);
             em.persist(pago);
         } else {
@@ -128,33 +128,33 @@ public class InscripcionesFacade {
             for (Concepto concepto : Concepto.values(carrera.getRegimen())) {
                 Double montoCuotaSinRedondear = monto.doubleValue() / cuotas.doubleValue();
                 Integer montoCuotaRedondeado = Redondeo.redondear_UP(montoCuotaSinRedondear, 0).intValue();
-                
+
                 Pago pago = new Pago(concepto, montoCuotaRedondeado, false, inscrito);
                 em.persist(pago);
-                
+
                 monto -= montoCuotaRedondeado;
                 cuotas--;
             }
         }
-        
+
         return true;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean cambioCarrera(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         estudiante.setContrasena(null);
         estudiante.getCarreras().add(carrera);
         em.merge(estudiante);
-        
+
         Date fecha = Fecha.getDate();
-        long c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
-        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", (c1 + 1));
-        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, matricula, estudiante, carrera, gestionAcademica);
+        Integer c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera()).intValue() + 1;
+        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c1);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, matricula, c1, estudiante, carrera, gestionAcademica);
         em.persist(inscrito);
-        
+
         if (carrera.getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carrera.getCampus().getInstituto().getCaracter().equals(Caracter.PUBLICO)) {
             Integer monto = carrera.getCreditajeMatricula() * carrera.getCampus().getInstituto().getPrecioCredito();
-            
+
             Pago pago = new Pago(Concepto.MATRICULA, monto, false, inscrito);
             em.persist(pago);
         } else {
@@ -164,44 +164,44 @@ public class InscripcionesFacade {
             for (Concepto concepto : Concepto.values(carrera.getRegimen())) {
                 Double montoCuotaSinRedondear = monto.doubleValue() / cuotas.doubleValue();
                 Integer montoCuotaRedondeado = Redondeo.redondear_UP(montoCuotaSinRedondear, 0).intValue();
-                
+
                 Pago pago = new Pago(concepto, montoCuotaRedondeado, false, inscrito);
                 em.persist(pago);
-                
+
                 monto -= montoCuotaRedondeado;
                 cuotas--;
             }
         }
-        
+
         return true;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRED)
     public Long creditajeOferta(Inscrito inscrito) {
         Long l = 0L;
-        
+
         List<Materia> oferta = oferta(inscrito);
         for (Materia materia : oferta) {
             l += materia.getCreditajeMateria();
         }
-        
+
         return l;
-        
+
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRED)
     public List<Materia> oferta(Inscrito inscrito) {
         List<Materia> oferta = new ArrayList();
-        
+
         List<Materia> listaMateriaAprobadas = materiaFacade.listaMateriaAprobadas(inscrito.getEstudiante().getId_persona(), inscrito.getCarrera().getId_carrera());
         List<Nivel> nivelesPendientes = materiaFacade.nivelesPendientes(inscrito.getEstudiante().getId_persona(), inscrito.getCarrera().getId_carrera());
-        
+
         ListIterator<Nivel> listIterator = nivelesPendientes.listIterator();
         List<Materia> listaMaterias;
         if (listIterator.hasNext()) {
             listaMaterias = materiaFacade.listaMaterias(inscrito.getCarrera().getId_carrera(), listIterator.next());
             listaMaterias.removeAll(listaMateriaAprobadas);
-            
+
             for (Materia materia : listaMaterias) {
                 List<Materia> prerequisitos = materia.getPrerequisitos();
                 if (listaMateriaAprobadas.containsAll(prerequisitos)) {
@@ -212,7 +212,7 @@ public class InscripcionesFacade {
         if (listIterator.hasNext() && oferta.size() <= inscrito.getCarrera().getRegimen().getCantidadMaximaReprobaciones()) {
             listaMaterias = materiaFacade.listaMaterias(inscrito.getCarrera().getId_carrera(), listIterator.next());
             listaMaterias.removeAll(listaMateriaAprobadas);
-            
+
             for (Materia materia : listaMaterias) {
                 List<Materia> prerequisitos = materia.getPrerequisitos();
                 if (listaMateriaAprobadas.containsAll(prerequisitos)) {
@@ -220,10 +220,10 @@ public class InscripcionesFacade {
                 }
             }
         }
-        
+
         return oferta;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean tomarMaterias(List<Nota> notas) {
         for (Nota nota : notas) {
@@ -233,27 +233,27 @@ public class InscripcionesFacade {
                 em.persist(nota);
             } else if (cantidadNotasGrupo + 1 == grupo.getCapacidad()) {
                 em.persist(nota);
-                
+
                 grupo.setAbierto(Boolean.FALSE);
                 em.merge(grupo);
             } else {
                 throw new EJBException("Grupo(s) lleno(s).");
             }
         }
-        
+
         return true;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRED)
     public List<Materia> ofertaTomaMaterias(Inscrito inscrito) {
         List<Materia> ofertaTomaMaterias = oferta(inscrito);
-        
+
         List<Nota> estadoInscripcion = notaFacade.listaNotas(inscrito.getId_inscrito());
         for (Nota nota : estadoInscripcion) {
             ofertaTomaMaterias.remove(nota.getMateria());
         }
-        
+
         return ofertaTomaMaterias;
-        
+
     }
 }

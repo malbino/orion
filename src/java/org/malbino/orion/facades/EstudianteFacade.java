@@ -102,17 +102,16 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
         return l;
     }
-    
-    public long cantidadEstudiantes(Date fecha) {
-        long l = 0;
+
+    public Long cantidadEstudiantes(Date fecha) {
+        Long l = 0l;
 
         try {
             Query q = em.createQuery("SELECT COUNT(e) FROM Estudiante e WHERE e.fecha BETWEEN :inicio AND :fin");
             q.setParameter("inicio", Fecha.getInicioAño(fecha));
             q.setParameter("fin", Fecha.getFinAño(fecha));
-            
 
-            l = (long) q.getSingleResult();
+            l = (Long) q.getSingleResult();
         } catch (Exception e) {
 
         }

@@ -19,13 +19,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Tipo;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
  * @author malbino
  */
 @Entity
-@Table(name = "inscrito", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"estudiante", "carrera", "gestionAcademica"}))
+@Table(name = "inscrito", catalog = "orion", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"matricula", "numero", "carrera", "gestionAcademica"}),
+    @UniqueConstraint(columnNames = {"estudiante", "carrera", "gestionAcademica"})})
 public class Inscrito implements Serializable {
 
     @Id
@@ -37,6 +40,7 @@ public class Inscrito implements Serializable {
     private Tipo tipo;
 
     private String matricula;
+    private Integer numero;
 
     @JoinColumn(name = "id_persona")
     @ManyToOne
@@ -53,10 +57,11 @@ public class Inscrito implements Serializable {
     public Inscrito() {
     }
 
-    public Inscrito(Date fecha, Tipo tipo, String matricula, Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
+    public Inscrito(Date fecha, Tipo tipo, String matricula, Integer numero, Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         this.fecha = fecha;
         this.tipo = tipo;
         this.matricula = matricula;
+        this.numero = numero;
         this.estudiante = estudiante;
         this.carrera = carrera;
         this.gestionAcademica = gestionAcademica;
@@ -116,6 +121,20 @@ public class Inscrito implements Serializable {
      */
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+
+    /**
+     * @return the numero
+     */
+    public Integer getNumero() {
+        return numero;
+    }
+
+    /**
+     * @param numero the numero to set
+     */
+    public void setNumero(Integer numero) {
+        this.numero = numero;
     }
 
     /**
@@ -188,5 +207,9 @@ public class Inscrito implements Serializable {
     @Override
     public String toString() {
         return carrera.toString() + " - " + gestionAcademica.toString();
+    }
+
+    public String fecha_ddMMyyyy() {
+        return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
 }
