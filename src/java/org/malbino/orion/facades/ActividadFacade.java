@@ -90,7 +90,7 @@ public class ActividadFacade extends AbstractFacade<Actividad> {
         List<Actividad> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT a FROM Actividad a WHERE a.inicio >= :fecha ORDER BY a.inicio, a.nombre");
+            Query q = em.createQuery("SELECT a FROM Actividad a WHERE a.inicio >= :fecha OR :fecha BETWEEN a.inicio AND a.fin ORDER BY a.inicio, a.nombre");
             q.setParameter("fecha", fecha);
             q.setMaxResults(5);
 

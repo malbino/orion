@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="x_panel">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-md-4">
+
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <p:panelGrid style="margin-top: 40px; margin-bottom: 40px;">
+                                    <f:facet name="header">
+                                        <p:row>
+                                            <p:column colspan="2">
+                                                <p:graphicImage name="images/orion.png" width="60"/>
+                                            </p:column>
+                                            <p:column colspan="5">
+                                                <h3>malbino Orion</h3>
+                                            </p:column>
+                                        </p:row>
+                                    </f:facet>
+
+                                    <p:row>
+                                        <p:column colspan="7">
+                                            malbino Orion
+                                            <br/>
+                                            Version Incubating!
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="7" style="text-align: right">
+                                            <a href="http://orion.malbino.org" target="_blank"><span>Obten soporte tecnico</span> <i class="fa fa-external-link"></i></a>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="7" style="text-align: right">
+                                            <a href="mailto:maacrazy@gmail.com?subject=Incidencia Orion"><span>Reporta una incidencia</span> <i class="fa fa-external-link"></i></a>
+                                        </p:column>
+                                    </p:row>
+
+                                    <f:facet name="footer">
+                                        <p:row>
+                                            <p:column  colspan="7">
+                                                malbino Orion
+                                                <br/>
+                                                Copyright 2020 malbino. Todos los derechos reservados.
+                                            </p:column>
+                                        </p:row>
+                                    </f:facet>
+                                </p:panelGrid>
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
