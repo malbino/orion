@@ -13,9 +13,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
-import org.malbino.orion.entities.Detalle;
+import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Pago;
-import org.malbino.orion.facades.DetalleFacade;
+import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.PagoFacade;
 
 /**
@@ -30,6 +30,8 @@ public class HistorialEconomicoEstudianteController extends AbstractController i
     LoginController loginController;
     @EJB
     PagoFacade pagoFacade;
+    @EJB
+    ComprobanteFacade comprobanteFacade;
 
     private Carrera seleccionCarrera;
     private List<Pago> historialEconomico;
@@ -52,6 +54,10 @@ public class HistorialEconomicoEstudianteController extends AbstractController i
             l = carreraFacade.listaCarrerasEstudiante(loginController.getUsr().getId_persona());
         }
         return l;
+    }
+
+    public Comprobante comprobante(Pago pago) {
+        return comprobanteFacade.buscarComprobanteValido(pago.getId_pago());
     }
 
     /**

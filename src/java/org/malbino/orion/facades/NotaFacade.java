@@ -55,7 +55,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
         List<Nota> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera ORDER BY ga.gestion, ga.periodo, m.nivel");
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera ORDER BY ga.gestion, ga.periodo, m.nivel, m.numero");
             q.setParameter("id_persona", id_persona);
             q.setParameter("id_carrera", id_carrera);
 
@@ -177,7 +177,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
         List<Nota> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion, ga.periodo, m.nivel");
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion, ga.periodo, m.nivel, m.numero");
             q.setParameter("id_persona", id_persona);
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("condicion", Condicion.APROBADO);

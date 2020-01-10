@@ -62,7 +62,8 @@ public class Nota implements Serializable {
     public Nota() {
     }
 
-    public Nota(Modalidad modalidad, Condicion condicion, GestionAcademica gestionAcademica, Materia materia, Estudiante estudiante, Inscrito inscrito, Grupo grupo) {
+    public Nota(Integer notaFinal, Modalidad modalidad, Condicion condicion, GestionAcademica gestionAcademica, Materia materia, Estudiante estudiante, Inscrito inscrito, Grupo grupo) {
+        this.notaFinal = notaFinal;
         this.modalidad = modalidad;
         this.condicion = condicion;
         this.gestionAcademica = gestionAcademica;
@@ -71,16 +72,6 @@ public class Nota implements Serializable {
         this.inscrito = inscrito;
         this.grupo = grupo;
     }
-
-    public Nota(Modalidad modalidad, Condicion condicion, GestionAcademica gestionAcademica, Materia materia, Estudiante estudiante) {
-        this.modalidad = modalidad;
-        this.condicion = condicion;
-        this.gestionAcademica = gestionAcademica;
-        this.materia = materia;
-        this.estudiante = estudiante;
-    }
-
-    
 
     /**
      * @return the id_nota

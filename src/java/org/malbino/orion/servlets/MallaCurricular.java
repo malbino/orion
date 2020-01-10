@@ -114,6 +114,7 @@ public class MallaCurricular extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(90);
         cell.setBorder(Rectangle.NO_BORDER);
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(carrera.toString(), TITULO));

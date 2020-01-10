@@ -14,20 +14,20 @@
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Comprobante Pago <small>imprimir comprobante pago</small></h2>
+                                <h2>Historial Economico <small>descargar/imprimir historial economico</small></h2>
 
                                 <div class="clearfix"></div>
                             </div>
 
                             <div class="x_content">
                                 <h:form>
-                                    <object type="application/pdf" data="/orion/pagos/ComprobantePago?pfdrid_c=true" width="100%" height="680px">
-                                        Su navegador no puede mostrar pdf, <a href="/orion/pagos/ComprobantePago">click</a> para descargar el pdf.
+                                    <object type="application/pdf" data="/orion/reportes/HistorialEconomico?pfdrid_c=true" width="100%" height="1250px">
+                                        Su navegador no puede mostrar pdf, <a href="/orion/reportes/HistorialEconomico">click</a> para descargar el pdf.
                                     </object>
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Nuevo Pago" icon="fa fa-plus" process="@this" actionListener="#{NuevoPagoController.toNuevoPago()}"/>
+                                            <p:commandButton value="Volver" icon="fa fa-arrow-left" process="@this" actionListener="#{ReporteHistorialEconomicoController.toReporteHistorialEconomico()}"/>
                                         </div>
                                     </div>
                                 </h:form>

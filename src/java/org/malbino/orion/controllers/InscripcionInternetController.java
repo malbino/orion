@@ -125,7 +125,7 @@ public class InscripcionInternetController extends AbstractController implements
                 if (verificarGrupos()) {
                     List<Nota> aux = new ArrayList();
                     for (Materia materia : ofertaMaterias) {
-                        Nota nota = new Nota(Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
+                        Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
                         aux.add(nota);
                     }
 

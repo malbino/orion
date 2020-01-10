@@ -118,4 +118,18 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
         return l;
     }
+    
+    public List<Estudiante> listaEstudiantesCentralizadorCalificaciones() {
+        List<Estudiante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT e FROM Estudiante e ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }

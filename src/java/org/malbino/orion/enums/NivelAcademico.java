@@ -10,13 +10,15 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum NivelAcademico {
-    TECNICO_MEDIO("Técnico Medio"),
-    TECNICO_SUPERIOR("Técnico Superior");
+    TECNICO_MEDIO("Técnico Medio", "TM"),
+    TECNICO_SUPERIOR("Técnico Superior", "TS");
 
     private String nombre;
+    private String abreviatura;
 
-    private NivelAcademico(String nombre) {
+    private NivelAcademico(String nombre, String abreviatura) {
         this.nombre = nombre;
+        this.abreviatura = abreviatura;
     }
 
     /**
@@ -31,6 +33,20 @@ public enum NivelAcademico {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    /**
+     * @return the abreviatura
+     */
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    /**
+     * @param abreviatura the abreviatura to set
+     */
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 
     @Override
