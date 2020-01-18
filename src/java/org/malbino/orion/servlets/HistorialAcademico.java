@@ -207,6 +207,15 @@ public class HistorialAcademico extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
+        
+        phrase = new Phrase();
+        phrase.add(new Chunk("Resolución Ministerial: ", NEGRITA));
+        phrase.add(new Chunk(carrera.getResolucionMinisterial(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setColspan(60);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(" ", NEGRITA));
         cell.setColspan(20);

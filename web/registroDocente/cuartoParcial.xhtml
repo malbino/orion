@@ -27,6 +27,7 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="gestionAcademica" value="Gestión Académica: " style="font-size: small"/>
                                             <p:selectOneMenu id="gestionAcademica" value="#{CuartoParcialController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{CuartoParcialController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
@@ -36,6 +37,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
                                             <p:selectOneMenu id="carrera" value="#{CuartoParcialController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{CuartoParcialController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
@@ -45,6 +47,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="grupo" value="Grupo: " style="font-size: small"/>
                                             <p:selectOneMenu id="grupo" value="#{CuartoParcialController.seleccionGrupo}" converter="#{GrupoConverter}" autoWidth="false" required="true" requiredMessage="* Grupo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{CuartoParcialController.listaGrupos()}" var="grupo" itemLabel="#{grupo.toString_RegistroParcial()}" itemValue="#{grupo}"/>  
@@ -58,7 +61,7 @@
 
                                     <p:toolbar id="toolbar">
                                         <f:facet name="left">
-                                            <p:commandButton icon="fa fa-save" title="Guardar" actionListener="#{CuartoParcialController.guardar()}" update=":form:messages :form:notasAnual"/>
+                                            <p:commandButton icon="fa fa-save" title="Guardar" actionListener="#{CuartoParcialController.guardar()}" update=":form"/>
                                         </f:facet>
 
                                         <f:facet name="right">

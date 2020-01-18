@@ -14,30 +14,28 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 ">
                         <h:form id="form">
-                            <p:messages/>
-
                             <div class="x_panel">
                                 <div class="x_title">
-                                    <div class="ui-g ui-fluid">
-                                        <div class="ui-g-12 ui-md-8">
-                                            <h2>Gestiones Académicas <small>administración de gestiones académicas</small></h2>
-
-                                        </div>
-
-                                        <div class="ui-g-12 ui-md-4">
-                                            <p:selectOneMenu id="regimen" value="#{GestionAcademicaController.seleccionRegimen}" converter="#{RegimenConverter}" autoWidth="false" required="true" requiredMessage="* Regimen requerido."> 
-                                                <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{GestionAcademicaController.listaRegimenes()}" var="regimen" itemLabel="#{regimen.toString()}" itemValue="#{regimen}"/>  
-                                                
-                                                <p:ajax listener="#{GestionAcademicaController.reinit()}" update="gestionesAcademicas"/>
-                                            </p:selectOneMenu> 
-                                        </div>
-                                    </div>   
+                                    <h2>Gestiones Académicas <small>administración de gestiones académicas</small></h2>
 
                                     <div class="clearfix"></div>
                                 </div>
 
-                                <div class="x_content">                  
+                                <div class="x_content">
+                                    <p:messages/>
+                                    
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="regimen" value="Regimen: " style="font-size: small"/>
+                                            <p:selectOneMenu id="regimen" value="#{GestionAcademicaController.seleccionRegimen}" converter="#{RegimenConverter}" autoWidth="false" required="true" requiredMessage="* Regimen requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GestionAcademicaController.listaRegimenes()}" var="regimen" itemLabel="#{regimen.toString()}" itemValue="#{regimen}"/>  
+
+                                                <p:ajax listener="#{GestionAcademicaController.reinit()}" update="gestionesAcademicas"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+                                    </div>
+
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-plus" title="Nuevo" actionListener="#{GestionAcademicaController.toNuevaGestionAcademica()}" update="form"/>
@@ -73,11 +71,11 @@
                                         <p:column headerText="Codigo" >  
                                             <h:outputText value="#{gestionAcademica.toString()}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Gestión" >  
                                             <h:outputText value="#{gestionAcademica.gestion}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Periodo" >  
                                             <h:outputText value="#{gestionAcademica.periodo.toString()}"/>
                                         </p:column>

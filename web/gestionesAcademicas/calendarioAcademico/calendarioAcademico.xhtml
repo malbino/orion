@@ -15,15 +15,18 @@
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <h:form id="form">
-                                <div class="x_title">
+                                <div class="x_title"> 
+                                    <h2>Calendario Academico <small>gestion del calendario academico</small></h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <p:messages/>
+                                    
                                     <div class="ui-g ui-fluid">
-                                        <div class="ui-g-12 ui-md-8">
-                                            <h2>Calendario Academico <small>gestion del calendario academico</small></h2>
-
-                                        </div>
-
-
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="gestionAcademica" value="Gestión academica: " style="font-size: small"/>
                                             <p:selectOneMenu id="gestionAcademica" value="#{CalendarioAcademicoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{CalendarioAcademicoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
@@ -33,14 +36,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="clearfix"></div>
-                                </div>
-
-                                <div class="x_content">
-
                                     <p:toolbar>
                                         <f:facet name="left">
-                                            <p:button icon="fa fa-plus" title="Nuevo" outcome="/gestionesAcademicas/calendarioAcademico/nuevaActividad"/>
+                                            <p:commandButton icon="fa fa-plus" title="Nuevo" actionListener="#{CalendarioAcademicoController.toNuevaActividad()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">

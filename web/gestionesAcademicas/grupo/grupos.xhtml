@@ -14,17 +14,19 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 ">
                         <h:form id="form">
-                            <p:messages/>
-
                             <div class="x_panel">
                                 <div class="x_title">
+                                    <h2>Grupos <small>gestión de grupos</small></h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <p:messages/>
+
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
-                                            <h2>Grupos <small>gestión de grupos</small></h2>
-
-                                        </div>
-
-                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="gestionAcademica" value="Gestión Académica: " style="font-size: small"/>
                                             <p:selectOneMenu id="gestionAcademica" value="#{GrupoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{GrupoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
@@ -34,6 +36,7 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
                                             <p:selectOneMenu id="carrera" value="#{GrupoController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{GrupoController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
@@ -41,12 +44,8 @@
                                                 <p:ajax listener="#{GrupoController.reinit()}" update="grupos"/>
                                             </p:selectOneMenu>
                                         </div>
-                                    </div>   
+                                    </div>
 
-                                    <div class="clearfix"></div>
-                                </div>
-
-                                <div class="x_content">                  
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-group" title="Programar Grupos" actionListener="#{GrupoController.toProgramarGrupos()}" update="form"/>

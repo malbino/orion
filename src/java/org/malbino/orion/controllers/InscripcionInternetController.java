@@ -19,6 +19,7 @@ import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Materia;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.entities.Pago;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.enums.Modalidad;
@@ -26,6 +27,7 @@ import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.NotaFacade;
+import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Fecha;
 
@@ -36,7 +38,7 @@ import org.malbino.orion.util.Fecha;
 @Named("InscripcionInternetController")
 @SessionScoped
 public class InscripcionInternetController extends AbstractController implements Serializable {
-
+    
     @Inject
     LoginController loginController;
     @EJB
@@ -49,13 +51,15 @@ public class InscripcionInternetController extends AbstractController implements
     NotaFacade notaFacade;
     @EJB
     ActividadFacade actividadFacade;
-
+    @EJB
+    PagoFacade pagoFacade;
+    
     private Carrera seleccionCarrera;
     private Inscrito seleccionInscrito;
-
+    
     private List<Materia> ofertaMaterias;
     private List<Nota> estadoInscripcion;
-
+    
     @PostConstruct
     public void init() {
         seleccionCarrera = null;
@@ -63,14 +67,14 @@ public class InscripcionInternetController extends AbstractController implements
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
     }
-
+    
     public void reinit() {
         seleccionCarrera = null;
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
     }
-
+    
     @Override
     public List<Carrera> listaCarreras() {
         List<Carrera> l = new ArrayList();
@@ -79,7 +83,7 @@ public class InscripcionInternetController extends AbstractController implements
         }
         return l;
     }
-
+    
     public List<Inscrito> listaInscritos() {
         List<Inscrito> l = new ArrayList();
         if (loginController.getUsr() != null) {
@@ -87,7 +91,7 @@ public class InscripcionInternetController extends AbstractController implements
         }
         return l;
     }
-
+    
     public List<Grupo> listaGruposAbiertos(Materia materia) {
         List<Grupo> l = new ArrayList();
         if (seleccionInscrito != null && materia != null) {
@@ -95,19 +99,19 @@ public class InscripcionInternetController extends AbstractController implements
         }
         return l;
     }
-
+    
     public void actualizarOferta() {
         if (seleccionInscrito != null) {
             ofertaMaterias = inscripcionesFacade.ofertaTomaMaterias(seleccionInscrito);
         }
     }
-
+    
     public void actualizarEstadoInscripcion() {
         if (seleccionInscrito != null) {
             estadoInscripcion = notaFacade.listaNotas(seleccionInscrito.getId_inscrito());
         }
     }
-
+    
     public boolean verificarGrupos() {
         boolean b = true;
         for (Materia m : ofertaMaterias) {
@@ -118,44 +122,49 @@ public class InscripcionInternetController extends AbstractController implements
         }
         return b;
     }
-
+    
     public void tomarMaterias() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION_INTERNET, seleccionInscrito.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
-            if (!ofertaMaterias.isEmpty()) {
-                if (verificarGrupos()) {
-                    List<Nota> aux = new ArrayList();
-                    for (Materia materia : ofertaMaterias) {
-                        Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
-                        aux.add(nota);
-                    }
-
-                    try {
-                        if (inscripcionesFacade.tomarMaterias(aux)) {
-                            toEstadoInscripcion();
+            List<Pago> listaPagosPagados = pagoFacade.listaPagosPagados(seleccionInscrito.getId_inscrito());
+            if (!listaPagosPagados.isEmpty()) {
+                if (!ofertaMaterias.isEmpty()) {
+                    if (verificarGrupos()) {
+                        List<Nota> aux = new ArrayList();
+                        for (Materia materia : ofertaMaterias) {
+                            Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
+                            aux.add(nota);
                         }
-                    } catch (EJBException e) {
-                        this.mensajeDeError(e.getMessage());
+                        
+                        try {
+                            if (inscripcionesFacade.tomarMaterias(aux)) {
+                                toEstadoInscripcion();
+                            }
+                        } catch (EJBException e) {
+                            this.mensajeDeError(e.getMessage());
+                        }
+                    } else {
+                        this.mensajeDeError("Existen materias sin grupos.");
                     }
                 } else {
-                    this.mensajeDeError("Existen materias sin grupos.");
+                    this.mensajeDeError("No existen materias.");
                 }
             } else {
-                this.mensajeDeError("No existen materias.");
+                this.mensajeDeError("Matricula/Cuota pendiente.");
             }
         } else {
             this.mensajeDeError("Fuera de fecha.");
         }
     }
-
+    
     public void toEstadoInscripcion() throws IOException {
         this.actualizarEstadoInscripcion();
-
+        
         this.redireccionarViewId("/estudiante/inscripcionInternet/estadoInscripcion");
     }
-
+    
     public void toOfertaMaterias() throws IOException {
         actualizarOferta();
-
+        
         this.redireccionarViewId("/estudiante/inscripcionInternet/ofertaMaterias");
     }
 
@@ -214,5 +223,5 @@ public class InscripcionInternetController extends AbstractController implements
     public void setEstadoInscripcion(List<Nota> estadoInscripcion) {
         this.estadoInscripcion = estadoInscripcion;
     }
-
+    
 }

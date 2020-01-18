@@ -16,13 +16,15 @@
                         <h:form id="form">
                             <div class="x_panel">
                                 <div class="x_title">
+                                    <h2>Carrera <small>gestión de carreras</small></h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
                                     <div class="ui-g ui-fluid">
-                                        <div class="ui-g-12 ui-md-8">
-                                            <h2>Carrera <small>gestión de carreras</small></h2>
-
-                                        </div>
-
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="campus" value="Campus: " style="font-size: small"/>
                                             <p:selectOneMenu id="campus" value="#{CarreraController.seleccionCampus}" converter="#{CampusConverter}" autoWidth="false">
                                                 <f:selectItem itemLabel="" itemValue=""/>
                                                 <f:selectItems value="#{CarreraController.listaCampus()}" var="campus" itemLabel="#{campus.toString()}" itemValue="#{campus}"/>
@@ -30,12 +32,8 @@
                                                 <p:ajax listener="#{CarreraController.reinit()}" update="carreras"/>
                                             </p:selectOneMenu>
                                         </div>
-                                    </div>   
+                                    </div>
 
-                                    <div class="clearfix"></div>
-                                </div>
-
-                                <div class="x_content">                  
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:button icon="fa fa-plus" title="Nuevo" outcome="/planesEstudio/carrera/nuevoCarrera"/>
@@ -75,11 +73,11 @@
                                         <p:column headerText="Nombre" >  
                                             <h:outputText value="#{carrera.nombre}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Regimen" >  
                                             <h:outputText value="#{carrera.regimen.toString()}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Nivel Académico" >  
                                             <h:outputText value="#{carrera.nivelAcademico.toString()}"/>
                                         </p:column>
