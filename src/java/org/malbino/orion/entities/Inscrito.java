@@ -39,7 +39,7 @@ public class Inscrito implements Serializable {
     private Date fecha;
     private Tipo tipo;
 
-    private String matricula;
+    private String codigo;
     private Integer numero;
 
     @JoinColumn(name = "id_persona")
@@ -57,10 +57,10 @@ public class Inscrito implements Serializable {
     public Inscrito() {
     }
 
-    public Inscrito(Date fecha, Tipo tipo, String matricula, Integer numero, Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
+    public Inscrito(Date fecha, Tipo tipo, String codigo, Integer numero, Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         this.fecha = fecha;
         this.tipo = tipo;
-        this.matricula = matricula;
+        this.codigo = codigo;
         this.numero = numero;
         this.estudiante = estudiante;
         this.carrera = carrera;
@@ -110,17 +110,17 @@ public class Inscrito implements Serializable {
     }
 
     /**
-     * @return the matricula
+     * @return the codigo
      */
-    public String getMatricula() {
-        return matricula;
+    public String getCodigo() {
+        return codigo;
     }
 
     /**
-     * @param matricula the matricula to set
+     * @param codigo the codigo to set
      */
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     /**

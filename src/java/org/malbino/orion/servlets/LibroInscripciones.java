@@ -197,7 +197,7 @@ public class LibroInscripciones extends HttpServlet {
             cell.setColspan(5);
             table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(inscrito.getMatricula(), NORMAL));
+            cell = new PdfPCell(new Phrase(inscrito.getCodigo(), NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setColspan(15);

@@ -65,9 +65,9 @@ public class InscripcionesFacade {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudianteNuevo(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
-        String codigo = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
-        estudiante.setCodigo(codigo);
-        estudiante.setUsuario(codigo);
+        String matricula = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
+        estudiante.setMatricula(matricula);
+        estudiante.setUsuario(matricula);
         List<Rol> roles = new ArrayList();
         roles.add(rolFacade.find(Constantes.ID_ROL_ESTUDIANTE));
         estudiante.setRoles(roles);
@@ -78,8 +78,8 @@ public class InscripcionesFacade {
 
         Date fecha = Fecha.getDate();
         Integer c2 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera()).intValue() + 1;
-        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c2);
-        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, matricula, c2, estudiante, carrera, gestionAcademica);
+        String codigo = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c2);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, codigo, c2, estudiante, carrera, gestionAcademica);
         em.persist(inscrito);
 
         if (carrera.getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carrera.getCampus().getInstituto().getCaracter().equals(Caracter.PUBLICO)) {
@@ -112,8 +112,8 @@ public class InscripcionesFacade {
 
         Date fecha = Fecha.getDate();
         Integer c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera()).intValue() + 1;
-        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c1);
-        Inscrito inscrito = new Inscrito(fecha, Tipo.REGULAR, matricula, c1, estudiante, carrera, gestionAcademica);
+        String codigo = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c1);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.REGULAR, codigo, c1, estudiante, carrera, gestionAcademica);
         em.persist(inscrito);
 
         if (carrera.getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carrera.getCampus().getInstituto().getCaracter().equals(Caracter.PUBLICO)) {
@@ -148,8 +148,8 @@ public class InscripcionesFacade {
 
         Date fecha = Fecha.getDate();
         Integer c1 = inscritoFacade.cantidadInscritos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera()).intValue() + 1;
-        String matricula = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c1);
-        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, matricula, c1, estudiante, carrera, gestionAcademica);
+        String codigo = gestionAcademica.getGestion().toString() + gestionAcademica.getPeriodo().getPeriodoEntero().toString() + carrera.getId_carrera() + String.format("%04d", c1);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, codigo, c1, estudiante, carrera, gestionAcademica);
         em.persist(inscrito);
 
         if (carrera.getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carrera.getCampus().getInstituto().getCaracter().equals(Caracter.PUBLICO)) {

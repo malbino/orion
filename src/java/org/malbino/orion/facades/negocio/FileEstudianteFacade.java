@@ -107,9 +107,9 @@ public class FileEstudianteFacade {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudiante(Estudiante estudiante) {
         Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
-        String codigo = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
-        estudiante.setCodigo(codigo);
-        estudiante.setUsuario(codigo);
+        String matricula = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
+        estudiante.setMatricula(matricula);
+        estudiante.setUsuario(matricula);
         List<Rol> roles = new ArrayList();
         roles.add(rolFacade.find(Constantes.ID_ROL_ESTUDIANTE));
         estudiante.setRoles(roles);

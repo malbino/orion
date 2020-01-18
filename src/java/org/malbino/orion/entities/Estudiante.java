@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
 public class Estudiante extends Usuario implements Serializable {
 
     @Column(unique = true)
-    private String codigo;
+    private String matricula;
     @Temporal(TemporalType.DATE)
     private Date fecha;
     private Boolean tituloBachiller;
@@ -46,17 +46,17 @@ public class Estudiante extends Usuario implements Serializable {
     }
 
     /**
-     * @return the codigo
+     * @return the matricula
      */
-    public String getCodigo() {
-        return codigo;
+    public String getMatricula() {
+        return matricula;
     }
 
     /**
-     * @param codigo the codigo to set
+     * @param matricula the matricula to set
      */
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 
     /**

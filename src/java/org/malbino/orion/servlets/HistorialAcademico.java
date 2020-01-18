@@ -373,7 +373,17 @@ public class HistorialAcademico extends HttpServlet {
 
                 Phrase phrase = new Phrase();
                 phrase.add(new Chunk("Código de registro: ", NEGRITA));
-                phrase.add(new Chunk(estudiante.getCodigo(), NORMAL));
+                GestionAcademica finFormacion = notaFacade.finFormacion(carrera.getId_carrera(), estudiante.getId_persona());
+                if (finFormacion != null) {
+                    Inscrito inscrito = inscritoFacade.buscarInscrito(estudiante.getId_persona(), carrera.getId_carrera(), finFormacion.getId_gestionacademica());
+                    if (inscrito != null) {
+                        phrase.add(new Chunk(inscrito.getCodigo(), NORMAL));
+                    } else {
+                        phrase.add(new Chunk(" ", NORMAL));
+                    }
+                } else {
+                    phrase.add(new Chunk(" ", NORMAL));
+                }
                 cell = new PdfPCell(phrase);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 cell.setBorder(Rectangle.NO_BORDER);
@@ -396,18 +406,29 @@ public class HistorialAcademico extends HttpServlet {
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 
+                //fila 1
                 phrase = new Phrase();
-                phrase.add(new Chunk("INSTITUTO: ", NEGRITA));
-                phrase.add(new Chunk(carrera.getCampus().getInstituto().getNombreRegulador(), NORMAL));
+                phrase.add(new Chunk("MATRÍCULA: ", NEGRITA));
+                phrase.add(new Chunk(estudiante.getMatricula(), NORMAL));
                 cell = new PdfPCell(phrase);
-                cell.setColspan(20);
+                cell.setColspan(15);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 
                 phrase = new Phrase();
-                phrase.add(new Chunk("CARRERA: ", NEGRITA));
-                phrase.add(new Chunk(carrera.getNombre(), NORMAL));
+                phrase.add(new Chunk("Cédula de Identidad: ", NEGRITA));
+                phrase.add(new Chunk(estudiante.dniLugar(), NORMAL));
+                cell = new PdfPCell(phrase);
+                cell.setColspan(5);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setBorder(Rectangle.NO_BORDER);
+                table.addCell(cell);
+
+                //fila 2
+                phrase = new Phrase();
+                phrase.add(new Chunk("ESTUDIANTE: ", NEGRITA));
+                phrase.add(new Chunk(estudiante.toString(), NORMAL));
                 cell = new PdfPCell(phrase);
                 cell.setColspan(15);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -428,9 +449,10 @@ public class HistorialAcademico extends HttpServlet {
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 
+                //fial 3
                 phrase = new Phrase();
-                phrase.add(new Chunk("NIVEL DE FORMACIÓN: ", NEGRITA));
-                phrase.add(new Chunk(carrera.getNivelAcademico().getNombre(), NORMAL));
+                phrase.add(new Chunk("CARRERA: ", NEGRITA));
+                phrase.add(new Chunk(carrera.getNombre(), NORMAL));
                 cell = new PdfPCell(phrase);
                 cell.setColspan(15);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -439,7 +461,6 @@ public class HistorialAcademico extends HttpServlet {
 
                 phrase = new Phrase();
                 phrase.add(new Chunk("FECHA DE CONCLUSIÓN: ", NEGRITA));
-                GestionAcademica finFormacion = notaFacade.finFormacion(carrera.getId_carrera(), estudiante.getId_persona());
                 if (finFormacion != null) {
                     phrase.add(new Chunk(Fecha.formatearFecha_ddMMyyyy(finFormacion.getFin()), NORMAL));
                 } else {
@@ -451,47 +472,32 @@ public class HistorialAcademico extends HttpServlet {
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 
+                //fila 4
+                phrase = new Phrase();
+                phrase.add(new Chunk("MENCIÓN: ", NEGRITA));
+                phrase.add(new Chunk(" ", NORMAL)); //orion no soporta menciones
+                cell = new PdfPCell(phrase);
+                cell.setColspan(20);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setBorder(Rectangle.NO_BORDER);
+                table.addCell(cell);
+
+                //fila 5
+                phrase = new Phrase();
+                phrase.add(new Chunk("NIVEL DE FORMACIÓN: ", NEGRITA));
+                phrase.add(new Chunk(carrera.getNivelAcademico().getNombre(), NORMAL));
+                cell = new PdfPCell(phrase);
+                cell.setColspan(20);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setBorder(Rectangle.NO_BORDER);
+                table.addCell(cell);
+
+                //fila 6
                 phrase = new Phrase();
                 phrase.add(new Chunk("RÉGIMEN: ", NEGRITA));
                 phrase.add(new Chunk(carrera.getRegimen().getNombre(), NORMAL));
                 cell = new PdfPCell(phrase);
-                cell.setColspan(15);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                phrase = new Phrase();
-                phrase.add(new Chunk("MATRÍCULA: ", NEGRITA));
-                if (finFormacion != null) {
-                    Inscrito inscrito = inscritoFacade.buscarInscrito(estudiante.getId_persona(), carrera.getId_carrera(), finFormacion.getId_gestionacademica());
-                    if (inscrito != null) {
-                        phrase.add(new Chunk(inscrito.getMatricula(), NORMAL));
-                    } else {
-                        phrase.add(new Chunk(" ", NORMAL));
-                    }
-                } else {
-                    phrase.add(new Chunk(" ", NORMAL));
-                }
-                cell = new PdfPCell(phrase);
-                cell.setColspan(5);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                phrase = new Phrase();
-                phrase.add(new Chunk("ESTUDIANTE: ", NEGRITA));
-                phrase.add(new Chunk(estudiante.toString(), NORMAL));
-                cell = new PdfPCell(phrase);
-                cell.setColspan(15);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                phrase = new Phrase();
-                phrase.add(new Chunk("Cédula de Identidad: ", NEGRITA));
-                phrase.add(new Chunk(estudiante.dniLugar(), NORMAL));
-                cell = new PdfPCell(phrase);
-                cell.setColspan(5);
+                cell.setColspan(20);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
