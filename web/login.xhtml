@@ -12,6 +12,12 @@
             <ui:define name="content">
                 <h:form id="form">
                     <h1>Iniciar sesión</h1>
+                    
+                    <div>
+                        <p:graphicImage id="logo" title="Logo instituto" value="./../files/#{InstitutoController.instituto.logo}" class="img-fluid"/>
+                    </div>
+
+                    <br />
 
                     <div>
                         <p:messages/> 
@@ -27,14 +33,11 @@
                         <p:commandButton value="Ingresar" icon="fa fa-user" actionListener="#{LoginController.login()}" update="form"/>
                     </div>
 
-                    <div class="clearfix"></div>
-
                     <div class="separator">
                         <p class="change_link">¿Olvidaste tu contraseña?
                                     <p:link value="Restaura tu contraseña" outcome="/restore/pin"/>
                         </p>
 
-                        <div class="clearfix"></div>
                         <br />
 
                         <div>
