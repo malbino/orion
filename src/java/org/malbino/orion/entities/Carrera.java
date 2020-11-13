@@ -42,8 +42,20 @@ public class Carrera implements Serializable {
     @JoinColumn(name = "id_campus")
     @ManyToOne
     private Campus campus;
+    
+    @JoinColumn(name = "id_jefecarrera")
+    @ManyToOne
+    private Empleado jefeCarrera;
 
     public Carrera() {
+    }
+    
+    public String idnumberMoodle() {
+        return "c" + this.id_carrera;
+    }
+    
+    public String nameMoodle() {
+        return nombre + " v" + version;
     }
 
     /**
@@ -200,6 +212,20 @@ public class Carrera implements Serializable {
     @Override
     public String toString() {
         return nombre + " [" + codigo + "]";
+    }
+
+    /**
+     * @return the jefeCarrera
+     */
+    public Empleado getJefeCarrera() {
+        return jefeCarrera;
+    }
+
+    /**
+     * @param jefeCarrera the jefeCarrera to set
+     */
+    public void setJefeCarrera(Empleado jefeCarrera) {
+        this.jefeCarrera = jefeCarrera;
     }
 
 }

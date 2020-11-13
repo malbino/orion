@@ -37,6 +37,13 @@ public class Instituto implements Serializable {
     private Integer precioCredito;
     private String resolucionMinisterial;
     private String logo;
+    
+    //moodle
+    private String webservice;
+    private String login;
+    private String username;
+    private String password;
+    private String servicename;
 
     @JoinColumn(name = "id_rector")
     @ManyToOne
@@ -245,5 +252,75 @@ public class Instituto implements Serializable {
     @Override
     public String toString() {
         return nombreRegulador;
+    }
+
+    /**
+     * @return the webservice
+     */
+    public String getWebservice() {
+        return webservice;
+    }
+
+    /**
+     * @param webservice the webservice to set
+     */
+    public void setWebservice(String webservice) {
+        this.webservice = webservice;
+    }
+
+    /**
+     * @return the login
+     */
+    public String getLogin() {
+        return login;
+    }
+
+    /**
+     * @param login the login to set
+     */
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * @return the servicename
+     */
+    public String getServicename() {
+        return servicename;
+    }
+
+    /**
+     * @param servicename the servicename to set
+     */
+    public void setServicename(String servicename) {
+        this.servicename = servicename;
     }
 }

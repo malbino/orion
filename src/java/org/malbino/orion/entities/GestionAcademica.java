@@ -44,6 +44,14 @@ public class GestionAcademica implements Serializable {
     public GestionAcademica() {
     }
 
+    public String idnumberMoodle() {
+        return "ga" + this.id_gestionacademica;
+    }
+
+    public String nameMoodle() {
+        return periodo.getPeriodoRomano() + gestion + " " + regimen.getNombre();
+    }
+
     /**
      * @return the id_gestionacademica
      */

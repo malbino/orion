@@ -73,6 +73,13 @@
                                                 <f:selectItems value="#{CarreraController.listaCampus()}" var="campus" itemLabel="#{campus.toString()}" itemValue="#{campus}"/>
                                             </p:selectOneMenu>
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="jefeCarrera" value="Jefe Carrera:" style="font-size: small"/>
+                                            <p:autoComplete id="jefeCarrera" value="#{CarreraController.nuevaCarrera.jefeCarrera}" completeMethod="#{CarreraController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
+                                                            var="jefeCarrera" itemLabel="#{jefeCarrera.toString()}" itemValue="#{jefeCarrera}" converter="#{EmpleadoConverter}" forceSelection="true"
+                                                            required="true" requiredMessage="* Jefe de Carrera requerido."/>
+                                        </div>
                                     </div>
 
                                     <div class="ui-g ui-fluid">

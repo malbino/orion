@@ -58,6 +58,36 @@ public class Grupo implements Serializable {
         this.materia = materia;
     }
 
+    public String idnumberMoodle() {
+        return "g" + id_grupo;
+    }
+
+    public String fullNameMoodle() {
+        return this.getMateria().getNombre() + " - "
+                + this.getMateria().getNivel().getAbreviatura() + " - "
+                + this.getMateria().getCarrera().getNombre() + " - "
+                + this.getGestionAcademica().toString();
+    }
+
+    public String shortNameMoodle() {
+        return this.getMateria().getCodigo() + " - "
+                + this.getMateria().getNivel().getAbreviatura() + " - "
+                + this.getMateria().getCarrera().getCodigo() + " - "
+                + this.getGestionAcademica().toString();
+    }
+
+    public long inicioMoodle() {
+        return this.getGestionAcademica().getInicio().getTime() / 1000;
+    }
+
+    public long finMoodle() {
+        return this.getGestionAcademica().getFin().getTime() / 1000;
+    }
+
+    public String summaryMoodle() {
+        return "Curso de " + this.getMateria().getNombre() + " del " + this.getMateria().getNivel().getNombre() + " de la carrera de " + this.getMateria().getCarrera().getNombre() + ".";
+    }
+
     /**
      * @return the id_grupo
      */

@@ -50,6 +50,26 @@ public class Usuario extends Persona implements Serializable {
     public Usuario() {
     }
 
+    public String usuarioMoodle() {
+        return this.getUsuario().replaceAll("-", "").toLowerCase();
+    }
+
+    public String contraseñaMoodle() {
+        return "*M00dle" + this.usuarioMoodle() + "*";
+    }
+    
+    public String apellidos() {
+        String apellidos = this.getPrimerApellido();
+        if(this.getSegundoApellido() != null) {
+            apellidos += " " + this.getSegundoApellido();            
+        }
+        return apellidos;
+    }
+    
+    public String emailTemporal() {
+        return this.usuarioMoodle() + "@cambiatuemail.com";
+    }
+
     /**
      * @return the usuario
      */
