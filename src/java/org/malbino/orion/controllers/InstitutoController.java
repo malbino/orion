@@ -47,7 +47,7 @@ public class InstitutoController extends AbstractController implements Serializa
     }
 
     public void subirArchivo(FileUploadEvent event) {
-        Path folder = Paths.get(System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "files");
+        Path folder = Paths.get(System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "oriondata");
         String extension = FilenameUtils.getExtension(event.getFile().getFileName());
         Path file = null;
         try (InputStream input = event.getFile().getInputstream()) {

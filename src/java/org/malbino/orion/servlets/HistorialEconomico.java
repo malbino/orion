@@ -106,7 +106,7 @@ public class HistorialEconomico extends HttpServlet {
         PdfPTable table = new PdfPTable(100);
 
         //cabecera
-        String realPath = System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "files" + File.separator + carrera.getCampus().getInstituto().getLogo();
+        String realPath = System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "oriondata" + File.separator + carrera.getCampus().getInstituto().getLogo();
         Image image = Image.getInstance(realPath);
         image.scaleToFit(60, 60);
         image.setAlignment(Image.ALIGN_CENTER);

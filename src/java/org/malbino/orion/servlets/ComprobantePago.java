@@ -99,7 +99,7 @@ public class ComprobantePago extends HttpServlet {
         PdfPTable table = new PdfPTable(100);
 
         //cabecera
-        String realPath = System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "files" + File.separator + comprobante.getInscrito().getCarrera().getCampus().getInstituto().getLogo();
+        String realPath = System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "oriondata" + File.separator + comprobante.getInscrito().getCarrera().getCampus().getInstituto().getLogo();
         Image image = Image.getInstance(realPath);
         image.scaleToFit(160, 80);
         image.setAlignment(Image.ALIGN_CENTER);
