@@ -25,7 +25,7 @@ import org.malbino.orion.util.Fecha;
  * @author malbino
  */
 @Entity
-@Table(name = "gestionacademica", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"gestion", "periodo", "regimen"}))
+@Table(name = "gestionacademica", catalog = "orion", schema = "orion", uniqueConstraints = @UniqueConstraint(columnNames = {"gestion", "periodo", "regimen"}))
 public class GestionAcademica implements Serializable {
 
     @Id

@@ -22,7 +22,7 @@ import org.malbino.orion.enums.Turno;
  * @author malbino
  */
 @Entity
-@Table(name = "grupo", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "turno", "gestionAcademica", "materia"}))
+@Table(name = "grupo", catalog = "orion", schema = "orion", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "turno", "gestionAcademica", "materia"}))
 public class Grupo implements Serializable {
 
     @Id

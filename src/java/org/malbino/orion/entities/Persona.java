@@ -28,7 +28,7 @@ import org.malbino.orion.util.Fecha;
  * @author malbino
  */
 @Entity
-@Table(name = "persona", catalog = "orion", schema = "public")
+@Table(name = "persona", catalog = "orion", schema = "orion")
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo")

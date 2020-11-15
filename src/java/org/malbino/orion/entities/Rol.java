@@ -23,7 +23,7 @@ import javax.persistence.Table;
  * @author malbino
  */
 @Entity
-@Table(name = "rol", catalog = "orion", schema = "public")
+@Table(name = "rol", catalog = "orion", schema = "orion")
 public class Rol implements Serializable {
 
     @Id
@@ -33,7 +33,7 @@ public class Rol implements Serializable {
     @Column(unique = true)
     private String nombre;
 
-    @JoinTable(name = "privilegio", catalog = "orion", schema = "public", joinColumns = {
+    @JoinTable(name = "privilegio", catalog = "orion", schema = "orion", joinColumns = {
         @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")}, inverseJoinColumns = {
         @JoinColumn(name = "id_recurso", referencedColumnName = "id_recurso")})
     @ManyToMany

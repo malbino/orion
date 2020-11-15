@@ -23,7 +23,7 @@ import org.malbino.orion.enums.Modalidad;
  * @author malbino
  */
 @Entity
-@Table(name = "nota", catalog = "orion", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = {"gestionAcademica", "materia", "estudiante"}))
+@Table(name = "nota", catalog = "orion", schema = "orion", uniqueConstraints = @UniqueConstraint(columnNames = {"gestionAcademica", "materia", "estudiante"}))
 public class Nota implements Serializable {
 
     @Id

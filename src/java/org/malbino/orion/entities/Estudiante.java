@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
  * @author malbino
  */
 @Entity
-@Table(name = "estudiante", catalog = "orion", schema = "public")
+@Table(name = "estudiante", catalog = "orion", schema = "orion")
 
 @PrimaryKeyJoinColumn(name = "id_persona")
 @DiscriminatorValue("Estudiante")
@@ -36,7 +36,7 @@ public class Estudiante extends Usuario implements Serializable {
     private Date fecha;
     private Boolean tituloBachiller;
 
-    @JoinTable(name = "cursa", catalog = "orion", schema = "public", joinColumns = {
+    @JoinTable(name = "cursa", catalog = "orion", schema = "orion", joinColumns = {
         @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")}, inverseJoinColumns = {
         @JoinColumn(name = "id_carrera", referencedColumnName = "id_carrera")})
     @ManyToMany
