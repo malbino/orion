@@ -23,7 +23,7 @@ import org.malbino.orion.enums.Regimen;
  * @author malbino
  */
 @Entity
-@Table(name = "carrera", catalog = "orion", schema = "orion")
+@Table(name = "carrera", catalog = "orion")
 public class Carrera implements Serializable {
 
     @Id

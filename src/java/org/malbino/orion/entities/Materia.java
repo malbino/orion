@@ -26,7 +26,7 @@ import org.malbino.orion.enums.Nivel;
  * @author malbino
  */
 @Entity
-@Table(name = "materia", catalog = "orion", schema = "orion", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "carrera"}))
+@Table(name = "materia", catalog = "orion", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "id_carrera"}))
 public class Materia implements Serializable {
 
     @Id
@@ -41,7 +41,7 @@ public class Materia implements Serializable {
     private Integer creditajeMateria;
     private Boolean curricular;
 
-    @JoinTable(name = "prerequisito", catalog = "orion", schema = "orion", joinColumns = {
+    @JoinTable(name = "prerequisito", catalog = "orion", joinColumns = {
         @JoinColumn(name = "id_materia", referencedColumnName = "id_materia")}, inverseJoinColumns = {
         @JoinColumn(name = "id_prerequisito", referencedColumnName = "id_materia")})
     @ManyToMany

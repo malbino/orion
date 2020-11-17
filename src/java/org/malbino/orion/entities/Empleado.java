@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @author malbino
  */
 @Entity
-@Table(name = "empleado", catalog = "orion", schema = "orion")
+@Table(name = "empleado", catalog = "orion")
 
 @PrimaryKeyJoinColumn(name = "id_persona")
 @DiscriminatorValue("Empleado")
