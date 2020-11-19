@@ -52,7 +52,7 @@ public class RecursoFacade extends AbstractFacade<Recurso> {
         List<Recurso> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT r.id_recurso FROM Recurso r JOIN r.roles o JOIN o.usuarios u WHERE u.id_persona=:id_persona AND CAST(:uri AS TEXT) LIKE CONCAT(r.urlPattern, '%')");
+            Query q = em.createQuery("SELECT r.id_recurso FROM Recurso r JOIN r.roles o JOIN o.usuarios u WHERE u.id_persona=:id_persona AND CONCAT(:uri, '') LIKE CONCAT(r.urlPattern, '%')");
             q.setParameter("id_persona", id_persona);
             q.setParameter("uri", uri);
 
