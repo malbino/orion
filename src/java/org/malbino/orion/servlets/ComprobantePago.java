@@ -18,7 +18,6 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -99,7 +98,7 @@ public class ComprobantePago extends HttpServlet {
         PdfPTable table = new PdfPTable(100);
 
         //cabecera
-        String realPath = System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "oriondata" + File.separator + comprobante.getInscrito().getCarrera().getCampus().getInstituto().getLogo();
+        String realPath = getServletContext().getRealPath("/resources/uploads/" + comprobante.getInscrito().getCarrera().getCampus().getInstituto().getLogo());
         Image image = Image.getInstance(realPath);
         image.scaleToFit(160, 80);
         image.setAlignment(Image.ALIGN_CENTER);
@@ -360,13 +359,13 @@ public class ComprobantePago extends HttpServlet {
             cell.setColspan(20);
             cell.setBorder(Rectangle.BOTTOM | Rectangle.LEFT | Rectangle.TOP);
             table.addCell(cell);
-            
+
             cell = new PdfPCell(new Phrase("Codigo: ", NEGRITA));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(15);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
             table.addCell(cell);
-            
+
             cell = new PdfPCell(new Phrase(estudiante.getMatricula(), NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(15);
@@ -379,7 +378,7 @@ public class ComprobantePago extends HttpServlet {
             cell.setColspan(15);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
             table.addCell(cell);
-            
+
             cell = new PdfPCell(new Phrase(estudiante.getContrasenaSinEncriptar(), NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(15);

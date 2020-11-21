@@ -98,7 +98,7 @@ public class MallaCurricular extends HttpServlet {
         PdfPTable table = new PdfPTable(100);
 
         //cabecera
-        String realPath = System.getProperty("catalina.base") + File.separator + "docroot" + File.separator + "oriondata" + File.separator + carrera.getCampus().getInstituto().getLogo();
+        String realPath = getServletContext().getRealPath("/resources/uploads/" + carrera.getCampus().getInstituto().getLogo());
         Image image = Image.getInstance(realPath);
         image.scaleToFit(50, 50);
         image.setAlignment(Image.ALIGN_CENTER);
