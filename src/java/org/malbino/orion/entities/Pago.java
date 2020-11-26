@@ -23,7 +23,7 @@ import org.malbino.orion.enums.Concepto;
  * @author malbino
  */
 @Entity
-@Table(name = "pago", catalog = "orion", uniqueConstraints = @UniqueConstraint(columnNames = {"concepto", "id_inscrito"}))
+@Table(name = "pago", uniqueConstraints = @UniqueConstraint(columnNames = {"concepto", "id_inscrito"}))
 public class Pago implements Serializable {
 
     @Id

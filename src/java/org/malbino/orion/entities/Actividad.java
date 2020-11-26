@@ -25,7 +25,7 @@ import org.malbino.orion.util.Fecha;
  * @author malbino
  */
 @Entity
-@Table(name = "actividad", catalog = "orion")
+@Table(name = "actividad")
 public class Actividad implements Serializable {
 
     @Id

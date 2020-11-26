@@ -17,13 +17,12 @@ import javax.persistence.Table;
  * @author malbino
  */
 @Entity
-@Table(name = "empleado", catalog = "orion")
+@Table(name = "empleado")
 
 @PrimaryKeyJoinColumn(name = "id_persona")
 @DiscriminatorValue("Empleado")
 public class Empleado extends Usuario implements Serializable {
 
-    @Column(unique = true)
     private String codigo;
     private String abreviaturaProfesion;
 

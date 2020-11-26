@@ -31,7 +31,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         if (loginController.getUsr() != null) {
-            ((HttpServletResponse) response).sendRedirect("/orion/home.xhtml");
+            ((HttpServletResponse) response).sendRedirect(request.getServletContext().getContextPath() + "/home.xhtml");
         } else {
             chain.doFilter(request, response);
         }

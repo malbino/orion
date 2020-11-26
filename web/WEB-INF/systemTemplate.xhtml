@@ -15,16 +15,16 @@
         </f:facet>
 
         <title>Orion</title>
-        <link rel="shortcut icon" href="/orion/resources/images/favicon.png" />
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/images/favicon.png" />
 
         <!-- Bootstrap -->
-        <link href="/orion/resources/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"/>
 
         <!-- Font Awesome -->
-        <link href="/orion/resources/css/font-awesome.min.css" rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/font-awesome.min.css" rel="stylesheet"/>
 
         <!-- Custom Theme Style -->
-        <link href="/orion/resources/css/custom.min.css" rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/custom.min.css" rel="stylesheet"/>
 
     </h:head>
 
@@ -35,7 +35,7 @@
                     <div class="col-md-3 left_col">
                         <div class="left_col scroll-view">
                             <div class="navbar nav_title" style="border: 0;">
-                                <a href="/orion/home.xhtml" class="site_title"><i class="fa fa-star"></i> <span>Orion Incubating!</span></a>
+                                <a href="#{request.contextPath}/home.xhtml" class="site_title"><i class="fa fa-star"></i> <span>Orion Incubating!</span></a>
                             </div>
 
                             <div class="clearfix"></div>
@@ -43,7 +43,7 @@
                             <!-- menu profile quick info -->
                             <div class="profile clearfix">
                                 <div class="profile_pic">
-                                    <img src="/orion/resources/images/user.png" alt="..." class="img-circle profile_img"/>
+                                    <img src="#{request.contextPath}/resources/images/user.png" alt="..." class="img-circle profile_img"/>
                                 </div>
                                 <div class="profile_info">
                                     <span>Bienvenido,</span>
@@ -62,83 +62,83 @@
                                     <ul class="nav side-menu">
                                         <li style="display: #{LoginController.display('Administrador')}"><a><i class="fa fa-linux"></i> Administrador <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/administrador/instituto.xhtml">Instituto</a></li>
-                                                <li><a href="/orion/administrador/empleado/empleados.xhtml">Empleados</a></li>
-                                                <li><a href="/orion/administrador/usuario/usuarios.xhtml">Usuarios</a></li>
+                                                <li><a href="#{request.contextPath}/administrador/instituto.xhtml">Instituto</a></li>
+                                                <li><a href="#{request.contextPath}/administrador/empleado/empleados.xhtml">Empleados</a></li>
+                                                <li><a href="#{request.contextPath}/administrador/usuario/usuarios.xhtml">Usuarios</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('Planes de Estudio')}"><a><i class="fa fa-share-alt"></i> Planes de Estudio <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/planesEstudio/campus/campus.xhtml">Campus</a></li>
-                                                <li><a href="/orion/planesEstudio/carrera/carreras.xhtml">Carreras</a></li>
-                                                <li><a href="/orion/planesEstudio/materia/materias.xhtml">Materias</a></li>
+                                                <li><a href="#{request.contextPath}/planesEstudio/campus/campus.xhtml">Campus</a></li>
+                                                <li><a href="#{request.contextPath}/planesEstudio/carrera/carreras.xhtml">Carreras</a></li>
+                                                <li><a href="#{request.contextPath}/planesEstudio/materia/materias.xhtml">Materias</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('Gestiones Académicas')}"><a><i class="fa fa-calendar"></i> Gestiónes Académicas <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/gestionesAcademicas/calendarioAcademico/calendarioAcademico.xhtml">Calendario academico</a></li>
-                                                <li><a href="/orion/gestionesAcademicas/gestionAcademica/gestionesAcademicas.xhtml">Gestiones Académicas</a></li>
-                                                <li><a href="/orion/gestionesAcademicas/grupo/grupos.xhtml">Grupos</a></li>
+                                                <li><a href="#{request.contextPath}/gestionesAcademicas/calendarioAcademico/calendarioAcademico.xhtml">Calendario academico</a></li>
+                                                <li><a href="#{request.contextPath}/gestionesAcademicas/gestionAcademica/gestionesAcademicas.xhtml">Gestiones Académicas</a></li>
+                                                <li><a href="#{request.contextPath}/gestionesAcademicas/grupo/grupos.xhtml">Grupos</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('Horarios')}"><a><i class="fa fa-clock-o"></i> Horarios <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/horarios/asignacionDocente/asignacionDocente.xhtml">Asignación Docente</a></li>
+                                                <li><a href="#{request.contextPath}/horarios/asignacionDocente/asignacionDocente.xhtml">Asignación Docente</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('Inscripciones')}"><a><i class="fa fa-user-plus"></i> Inscripciones <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/inscripciones/estudianteNuevo.xhtml">Estudiante Nuevo</a></li>
-                                                <li><a href="/orion/inscripciones/estudianteRegular.xhtml">Estudiante Regular</a></li>
-                                                <li><a href="/orion/inscripciones/cambioCarrera.xhtml">Cambio de Carrera</a></li>
+                                                <li><a href="#{request.contextPath}/inscripciones/estudianteNuevo.xhtml">Estudiante Nuevo</a></li>
+                                                <li><a href="#{request.contextPath}/inscripciones/estudianteRegular.xhtml">Estudiante Regular</a></li>
+                                                <li><a href="#{request.contextPath}/inscripciones/cambioCarrera.xhtml">Cambio de Carrera</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('Pagos')}"><a><i class="fa fa-dollar"></i> Pagos <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/pagos/nuevoPago/nuevoPago.xhtml">Nuevo Pago</a></li>
-                                                <li><a href="/orion/pagos/anularPago.xhtml">Anular Pago</a></li>
+                                                <li><a href="#{request.contextPath}/pagos/nuevoPago/nuevoPago.xhtml">Nuevo Pago</a></li>
+                                                <li><a href="#{request.contextPath}/pagos/anularPago.xhtml">Anular Pago</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('Estudiante')}"><a><i class="fa fa-user"></i> Estudiante <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/estudiante/inscripcionInternet/estadoInscripcion.xhtml">Inscripción por Internet</a></li>
-                                                <li><a href="/orion/estudiante/historialAcademico.xhtml">Historial Academico</a></li>
-                                                <li><a href="/orion/estudiante/historialEconomico.xhtml">Historial Economico</a></li>
-                                                <li><a href="/orion/estudiante/fileEstudiante.xhtml">File Estudiante</a></li>
+                                                <li><a href="#{request.contextPath}/estudiante/inscripcionInternet/estadoInscripcion.xhtml">Inscripción por Internet</a></li>
+                                                <li><a href="#{request.contextPath}/estudiante/historialAcademico.xhtml">Historial Academico</a></li>
+                                                <li><a href="#{request.contextPath}/estudiante/historialEconomico.xhtml">Historial Economico</a></li>
+                                                <li><a href="#{request.contextPath}/estudiante/fileEstudiante.xhtml">File Estudiante</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('Registro Docente')}"><a><i class="fa fa-folder"></i> Registro Docente <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/registroDocente/primerParcial.xhtml">Primer Parcial</a></li>
-                                                <li><a href="/orion/registroDocente/segundoParcial.xhtml">Segundo Parcial</a></li>
-                                                <li><a href="/orion/registroDocente/tercerParcial.xhtml">Tercer Parcial</a></li>
-                                                <li><a href="/orion/registroDocente/cuartoParcial.xhtml">Cuarto Parcial</a></li>
-                                                <li><a href="/orion/registroDocente/pruebaRecuperacion.xhtml">Prueba de Recuperacion</a></li>
+                                                <li><a href="#{request.contextPath}/registroDocente/primerParcial.xhtml">Primer Parcial</a></li>
+                                                <li><a href="#{request.contextPath}/registroDocente/segundoParcial.xhtml">Segundo Parcial</a></li>
+                                                <li><a href="#{request.contextPath}/registroDocente/tercerParcial.xhtml">Tercer Parcial</a></li>
+                                                <li><a href="#{request.contextPath}/registroDocente/cuartoParcial.xhtml">Cuarto Parcial</a></li>
+                                                <li><a href="#{request.contextPath}/registroDocente/pruebaRecuperacion.xhtml">Prueba de Recuperacion</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('File Estudiante')}"><a><i class="fa fa-folder-o"></i> File Estudiante <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/fileEstudiante/historialAcademico/historialAcademico.xhtml">Historial Academico</a></li>
-                                                <li><a href="/orion/fileEstudiante/historialEconomico/historialEconomico.xhtml">Historial Economico</a></li>
-                                                <li><a href="/orion/fileEstudiante/estudiante/estudiantes.xhtml">Estudiantes</a></li>
+                                                <li><a href="#{request.contextPath}/fileEstudiante/historialAcademico/historialAcademico.xhtml">Historial Academico</a></li>
+                                                <li><a href="#{request.contextPath}/fileEstudiante/historialEconomico/historialEconomico.xhtml">Historial Economico</a></li>
+                                                <li><a href="#{request.contextPath}/fileEstudiante/estudiante/estudiantes.xhtml">Estudiantes</a></li>
                                             </ul>
                                         </li>
 
                                         <li style="display: #{LoginController.display('Reportes')}"><a><i class="fa fa-bar-chart"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/reportes/mallaCurricular/reporteMallaCurricular.xhtml">Malla Curricular</a></li>
-                                                <li><a href="/orion/reportes/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
-                                                <li><a href="/orion/reportes/historialAcademico/reporteHistorialAcademico.xhtml">Historial Academico</a></li>
-                                                <li><a href="/orion/reportes/historialEconomico/reporteHistorialEconomico.xhtml">Historial Economico</a></li>
-                                                <li><a href="/orion/reportes/centralizadorCalificaciones/reporteCentralizadorCalificaciones.xhtml">Centralizador Calificaciones</a></li>
+                                                <li><a href="#{request.contextPath}/reportes/mallaCurricular/reporteMallaCurricular.xhtml">Malla Curricular</a></li>
+                                                <li><a href="#{request.contextPath}/reportes/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
+                                                <li><a href="#{request.contextPath}/reportes/historialAcademico/reporteHistorialAcademico.xhtml">Historial Academico</a></li>
+                                                <li><a href="#{request.contextPath}/reportes/historialEconomico/reporteHistorialEconomico.xhtml">Historial Economico</a></li>
+                                                <li><a href="#{request.contextPath}/reportes/centralizadorCalificaciones/reporteCentralizadorCalificaciones.xhtml">Centralizador Calificaciones</a></li>
                                             </ul>
                                         </li>
 
@@ -148,8 +148,8 @@
                                     <ul class="nav side-menu">
                                         <li><a><i class="fa fa-question-circle"></i> Ayuda <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="/orion/acercaDe.xhtml">Acerca de</a></li>
-                                                <li><a href="http://orion.malbino.org" target="_blank">Soporte técnico</a></li>
+                                                <li><a href="#{request.contextPath}/acercaDe.xhtml">Acerca de</a></li>
+                                                <li><a href="https://proyectoorion.com/" target="_blank">Soporte técnico</a></li>
                                                 <li><a href="mailto:maacrazy@gmail.com?subject=Incidencia Orion">Reportar incidencia</a></li>
                                             </ul>
                                         </li>
@@ -165,7 +165,7 @@
                                 </p:link>
                                 <p:tooltip for="home" value="Inicio" position="top"/>
 
-                                <p:link id="soporteTecnico" href="http://orion.malbino.org" target="_blank">
+                                <p:link id="soporteTecnico" href="https://proyectoorion.com/" target="_blank">
                                     <span class="fa fa-support" aria-hidden="true"></span>
                                 </p:link>
                                 <p:tooltip for="soporteTecnico" value="Soporte tecnico" position="top"/>
@@ -194,11 +194,11 @@
                                 <ul class=" navbar-right">
                                     <li class="nav-item dropdown open" style="padding-left: 15px;">
                                         <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                            <img src="/orion/resources/images/user.png" alt=""/>#{LoginController.usr.nombre}
+                                            <img src="#{request.contextPath}/resources/images/user.png" alt=""/>#{LoginController.usr.nombre}
                                         </a>
                                         <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="/orion/home.xhtml">Inicio</a>
-                                            <a class="dropdown-item" href="http://orion.malbino.org" target="_blank">Soporte técnico</a>
+                                            <a class="dropdown-item" href="#{request.contextPath}/home.xhtml">Inicio</a>
+                                            <a class="dropdown-item" href="https://proyectoorion.com/" target="_blank">Soporte técnico</a>
                                             <a class="dropdown-item" href="mailto:maacrazy@gmail.com?subject=Incidencia Orion">Reportar incidencia</a>
                                             <p:commandLink action="#{LoginController.logout()}" value="Cerrar Sesión" styleClass="dropdown-item">
                                                 <i class="fa fa-sign-out pull-right"></i>
@@ -217,7 +217,7 @@
                                             <ui:repeat var="actividad" value="#{LoginController.listaActividadesProximas}">
                                                 <li class="nav-item">
                                                     <a class="dropdown-item">
-                                                        <span class="image"><img src="/orion/resources/images/activity.png" alt="Actividad proxima" /></span>
+                                                        <span class="image"><img src="#{request.contextPath}/resources/images/activity.png" alt="Actividad proxima" /></span>
                                                         <span>
                                                             <span>#{actividad.gestionAcademica.toString()}</span>
                                                             <span class="time">#{actividad.inicio_ddMMyyyy()}</span>
@@ -269,10 +269,10 @@
         </div>
 
         <!-- Bootstrap -->
-        <script src="/orion/resources/js/bootstrap.bundle.min.js"></script>
+        <script src="#{request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>
 
         <!-- Custom Theme Scripts -->
-        <script src="/orion/resources/js/custom.min.js"></script>
+        <script src="#{request.contextPath}/resources/js/custom.min.js"></script>
     </h:body>
 
 </html>

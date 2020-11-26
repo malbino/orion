@@ -43,15 +43,15 @@ public class SecurityFilter implements Filter {
 
         Usuario usr = loginController.getUsr();
         if (usr != null) {
-            String uri = req.getRequestURI();
-            List<Recurso> listaRecursos = recursoFacade.buscarPorPersonaUri(usr.getId_persona(), uri);
+            String servletPath = req.getServletPath();
+            List<Recurso> listaRecursos = recursoFacade.buscarPorPersonaServletPath(usr.getId_persona(), servletPath);
             if (!listaRecursos.isEmpty()) {
                 chain.doFilter(request, response);
             } else {
-                res.sendRedirect("/orion/page_403.xhtml");
+                res.sendRedirect(req.getContextPath() + "/page_403.xhtml");
             }
         } else {
-            res.sendRedirect("/orion/login.xhtml");
+            res.sendRedirect(req.getContextPath() + "/login.xhtml");
         }
     }
 

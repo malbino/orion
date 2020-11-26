@@ -48,7 +48,7 @@ public class RecursoFacade extends AbstractFacade<Recurso> {
         return l;
     }
 
-    public List<Recurso> buscarPorPersonaUri(int id_persona, String uri) {
+    public List<Recurso> buscarPorPersonaServletPath(int id_persona, String uri) {
         List<Recurso> l = new ArrayList();
 
         try {

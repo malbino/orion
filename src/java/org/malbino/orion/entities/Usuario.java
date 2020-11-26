@@ -22,7 +22,7 @@ import javax.persistence.Transient;
  * @author malbino
  */
 @Entity
-@Table(name = "usuario", catalog = "orion")
+@Table(name = "usuario")
 
 @PrimaryKeyJoinColumn(name = "id_persona")
 @DiscriminatorValue("Usuario")
@@ -41,7 +41,7 @@ public class Usuario extends Persona implements Serializable {
     @Transient
     private String pinIntroducido;
 
-    @JoinTable(name = "cuenta", catalog = "orion", joinColumns = {
+    @JoinTable(name = "cuenta", joinColumns = {
         @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")}, inverseJoinColumns = {
         @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")})
     @ManyToMany

@@ -21,7 +21,7 @@ import org.malbino.orion.enums.Caracter;
  * @author malbino
  */
 @Entity
-@Table(name = "instituto", catalog = "orion")
+@Table(name = "instituto")
 public class Instituto implements Serializable {
 
     @Id
