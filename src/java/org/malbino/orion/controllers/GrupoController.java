@@ -24,6 +24,7 @@ import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.negocio.ProgramacionGruposFacade;
+import org.malbino.orion.util.Moodle;
 
 /**
  *
@@ -132,12 +133,13 @@ public class GrupoController extends AbstractController implements Serializable 
     
     //moolde
     public void copiarGrupo() {
-        Instituto instituto = seleccionGrupo.getMateria().getCarrera().getCampus().getInstituto();
-        String webservice = instituto.getWebservice();
-        String login = instituto.getLogin();
-        String username = instituto.getUsername();
-        String password = instituto.getPassword();
-        String serviceName = instituto.getServicename();
+        String[] properties = Moodle.getProperties();
+        
+        String webservice = properties[0];
+        String login = properties[1];
+        String username = properties[2];
+        String password = properties[3];
+        String serviceName = properties[4];
        
         List<Nota> listaNotasGrupo = notaFacade.listaNotasGrupo(seleccionGrupo.getId_grupo());
         
