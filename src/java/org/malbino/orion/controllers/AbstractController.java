@@ -119,7 +119,7 @@ public abstract class AbstractController implements Serializable {
     }
 
     public List<Empleado> completarEmpleado(String consulta) {
-        List<Empleado> empleados = empleadoFacade.listaEmpleados();
+        List<Empleado> empleados = empleadoFacade.findAll();
         List<Empleado> empleadosFiltrados = new ArrayList();
 
         for (Empleado e : empleados) {
@@ -132,7 +132,7 @@ public abstract class AbstractController implements Serializable {
     }
 
     public List<Estudiante> completarEstudiante(String consulta) {
-        List<Estudiante> estudiantes = estudianteFacade.listaEstudiantes();
+        List<Estudiante> estudiantes = estudianteFacade.findAll();
         List<Estudiante> estudiantesFiltrados = new ArrayList();
 
         for (Estudiante e : estudiantes) {
