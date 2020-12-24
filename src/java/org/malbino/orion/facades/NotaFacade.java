@@ -5,6 +5,7 @@
 package org.malbino.orion.facades;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -253,6 +254,21 @@ public class NotaFacade extends AbstractFacade<Nota> {
             q.setParameter("condicion", Condicion.APROBADO);
 
             d = (Double) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return d;
+    }
+    
+    public Date fechaInicio(int id_persona) {
+        Date d = null;
+
+        try {
+            Query q = em.createQuery("SELECT MIN(ga.inicio) FROM Nota n JOIN n.gestionAcademica ga JOIN n.estudiante e WHERE e.id_persona=:id_persona");
+            q.setParameter("id_persona", id_persona);
+
+            d = (Date) q.getSingleResult();
         } catch (Exception e) {
 
         }

@@ -15,9 +15,11 @@ import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
-import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.enums.Funcionalidad;
+import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -31,6 +33,8 @@ public class CambioCarreraController extends AbstractController implements Seria
     InscritoFacade inscritoFacade;
     @EJB
     InscripcionesFacade inscripcionesFacade;
+    @EJB
+    ActividadFacade actividadFacade;
 
     private Estudiante seleccionEstudiante;
     private Carrera seleccionCarrera;
@@ -53,26 +57,30 @@ public class CambioCarreraController extends AbstractController implements Seria
     public List<GestionAcademica> listaGestionesAcademicas() {
         List<GestionAcademica> l = new ArrayList();
         if (seleccionCarrera != null) {
-            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarrera.getRegimen());
+            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarrera.getRegimen(), true);
         }
         return l;
     }
 
     public void registrarEstudiante() throws IOException {
-        if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
-            if (seleccionEstudiante.getTituloBachiller()) {
-            if (inscripcionesFacade.cambioCarrera(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
-                reinit();
+        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
+            if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
+                if (seleccionEstudiante.getTituloBachiller()) {
+                    if (inscripcionesFacade.cambioCarrera(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
+                        reinit();
 
-                this.mensajeDeInformacion("Guardado.");
+                        this.mensajeDeInformacion("Guardado.");
+                    } else {
+                        this.mensajeDeError("No se pudo registrar al estudiante.");
+                    }
+                } else {
+                    this.mensajeDeError("Estudiante sin titulo de bachiller.");
+                }
             } else {
-                this.mensajeDeError("No se pudo registrar al estudiante.");
-            }
-            } else {
-                this.mensajeDeError("Estudiante sin titulo de bachiller.");
+                this.mensajeDeError("Estudiante repetido.");
             }
         } else {
-            this.mensajeDeError("Estudiante repetido.");
+            this.mensajeDeError("Fuera de fecha.");
         }
     }
 

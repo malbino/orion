@@ -71,8 +71,7 @@ public class ComprobantePago extends HttpServlet {
 
     public void generarPDF(HttpServletRequest request, HttpServletResponse response) {
         Integer id_comprobante = (Integer) request.getSession().getAttribute("id_comprobante");
-        Estudiante estudiante = (Estudiante) request.getSession().getAttribute("estudiante");
-        Inscrito inscrito = (Inscrito) request.getSession().getAttribute("inscrito");
+        Estudiante estudiante = (Estudiante) request.getSession().getAttribute("est");
 
         if (id_comprobante != null) {
             Comprobante comprobante = comprobanteFacade.find(id_comprobante);
@@ -84,7 +83,7 @@ public class ComprobantePago extends HttpServlet {
 
                 document.open();
 
-                document.add(comprobante(comprobante, estudiante, inscrito));
+                document.add(comprobante(comprobante, estudiante));
 
                 document.close();
             } catch (IOException | DocumentException ex) {
@@ -94,7 +93,7 @@ public class ComprobantePago extends HttpServlet {
         }
     }
 
-    public PdfPTable comprobante(Comprobante comprobante, Estudiante estudiante, Inscrito inscrito) throws BadElementException, IOException {
+    public PdfPTable comprobante(Comprobante comprobante, Estudiante estudiante) throws BadElementException, IOException {
         PdfPTable table = new PdfPTable(100);
 
         //cabecera
@@ -346,7 +345,7 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //codigos
-        if (estudiante != null && inscrito != null) {
+        if (estudiante != null) {
             cell = new PdfPCell(new Phrase(" ", NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(100);

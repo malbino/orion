@@ -107,6 +107,21 @@ public class InscripcionesFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudianteRegular(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
+        if (estudiante.getMatricula() == null && estudiante.getUsuario() == null) {
+            Date fecha = notaFacade.fechaInicio(estudiante.getId_persona());
+            if (fecha == null) {
+                fecha = Fecha.getDate();
+                estudiante.setFecha(fecha);
+            } else {
+                estudiante.setFecha(fecha);
+            }
+
+            Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
+            String matricula = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
+            estudiante.setMatricula(matricula);
+            estudiante.setUsuario(matricula);
+        }
+
         estudiante.setContrasena(null);
         em.merge(estudiante);
 
@@ -142,6 +157,21 @@ public class InscripcionesFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean cambioCarrera(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
+        if (estudiante.getMatricula() == null && estudiante.getUsuario() == null) {
+            Date fecha = notaFacade.fechaInicio(estudiante.getId_persona());
+            if (fecha == null) {
+                fecha = Fecha.getDate();
+                estudiante.setFecha(fecha);
+            } else {
+                estudiante.setFecha(fecha);
+            }
+
+            Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
+            String matricula = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
+            estudiante.setMatricula(matricula);
+            estudiante.setUsuario(matricula);
+        }
+
         estudiante.setContrasena(null);
         estudiante.getCarreras().add(carrera);
         em.merge(estudiante);

@@ -95,8 +95,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
             if (!seleccionPagos.isEmpty()) {
                 if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos, seleccionEstudiante, seleccionInscrito)) {
                     this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
-                    this.insertarParametro("estudiante", seleccionEstudiante);
-                    this.insertarParametro("inscrito", seleccionInscrito);
+                    this.insertarParametro("est", seleccionEstudiante);
 
                     this.reinit();
 
@@ -112,8 +111,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
             if (!seleccionPagos.isEmpty()) {
                 if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos)) {
                     this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
-                    this.insertarParametro("estudiante", null);
-                    this.insertarParametro("inscrito", null);
+                    this.insertarParametro("est", null);
 
                     this.reinit();
 

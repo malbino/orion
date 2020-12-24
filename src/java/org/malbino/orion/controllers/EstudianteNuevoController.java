@@ -59,7 +59,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     }
 
     public void registrarEstudiante() {
-        if (!actividadFacade.listaActividades(nuevoEstudiante.getFecha(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
+        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (estudianteFacade.buscarPorDni(nuevoEstudiante.getDni()) == null) {
                 if (inscripcionesFacade.registrarEstudianteNuevo(nuevoEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
                     reinit();
