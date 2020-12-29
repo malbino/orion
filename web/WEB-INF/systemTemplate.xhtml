@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-
+    
     <h:head>
         <f:facet name="first">
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -273,6 +273,9 @@
 
         <!-- Custom Theme Scripts -->
         <script src="#{request.contextPath}/resources/js/custom.min.js"></script>
+        
+        <!-- Calendar ES -->
+        <h:outputScript library="js" name="calendar_es.js" />
     </h:body>
-
+    
 </html>

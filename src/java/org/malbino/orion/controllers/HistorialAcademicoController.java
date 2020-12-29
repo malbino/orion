@@ -29,40 +29,84 @@ import org.malbino.orion.facades.negocio.FileEstudianteFacade;
 @Named("HistorialAcademicoController")
 @SessionScoped
 public class HistorialAcademicoController extends AbstractController implements Serializable {
-    
+
     @Inject
     LoginController loginController;
     @EJB
     NotaFacade notaFacade;
     @EJB
     FileEstudianteFacade fileEstudianteFacade;
-    
+
     private Estudiante seleccionEstudiante;
     private Carrera seleccionCarrera;
     private List<Nota> historialAcademico;
-    
+
     private Nota nuevaNota;
     private Nota seleccionNota;
-    
+
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
         seleccionCarrera = null;
         historialAcademico = new ArrayList();
-        
+
         nuevaNota = new Nota();
         seleccionNota = null;
     }
-    
+
     public void reinit() {
         if (seleccionEstudiante != null && seleccionCarrera != null) {
             historialAcademico = notaFacade.historialAcademico(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera());
         }
-        
+
         nuevaNota = new Nota();
         seleccionNota = null;
     }
-    
+
+    public void sumaNota1() {
+        Integer nota1 = 0;
+        if (seleccionNota.getTeoria1() != null) {
+            nota1 += seleccionNota.getTeoria1();
+        }
+        if (seleccionNota.getPractica1() != null) {
+            nota1 += seleccionNota.getPractica1();
+        }
+        seleccionNota.setNota1(nota1);
+    }
+
+    public void sumaNota2() {
+        Integer nota2 = 0;
+        if (seleccionNota.getTeoria2() != null) {
+            nota2 += seleccionNota.getTeoria2();
+        }
+        if (seleccionNota.getPractica2() != null) {
+            nota2 += seleccionNota.getPractica2();
+        }
+        seleccionNota.setNota2(nota2);
+    }
+
+    public void sumaNota3() {
+        Integer nota3 = 0;
+        if (seleccionNota.getTeoria3() != null) {
+            nota3 += seleccionNota.getTeoria3();
+        }
+        if (seleccionNota.getPractica3() != null) {
+            nota3 += seleccionNota.getPractica3();
+        }
+        seleccionNota.setNota3(nota3);
+    }
+
+    public void sumaNota4() {
+        Integer nota4 = 0;
+        if (seleccionNota.getTeoria4() != null) {
+            nota4 += seleccionNota.getTeoria4();
+        }
+        if (seleccionNota.getPractica4() != null) {
+            nota4 += seleccionNota.getPractica4();
+        }
+        seleccionNota.setNota4(nota4);
+    }
+
     @Override
     public List<Carrera> listaCarreras() {
         List<Carrera> l = new ArrayList();
@@ -71,7 +115,7 @@ public class HistorialAcademicoController extends AbstractController implements 
         }
         return l;
     }
-    
+
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
         List<GestionAcademica> l = new ArrayList();
@@ -80,7 +124,7 @@ public class HistorialAcademicoController extends AbstractController implements 
         }
         return l;
     }
-    
+
     public List<Materia> listaMaterias() {
         List<Materia> l = new ArrayList();
         if (seleccionCarrera != null && seleccionEstudiante != null) {
@@ -88,18 +132,18 @@ public class HistorialAcademicoController extends AbstractController implements 
         }
         return l;
     }
-    
+
     @Override
     public Modalidad[] listaModalidades() {
         return Modalidad.values(Boolean.FALSE);
     }
-    
+
     public void editarParcial() throws IOException {
         if (fileEstudianteFacade.editarParcial(seleccionNota)) {
             toHistorialAcademico();
         }
     }
-    
+
     public void editarRecuperatorio() throws IOException {
         List<Nota> listaNotasReprobadas = notaFacade.listaNotasReprobadas(seleccionNota.getGestionAcademica().getId_gestionacademica(), seleccionNota.getMateria().getCarrera().getId_carrera(), seleccionNota.getEstudiante().getId_persona());
         if (listaNotasReprobadas.size() <= seleccionNota.getMateria().getCarrera().getRegimen().getCantidadMaximaReprobaciones()) {
@@ -116,7 +160,7 @@ public class HistorialAcademicoController extends AbstractController implements 
             this.mensajeDeError("Las materias reprobadas exceden el maximo permitido.");
         }
     }
-    
+
     public void crearNota() throws IOException {
         List<Nota> listaNotasMateria = notaFacade.listaNotasMateria(nuevaNota.getGestionAcademica().getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionEstudiante.getId_persona(), nuevaNota.getMateria().getId_materia());
         if (listaNotasMateria.isEmpty()) {
@@ -128,7 +172,7 @@ public class HistorialAcademicoController extends AbstractController implements 
             this.mensajeDeError("Nota repetida.");
         }
     }
-    
+
     public void eliminarNota() throws IOException {
         List<Nota> listaNotasPrerequisito = notaFacade.listaNotasPrerequisito(seleccionCarrera.getId_carrera(), seleccionEstudiante.getId_persona(), seleccionNota.getMateria().getId_materia());
         if (listaNotasPrerequisito.isEmpty()) {
@@ -139,25 +183,25 @@ public class HistorialAcademicoController extends AbstractController implements 
             this.mensajeDeError("La nota es prerequisito.");
         }
     }
-    
+
     public void toHistorialAcademico() throws IOException {
         reinit();
-        
+
         this.redireccionarViewId("/fileEstudiante/historialAcademico/historialAcademico");
     }
-    
+
     public void toEditarParcial() throws IOException {
         this.redireccionarViewId("/fileEstudiante/historialAcademico/editarParcial");
     }
-    
+
     public void toEditarRecuperatorio() throws IOException {
         this.redireccionarViewId("/fileEstudiante/historialAcademico/editarRecuperatorio");
     }
-    
+
     public void toNuevaNota() throws IOException {
         this.redireccionarViewId("/fileEstudiante/historialAcademico/nuevaNota");
     }
-    
+
     public void toEditarNota() throws IOException {
         this.redireccionarViewId("/fileEstudiante/historialAcademico/editarNota");
     }
@@ -231,5 +275,5 @@ public class HistorialAcademicoController extends AbstractController implements 
     public void setSeleccionNota(Nota seleccionNota) {
         this.seleccionNota = seleccionNota;
     }
-    
+
 }

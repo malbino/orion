@@ -25,29 +25,99 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="primerParcial" value="Primer parcial:" style="font-size: small"/>
-                                            <p:inputNumber id="primerParcial" value="#{HistorialAcademicoController.seleccionNota.primerParcial}"
-                                                           minValue="0" maxValue="100" decimalPlaces="0"/>
+                                            <p:outputLabel for="teoria1" value="Teoria 1:" style="font-size: small"/>
+                                            <p:inputNumber id="teoria1" value="#{HistorialAcademicoController.seleccionNota.teoria1}"
+                                                           minValue="0" maxValue="30" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota1" listener="#{HistorialAcademicoController.sumaNota1}" />
+                                            </p:inputNumber>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="segundoParcial" value="Segundo parcial:" style="font-size: small"/>
-                                            <p:inputNumber id="segundoParcial" value="#{HistorialAcademicoController.seleccionNota.segundoParcial}"
-                                                           minValue="0" maxValue="100" decimalPlaces="0"/>
+                                            <p:outputLabel for="practica1" value="Practica 1:" style="font-size: small"/>
+                                            <p:inputNumber id="practica1" value="#{HistorialAcademicoController.seleccionNota.practica1}"
+                                                           minValue="0" maxValue="70" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota1" listener="#{HistorialAcademicoController.sumaNota1}" />
+                                            </p:inputNumber>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="tercerParcial" value="Tercer parcial:" style="font-size: small"/>
-                                            <p:inputNumber id="tercerParcial" value="#{HistorialAcademicoController.seleccionNota.tercerParcial}"
+                                            <p:outputLabel for="nota1" value="Nota 1:" style="font-size: small"/>
+                                            <p:inputNumber id="nota1" value="#{HistorialAcademicoController.seleccionNota.nota1}" disabled="true"
                                                            minValue="0" maxValue="100" decimalPlaces="0"/>
                                         </div>
-
-                                        <p:outputPanel styleClass="ui-g-12 ui-md-4" rendered="#{HistorialAcademicoController.seleccionNota.materia.carrera.regimen.cantidadParciales == 4}">
-                                                <p:outputLabel for="cuartoParcial" value="Cuarto parcial:" style="font-size: small"/>
-                                                <p:inputNumber id="cuartoParcial" value="#{HistorialAcademicoController.seleccionNota.cuartoParcial}"
-                                                               minValue="0" maxValue="100" decimalPlaces="0"/>
-                                        </p:outputPanel>
                                     </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="teoria2" value="Teoria 2:" style="font-size: small"/>
+                                            <p:inputNumber id="teoria2" value="#{HistorialAcademicoController.seleccionNota.teoria2}"
+                                                           minValue="0" maxValue="30" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota2" listener="#{HistorialAcademicoController.sumaNota2}" />
+                                            </p:inputNumber>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="practica2" value="Practica 2:" style="font-size: small"/>
+                                            <p:inputNumber id="practica2" value="#{HistorialAcademicoController.seleccionNota.practica2}"
+                                                           minValue="0" maxValue="70" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota2" listener="#{HistorialAcademicoController.sumaNota2}" />
+                                            </p:inputNumber>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nota2" value="Nota 2:" style="font-size: small"/>
+                                            <p:inputNumber id="nota2" value="#{HistorialAcademicoController.seleccionNota.nota2}" disabled="true"
+                                                           minValue="0" maxValue="100" decimalPlaces="0"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="teoria3" value="Teoria 3:" style="font-size: small"/>
+                                            <p:inputNumber id="teoria3" value="#{HistorialAcademicoController.seleccionNota.teoria3}"
+                                                           minValue="0" maxValue="30" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota3" listener="#{HistorialAcademicoController.sumaNota3}" />
+                                            </p:inputNumber>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="practica3" value="Practica 3:" style="font-size: small"/>
+                                            <p:inputNumber id="practica3" value="#{HistorialAcademicoController.seleccionNota.practica3}"
+                                                           minValue="0" maxValue="70" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota3" listener="#{HistorialAcademicoController.sumaNota3}" />
+                                            </p:inputNumber>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nota3" value="Nota 3:" style="font-size: small"/>
+                                            <p:inputNumber id="nota3" value="#{HistorialAcademicoController.seleccionNota.nota3}" disabled="true"
+                                                           minValue="0" maxValue="100" decimalPlaces="0"/>
+                                        </div>
+                                    </div>
+
+                                    <p:outputPanel styleClass="ui-g ui-fluid" rendered="#{HistorialAcademicoController.seleccionNota.materia.carrera.regimen.cantidadParciales == 4}">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="teoria4" value="Teoria 4:" style="font-size: small"/>
+                                            <p:inputNumber id="teoria4" value="#{HistorialAcademicoController.seleccionNota.teoria4}"
+                                                           minValue="0" maxValue="30" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota4" listener="#{HistorialAcademicoController.sumaNota4}" />
+                                            </p:inputNumber>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="practica4" value="Practica 4:" style="font-size: small"/>
+                                            <p:inputNumber id="practica4" value="#{HistorialAcademicoController.seleccionNota.practica4}"
+                                                           minValue="0" maxValue="70" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota4" listener="#{HistorialAcademicoController.sumaNota4}" />
+                                            </p:inputNumber>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nota4" value="Nota 4:" style="font-size: small"/>
+                                            <p:inputNumber id="nota4" value="#{HistorialAcademicoController.seleccionNota.nota4}" disabled="true"
+                                                           minValue="0" maxValue="100" decimalPlaces="0"/>
+                                        </div>
+                                    </p:outputPanel>
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">

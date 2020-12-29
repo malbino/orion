@@ -4,7 +4,6 @@
  */
 package org.malbino.orion.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -33,7 +32,7 @@ import org.slf4j.LoggerFactory;
 @Named("InstitutoController")
 @SessionScoped
 public class InstitutoController extends AbstractController implements Serializable {
-    
+
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(InstitutoController.class);
 
     @EJB
@@ -56,7 +55,7 @@ public class InstitutoController extends AbstractController implements Serializa
         Path folder = Paths.get(realPath() + "/resources/uploads");
         String extension = FilenameUtils.getExtension(event.getFile().getFileName());
         Path file = null;
-        try (InputStream input = event.getFile().getInputstream()) {
+        try (InputStream input = event.getFile().getInputStream()) {
             file = Files.createTempFile(folder, null, "." + extension);
             Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
 
@@ -71,11 +70,11 @@ public class InstitutoController extends AbstractController implements Serializa
             reinit();
 
             this.mensajeDeInformacion("Guardado.");
-            
+
             log.info("Instituto editado [Instituto: " + instituto + ", User: " + loginController.getUsuario() + "]");
         }
     }
-    
+
     /**
      * @return the instituto
      */

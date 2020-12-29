@@ -46,29 +46,106 @@ public class FileEstudianteFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean editarParcial(Nota nota) {
-        Integer sum = 0;
-        if (nota.getPrimerParcial() != null) {
-            sum += nota.getPrimerParcial();
+        Integer nota1 = 0;
+        if (nota.getTeoria1() != null) {
+            nota1 += nota.getTeoria1();
         }
-        if (nota.getSegundoParcial() != null) {
-            sum += nota.getSegundoParcial();
+        if (nota.getPractica1() != null) {
+            nota1 += nota.getPractica1();
         }
-        if (nota.getTercerParcial() != null) {
-            sum += nota.getTercerParcial();
+        if (nota.getTeoria1() == null && nota.getPractica1() == null) {
+            nota.setNota1(null);
+        } else {
+            nota.setNota1(nota1);
         }
+
+        Integer nota2 = 0;
+        if (nota.getTeoria2() != null) {
+            nota2 += nota.getTeoria2();
+        }
+        if (nota.getPractica2() != null) {
+            nota2 += nota.getPractica2();
+        }
+        if (nota.getTeoria2() == null && nota.getPractica2() == null) {
+            nota.setNota2(null);
+        } else {
+            nota.setNota2(nota2);
+        }
+
+        Integer nota3 = 0;
+        if (nota.getTeoria3() != null) {
+            nota3 += nota.getTeoria3();
+        }
+        if (nota.getPractica3() != null) {
+            nota3 += nota.getPractica3();
+        }
+        if (nota.getTeoria3() == null && nota.getPractica3() == null) {
+            nota.setNota3(null);
+        } else {
+            nota.setNota3(nota3);
+        }
+
         if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
-            if (nota.getCuartoParcial() != null) {
-                sum += nota.getCuartoParcial();
+            Integer nota4 = 0;
+            if (nota.getTeoria4() != null) {
+                nota4 += nota.getTeoria4();
+            }
+            if (nota.getPractica4() != null) {
+                nota4 += nota.getPractica4();
+            }
+            if (nota.getTeoria4() == null && nota.getPractica4() == null) {
+                nota.setNota4(null);
+            } else {
+                nota.setNota4(nota4);
             }
         }
-        Double promedio = sum.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
-        Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
-        nota.setNotaFinal(promedioRedondeado);
 
-        if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
-            nota.setCondicion(Condicion.APROBADO);
-        } else {
-            nota.setCondicion(Condicion.REPROBADO);
+        Integer notaFinal = 0;
+        if (nota.getNota1() != null) {
+            notaFinal += nota.getNota1();
+        }
+        if (nota.getNota2() != null) {
+            notaFinal += nota.getNota2();
+        }
+        if (nota.getNota3() != null) {
+            notaFinal += nota.getNota3();
+        }
+        if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
+            if (nota.getNota4() != null) {
+                notaFinal += nota.getNota4();
+            }
+        }
+
+        if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 3) {
+            if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null) {
+                nota.setNotaFinal(null);
+                nota.setCondicion(Condicion.REPROBADO);
+            } else {
+                Double promedio = notaFinal.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
+                Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
+                nota.setNotaFinal(promedioRedondeado);
+
+                if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                    nota.setCondicion(Condicion.APROBADO);
+                } else {
+                    nota.setCondicion(Condicion.REPROBADO);
+                }
+            }
+        } else if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
+            if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null && nota.getNota4() == null) {
+                nota.setNotaFinal(null);
+                nota.setCondicion(Condicion.REPROBADO);
+            } else {
+                Double promedio = notaFinal.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
+                Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
+                nota.setNotaFinal(promedioRedondeado);
+
+                if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                    nota.setCondicion(Condicion.APROBADO);
+                } else {
+                    nota.setCondicion(Condicion.REPROBADO);
+                }
+            }
         }
 
         em.merge(nota);
@@ -80,6 +157,12 @@ public class FileEstudianteFacade {
     public boolean editarRecuperatorio(Nota nota) {
         if (nota.getRecuperatorio() != null) {
             if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                nota.setCondicion(Condicion.APROBADO);
+            } else {
+                nota.setCondicion(Condicion.REPROBADO);
+            }
+        } else if (nota.getNotaFinal() != null) {
+            if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                 nota.setCondicion(Condicion.APROBADO);
             } else {
                 nota.setCondicion(Condicion.REPROBADO);

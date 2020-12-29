@@ -10,5 +10,49 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum Condicion {
-    APROBADO, REPROBADO, ABANDONO;
+
+    APROBADO("APROBADO", "AP"),
+    REPROBADO("REPROBADO", "RE"),
+    ABANDONO("ABANDONO", "AB");
+
+    private String nombre;
+    private String abreviatura;
+
+    private Condicion(String nombre, String abreviatura) {
+        this.nombre = nombre;
+        this.abreviatura = abreviatura;
+    }
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * @return the abreviatura
+     */
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    /**
+     * @param abreviatura the abreviatura to set
+     */
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

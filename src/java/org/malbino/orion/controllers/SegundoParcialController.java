@@ -87,35 +87,6 @@ public class SegundoParcialController extends AbstractController implements Seri
         }
     }
 
-    public void editarNota(Nota nota) {
-        if (nota.getSegundoParcial() != null) {
-            Integer sum = 0;
-            if (nota.getPrimerParcial() != null) {
-                sum += nota.getPrimerParcial();
-            }
-            if (nota.getSegundoParcial() != null) {
-                sum += nota.getSegundoParcial();
-            }
-            if (nota.getTercerParcial() != null) {
-                sum += nota.getTercerParcial();
-            }
-            if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
-                if (nota.getCuartoParcial() != null) {
-                    sum += nota.getCuartoParcial();
-                }
-            }
-            Double promedio = sum.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
-            Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
-            nota.setNotaFinal(promedioRedondeado);
-
-            if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
-                nota.setCondicion(Condicion.APROBADO);
-            } else {
-                nota.setCondicion(Condicion.REPROBADO);
-            }
-        }
-    }
-
     public void guardar() {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_SEGUNDO_PARCIAL, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (registroDocenteFacade.editarNotas(notas)) {

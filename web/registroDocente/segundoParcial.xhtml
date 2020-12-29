@@ -96,23 +96,54 @@
                                                 <h:outputText value="#{nota.modalidad.abreviatura}"/>
                                             </p:column>
 
-                                            <p:column headerText="1P" style="text-align: center;">  
-                                                <h:outputText value="#{nota.primerParcial}"/>
+                                            <p:column headerText="T1" >  
+                                                <h:outputText value="#{nota.teoria1}" />
                                             </p:column>
 
-                                            <p:column headerText="2P" style="text-align: center;">  
+                                            <p:column headerText="P1" >  
+                                                <h:outputText value="#{nota.practica1}" />
+                                            </p:column>
+
+                                            <p:column headerText="N1">  
+                                                <h:outputText value="#{nota.nota1}"/>
+                                            </p:column>
+
+                                            <p:column headerText="T2" >  
                                                 <p:cellEditor>
-                                                    <f:facet name="output"><h:outputText value="#{nota.segundoParcial}" /></f:facet>
+                                                    <f:facet name="output"><h:outputText value="#{nota.teoria2}" /></f:facet>
                                                     <f:facet name="input">
-                                                        <p:inputNumber value="#{nota.segundoParcial}" minValue="0" maxValue="100" decimalPlaces="0" size="3">
-                                                            <p:ajax listener="#{SegundoParcialController.editarNota(nota)}" update="nf condicion" />  
+                                                        <p:inputNumber value="#{nota.teoria2}" minValue="0" maxValue="30" decimalPlaces="0" size="3">
+                                                            <p:ajax event="keyup" listener="#{SegundoParcialController.editarNota(nota)}" update="nota2 nf condicion" />  
                                                         </p:inputNumber>
                                                     </f:facet> 
                                                 </p:cellEditor>
                                             </p:column>
 
-                                            <p:column headerText="3P" style="text-align: center;">  
-                                                <h:outputText value="#{nota.tercerParcial}"/>
+                                            <p:column headerText="P2" >  
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{nota.practica2}" /></f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputNumber value="#{nota.practica2}" minValue="0" maxValue="70" decimalPlaces="0" size="3">
+                                                            <p:ajax event="keyup" listener="#{SegundoParcialController.editarNota(nota)}" update="nota2 nf condicion" />  
+                                                        </p:inputNumber>
+                                                    </f:facet> 
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="N2" >  
+                                                <h:outputText id="nota2" value="#{nota.nota2}" />
+                                            </p:column>
+
+                                            <p:column headerText="T3" >  
+                                                <h:outputText value="#{nota.teoria3}" />
+                                            </p:column>
+
+                                            <p:column headerText="P3" >  
+                                                <h:outputText value="#{nota.practica3}" />
+                                            </p:column>
+
+                                            <p:column headerText="N3" >  
+                                                <h:outputText value="#{nota.nota3}" />
                                             </p:column>
 
                                             <p:column headerText="NF" style="text-align: center;">
@@ -123,8 +154,8 @@
                                                 <h:outputText value="#{nota.recuperatorio}"/>
                                             </p:column>
 
-                                            <p:column headerText="Condicion" style="text-align: center;">
-                                                <h:outputText id="condicion" value="#{nota.condicion}"/>
+                                            <p:column headerText="CO" style="text-align: center;">
+                                                <h:outputText id="condicion" value="#{nota.condicion.abreviatura}"/>
                                             </p:column>
                                         </p:dataTable>
 
@@ -145,27 +176,66 @@
                                                 <h:outputText value="#{nota.modalidad.abreviatura}"/>
                                             </p:column>
 
-                                            <p:column headerText="1P" style="text-align: center;">  
-                                                <h:outputText value="#{nota.primerParcial}"/>
+                                            <p:column headerText="T1" >  
+                                                <h:outputText value="#{nota.teoria1}" />
                                             </p:column>
 
-                                            <p:column headerText="2P" style="text-align: center;">  
+                                            <p:column headerText="P1" >  
+                                                <h:outputText value="#{nota.practica1}" />
+                                            </p:column>
+
+                                            <p:column headerText="N1">  
+                                                <h:outputText value="#{nota.nota1}"/>
+                                            </p:column>
+
+                                            <p:column headerText="T2" >  
                                                 <p:cellEditor>
-                                                    <f:facet name="output"><h:outputText value="#{nota.segundoParcial}" /></f:facet>
+                                                    <f:facet name="output"><h:outputText value="#{nota.teoria2}" /></f:facet>
                                                     <f:facet name="input">
-                                                        <p:inputNumber value="#{nota.segundoParcial}" minValue="0" maxValue="100" decimalPlaces="0" size="3">
-                                                            <p:ajax listener="#{SegundoParcialController.editarNota(nota)}" update="nf condicion" />  
+                                                        <p:inputNumber value="#{nota.teoria2}" minValue="0" maxValue="30" decimalPlaces="0" size="3">
+                                                            <p:ajax event="keyup" listener="#{SegundoParcialController.editarNota(nota)}" update="nota2 nf condicion" />  
                                                         </p:inputNumber>
                                                     </f:facet> 
                                                 </p:cellEditor>
                                             </p:column>
 
-                                            <p:column headerText="3P" style="text-align: center;">  
-                                                <h:outputText value="#{nota.tercerParcial}"/>
+                                            <p:column headerText="P2" >  
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{nota.practica2}" /></f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputNumber value="#{nota.practica2}" minValue="0" maxValue="70" decimalPlaces="0" size="3">
+                                                            <p:ajax event="keyup" listener="#{SegundoParcialController.editarNota(nota)}" update="nota2 nf condicion" />  
+                                                        </p:inputNumber>
+                                                    </f:facet> 
+                                                </p:cellEditor>
                                             </p:column>
 
-                                            <p:column headerText="4P" style="text-align: center;">  
-                                                <h:outputText value="#{nota.cuartoParcial}"/>
+                                            <p:column headerText="N2" >  
+                                                <h:outputText id="nota2" value="#{nota.nota2}" />
+                                            </p:column>
+
+                                            <p:column headerText="T3" >  
+                                                <h:outputText value="#{nota.teoria3}" />
+                                            </p:column>
+
+                                            <p:column headerText="P3" >  
+                                                <h:outputText value="#{nota.practica3}" />
+                                            </p:column>
+
+                                            <p:column headerText="N3" >  
+                                                <h:outputText value="#{nota.nota3}" />
+                                            </p:column>
+
+                                            <p:column headerText="T4" >  
+                                                <h:outputText value="#{nota.teoria4}" />
+                                            </p:column>
+
+                                            <p:column headerText="P4" >  
+                                                <h:outputText value="#{nota.practica4}" />
+                                            </p:column>
+
+                                            <p:column headerText="N4" >  
+                                                <h:outputText value="#{nota.nota4}" />
                                             </p:column>
 
                                             <p:column headerText="NF" style="text-align: center;">
@@ -176,8 +246,8 @@
                                                 <h:outputText value="#{nota.recuperatorio}"/>
                                             </p:column>
 
-                                            <p:column headerText="Condicion" style="text-align: center;">
-                                                <h:outputText id="condicion" value="#{nota.condicion}"/>
+                                            <p:column headerText="CO" style="text-align: center;">
+                                                <h:outputText id="condicion" value="#{nota.condicion.abreviatura}"/>
                                             </p:column>
                                         </p:dataTable>
                                     </p:outputPanel>
