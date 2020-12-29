@@ -115,4 +115,20 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
 
         return l;
     }
+
+    public List<Inscrito> listaInscritosPorEstudianteCarrera(int id_persona, int id_carrera) {
+        List<Inscrito> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.estudiante e JOIN i.carrera c JOIN i.gestionAcademica ga WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera ORDER BY ga.gestion, ga.periodo");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }

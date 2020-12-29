@@ -274,6 +274,23 @@ public class InscripcionesFacade {
         return true;
     }
 
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public boolean retirarMateria(Nota nota) {
+        Grupo grupo = nota.getGrupo();
+        long cantidadNotasGrupo = grupoFacade.cantidadNotasGrupo(grupo.getId_grupo());
+
+        if (cantidadNotasGrupo < grupo.getCapacidad()) {
+            em.remove(em.merge(nota));
+        } else if (cantidadNotasGrupo == grupo.getCapacidad()) {
+            em.remove(em.merge(nota));
+
+            grupo.setAbierto(Boolean.TRUE);
+            em.merge(grupo);
+        }
+
+        return true;
+    }
+
     @Transactional(Transactional.TxType.REQUIRED)
     public List<Materia> ofertaTomaMaterias(Inscrito inscrito) {
         List<Materia> ofertaTomaMaterias = oferta(inscrito);

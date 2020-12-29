@@ -35,7 +35,7 @@
                                                 <p:ajax update="inscrito"/>
                                             </p:selectOneMenu>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="inscrito" value="Gestión Academica: " style="font-size: small"/>
                                             <p:selectOneMenu id="inscrito" value="#{InscripcionInternetController.seleccionInscrito}" converter="#{InscritoConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
@@ -48,7 +48,7 @@
                                     </div>
 
                                     <p:spacer/>
-                                    
+
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-list-alt" value="Oferta de Materias" actionListener="#{InscripcionInternetController.toOfertaMaterias()}" update="form"/>

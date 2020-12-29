@@ -14,7 +14,7 @@ import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Materia;
@@ -35,10 +35,10 @@ import org.malbino.orion.util.Fecha;
  *
  * @author Tincho
  */
-@Named("InscripcionInternetController")
+@Named("InscripcionManualController")
 @SessionScoped
-public class InscripcionInternetController extends AbstractController implements Serializable {
-
+public class InscripcionManualController extends AbstractController implements Serializable {
+    
     @Inject
     LoginController loginController;
     @EJB
@@ -53,45 +53,36 @@ public class InscripcionInternetController extends AbstractController implements
     ActividadFacade actividadFacade;
     @EJB
     PagoFacade pagoFacade;
-
-    private Carrera seleccionCarrera;
+    
+    private Estudiante seleccionEstudiante;
     private Inscrito seleccionInscrito;
-
+    
     private List<Materia> ofertaMaterias;
     private List<Nota> estadoInscripcion;
-
+    
+    private Nota seleccionNota;
+    
     @PostConstruct
     public void init() {
-        seleccionCarrera = null;
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
     }
-
+    
     public void reinit() {
-        seleccionCarrera = null;
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
     }
-
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
-        if (loginController.getUsr() != null) {
-            l = carreraFacade.listaCarrerasEstudiante(loginController.getUsr().getId_persona());
-        }
-        return l;
-    }
-
+    
     public List<Inscrito> listaInscritos() {
         List<Inscrito> l = new ArrayList();
-        if (loginController.getUsr() != null && seleccionCarrera != null) {
-            l = inscritoFacade.listaInscritosPorEstudianteCarrera(loginController.getUsr().getId_persona(), seleccionCarrera.getId_carrera());
+        if (seleccionEstudiante != null) {
+            l = inscritoFacade.listaInscritos(seleccionEstudiante.getId_persona());
         }
         return l;
     }
-
+    
     public List<Grupo> listaGruposAbiertos(Materia materia) {
         List<Grupo> l = new ArrayList();
         if (seleccionInscrito != null && materia != null) {
@@ -99,19 +90,19 @@ public class InscripcionInternetController extends AbstractController implements
         }
         return l;
     }
-
+    
     public void actualizarOferta() {
         if (seleccionInscrito != null) {
             ofertaMaterias = inscripcionesFacade.ofertaTomaMaterias(seleccionInscrito);
         }
     }
-
+    
     public void actualizarEstadoInscripcion() {
         if (seleccionInscrito != null) {
             estadoInscripcion = notaFacade.listaNotas(seleccionInscrito.getId_inscrito());
         }
     }
-
+    
     public boolean verificarGrupos() {
         boolean b = true;
         for (Materia m : ofertaMaterias) {
@@ -122,7 +113,7 @@ public class InscripcionInternetController extends AbstractController implements
         }
         return b;
     }
-
+    
     public void tomarMaterias() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION_INTERNET, seleccionInscrito.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
             List<Pago> listaPagosPagados = pagoFacade.listaPagosPagados(seleccionInscrito.getId_inscrito());
@@ -134,7 +125,7 @@ public class InscripcionInternetController extends AbstractController implements
                             Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
                             aux.add(nota);
                         }
-
+                        
                         try {
                             if (inscripcionesFacade.tomarMaterias(aux)) {
                                 toEstadoInscripcion();
@@ -155,31 +146,28 @@ public class InscripcionInternetController extends AbstractController implements
             this.mensajeDeError("Fuera de fecha.");
         }
     }
-
+    
+    public void retirarMateria() throws IOException {
+        List<Nota> listaNotasPrerequisito = notaFacade.listaNotasPrerequisito(seleccionInscrito.getCarrera().getId_carrera(), seleccionInscrito.getEstudiante().getId_persona(), seleccionNota.getMateria().getId_materia());
+        if (listaNotasPrerequisito.isEmpty()) {
+            if (inscripcionesFacade.retirarMateria(seleccionNota)) {
+                toEstadoInscripcion();
+            }
+        } else {
+            this.mensajeDeError("La nota es prerequisito.");
+        }
+    }
+    
     public void toEstadoInscripcion() throws IOException {
         this.actualizarEstadoInscripcion();
-
-        this.redireccionarViewId("/estudiante/inscripcionInternet/estadoInscripcion");
+        
+        this.redireccionarViewId("/inscripciones/inscripcionManual/estadoInscripcion");
     }
-
+    
     public void toOfertaMaterias() throws IOException {
         actualizarOferta();
-
-        this.redireccionarViewId("/estudiante/inscripcionInternet/ofertaMaterias");
-    }
-
-    /**
-     * @return the seleccionCarrera
-     */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
-    }
-
-    /**
-     * @param seleccionCarrera the seleccionCarrera to set
-     */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+        
+        this.redireccionarViewId("/inscripciones/inscripcionManual/ofertaMaterias");
     }
 
     /**
@@ -224,4 +212,32 @@ public class InscripcionInternetController extends AbstractController implements
         this.estadoInscripcion = estadoInscripcion;
     }
 
+    /**
+     * @return the seleccionEstudiante
+     */
+    public Estudiante getSeleccionEstudiante() {
+        return seleccionEstudiante;
+    }
+
+    /**
+     * @param seleccionEstudiante the seleccionEstudiante to set
+     */
+    public void setSeleccionEstudiante(Estudiante seleccionEstudiante) {
+        this.seleccionEstudiante = seleccionEstudiante;
+    }
+
+    /**
+     * @return the seleccionNota
+     */
+    public Nota getSeleccionNota() {
+        return seleccionNota;
+    }
+
+    /**
+     * @param seleccionNota the seleccionNota to set
+     */
+    public void setSeleccionNota(Nota seleccionNota) {
+        this.seleccionNota = seleccionNota;
+    }
+    
 }
