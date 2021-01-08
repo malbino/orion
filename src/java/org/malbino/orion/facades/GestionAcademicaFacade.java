@@ -120,7 +120,7 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         try {
             Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.regimen=:regimen AND "
-                    + "LOWER(CAST(ga.gestion AS TEXT)) LIKE LOWER(:keyword) "
+                    + "LOWER(CAST(ga.gestion AS CHAR)) LIKE LOWER(:keyword) "
                     + "ORDER BY ga.gestion, ga.periodo");
             q.setParameter("regimen", regimen);
             q.setParameter("keyword", "%" + keyword + "%");

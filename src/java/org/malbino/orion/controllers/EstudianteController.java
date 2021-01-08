@@ -11,7 +11,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.entities.Pago;
+import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
 
 /**
@@ -24,12 +27,15 @@ public class EstudianteController extends AbstractController implements Serializ
 
     @EJB
     FileEstudianteFacade fileEstudianteFacade;
-    
+    @EJB
+    PagoFacade pagoFacade;
+
     private List<Estudiante> estudiantes;
     private Estudiante nuevoEstudiante;
     private Estudiante seleccionEstudiante;
 
     private Boolean filter;
+    private Carrera seleccionCarrera;
     private String keyword;
 
     @PostConstruct
@@ -64,7 +70,11 @@ public class EstudianteController extends AbstractController implements Serializ
     }
 
     public void buscar() {
-        estudiantes = estudianteFacade.buscar(keyword);
+        if (seleccionCarrera == null) {
+            estudiantes = estudianteFacade.buscar(keyword);
+        } else {
+            estudiantes = estudianteFacade.buscar(seleccionCarrera.getId_carrera(), keyword);
+        }
     }
 
     public void crearEstudiante() throws IOException {
@@ -84,6 +94,17 @@ public class EstudianteController extends AbstractController implements Serializ
             }
         } else {
             this.mensajeDeError("Estudiante repetido.");
+        }
+    }
+
+    public void eliminarEstudiante() throws IOException {
+        List<Pago> kardexEconomico = pagoFacade.kardexEconomico(seleccionEstudiante.getId_persona());
+        if (kardexEconomico.isEmpty()) {
+            if (estudianteFacade.remove(seleccionEstudiante)) {
+                this.toEstudiantes();
+            }
+        } else {
+            this.mensajeDeError("No se puede eliminar un estudiante con pagos.");
         }
     }
 
@@ -158,6 +179,20 @@ public class EstudianteController extends AbstractController implements Serializ
     }
 
     /**
+     * @return the seleccionCarrera
+     */
+    public Carrera getSeleccionCarrera() {
+        return seleccionCarrera;
+    }
+
+    /**
+     * @param seleccionCarrera the seleccionCarrera to set
+     */
+    public void setSeleccionCarrera(Carrera seleccionCarrera) {
+        this.seleccionCarrera = seleccionCarrera;
+    }
+
+    /**
      * @return the keyword
      */
     public String getKeyword() {
@@ -170,5 +205,4 @@ public class EstudianteController extends AbstractController implements Serializ
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
-
 }

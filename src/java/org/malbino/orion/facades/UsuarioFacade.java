@@ -84,9 +84,9 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
         try {
             Query q = em.createQuery("SELECT u FROM Usuario u WHERE "
-                    + "LOWER(u.nombre) LIKE LOWER(:keyword) OR "
                     + "LOWER(u.primerApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(u.segundoApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(u.nombre) LIKE LOWER(:keyword) OR "
                     + "LOWER(u.email) LIKE LOWER(:keyword) OR "
                     + "LOWER(u.usuario) LIKE LOWER(:keyword) "
                     + "ORDER BY u.primerApellido, u.segundoApellido, u.nombre");

@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -41,6 +42,12 @@ public class Estudiante extends Usuario implements Serializable {
         @JoinColumn(name = "id_carrera", referencedColumnName = "id_carrera")})
     @ManyToMany
     private List<Carrera> carreras;
+
+    @OneToMany(mappedBy = "estudiante", orphanRemoval = true)
+    private List<Nota> notas;
+
+    @OneToMany(mappedBy = "estudiante", orphanRemoval = true)
+    private List<Inscrito> inscritos;
 
     public Estudiante() {
     }
@@ -99,5 +106,45 @@ public class Estudiante extends Usuario implements Serializable {
      */
     public void setCarreras(List<Carrera> carreras) {
         this.carreras = carreras;
+    }
+
+    /**
+     * @return the notas
+     */
+    public List<Nota> getNotas() {
+        return notas;
+    }
+
+    /**
+     * @param notas the notas to set
+     */
+    public void setNotas(List<Nota> notas) {
+        this.notas = notas;
+    }
+
+    /**
+     * @return the inscritos
+     */
+    public List<Inscrito> getInscritos() {
+        return inscritos;
+    }
+
+    /**
+     * @param inscritos the inscritos to set
+     */
+    public void setInscritos(List<Inscrito> inscritos) {
+        this.inscritos = inscritos;
+    }
+    
+    public String carrerasToString() {
+        String s = " ";
+        for (Carrera m : carreras) {
+            if (s.compareTo(" ") == 0) {
+                s = m.getCodigo();
+            } else {
+                s += ", " + m.getCodigo();
+            }
+        }
+        return s;
     }
 }

@@ -7,6 +7,7 @@ package org.malbino.orion.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,6 +53,12 @@ public class Inscrito implements Serializable {
     @JoinColumn(name = "id_gestionacademica")
     @ManyToOne
     private GestionAcademica gestionAcademica;
+
+    @OneToMany(mappedBy = "inscrito", orphanRemoval = true)
+    private List<Nota> notas;
+
+    @OneToMany(mappedBy = "inscrito", orphanRemoval = true)
+    private List<Pago> pagos;
 
     public Inscrito() {
     }
@@ -209,5 +217,33 @@ public class Inscrito implements Serializable {
 
     public String fecha_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fecha);
+    }
+
+    /**
+     * @return the notas
+     */
+    public List<Nota> getNotas() {
+        return notas;
+    }
+
+    /**
+     * @param notas the notas to set
+     */
+    public void setNotas(List<Nota> notas) {
+        this.notas = notas;
+    }
+
+    /**
+     * @return the pagos
+     */
+    public List<Pago> getPagos() {
+        return pagos;
+    }
+
+    /**
+     * @param pagos the pagos to set
+     */
+    public void setPagos(List<Pago> pagos) {
+        this.pagos = pagos;
     }
 }

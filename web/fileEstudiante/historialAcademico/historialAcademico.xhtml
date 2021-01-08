@@ -77,6 +77,10 @@
                                                 <h:outputText value="#{nota.gestionAcademica.toString()}"/>
                                             </p:column>
 
+                                            <p:column headerText="Nº">
+                                                <h:outputText value="#{nota.materia.numero}"/>
+                                            </p:column>
+
                                             <p:column headerText="NI">  
                                                 <h:outputText value="#{nota.materia.nivel.abreviatura}"/>
                                             </p:column>
@@ -176,6 +180,10 @@
 
                                             <p:column headerText="Gestion" groupRow="true">  
                                                 <h:outputText value="#{nota.gestionAcademica.toString()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nº">
+                                                <h:outputText value="#{nota.materia.numero}"/>
                                             </p:column>
 
                                             <p:column headerText="NI">  

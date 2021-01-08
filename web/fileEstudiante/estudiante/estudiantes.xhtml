@@ -21,6 +21,8 @@
 
                             <div class="x_content">
                                 <h:form id="form">
+                                    <p:messages/>
+
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:button icon="fa fa-plus" title="Nuevo" outcome="/fileEstudiante/estudiante/nuevoEstudiante"/>
@@ -43,6 +45,14 @@
                                     <p:outputPanel id="filtro" rendered="#{EstudianteController.filter}">
                                         <div class="ui-g ui-fluid">
                                             <div class="ui-g-12 ui-md-12">
+                                                <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                                <p:selectOneMenu id="carrera" value="#{EstudianteController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false"> 
+                                                    <f:selectItem itemLabel="TODAS LAS CARRERAS" itemValue="" />
+                                                    <f:selectItems value="#{EstudianteController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/> 
+                                                </p:selectOneMenu>
+                                            </div>
+
+                                            <div class="ui-g-12 ui-md-12">
                                                 <div class="ui-inputgroup">
                                                     <p:inputText value="#{EstudianteController.keyword}" style="height: 100%"/>
                                                     <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EstudianteController.buscar()}" update="estudiantes"/>           
@@ -52,9 +62,9 @@
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="estudiantes" var="estudiante" value="#{EstudianteController.estudiantes}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        <p:column headerText="Nombre" >  
-                                            <h:outputText value="#{estudiante.nombre}"/>
+                                    <p:dataTable id="estudiantes" var="estudiante" value="#{EstudianteController.estudiantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
 
                                         <p:column headerText="Primer Apellido" >  
@@ -65,28 +75,32 @@
                                             <h:outputText value="#{estudiante.segundoApellido}"/>
                                         </p:column>
 
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{estudiante.nombre}"/>
+                                        </p:column>
+
                                         <p:column headerText="DNI" >  
                                             <h:outputText value="#{estudiante.dniLugar()}"/> 
-                                        </p:column>
-
-                                        <p:column headerText="Fecha Nacimiento" >  
-                                            <h:outputText value="#{estudiante.fechaNacimiento_ddMMyyyy()}"/> 
-                                        </p:column>
-
-                                        <p:column headerText="Lugar Nacimiento" >  
-                                            <h:outputText value="#{estudiante.lugarNacimiento}"/> 
-                                        </p:column>
-
-                                        <p:column headerText="Nacionalidad" >  
-                                            <h:outputText value="#{estudiante.nacionalidad}"/> 
                                         </p:column>
 
                                         <p:column headerText="Dirección" >  
                                             <h:outputText value="#{estudiante.direccion}"/> 
                                         </p:column>
                                         
+                                        <p:column headerText="Teléfono" >  
+                                            <h:outputText value="#{estudiante.celular}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Celular" >  
+                                            <h:outputText value="#{estudiante.celular}"/> 
+                                        </p:column>
+
                                         <p:column headerText="Email" >  
                                             <h:outputText value="#{estudiante.email}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Carreras" >  
+                                            <h:outputText value="#{estudiante.carrerasToString()}"/> 
                                         </p:column>
 
                                         <p:column exportable="false"> 
@@ -96,9 +110,34 @@
 
                                                     <f:actionListener binding="#{EstudianteController.toEditarEstudiante()}"/>
                                                 </p:commandButton>
+
+                                                <p:commandButton id="eliminar" process="@this" icon="fa fa-remove" title="Eliminar" update="form">  
+                                                    <f:setPropertyActionListener value="#{estudiante}" target="#{EstudianteController.seleccionEstudiante}" />
+
+                                                    <f:actionListener binding="#{EstudianteController.eliminarEstudiante()}"/>
+                                                    <p:confirm header="Confirmación" icon="fa fa-exclamation-triangle" />
+                                                </p:commandButton>
                                             </h:panelGroup>
                                         </p:column> 
                                     </p:dataTable>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <f:facet name="message">
+                                            ¡ADVERTENCIA!
+                                            <br />
+                                            Al eliminar al estudiante también se eliminaran
+                                            <br />
+                                            todas las notas asociadas al mismo. Recuerde que
+                                            <br />
+                                            el proceso de eliminación es IRREVERSIBLE.
+                                            <br />
+                                            <br />
+                                            Esta seguro?
+                                        </f:facet>
+
+                                        <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-remove" />
+                                    </p:confirmDialog>
                                 </h:form>
                             </div>
                         </div>

@@ -52,7 +52,11 @@
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="comprobantes" var="comprobante" value="#{AnularPagoController.comprobantes}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                    <p:dataTable id="comprobantes" var="comprobante" value="#{AnularPagoController.comprobantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+                                        
                                         <p:column headerText="Codigo" >  
                                             <h:outputText value="#{comprobante.codigo}"/>
                                         </p:column>

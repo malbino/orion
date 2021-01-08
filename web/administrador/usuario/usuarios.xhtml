@@ -52,9 +52,9 @@
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="usuarios" var="usuario" value="#{UsuarioController.usuarios}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        <p:column headerText="Nombre" >  
-                                            <h:outputText value="#{usuario.nombre}"/>
+                                    <p:dataTable id="usuarios" var="usuario" value="#{UsuarioController.usuarios}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
 
                                         <p:column headerText="Primer Apellido" >  
@@ -63,6 +63,10 @@
 
                                         <p:column headerText="Segundo Apellido" >  
                                             <h:outputText value="#{usuario.segundoApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{usuario.nombre}"/>
                                         </p:column>
 
                                         <p:column headerText="Email" >  

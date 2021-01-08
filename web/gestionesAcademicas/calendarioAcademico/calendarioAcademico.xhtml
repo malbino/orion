@@ -67,7 +67,11 @@
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="calendarioAcademico" var="actividad" value="#{CalendarioAcademicoController.actividades}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                    <p:dataTable id="calendarioAcademico" var="actividad" value="#{CalendarioAcademicoController.actividades}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+                                        
                                         <p:column headerText="Inicio" >  
                                             <h:outputText value="#{actividad.inicio_ddMMyyyyHHmm()}"/>
                                         </p:column>

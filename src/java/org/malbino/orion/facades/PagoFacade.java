@@ -78,4 +78,19 @@ public class PagoFacade extends AbstractFacade<Pago> {
 
         return l;
     }
+    
+    public List<Pago> kardexEconomico(int id_persona) {
+        List<Pago> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Pago p JOIN p.inscrito i JOIN i.gestionAcademica ga JOIN i.estudiante e WHERE e.id_persona=:id_persona ORDER BY ga.gestion, ga.periodo, p.concepto");
+            q.setParameter("id_persona", id_persona);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
 }

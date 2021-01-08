@@ -52,9 +52,9 @@
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="empleados" var="empleado" value="#{EmpleadoController.empleados}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        <p:column headerText="Nombre" >  
-                                            <h:outputText value="#{empleado.nombre}"/>
+                                    <p:dataTable id="empleados" var="empleado" value="#{EmpleadoController.empleados}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
 
                                         <p:column headerText="Primer Apellido" >  
@@ -65,24 +65,24 @@
                                             <h:outputText value="#{empleado.segundoApellido}"/>
                                         </p:column>
 
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{empleado.nombre}"/>
+                                        </p:column>
+
                                         <p:column headerText="DNI" >  
                                             <h:outputText value="#{empleado.dniLugar()}"/> 
                                         </p:column>
 
-                                        <p:column headerText="Fecha Nacimiento" >  
-                                            <h:outputText value="#{empleado.fechaNacimiento_ddMMyyyy()}"/> 
-                                        </p:column>
-
-                                        <p:column headerText="Lugar Nacimiento" >  
-                                            <h:outputText value="#{empleado.lugarNacimiento}"/> 
-                                        </p:column>
-
-                                        <p:column headerText="Nacionalidad" >  
-                                            <h:outputText value="#{empleado.nacionalidad}"/> 
-                                        </p:column>
-
                                         <p:column headerText="Dirección" >  
                                             <h:outputText value="#{empleado.direccion}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Teléfono" >  
+                                            <h:outputText value="#{empleado.telefono}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Celular" >  
+                                            <h:outputText value="#{empleado.celular}"/> 
                                         </p:column>
                                         
                                         <p:column headerText="Email" >  

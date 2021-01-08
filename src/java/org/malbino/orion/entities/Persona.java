@@ -269,7 +269,11 @@ public abstract class Persona implements Serializable {
     }
 
     public String dniLugar() {
-        return dni + " " + lugarExpedicion;
+        String s = "";
+        if (dni != null && lugarExpedicion != null) {
+            s = dni + " " + lugarExpedicion;
+        }
+        return s;
     }
 
     public String fechaNacimiento_ddMMyyyy() {

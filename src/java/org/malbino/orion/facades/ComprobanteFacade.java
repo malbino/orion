@@ -76,7 +76,7 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
                     + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.nombre) LIKE LOWER(:keyword) OR "
                     + "LOWER(a.nombre) LIKE LOWER(:keyword) OR "
-                    + "LOWER(CAST(ga.gestion AS TEXT)) LIKE LOWER(:keyword) "
+                    + "LOWER(CAST(ga.gestion AS CHAR)) LIKE LOWER(:keyword) "
                     + "ORDER BY c.fecha DESC");
             q.setParameter("keyword", "%" + keyword + "%");
 

@@ -52,7 +52,11 @@
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="campus" var="campus" value="#{CampusController.campus}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                    <p:dataTable id="campus" var="campus" value="#{CampusController.campus}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+                                        
                                         <p:column headerText="Nombre" >  
                                             <h:outputText value="#{campus.nombre}"/>
                                         </p:column>
