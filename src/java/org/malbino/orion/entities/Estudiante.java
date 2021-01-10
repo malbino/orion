@@ -32,7 +32,7 @@ import javax.persistence.TemporalType;
 public class Estudiante extends Usuario implements Serializable {
 
     @Column(unique = true)
-    private String matricula;
+    private Integer matricula;
     @Temporal(TemporalType.DATE)
     private Date fecha;
     private Boolean tituloBachiller;
@@ -52,17 +52,29 @@ public class Estudiante extends Usuario implements Serializable {
     public Estudiante() {
     }
 
+    public String carrerasToString() {
+        String s = " ";
+        for (Carrera m : carreras) {
+            if (s.compareTo(" ") == 0) {
+                s = m.getCodigo();
+            } else {
+                s += ", " + m.getCodigo();
+            }
+        }
+        return s;
+    }
+
     /**
      * @return the matricula
      */
-    public String getMatricula() {
+    public Integer getMatricula() {
         return matricula;
     }
 
     /**
      * @param matricula the matricula to set
      */
-    public void setMatricula(String matricula) {
+    public void setMatricula(Integer matricula) {
         this.matricula = matricula;
     }
 
@@ -134,17 +146,5 @@ public class Estudiante extends Usuario implements Serializable {
      */
     public void setInscritos(List<Inscrito> inscritos) {
         this.inscritos = inscritos;
-    }
-    
-    public String carrerasToString() {
-        String s = " ";
-        for (Carrera m : carreras) {
-            if (s.compareTo(" ") == 0) {
-                s = m.getCodigo();
-            } else {
-                s += ", " + m.getCodigo();
-            }
-        }
-        return s;
     }
 }

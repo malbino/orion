@@ -365,7 +365,7 @@ public class ComprobantePago extends HttpServlet {
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
             table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(estudiante.getMatricula(), NORMAL));
+            cell = new PdfPCell(new Phrase(String.valueOf(estudiante.getMatricula()), NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(15);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);

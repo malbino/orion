@@ -128,22 +128,6 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         return l;
     }
 
-    public Long cantidadEstudiantes(Date fecha) {
-        Long l = 0l;
-
-        try {
-            Query q = em.createQuery("SELECT COUNT(e) FROM Estudiante e WHERE e.fecha BETWEEN :inicio AND :fin");
-            q.setParameter("inicio", Fecha.getInicioAño(fecha));
-            q.setParameter("fin", Fecha.getFinAño(fecha));
-
-            l = (Long) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
     public List<Estudiante> listaEstudiantesCentralizadorCalificaciones() {
         List<Estudiante> l = new ArrayList();
 
@@ -157,4 +141,21 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
         return l;
     }
+
+    public Integer maximaMatricula(Date fecha) {
+        Integer i = null;
+
+        try {
+            Query q = em.createQuery("SELECT MAX(e.matricula) FROM Estudiante e WHERE e.fecha BETWEEN :inicio AND :fin");
+            q.setParameter("inicio", Fecha.getInicioAño(fecha));
+            q.setParameter("fin", Fecha.getFinAño(fecha));
+
+            i = (Integer) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return i;
+    }
+
 }

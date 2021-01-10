@@ -207,7 +207,7 @@ public class HistorialAcademico extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
-        
+
         phrase = new Phrase();
         phrase.add(new Chunk("Resolución Ministerial: ", NEGRITA));
         phrase.add(new Chunk(carrera.getResolucionMinisterial(), NORMAL));
@@ -414,7 +414,7 @@ public class HistorialAcademico extends HttpServlet {
                 cell.setColspan(20);
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
-                
+
                 //fila 0
                 phrase = new Phrase();
                 phrase.add(new Chunk("INSTITUTO: ", NEGRITA));
@@ -428,7 +428,7 @@ public class HistorialAcademico extends HttpServlet {
                 //fila 1
                 phrase = new Phrase();
                 phrase.add(new Chunk("MATRÍCULA: ", NEGRITA));
-                phrase.add(new Chunk(estudiante.getMatricula(), NORMAL));
+                phrase.add(new Chunk(String.valueOf(estudiante.getMatricula()), NORMAL));
                 cell = new PdfPCell(phrase);
                 cell.setColspan(15);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

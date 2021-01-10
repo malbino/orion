@@ -64,10 +64,15 @@ public class InscripcionesFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean registrarEstudianteNuevo(Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
-        Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
-        String matricula = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
+        Integer maximaMatricula = estudianteFacade.maximaMatricula(estudiante.getFecha());
+        Integer matricula;
+        if (maximaMatricula == null) {
+            matricula = (Fecha.extrarAño(estudiante.getFecha()) * 10000) + 1;
+        } else {
+            matricula = maximaMatricula + 1;
+        }
         estudiante.setMatricula(matricula);
-        estudiante.setUsuario(matricula);
+        estudiante.setUsuario(String.valueOf(matricula));
         List<Rol> roles = new ArrayList();
         roles.add(rolFacade.find(Constantes.ID_ROL_ESTUDIANTE));
         estudiante.setRoles(roles);
@@ -116,10 +121,15 @@ public class InscripcionesFacade {
                 estudiante.setFecha(fecha);
             }
 
-            Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
-            String matricula = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
+            Integer maximaMatricula = estudianteFacade.maximaMatricula(estudiante.getFecha());
+            Integer matricula;
+            if (maximaMatricula == null) {
+                matricula = (Fecha.extrarAño(estudiante.getFecha()) * 10000) + 1;
+            } else {
+                matricula = maximaMatricula + 1;
+            }
             estudiante.setMatricula(matricula);
-            estudiante.setUsuario(matricula);
+            estudiante.setUsuario(String.valueOf(matricula));
         }
 
         estudiante.setContrasena(null);
@@ -166,10 +176,15 @@ public class InscripcionesFacade {
                 estudiante.setFecha(fecha);
             }
 
-            Integer c1 = estudianteFacade.cantidadEstudiantes(estudiante.getFecha()).intValue() + 1;
-            String matricula = Fecha.extrarAño(estudiante.getFecha()) + String.format("%04d", c1);
+            Integer maximaMatricula = estudianteFacade.maximaMatricula(estudiante.getFecha());
+            Integer matricula;
+            if (maximaMatricula == null) {
+                matricula = (Fecha.extrarAño(estudiante.getFecha()) * 10000) + 1;
+            } else {
+                matricula = maximaMatricula + 1;
+            }
             estudiante.setMatricula(matricula);
-            estudiante.setUsuario(matricula);
+            estudiante.setUsuario(String.valueOf(matricula));
         }
 
         estudiante.setContrasena(null);
