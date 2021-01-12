@@ -19,6 +19,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -48,6 +49,9 @@ public class Estudiante extends Usuario implements Serializable {
 
     @OneToMany(mappedBy = "estudiante", orphanRemoval = true)
     private List<Inscrito> inscritos;
+    
+    @Transient
+    private Date fechaInscripcion;
 
     public Estudiante() {
     }
@@ -146,5 +150,19 @@ public class Estudiante extends Usuario implements Serializable {
      */
     public void setInscritos(List<Inscrito> inscritos) {
         this.inscritos = inscritos;
+    }
+
+    /**
+     * @return the fechaInscripcion
+     */
+    public Date getFechaInscripcion() {
+        return fechaInscripcion;
+    }
+
+    /**
+     * @param fechaInscripcion the fechaInscripcion to set
+     */
+    public void setFechaInscripcion(Date fechaInscripcion) {
+        this.fechaInscripcion = fechaInscripcion;
     }
 }

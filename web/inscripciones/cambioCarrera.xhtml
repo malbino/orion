@@ -30,7 +30,14 @@
                                             <p:autoComplete id="estudiante" value="#{CambioCarreraController.seleccionEstudiante}" completeMethod="#{CambioCarreraController.completarEstudiante}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
                                                             var="estudiante" itemLabel="#{estudiante.toString()}" itemValue="#{estudiante}" converter="#{EstudianteConverter}" forceSelection="true"
                                                             required="true" requiredMessage="* Estudiante requerido.">
+                                                
+                                                <p:ajax event="itemSelect" update="fecha"/>
                                             </p:autoComplete>
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
+                                            <p:calendar id="fecha" value="#{CambioCarreraController.seleccionEstudiante.fechaInscripcion}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
