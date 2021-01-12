@@ -91,7 +91,7 @@ public class MateriaController extends AbstractController implements Serializabl
 
     public void crearMateria() throws IOException {
         nuevaMateria.setCarrera(seleccionCarrera);
-        if (materiaFacade.buscarPorCodigo(nuevaMateria.getCodigo()) == null) {
+        if (materiaFacade.buscarPorCodigo(nuevaMateria.getCodigo(), nuevaMateria.getCarrera().getId_carrera()) == null) {
             if (materiaFacade.create(nuevaMateria)) {
                 this.toMaterias();
             }
@@ -101,7 +101,7 @@ public class MateriaController extends AbstractController implements Serializabl
     }
 
     public void editarMateria() throws IOException {
-        if (materiaFacade.buscarPorCodigo(seleccionMateria.getCodigo(), seleccionMateria.getId_materia()) == null) {
+        if (materiaFacade.buscarPorCodigo(seleccionMateria.getCodigo(), seleccionMateria.getId_materia(), seleccionMateria.getCarrera().getId_carrera()) == null) {
             if (materiaFacade.edit(seleccionMateria)) {
                 this.toMaterias();
             } else {

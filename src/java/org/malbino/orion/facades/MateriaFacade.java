@@ -35,12 +35,13 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return em;
     }
 
-    public Materia buscarPorCodigo(String codigo) {
+    public Materia buscarPorCodigo(String codigo, int id_carrera) {
         Materia c = null;
 
         try {
-            Query q = em.createQuery("SELECT m FROM Materia m WHERE m.codigo=:codigo");
+            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE m.codigo=:codigo AND c.id_carrera=:id_carrera");
             q.setParameter("codigo", codigo);
+            q.setParameter("id_carrera", id_carrera);
 
             c = (Materia) q.getSingleResult();
         } catch (Exception e) {
@@ -50,13 +51,14 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return c;
     }
 
-    public Materia buscarPorCodigo(String codigo, int id_materia) {
+    public Materia buscarPorCodigo(String codigo, int id_materia, int id_carrera) {
         Materia c = null;
 
         try {
-            Query q = em.createQuery("SELECT m FROM Materia m WHERE m.codigo=:codigo AND m.id_materia!=:id_materia");
+            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE m.codigo=:codigo AND m.id_materia!=:id_materia AND c.id_carrera=:id_carrera");
             q.setParameter("codigo", codigo);
             q.setParameter("id_materia", id_materia);
+            q.setParameter("id_carrera", id_carrera);
 
             c = (Materia) q.getSingleResult();
         } catch (Exception e) {
