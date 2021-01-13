@@ -93,7 +93,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
             seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
 
             if (!seleccionPagos.isEmpty()) {
-                if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos, seleccionEstudiante, seleccionInscrito)) {
+                if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos, seleccionEstudiante)) {
                     this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                     this.insertarParametro("est", seleccionEstudiante);
 

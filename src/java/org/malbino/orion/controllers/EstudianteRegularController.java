@@ -13,13 +13,16 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
+import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
+import org.malbino.orion.util.Generador;
 
 /**
  *
@@ -40,17 +43,21 @@ public class EstudianteRegularController extends AbstractController implements S
     private Carrera seleccionCarrera;
     private GestionAcademica seleccionGestionAcademica;
 
+    private Comprobante nuevoComprobante;
+
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
         seleccionCarrera = null;
         seleccionGestionAcademica = null;
+        nuevoComprobante = new Comprobante();
     }
 
     public void reinit() {
         seleccionEstudiante = null;
         seleccionCarrera = null;
         seleccionGestionAcademica = null;
+        nuevoComprobante = new Comprobante();
     }
 
     @Override
@@ -75,10 +82,20 @@ public class EstudianteRegularController extends AbstractController implements S
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
                 if (seleccionEstudiante.getTituloBachiller()) {
-                    if (inscripcionesFacade.registrarEstudianteRegular(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica)) {
+                    nuevoComprobante.setFecha(Fecha.getDate());
+                    nuevoComprobante.setValido(true);
+
+                    String contrasena = Generador.generarContrasena();
+                    seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));
+                    seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
+
+                    if (inscripcionesFacade.registrarEstudianteRegular(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica, nuevoComprobante)) {
+                        this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
+                        this.insertarParametro("est", seleccionEstudiante);
+
                         reinit();
 
-                        this.mensajeDeInformacion("Guardado.");
+                        this.toComprobantePago();
                     } else {
                         this.mensajeDeError("No se pudo registrar al estudiante.");
                     }
@@ -91,6 +108,14 @@ public class EstudianteRegularController extends AbstractController implements S
         } else {
             this.mensajeDeError("Fuera de fecha.");
         }
+    }
+    
+    public void toEstudianteRegular() throws IOException {
+        this.redireccionarViewId("/inscripciones/estudianteRegular/estudianteRegular");
+    }
+
+    public void toComprobantePago() throws IOException {
+        this.redireccionarViewId("/inscripciones/estudianteRegular/comprobantePago");
     }
 
     /**
@@ -133,6 +158,20 @@ public class EstudianteRegularController extends AbstractController implements S
      */
     public void setSeleccionGestionAcademica(GestionAcademica seleccionGestionAcademica) {
         this.seleccionGestionAcademica = seleccionGestionAcademica;
+    }
+
+    /**
+     * @return the nuevoComprobante
+     */
+    public Comprobante getNuevoComprobante() {
+        return nuevoComprobante;
+    }
+
+    /**
+     * @param nuevoComprobante the nuevoComprobante to set
+     */
+    public void setNuevoComprobante(Comprobante nuevoComprobante) {
+        this.nuevoComprobante = nuevoComprobante;
     }
 
 }

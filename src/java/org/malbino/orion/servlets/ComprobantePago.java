@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Detalle;
 import org.malbino.orion.entities.Estudiante;
-import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.DetalleFacade;
 

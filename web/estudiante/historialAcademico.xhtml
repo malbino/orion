@@ -39,11 +39,15 @@
 
                                     <p:spacer/>
                                     <p:outputPanel id="panelHistorialAcademico">
-                                        <p:dataTable id="historialAcademicoSemestral" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}" reflow="true" 
-                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                        <p:dataTable id="historialAcademicoSemestral" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}"
+                                                     rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
                                                      rendered="#{HistorialAcademicoEstudianteController.seleccionCarrera.regimen.cantidadParciales == 3}">
                                             <p:column headerText="Gestion" groupRow="true">  
                                                 <h:outputText value="#{nota.gestionAcademica.toString()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nº">
+                                                <h:outputText value="#{rowIndex + 1}"/>
                                             </p:column>
 
                                             <p:column headerText="NI">  

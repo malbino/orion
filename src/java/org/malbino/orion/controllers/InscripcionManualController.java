@@ -115,7 +115,7 @@ public class InscripcionManualController extends AbstractController implements S
     }
     
     public void tomarMaterias() throws IOException {
-        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION_INTERNET, seleccionInscrito.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
+        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionInscrito.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
             List<Pago> listaPagosPagados = pagoFacade.listaPagosPagados(seleccionInscrito.getId_inscrito());
             if (!listaPagosPagados.isEmpty()) {
                 if (!ofertaMaterias.isEmpty()) {

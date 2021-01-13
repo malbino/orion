@@ -65,15 +65,14 @@
 
                                     <p:spacer/>
 
-                                    <p:dataTable id="historialEconomico" var="pago" value="#{HistorialEconomicoController.historialEconomico}" rowIndexVar="rowIndex" reflow="true"
-                                                 emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        
-                                        <p:column headerText="Nº">
-                                            <h:outputText value="#{rowIndex + 1}"/>
-                                        </p:column>
-
+                                    <p:dataTable id="historialEconomico" var="pago" value="#{HistorialEconomicoController.historialEconomico}" 
+                                                 rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
                                         <p:column headerText="Gestion" groupRow="true">  
                                             <h:outputText value="#{pago.inscrito.gestionAcademica.toString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
 
                                         <p:column headerText="Codigo" >  
