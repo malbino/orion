@@ -86,13 +86,14 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
         try {
             Query q = em.createQuery("SELECT e FROM Estudiante e WHERE "
+                    + "CAST(e.matricula AS CHAR) LIKE :keyword OR "
                     + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.nombre) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.dni) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.direccion) LIKE LOWER(:keyword) OR "
-                    + "LOWER(CAST(e.telefono AS CHAR)) LIKE LOWER(:keyword) OR "
-                    + "LOWER(CAST(e.celular AS CHAR)) LIKE LOWER(:keyword) OR "
+                    + "CAST(e.telefono AS CHAR) LIKE LOWER(:keyword) OR "
+                    + "CAST(e.celular AS CHAR) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.email) LIKE LOWER(:keyword) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("keyword", "%" + keyword + "%");
@@ -109,13 +110,14 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
         try {
             Query q = em.createQuery("SELECT e FROM Estudiante e JOIN e.carreras c WHERE c.id_carrera=:id_carrera AND "
+                    + "CAST(e.matricula AS CHAR) LIKE :keyword OR "
                     + "(LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.nombre) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.dni) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.direccion) LIKE LOWER(:keyword) OR "
-                    + "LOWER(CAST(e.telefono AS CHAR)) LIKE LOWER(:keyword) OR "
-                    + "LOWER(CAST(e.celular AS CHAR)) LIKE LOWER(:keyword) OR "
+                    + "CAST(e.telefono AS CHAR) LIKE :keyword OR "
+                    + "CAST(e.celular AS CHAR) LIKE :keyword OR "
                     + "LOWER(e.email) LIKE LOWER(:keyword)) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("id_carrera", id_carrera);

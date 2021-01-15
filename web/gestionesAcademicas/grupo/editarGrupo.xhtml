@@ -26,11 +26,19 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="turno" value="Turno:" style="font-size: small"/>
+                                            <p:selectOneMenu id="turno" value="#{GrupoController.seleccionGrupo.turno}" converter="#{TurnoConverter}" autoWidth="false" required="true" requiredMessage="* Turno requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GrupoController.listaTurnos()}" var="turno" itemLabel="#{turno.toString()}" itemValue="#{turno}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="capacidad" value="Capacidad:" style="font-size: small"/>
                                             <p:inputText id="capacidad" value="#{GrupoController.seleccionGrupo.capacidad}" required="true" requiredMessage="* Capacidad requerida." />
                                         </div>
-                                        
-                                         <div class="ui-g-12 ui-md-4">
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="abierto" value="Abierto:" style="font-size: small"/>
                                             <p:selectBooleanButton id="abierto" value="#{GrupoController.seleccionGrupo.abierto}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
                                         </div>

@@ -66,6 +66,10 @@
                                         <p:column headerText="Nº">
                                             <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
+                                        
+                                        <p:column headerText="Matrícula" >  
+                                            <h:outputText value="#{estudiante.matricula}"/>
+                                        </p:column>
 
                                         <p:column headerText="Primer Apellido" >  
                                             <h:outputText value="#{estudiante.primerApellido}"/>
@@ -88,7 +92,7 @@
                                         </p:column>
                                         
                                         <p:column headerText="Teléfono" >  
-                                            <h:outputText value="#{estudiante.celular}"/> 
+                                            <h:outputText value="#{estudiante.telefono}"/> 
                                         </p:column>
 
                                         <p:column headerText="Celular" >  
