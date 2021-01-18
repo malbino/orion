@@ -72,6 +72,7 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
         try {
             Query q = em.createQuery("SELECT c FROM Comprobante c JOIN c.inscrito i JOIN i.estudiante e JOIN i.carrera a JOIN i.gestionAcademica ga WHERE "
                     + "LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.nombre) LIKE LOWER(:keyword) OR "

@@ -44,6 +44,11 @@
                                                 <p:ajax listener="#{NuevoPagoController.actualizarPagos()}" update="pagos"/>
                                             </p:selectOneMenu>
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="deposito" value="Deposito:" style="font-size: small"/>
+                                            <p:inputText id="deposito" value="#{NuevoPagoController.nuevoComprobante.deposito}" required="false" />
+                                        </div>
                                     </div>
 
                                     <p:dataTable id="pagos" var="pago" value="#{NuevoPagoController.pagos}" selection="#{NuevoPagoController.seleccionPagos}" rowKey="#{pago.concepto}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">

@@ -34,22 +34,6 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         return em;
     }
 
-    public Long cantidadInscritos(int id_gestioncademica, int id_carrera) {
-        Long l = 0l;
-
-        try {
-            Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
-            q.setParameter("id_gestionacademica", id_gestioncademica);
-            q.setParameter("id_carrera", id_carrera);
-
-            l = (Long) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
     public List<Inscrito> listaInscritos(int id_persona) {
         List<Inscrito> l = new ArrayList();
 
@@ -130,5 +114,37 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         }
 
         return l;
+    }
+
+    public Integer maximoNumero(int id_gestioncademica, int id_carrera) {
+        Integer i = null;
+
+        try {
+            Query q = em.createQuery("SELECT MAX(i.numero) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
+            q.setParameter("id_gestionacademica", id_gestioncademica);
+            q.setParameter("id_carrera", id_carrera);
+
+            i = (Integer) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return i;
+    }
+
+    public Integer maximoCodigo(int id_gestioncademica, int id_carrera) {
+        Integer i = null;
+
+        try {
+            Query q = em.createQuery("SELECT MAX(i.codigo) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
+            q.setParameter("id_gestionacademica", id_gestioncademica);
+            q.setParameter("id_carrera", id_carrera);
+
+            i = (Integer) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return i;
     }
 }

@@ -54,7 +54,7 @@ public class PagosFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public boolean nuevoPago(Comprobante comprobante, List<Pago> pagos, Estudiante estudiante, Inscrito inscrito) {
+    public boolean nuevoPago(Comprobante comprobante, List<Pago> pagos, Estudiante estudiante) {
         Integer c1 = comprobanteFacade.cantidadComprobantes(comprobante.getFecha()).intValue() + 1;
         comprobante.setCodigo(String.format("%05d", c1) + "/" + Fecha.extrarAño(comprobante.getFecha()));
         em.persist(comprobante);
@@ -68,7 +68,6 @@ public class PagosFacade {
         }
 
         em.merge(estudiante);
-        em.merge(inscrito);
 
         return true;
     }

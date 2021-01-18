@@ -386,7 +386,7 @@ public class HistorialAcademico extends HttpServlet {
                 if (finFormacion != null) {
                     Inscrito inscrito = inscritoFacade.buscarInscrito(estudiante.getId_persona(), carrera.getId_carrera(), finFormacion.getId_gestionacademica());
                     if (inscrito != null) {
-                        phrase.add(new Chunk(inscrito.getCodigo(), NORMAL));
+                        phrase.add(new Chunk(String.valueOf(inscrito.getCodigo()), NORMAL));
                     } else {
                         phrase.add(new Chunk(" ", NORMAL));
                     }

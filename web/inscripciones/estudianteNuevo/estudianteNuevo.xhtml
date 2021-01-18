@@ -8,7 +8,7 @@
 
     <body>
 
-        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
 
             <ui:define name="content">
                 <div class="row">
@@ -90,7 +90,6 @@
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="celular" value="Celular:" style="font-size: small"/> 
                                             <p:inputMask id="celular" value="#{EstudianteNuevoController.nuevoEstudiante.celular}" mask="99999999" required="false"/>
-
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
@@ -106,8 +105,13 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="tituloBachiller" value="Título bachiller:" style="font-size: small"/>
-                                            <p:selectBooleanButton id="tituloBachiller" value="#{EstudianteNuevoController.nuevoEstudiante.tituloBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
+                                            <p:outputLabel for="diplomaBachiller" value="Diploma bachiller:" style="font-size: small"/>
+                                            <p:selectBooleanButton id="diplomaBachiller" value="#{EstudianteNuevoController.nuevoEstudiante.diplomaBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="deposito" value="Deposito:" style="font-size: small"/>
+                                            <p:inputText id="deposito" value="#{EstudianteNuevoController.nuevoComprobante.deposito}" required="false" />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
