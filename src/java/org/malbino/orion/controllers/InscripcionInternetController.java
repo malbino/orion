@@ -14,7 +14,9 @@ import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.malbino.moodle.webservices.CopiarInscrito;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Materia;
@@ -30,6 +32,7 @@ import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Fecha;
+import org.malbino.orion.util.Moodle;
 
 /**
  *
@@ -123,6 +126,19 @@ public class InscripcionInternetController extends AbstractController implements
         return b;
     }
 
+    public void copiarInscrito(Estudiante estudiante, List<Nota> notas) {
+        String[] properties = Moodle.getProperties();
+
+        String webservice = properties[0];
+        String login = properties[1];
+        String username = properties[2];
+        String password = properties[3];
+        String serviceName = properties[4];
+
+        CopiarInscrito copiarInscrito = new CopiarInscrito(login, webservice, username, password, serviceName, estudiante, notas);
+        new Thread(copiarInscrito).start();
+    }
+
     public void tomarMaterias() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION_INTERNET, seleccionInscrito.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
             List<Pago> listaPagosPagados = pagoFacade.listaPagosPagados(seleccionInscrito.getId_inscrito());
@@ -137,6 +153,8 @@ public class InscripcionInternetController extends AbstractController implements
 
                         try {
                             if (inscripcionesFacade.tomarMaterias(aux)) {
+                                copiarInscrito(seleccionInscrito.getEstudiante(), aux);
+
                                 toEstadoInscripcion();
                             }
                         } catch (EJBException e) {

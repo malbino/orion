@@ -129,7 +129,7 @@ public class CopiarGrupo implements Runnable {
                 "idnumber",
                 URLEncoder.encode(idnumber, "UTF-8")
         );
-
+        
         URL url = new URL(stringurl);//your url i.e fetch data from .
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

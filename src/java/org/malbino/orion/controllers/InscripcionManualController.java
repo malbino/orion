@@ -14,6 +14,7 @@ import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.malbino.moodle.webservices.CopiarInscrito;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Inscrito;
@@ -30,6 +31,7 @@ import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Fecha;
+import org.malbino.orion.util.Moodle;
 
 /**
  *
@@ -38,7 +40,7 @@ import org.malbino.orion.util.Fecha;
 @Named("InscripcionManualController")
 @SessionScoped
 public class InscripcionManualController extends AbstractController implements Serializable {
-    
+
     @Inject
     LoginController loginController;
     @EJB
@@ -53,28 +55,28 @@ public class InscripcionManualController extends AbstractController implements S
     ActividadFacade actividadFacade;
     @EJB
     PagoFacade pagoFacade;
-    
+
     private Estudiante seleccionEstudiante;
     private Inscrito seleccionInscrito;
-    
+
     private List<Materia> ofertaMaterias;
     private List<Nota> estadoInscripcion;
-    
+
     private Nota seleccionNota;
-    
+
     @PostConstruct
     public void init() {
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
     }
-    
+
     public void reinit() {
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
     }
-    
+
     public List<Inscrito> listaInscritos() {
         List<Inscrito> l = new ArrayList();
         if (seleccionEstudiante != null) {
@@ -82,7 +84,7 @@ public class InscripcionManualController extends AbstractController implements S
         }
         return l;
     }
-    
+
     public List<Grupo> listaGruposAbiertos(Materia materia) {
         List<Grupo> l = new ArrayList();
         if (seleccionInscrito != null && materia != null) {
@@ -90,19 +92,19 @@ public class InscripcionManualController extends AbstractController implements S
         }
         return l;
     }
-    
+
     public void actualizarOferta() {
         if (seleccionInscrito != null) {
             ofertaMaterias = inscripcionesFacade.ofertaTomaMaterias(seleccionInscrito);
         }
     }
-    
+
     public void actualizarEstadoInscripcion() {
         if (seleccionInscrito != null) {
             estadoInscripcion = notaFacade.listaNotas(seleccionInscrito.getId_inscrito());
         }
     }
-    
+
     public boolean verificarGrupos() {
         boolean b = true;
         for (Materia m : ofertaMaterias) {
@@ -113,7 +115,20 @@ public class InscripcionManualController extends AbstractController implements S
         }
         return b;
     }
-    
+
+    public void copiarInscrito(Estudiante estudiante, List<Nota> notas) {
+        String[] properties = Moodle.getProperties();
+
+        String webservice = properties[0];
+        String login = properties[1];
+        String username = properties[2];
+        String password = properties[3];
+        String serviceName = properties[4];
+
+        CopiarInscrito copiarInscrito = new CopiarInscrito(login, webservice, username, password, serviceName, estudiante, notas);
+        new Thread(copiarInscrito).start();
+    }
+
     public void tomarMaterias() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionInscrito.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
             List<Pago> listaPagosPagados = pagoFacade.listaPagosPagados(seleccionInscrito.getId_inscrito());
@@ -125,9 +140,11 @@ public class InscripcionManualController extends AbstractController implements S
                             Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
                             aux.add(nota);
                         }
-                        
+
                         try {
                             if (inscripcionesFacade.tomarMaterias(aux)) {
+                                copiarInscrito(seleccionInscrito.getEstudiante(), aux);
+
                                 toEstadoInscripcion();
                             }
                         } catch (EJBException e) {
@@ -146,7 +163,7 @@ public class InscripcionManualController extends AbstractController implements S
             this.mensajeDeError("Fuera de fecha.");
         }
     }
-    
+
     public void retirarMateria() throws IOException {
         List<Nota> listaNotasPrerequisito = notaFacade.listaNotasPrerequisito(seleccionInscrito.getCarrera().getId_carrera(), seleccionInscrito.getEstudiante().getId_persona(), seleccionNota.getMateria().getId_materia());
         if (listaNotasPrerequisito.isEmpty()) {
@@ -157,16 +174,16 @@ public class InscripcionManualController extends AbstractController implements S
             this.mensajeDeError("La nota es prerequisito.");
         }
     }
-    
+
     public void toEstadoInscripcion() throws IOException {
         this.actualizarEstadoInscripcion();
-        
+
         this.redireccionarViewId("/inscripciones/inscripcionManual/estadoInscripcion");
     }
-    
+
     public void toOfertaMaterias() throws IOException {
         actualizarOferta();
-        
+
         this.redireccionarViewId("/inscripciones/inscripcionManual/ofertaMaterias");
     }
 
@@ -239,5 +256,5 @@ public class InscripcionManualController extends AbstractController implements S
     public void setSeleccionNota(Nota seleccionNota) {
         this.seleccionNota = seleccionNota;
     }
-    
+
 }

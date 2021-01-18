@@ -17,7 +17,6 @@ import org.malbino.moodle.webservices.CopiarGrupo;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
-import org.malbino.orion.entities.Instituto;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
@@ -114,8 +113,8 @@ public class GrupoController extends AbstractController implements Serializable 
             grupos = grupoFacade.buscar(keyword, seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
         }
     }
-    
-    public long cantidadNotasGrupo(Grupo grupo){
+
+    public long cantidadNotasGrupo(Grupo grupo) {
         return grupoFacade.cantidadNotasGrupo(grupo.getId_grupo());
     }
 
@@ -130,19 +129,19 @@ public class GrupoController extends AbstractController implements Serializable 
             this.toGrupos();
         }
     }
-    
+
     //moolde
     public void copiarGrupo() {
         String[] properties = Moodle.getProperties();
-        
+
         String webservice = properties[0];
         String login = properties[1];
         String username = properties[2];
         String password = properties[3];
         String serviceName = properties[4];
-       
+
         List<Nota> listaNotasGrupo = notaFacade.listaNotasGrupo(seleccionGrupo.getId_grupo());
-        
+
         CopiarGrupo copiarGrupo = new CopiarGrupo(login, webservice, username, password, serviceName, seleccionGrupo, listaNotasGrupo);
         new Thread(copiarGrupo).start();
     }
