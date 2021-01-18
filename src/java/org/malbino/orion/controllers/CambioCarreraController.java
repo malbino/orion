@@ -74,7 +74,7 @@ public class CambioCarreraController extends AbstractController implements Seria
     public void registrarEstudiante() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
-                if (seleccionEstudiante.getTituloBachiller()) {
+                if (seleccionEstudiante.getDiplomaBachiller()) {
                     nuevoComprobante.setFecha(Fecha.getDate());
                     nuevoComprobante.setValido(true);
 

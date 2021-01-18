@@ -39,6 +39,11 @@
                                             <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
                                             <p:calendar id="fecha" value="#{CambioCarreraController.seleccionEstudiante.fechaInscripcion}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="deposito" value="Deposito:" style="font-size: small"/>
+                                            <p:inputText id="deposito" value="#{CambioCarreraController.nuevoComprobante.deposito}" required="false" />
+                                        </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrera" value="Carrera:" style="font-size: small"/> 

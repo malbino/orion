@@ -58,6 +58,13 @@
                                                            minValue="0" maxValue="100" decimalPlaces="0"
                                                            required="true" requiredMessage="* Nota final requerida." />
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="recuperatorio" value="Recuperatorio:" style="font-size: small"/>
+                                            <p:inputNumber id="recuperatorio" value="#{HistorialAcademicoController.nuevaNota.recuperatorio}"
+                                                           minValue="0" maxValue="#{HistorialAcademicoController.nuevaNota.materia.carrera.regimen.notaMinimaAprobacion}" decimalPlaces="0"
+                                                           required="false"/>
+                                        </div>
                                     </div>
 
                                     <div class="ui-g ui-fluid">

@@ -36,7 +36,7 @@ public class Estudiante extends Usuario implements Serializable {
     private Integer matricula;
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    private Boolean tituloBachiller;
+    private Boolean diplomaBachiller;
 
     @JoinTable(name = "cursa", joinColumns = {
         @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")}, inverseJoinColumns = {
@@ -97,17 +97,17 @@ public class Estudiante extends Usuario implements Serializable {
     }
 
     /**
-     * @return the tituloBachiller
+     * @return the diplomaBachiller
      */
-    public Boolean getTituloBachiller() {
-        return tituloBachiller;
+    public Boolean getDiplomaBachiller() {
+        return diplomaBachiller;
     }
 
     /**
-     * @param tituloBachiller the tituloBachiller to set
+     * @param diplomaBachiller the diplomaBachiller to set
      */
-    public void setTituloBachiller(Boolean tituloBachiller) {
-        this.tituloBachiller = tituloBachiller;
+    public void setDiplomaBachiller(Boolean diplomaBachiller) {
+        this.diplomaBachiller = diplomaBachiller;
     }
 
     /**

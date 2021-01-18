@@ -226,7 +226,13 @@ public class FileEstudianteFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean crearNota(Nota nota) {
-        if (nota.getNotaFinal() != null) {
+        if (nota.getRecuperatorio() != null) {
+            if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                nota.setCondicion(Condicion.APROBADO);
+            } else {
+                nota.setCondicion(Condicion.REPROBADO);
+            }
+        } else if (nota.getNotaFinal() != null) {
             if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                 nota.setCondicion(Condicion.APROBADO);
             } else {

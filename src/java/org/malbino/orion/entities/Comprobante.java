@@ -34,6 +34,7 @@ public class Comprobante implements Serializable {
 
     @Column(unique = true)
     private String codigo;
+    private String deposito;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     private Boolean valido;
@@ -153,5 +154,19 @@ public class Comprobante implements Serializable {
 
     public String validoToString() {
         return valido ? "Sí" : "No";
+    }
+
+    /**
+     * @return the deposito
+     */
+    public String getDeposito() {
+        return deposito;
+    }
+
+    /**
+     * @param deposito the deposito to set
+     */
+    public void setDeposito(String deposito) {
+        this.deposito = deposito;
     }
 }
