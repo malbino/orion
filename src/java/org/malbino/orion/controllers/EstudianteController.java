@@ -45,6 +45,7 @@ public class EstudianteController extends AbstractController implements Serializ
         seleccionEstudiante = null;
 
         filter = false;
+        seleccionCarrera = null;
         keyword = null;
     }
 
@@ -54,6 +55,7 @@ public class EstudianteController extends AbstractController implements Serializ
         seleccionEstudiante = null;
 
         filter = false;
+        seleccionCarrera = null;
         keyword = null;
     }
 

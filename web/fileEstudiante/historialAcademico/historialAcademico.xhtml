@@ -51,7 +51,11 @@
 
                                     <p:toolbar id="toolbar">
                                         <f:facet name="left">
-                                            <p:commandButton icon="fa fa-plus" title="Nuevo" actionListener="#{HistorialAcademicoController.toNuevaNota()}" update="form"/>
+                                            <p:commandButton icon="fa fa-plus" value="Nuevo" actionListener="#{HistorialAcademicoController.toNuevaNota()}" update="form"/>
+                                            
+                                            <p:spacer width="5"/>
+                                            
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{HistorialAcademicoController.reinit()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">

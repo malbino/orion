@@ -23,7 +23,11 @@
                                 <h:form id="form">
                                     <p:toolbar>
                                         <f:facet name="left">
-                                            <p:button icon="fa fa-plus" title="Nuevo" outcome="/administrador/empleado/nuevoEmpleado"/>
+                                            <p:button icon="fa fa-plus" value="Nuevo" outcome="/administrador/empleado/nuevoEmpleado"/>
+                                            
+                                            <p:spacer width="5"/>
+                                            
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{EmpleadoController.reinit()}" update="form"/>   
                                         </f:facet>
 
                                         <f:facet name="right">
@@ -84,7 +88,7 @@
                                         <p:column headerText="Celular" >  
                                             <h:outputText value="#{empleado.celular}"/> 
                                         </p:column>
-                                        
+
                                         <p:column headerText="Email" >  
                                             <h:outputText value="#{empleado.email}"/> 
                                         </p:column>

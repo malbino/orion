@@ -43,10 +43,10 @@ public class ComprobantePago extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
 
-    private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA_BLANCO = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
-    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
+    private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 11, Font.BOLD, BaseColor.BLACK);
+    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.BLACK);
+    private static final Font NEGRITA_BLANCO = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.WHITE);
+    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.NORMAL, BaseColor.BLACK);
 
     private static final int MARGEN_IZQUIERDO = -40;
     private static final int MARGEN_DERECHO = -40;
@@ -109,8 +109,8 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //fila 1
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getInstituto().getNombreImpuestos(), TITULO));
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getInstituto().getNombreRegulador(), TITULO));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.LEFT | Rectangle.TOP | Rectangle.RIGHT);
         table.addCell(cell);
@@ -148,7 +148,7 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //fila 3
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getSucursal(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getInstituto().getUbicacion(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
@@ -205,7 +205,7 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //fila 6
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getInstituto().getUbicacion(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getInstituto().getResolucionMinisterial(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM | Rectangle.RIGHT);
@@ -218,7 +218,7 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(comprobante.fecha_ddMMyyyy(), NORMAL));
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setColspan(25);
         cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM | Rectangle.RIGHT);
         table.addCell(cell);

@@ -48,7 +48,11 @@
 
                                     <p:toolbar>
                                         <f:facet name="left">
-                                            <p:commandButton icon="fa fa-group" title="Programar Grupos" actionListener="#{GrupoController.toProgramarGrupos()}" update="form"/>
+                                            <p:commandButton icon="fa fa-group" value="Programar Grupos" actionListener="#{GrupoController.toProgramarGrupos()}" update="form"/>
+                                            
+                                            <p:spacer width="5"/>
+                                            
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{GrupoController.reinit()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">
@@ -97,7 +101,7 @@
                                         <p:column headerText="Materia" >  
                                             <h:outputText value="#{grupo.materia}"/>
                                         </p:column>
-
+                                        
                                         <p:column headerText="Capacidad" >  
                                             <h:outputText value="#{grupo.capacidad}"/>
                                         </p:column>
@@ -117,22 +121,9 @@
 
                                                     <f:actionListener binding="#{GrupoController.toEditarGrupo()}"/>
                                                 </p:commandButton>
-
-                                                <p:commandButton id="copiaGrupo" process="@this" icon="fa fa-cloud-upload" title="Copiar Grupo">  
-                                                    <f:setPropertyActionListener value="#{grupo}" target="#{GrupoController.seleccionGrupo}" />
-
-                                                    <f:actionListener binding="#{GrupoController.copiarGrupo()}"/>
-
-                                                    <p:confirm header="Confirmación" message="Esta seguro?" icon="fa fa-exclamation-triangle" />
-                                                </p:commandButton>
                                             </h:panelGroup>
                                         </p:column> 
                                     </p:dataTable>
-
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
-                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
-                                    </p:confirmDialog>
                                 </div>
                             </div>
                         </h:form>

@@ -36,7 +36,11 @@
 
                                     <p:toolbar>
                                         <f:facet name="left">
-                                            <p:button icon="fa fa-plus" title="Nuevo" outcome="/planesEstudio/carrera/nuevoCarrera"/>
+                                            <p:button icon="fa fa-plus" value="Nuevo" outcome="/planesEstudio/carrera/nuevoCarrera"/>
+                                            
+                                            <p:spacer width="5"/>
+                                            
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{CarreraController.reinit()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">

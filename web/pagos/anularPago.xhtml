@@ -23,7 +23,7 @@
                                 <h:form id="form">
                                     <p:toolbar>
                                         <f:facet name="left">
-
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{AnularPagoController.reinit()}" update="form"/>   
                                         </f:facet>
 
                                         <f:facet name="right">
@@ -61,7 +61,7 @@
                                             <h:outputText value="#{comprobante.codigo}"/>
                                         </p:column>
 
-                                        <p:column headerText="Deposito" >  
+                                        <p:column headerText="Depósito" >  
                                             <h:outputText value="#{comprobante.deposito}"/>
                                         </p:column>
 
