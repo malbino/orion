@@ -110,8 +110,8 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
         try {
             Query q = em.createQuery("SELECT e FROM Estudiante e JOIN e.carreras c WHERE c.id_carrera=:id_carrera AND "
-                    + "CAST(e.matricula AS CHAR) LIKE :keyword OR "
-                    + "(LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
+                    + "(CAST(e.matricula AS CHAR) LIKE :keyword OR "
+                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.nombre) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.dni) LIKE LOWER(:keyword) OR "
