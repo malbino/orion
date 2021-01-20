@@ -186,7 +186,11 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //fial 5
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getTelefono().toString(), NORMAL));
+        if (comprobante.getInscrito().getCarrera().getCampus().getTelefono() != null) {
+            cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getTelefono().toString(), NORMAL));
+        } else {
+            cell = new PdfPCell(new Phrase(" ", NORMAL));
+        }
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
