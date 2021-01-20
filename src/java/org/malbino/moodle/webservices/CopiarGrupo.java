@@ -284,7 +284,7 @@ public class CopiarGrupo implements Runnable {
                 URLEncoder.encode(grupo.summaryMoodle(), "UTF-8"));
 
         URL url = new URL(stringurl);//your url i.e fetch data from .
-
+        
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");

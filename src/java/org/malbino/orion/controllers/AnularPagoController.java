@@ -4,6 +4,7 @@
  */
 package org.malbino.orion.controllers;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -11,8 +12,11 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Comprobante;
+import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.negocio.PagosFacade;
+import org.malbino.orion.util.Encriptador;
+import org.malbino.orion.util.Generador;
 
 /**
  *
@@ -66,12 +70,39 @@ public class AnularPagoController extends AbstractController implements Serializ
         comprobantes = comprobanteFacade.buscar(keyword);
     }
 
+    public void imprimirComprobante() throws IOException {
+        Estudiante estudiante = seleccionComprobante.getInscrito().getEstudiante();
+
+        String contrasena = Generador.generarContrasena();
+        estudiante.setContrasena(Encriptador.encriptar(contrasena));
+        estudiante.setContrasenaSinEncriptar(contrasena);
+
+        if (estudianteFacade.edit(estudiante)) {
+            this.insertarParametro("id_comprobante", seleccionComprobante.getId_comprobante());
+            this.insertarParametro("est", estudiante);
+
+            this.reinit();
+
+            this.toComprobantePago();
+        } else {
+            this.mensajeDeError("No se puede imprimir el comprobante.");
+        }
+    }
+
     public void anularPago() {
-        if(pagosFacade.anularPago(seleccionComprobante)){
+        if (pagosFacade.anularPago(seleccionComprobante)) {
             reinit();
         } else {
             this.mensajeDeError("No se pudo eliminar el pago.");
         }
+    }
+    
+    public void toAnularPago() throws IOException {
+        this.redireccionarViewId("/pagos/anularPago/anularPago");
+    }
+    
+    public void toComprobantePago() throws IOException {
+        this.redireccionarViewId("/pagos/anularPago/comprobantePago");
     }
 
     /**

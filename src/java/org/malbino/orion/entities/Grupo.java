@@ -64,6 +64,7 @@ public class Grupo implements Serializable {
 
     public String fullNameMoodle() {
         return this.getMateria().getNombre() + " - "
+                + this.codigo + " - "
                 + this.getMateria().getNivel().getAbreviatura() + " - "
                 + this.getMateria().getCarrera().getNombre() + " - "
                 + this.getGestionAcademica().toString();
@@ -71,6 +72,7 @@ public class Grupo implements Serializable {
 
     public String shortNameMoodle() {
         return this.getMateria().getCodigo() + " - "
+                + this.codigo + " - "
                 + this.getMateria().getNivel().getAbreviatura() + " - "
                 + this.getMateria().getCarrera().getCodigo() + " - "
                 + this.getGestionAcademica().toString();
