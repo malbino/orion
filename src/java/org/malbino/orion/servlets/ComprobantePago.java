@@ -362,17 +362,17 @@ public class ComprobantePago extends HttpServlet {
             cell.setBorder(Rectangle.BOTTOM | Rectangle.LEFT | Rectangle.TOP);
             table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase("Codigo: ", NEGRITA));
+            cell = new PdfPCell(new Phrase("Usuario: ", NEGRITA));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(15);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
             table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(String.valueOf(estudiante.getMatricula()), NORMAL));
+            cell = new PdfPCell(new Phrase(estudiante.getUsuario(), NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(15);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
-            cell.setBackgroundColor(BaseColor.DARK_GRAY);
+            cell.setBackgroundColor(BaseColor.GRAY);
             table.addCell(cell);
 
             cell = new PdfPCell(new Phrase("Contraseña: ", NEGRITA));
@@ -385,7 +385,7 @@ public class ComprobantePago extends HttpServlet {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setColspan(15);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
-            cell.setBackgroundColor(BaseColor.DARK_GRAY);
+            cell.setBackgroundColor(BaseColor.GRAY);
             table.addCell(cell);
 
             cell = new PdfPCell(new Phrase(" ", NORMAL));

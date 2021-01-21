@@ -272,6 +272,8 @@ public abstract class Persona implements Serializable {
         String s = "";
         if (dni != null && lugarExpedicion != null) {
             s = dni + " " + lugarExpedicion;
+        } else if (dni != null && lugarExpedicion == null) {
+            s = dni;
         }
         return s;
     }

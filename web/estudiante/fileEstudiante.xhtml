@@ -47,7 +47,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="lugarExpedicion" value="Lugar expedición:" style="font-size: small"/>
-                                            <p:selectOneMenu id="lugarExpedicion" value="#{FileEstudianteController.estudiante.lugarExpedicion}" converter="#{LugarExpedicionConverter}" disabled="true" autoWidth="false" required="true" requiredMessage="* Lugar expedición requerido."> 
+                                            <p:selectOneMenu id="lugarExpedicion" value="#{FileEstudianteController.estudiante.lugarExpedicion}" converter="#{LugarExpedicionConverter}" disabled="true" autoWidth="false" required="false"> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{FileEstudianteController.listaLugaresExpedicion()}" var="lugarExpedicion" itemLabel="#{lugarExpedicion}" itemValue="#{lugarExpedicion}"/>  
                                             </p:selectOneMenu> 

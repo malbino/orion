@@ -96,6 +96,8 @@ public class CopiarGrupo implements Runnable {
     public String token() throws MalformedURLException, IOException {
         String stringurl = String.format("%s?username=%s&password=%s&service=%s", login, username, password, servicename);
 
+        System.out.println("url: " + stringurl);
+        
         URL url = new URL(stringurl);//your url i.e fetch data from .
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
