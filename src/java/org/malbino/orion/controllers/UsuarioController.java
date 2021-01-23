@@ -41,6 +41,7 @@ public class UsuarioController extends AbstractController implements Serializabl
     private boolean restaurarContrasena;
 
     private Boolean filter;
+    private Rol seleccionRol;
     private String keyword;
 
     @PostConstruct
@@ -50,6 +51,7 @@ public class UsuarioController extends AbstractController implements Serializabl
         restaurarContrasena = false;
 
         filter = false;
+        seleccionRol = null;
         keyword = null;
     }
 
@@ -59,23 +61,30 @@ public class UsuarioController extends AbstractController implements Serializabl
         restaurarContrasena = false;
 
         filter = false;
+        seleccionRol = null;
         keyword = null;
     }
 
     public void filtro() {
         if (filter) {
             filter = false;
+            seleccionRol = null;
             keyword = null;
 
             usuarios = usuarioFacade.listaUsuarios();
         } else {
             filter = true;
+            seleccionRol = null;
             keyword = null;
         }
     }
 
     public void buscar() {
-        usuarios = usuarioFacade.buscar(keyword);
+        if(seleccionRol == null) {
+            usuarios = usuarioFacade.buscar(keyword);
+        } else {
+            usuarios = usuarioFacade.buscar(keyword, seleccionRol.getId_rol());
+        }
     }
 
     public List<Rol> listaRoles() {
@@ -213,5 +222,19 @@ public class UsuarioController extends AbstractController implements Serializabl
      */
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    /**
+     * @return the seleccionRol
+     */
+    public Rol getSeleccionRol() {
+        return seleccionRol;
+    }
+
+    /**
+     * @param seleccionRol the seleccionRol to set
+     */
+    public void setSeleccionRol(Rol seleccionRol) {
+        this.seleccionRol = seleccionRol;
     }
 }

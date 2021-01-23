@@ -98,4 +98,25 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
         return l;
     }
+    
+    public List<Usuario> buscar(String keyword, int id_rol) {
+        List<Usuario> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT u FROM Usuario u JOIN u.roles r WHERE r.id_rol=:id_rol AND "
+                    + "(LOWER(u.primerApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(u.segundoApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(u.nombre) LIKE LOWER(:keyword) OR "
+                    + "LOWER(u.email) LIKE LOWER(:keyword) OR "
+                    + "LOWER(u.usuario) LIKE LOWER(:keyword)) "
+                    + "ORDER BY u.primerApellido, u.segundoApellido, u.nombre");
+            q.setParameter("id_rol", id_rol);
+            q.setParameter("keyword", "%" + keyword + "%");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return l;
+    }
 }

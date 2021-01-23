@@ -43,6 +43,14 @@
                                     <p:outputPanel id="filtro" rendered="#{UsuarioController.filter}">
                                         <div class="ui-g ui-fluid">
                                             <div class="ui-g-12 ui-md-12">
+                                                <p:outputLabel for="rol" value="Rol: " style="font-size: small"/>
+                                                <p:selectOneMenu id="rol" value="#{UsuarioController.seleccionRol}" converter="#{RolConverter}" autoWidth="false"> 
+                                                    <f:selectItem itemLabel="TODOS LOS ROLES" itemValue="" />
+                                                    <f:selectItems value="#{UsuarioController.listaRoles()}" var="rol" itemLabel="#{rol.toString()}" itemValue="#{rol}"/> 
+                                                </p:selectOneMenu>
+                                            </div>
+
+                                            <div class="ui-g-12 ui-md-12">
                                                 <div class="ui-inputgroup">
                                                     <p:inputText value="#{UsuarioController.keyword}" style="height: 100%"/>
                                                     <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{UsuarioController.buscar()}" update="usuarios"/>           
@@ -75,6 +83,10 @@
 
                                         <p:column headerText="Usuario" >  
                                             <h:outputText value="#{usuario.usuario}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Roles" >  
+                                            <h:outputText value="#{usuario.rolesToString()}"/>
                                         </p:column>
 
                                         <p:column exportable="false"> 

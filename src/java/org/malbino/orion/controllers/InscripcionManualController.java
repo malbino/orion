@@ -27,6 +27,7 @@ import org.malbino.orion.enums.Modalidad;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.InscritoFacade;
+import org.malbino.orion.facades.MateriaFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
@@ -55,11 +56,14 @@ public class InscripcionManualController extends AbstractController implements S
     ActividadFacade actividadFacade;
     @EJB
     PagoFacade pagoFacade;
+    @EJB
+    MateriaFacade materiaFacade;
 
     private Estudiante seleccionEstudiante;
     private Inscrito seleccionInscrito;
 
     private List<Materia> ofertaMaterias;
+    private List<Materia> materias;
     private List<Nota> estadoInscripcion;
 
     private Nota seleccionNota;
@@ -68,12 +72,14 @@ public class InscripcionManualController extends AbstractController implements S
     public void init() {
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
+        materias = new ArrayList();
         estadoInscripcion = new ArrayList();
     }
 
     public void reinit() {
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
+        materias = new ArrayList();
         estadoInscripcion = new ArrayList();
     }
 
@@ -99,6 +105,12 @@ public class InscripcionManualController extends AbstractController implements S
         }
     }
 
+    public void actualizarMaterias() {
+        if (seleccionInscrito != null) {
+            materias = materiaFacade.listaMaterias(seleccionInscrito.getCarrera().getId_carrera());
+        }
+    }
+
     public void actualizarEstadoInscripcion() {
         if (seleccionInscrito != null) {
             estadoInscripcion = notaFacade.listaNotas(seleccionInscrito.getId_inscrito());
@@ -110,6 +122,17 @@ public class InscripcionManualController extends AbstractController implements S
         for (Materia m : ofertaMaterias) {
             if (m.getGrupo() == null) {
                 b = false;
+                break;
+            }
+        }
+        return b;
+    }
+
+    public boolean materiaRepetida(Materia materia) {
+        boolean b = false;
+        for (Nota n : estadoInscripcion) {
+            if (n.getMateria().equals(materia)) {
+                b = true;
                 break;
             }
         }
@@ -164,6 +187,39 @@ public class InscripcionManualController extends AbstractController implements S
         }
     }
 
+    public void inscripcionManual() throws IOException {
+        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionInscrito.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
+            List<Pago> listaPagosPagados = pagoFacade.listaPagosPagados(seleccionInscrito.getId_inscrito());
+            if (!listaPagosPagados.isEmpty()) {
+                if (!materias.isEmpty()) {
+                    List<Nota> aux = new ArrayList();
+                    for (Materia materia : materias) {
+                        if (materia.getGrupo() != null && !materiaRepetida(materia)) {
+                            Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
+                            aux.add(nota);
+                        }
+                    }
+
+                    try {
+                        if (inscripcionesFacade.tomarMaterias(aux)) {
+                            copiarInscrito(seleccionInscrito.getEstudiante(), aux);
+
+                            toEstadoInscripcion();
+                        }
+                    } catch (EJBException e) {
+                        this.mensajeDeError(e.getMessage());
+                    }
+                } else {
+                    this.mensajeDeError("No existen materias.");
+                }
+            } else {
+                this.mensajeDeError("Matricula/Cuota pendiente.");
+            }
+        } else {
+            this.mensajeDeError("Fuera de fecha.");
+        }
+    }
+
     public void retirarMateria() throws IOException {
         List<Nota> listaNotasPrerequisito = notaFacade.listaNotasPrerequisito(seleccionInscrito.getCarrera().getId_carrera(), seleccionInscrito.getEstudiante().getId_persona(), seleccionNota.getMateria().getId_materia());
         if (listaNotasPrerequisito.isEmpty()) {
@@ -185,6 +241,12 @@ public class InscripcionManualController extends AbstractController implements S
         actualizarOferta();
 
         this.redireccionarViewId("/inscripciones/inscripcionManual/ofertaMaterias");
+    }
+
+    public void toMaterias() throws IOException {
+        actualizarMaterias();
+
+        this.redireccionarViewId("/inscripciones/inscripcionManual/materias");
     }
 
     /**
@@ -257,4 +319,17 @@ public class InscripcionManualController extends AbstractController implements S
         this.seleccionNota = seleccionNota;
     }
 
+    /**
+     * @return the materias
+     */
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+
+    /**
+     * @param materias the materias to set
+     */
+    public void setMaterias(List<Materia> materias) {
+        this.materias = materias;
+    }
 }

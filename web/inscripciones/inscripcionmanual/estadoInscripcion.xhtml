@@ -52,6 +52,10 @@
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-list-alt" value="Oferta de Materias" actionListener="#{InscripcionManualController.toOfertaMaterias()}" update="form"/>
+                                            
+                                            <p:spacer width="5"/>
+                                            
+                                            <p:commandButton icon="fa fa-asterisk" value="Todas las Materias" actionListener="#{InscripcionManualController.toMaterias()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">

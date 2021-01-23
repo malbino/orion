@@ -62,11 +62,13 @@ public class EstudianteController extends AbstractController implements Serializ
     public void filtro() {
         if (filter) {
             filter = false;
+            seleccionCarrera = null;
             keyword = null;
 
             estudiantes = estudianteFacade.listaEstudiantes();
         } else {
             filter = true;
+            seleccionCarrera = null;
             keyword = null;
         }
     }

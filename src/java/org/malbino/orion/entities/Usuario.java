@@ -49,6 +49,18 @@ public class Usuario extends Persona implements Serializable {
 
     public Usuario() {
     }
+    
+    public String rolesToString() {
+        String s = " ";
+        for (Rol r : roles) {
+            if (s.compareTo(" ") == 0) {
+                s = r.getNombre();
+            } else {
+                s += ", " + r.getNombre();
+            }
+        }
+        return s;
+    }
 
     public String usuarioMoodle() {
         return this.getUsuario().replaceAll("-", "").toLowerCase();
