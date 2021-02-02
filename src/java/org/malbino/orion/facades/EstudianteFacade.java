@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.enums.Sexo;
 import org.malbino.orion.util.Fecha;
 
 /**
@@ -160,4 +161,32 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         return i;
     }
 
+    public Long cantidadEstudiantes() {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(e) FROM Estudiante e");
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public Long cantidadEstudiantes(Sexo sexo) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(e) FROM Estudiante e WHERE e.sexo=:sexo");
+            q.setParameter("sexo", sexo);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }

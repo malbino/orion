@@ -147,4 +147,19 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
 
         return i;
     }
+    
+    public Long cantidadInscritos(int id_carrera) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera");
+            q.setParameter("id_carrera", id_carrera);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
 }
