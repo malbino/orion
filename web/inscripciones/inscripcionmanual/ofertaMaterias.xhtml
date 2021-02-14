@@ -24,11 +24,22 @@
                                 <h:form id="form">
                                     <p:messages/>
 
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="grupo" value="Grupo:"/>
+                                            <p:selectOneButton id="grupo" value="#{InscripcionManualController.grupo}">
+                                                <f:selectItems value="#{InscripcionManualController.grupos}"/>
+                                                
+                                                <p:ajax listener="#{InscripcionManualController.actualizarOferta()}" update="materias"/>
+                                            </p:selectOneButton>
+                                        </div>
+                                    </div>
+
                                     <p:dataTable id="materias" var="materia" value="#{InscripcionManualController.ofertaMaterias}" 
                                                  editable="true" editMode="cell"
                                                  rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
 
-                                        <p:column headerText="Nivel" groupRow="true">  
+                                        <p:column headerText="Nivel" groupRow="true"> 
                                             <h:outputText value="#{materia.nivel.toString()}"/>
                                         </p:column>
 

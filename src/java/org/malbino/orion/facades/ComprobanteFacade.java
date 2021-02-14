@@ -35,20 +35,20 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
         return em;
     }
 
-    public Long cantidadComprobantes(Date fecha) {
-        Long l = 0l;
+    public Integer maximoCodigo(Date fecha) {
+        Integer i = null;
 
         try {
-            Query q = em.createQuery("SELECT COUNT(c) FROM Comprobante c WHERE c.fecha BETWEEN :inicio AND :fin");
+            Query q = em.createQuery("SELECT MAX(c.codigo) FROM Comprobante c WHERE c.fecha BETWEEN :inicio AND :fin");
             q.setParameter("inicio", Fecha.getInicioAño(fecha));
             q.setParameter("fin", Fecha.getFinAño(fecha));
 
-            l = (Long) q.getSingleResult();
+            i = (Integer) q.getSingleResult();
         } catch (Exception e) {
 
         }
 
-        return l;
+        return i;
     }
 
     public List<Comprobante> listaComprobantes() {
@@ -65,7 +65,7 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
 
         return l;
     }
-    
+
     public List<Comprobante> buscar(String keyword) {
         List<Comprobante> l = new ArrayList();
 
@@ -83,17 +83,17 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            
+
         }
 
         return l;
     }
-    
+
     public Comprobante buscarComprobanteValido(int id_pago) {
         Comprobante c = null;
 
         try {
-            Query q = em.createQuery("SELECT c FROM Detalle d JOIN d.combrobante c JOIN d.pago p WHERE p.id_pago=:id_pago AND c.valido=TRUE");
+            Query q = em.createQuery("SELECT c FROM Detalle d JOIN d.comprobante c JOIN d.pago p WHERE p.id_pago=:id_pago AND c.valido=TRUE");
             q.setParameter("id_pago", id_pago);
             q.setMaxResults(1);
 

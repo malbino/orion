@@ -15,7 +15,7 @@
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Nueva Nota <small>registrar nueva nota</small></h2>
+                                <h2>Editar Nota <small>modificar nota existente</small></h2>
 
                                 <div class="clearfix"></div>
                             </div>
@@ -24,28 +24,10 @@
                                 <h:form id="form">
                                     <p:messages/>
 
-                                    <div class="ui-g ui-fluid">
-                                        <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="gestionAcademica" value="Gestrion Academica:" style="font-size: small"/>
-                                            <p:selectOneMenu id="gestionAcademica" value="#{HistorialAcademicoController.nuevaNota.gestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
-                                                <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{HistorialAcademicoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
-
-                                            </p:selectOneMenu>
-                                        </div>
-                                        
-                                        <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="materia" value="Materia:" style="font-size: small"/>
-                                            <p:selectOneMenu id="materia" value="#{HistorialAcademicoController.nuevaNota.materia}" converter="#{MateriaConverter}" autoWidth="false" required="true" requiredMessage="* Materia requerida."> 
-                                                <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{HistorialAcademicoController.listaMaterias()}" var="materia" itemLabel="#{materia.toString()}" itemValue="#{materia}"/>  
-
-                                            </p:selectOneMenu>
-                                        </div>
-                                        
+                                    <div class="ui-g ui-fluid">                                      
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="modalidad" value="Modalidad:" style="font-size: small"/>
-                                            <p:selectOneMenu id="modalidad" value="#{HistorialAcademicoController.nuevaNota.modalidad}" converter="#{ModalidadConverter}" autoWidth="false" required="true" requiredMessage="* Modalidad requerida."> 
+                                            <p:selectOneMenu id="modalidad" value="#{HistorialAcademicoController.seleccionNota.modalidad}" converter="#{ModalidadConverter}" autoWidth="false" required="true" requiredMessage="* Modalidad requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{HistorialAcademicoController.listaModalidades()}" var="modalidad" itemLabel="#{modalidad.toString()}" itemValue="#{modalidad}"/>  
 
@@ -54,14 +36,14 @@
                                         
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="notaFinal" value="Nota final:" style="font-size: small"/>
-                                            <p:inputNumber id="notaFinal" value="#{HistorialAcademicoController.nuevaNota.notaFinal}"
+                                            <p:inputNumber id="notaFinal" value="#{HistorialAcademicoController.seleccionNota.notaFinal}"
                                                            minValue="0" maxValue="100" decimalPlaces="0"
                                                            required="true" requiredMessage="* Nota final requerida." />
                                         </div>
                                         
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="recuperatorio" value="Recuperatorio:" style="font-size: small"/>
-                                            <p:inputNumber id="recuperatorio" value="#{HistorialAcademicoController.nuevaNota.recuperatorio}"
+                                            <p:inputNumber id="recuperatorio" value="#{HistorialAcademicoController.seleccionNota.recuperatorio}"
                                                            minValue="0" maxValue="#{HistorialAcademicoController.seleccionCarrera.regimen.notaMinimaAprobacion}" decimalPlaces="0"
                                                            required="false"/>
                                         </div>
@@ -69,7 +51,7 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{HistorialAcademicoController.crearNota()}" update="form"/>
+                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{HistorialAcademicoController.editarNota()}" update="form"/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-2">

@@ -37,7 +37,7 @@ public class DetalleFacade extends AbstractFacade<Detalle> {
         List<Detalle> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT d FROM Detalle d JOIN d.combrobante c WHERE c.id_comprobante=:id_comprobante ORDER By d.concepto");
+            Query q = em.createQuery("SELECT d FROM Detalle d JOIN d.comprobante c WHERE c.id_comprobante=:id_comprobante ORDER By d.concepto");
             q.setParameter("id_comprobante", id_comprobante);
 
             l = q.getResultList();
@@ -52,7 +52,7 @@ public class DetalleFacade extends AbstractFacade<Detalle> {
         List<Detalle> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT d FROM Detalle d JOIN d.combrobante c JOIN c.inscrito i JOIN i.estudiante e JOIN i.carrera a JOIN i.gestionAcademica ga WHERE e.id_persona=:id_persona AND a.id_carrera=:id_carrera AND c.valido=TRUE ORDER BY ga.gestion, ga.periodo, c.fecha, d.concepto");
+            Query q = em.createQuery("SELECT d FROM Detalle d JOIN d.comprobante c JOIN c.inscrito i JOIN i.estudiante e JOIN i.carrera a JOIN i.gestionAcademica ga WHERE e.id_persona=:id_persona AND a.id_carrera=:id_carrera AND c.valido=TRUE ORDER BY ga.gestion, ga.periodo, c.fecha, d.concepto");
             q.setParameter("id_persona", id_persona);
             q.setParameter("id_carrera", id_carrera);
 

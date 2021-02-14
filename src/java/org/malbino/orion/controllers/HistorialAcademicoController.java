@@ -162,7 +162,7 @@ public class HistorialAcademicoController extends AbstractController implements 
     }
 
     public void crearNota() throws IOException {
-        List<Nota> listaNotasMateria = notaFacade.listaNotasMateria(nuevaNota.getGestionAcademica().getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionEstudiante.getId_persona(), nuevaNota.getMateria().getId_materia());
+        List<Nota> listaNotasMateria = notaFacade.listaNotasMateria(nuevaNota.getGestionAcademica().getId_gestionacademica(), seleccionEstudiante.getId_persona(), nuevaNota.getMateria().getId_materia());
         if (listaNotasMateria.isEmpty()) {
             nuevaNota.setEstudiante(seleccionEstudiante);
             if (fileEstudianteFacade.crearNota(nuevaNota)) {
@@ -173,14 +173,15 @@ public class HistorialAcademicoController extends AbstractController implements 
         }
     }
 
+    public void editarNota() throws IOException {
+        if (fileEstudianteFacade.editarNota(seleccionNota)) {
+            toHistorialAcademico();
+        }
+    }
+
     public void eliminarNota() throws IOException {
-        List<Nota> listaNotasPrerequisito = notaFacade.listaNotasPrerequisito(seleccionCarrera.getId_carrera(), seleccionEstudiante.getId_persona(), seleccionNota.getMateria().getId_materia());
-        if (listaNotasPrerequisito.isEmpty()) {
-            if (notaFacade.remove(seleccionNota)) {
-                toHistorialAcademico();
-            }
-        } else {
-            this.mensajeDeError("La nota es prerequisito.");
+        if (notaFacade.remove(seleccionNota)) {
+            toHistorialAcademico();
         }
     }
 

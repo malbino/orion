@@ -33,12 +33,12 @@ public class Comprobante implements Serializable {
     private Integer id_comprobante;
 
     @Column(unique = true)
-    private String codigo;
+    private Integer codigo;
     private String deposito;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     private Boolean valido;
-    
+
     @JoinColumn(name = "id_inscrito")
     @ManyToOne
     private Inscrito inscrito;
@@ -63,14 +63,14 @@ public class Comprobante implements Serializable {
     /**
      * @return the codigo
      */
-    public String getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
     /**
      * @param codigo the codigo to set
      */
-    public void setCodigo(String codigo) {
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 
@@ -145,10 +145,8 @@ public class Comprobante implements Serializable {
     public String toString() {
         return codigo + " [" + fecha_ddMMyyyy() + "]";
     }
-    
-    
-    
-    public String fecha_ddMMyyyy(){
+
+    public String fecha_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
 

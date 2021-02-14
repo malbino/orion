@@ -139,30 +139,12 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
-    public List<Nota> listaNotasPrerequisito(int id_carrera, int id_persona, int id_materia) {
+    public List<Nota> listaNotasMateria(int id_gestionacademica, int id_persona, int id_materia) {
         List<Nota> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT DISTINCT n FROM Nota n JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e JOIN m.prerequisitos p WHERE c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND p.id_materia=:id_materia ORDER BY m.nivel, m.numero");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("id_persona", id_persona);
-            q.setParameter("id_materia", id_materia);
-
-            l = q.getResultList();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
-    public List<Nota> listaNotasMateria(int id_gestionacademica, int id_carrera, int id_persona, int id_materia) {
-        List<Nota> l = new ArrayList();
-
-        try {
-            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND m.id_materia=:id_materia ORDER BY m.numero");
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND e.id_persona=:id_persona AND m.id_materia=:id_materia ORDER BY m.numero");
             q.setParameter("id_gestionacademica", id_gestionacademica);
-            q.setParameter("id_carrera", id_carrera);
             q.setParameter("id_persona", id_persona);
             q.setParameter("id_materia", id_materia);
 

@@ -166,6 +166,12 @@
 
                                                         <f:actionListener binding="#{HistorialAcademicoController.toEditarRecuperatorio()}"/>
                                                     </p:commandButton>
+                                                    
+                                                    <p:commandButton id="editarNota" process="@this" icon="fa fa-edit" title="Editar nota" rendered="#{!nota.modalidad.regular}">  
+                                                        <f:setPropertyActionListener value="#{nota}" target="#{HistorialAcademicoController.seleccionNota}" />
+
+                                                        <f:actionListener binding="#{HistorialAcademicoController.toEditarNota()}"/>
+                                                    </p:commandButton>
 
                                                     <p:commandButton id="eliminarNota" process="@this" icon="fa fa-remove" title="Eliminar nota" update=":form:messages" rendered="#{!nota.modalidad.regular}">  
                                                         <f:setPropertyActionListener value="#{nota}" target="#{HistorialAcademicoController.seleccionNota}" />
@@ -282,6 +288,12 @@
                                                         <f:setPropertyActionListener value="#{nota}" target="#{HistorialAcademicoController.seleccionNota}" />
 
                                                         <f:actionListener binding="#{HistorialAcademicoController.toEditarRecuperatorio()}"/>
+                                                    </p:commandButton>
+                                                    
+                                                    <p:commandButton id="editarNota" process="@this" icon="fa fa-edit" title="Editar nota" rendered="#{!nota.modalidad.regular}">  
+                                                        <f:setPropertyActionListener value="#{nota}" target="#{HistorialAcademicoController.seleccionNota}" />
+
+                                                        <f:actionListener binding="#{HistorialAcademicoController.toEditarNota()}"/>
                                                     </p:commandButton>
 
                                                     <p:commandButton id="eliminarNota" process="@this" icon="fa fa-remove" title="Eliminar nota" update=":form:messages" rendered="#{!nota.modalidad.regular}">  

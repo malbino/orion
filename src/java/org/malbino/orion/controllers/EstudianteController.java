@@ -13,7 +13,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
-import org.malbino.orion.entities.Pago;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
 
@@ -102,13 +101,8 @@ public class EstudianteController extends AbstractController implements Serializ
     }
 
     public void eliminarEstudiante() throws IOException {
-        List<Pago> kardexEconomico = pagoFacade.kardexEconomico(seleccionEstudiante.getId_persona());
-        if (kardexEconomico.isEmpty()) {
-            if (estudianteFacade.remove(seleccionEstudiante)) {
-                this.toEstudiantes();
-            }
-        } else {
-            this.mensajeDeError("No se puede eliminar un estudiante con pagos.");
+        if (estudianteFacade.remove(seleccionEstudiante)) {
+            this.toEstudiantes();
         }
     }
 

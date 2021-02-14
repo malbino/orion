@@ -244,4 +244,25 @@ public class FileEstudianteFacade {
 
         return true;
     }
+    
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public boolean editarNota(Nota nota) {
+        if (nota.getRecuperatorio() != null) {
+            if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                nota.setCondicion(Condicion.APROBADO);
+            } else {
+                nota.setCondicion(Condicion.REPROBADO);
+            }
+        } else if (nota.getNotaFinal() != null) {
+            if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                nota.setCondicion(Condicion.APROBADO);
+            } else {
+                nota.setCondicion(Condicion.REPROBADO);
+            }
+        }
+
+        em.merge(nota);
+
+        return true;
+    }
 }

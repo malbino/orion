@@ -7,6 +7,7 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -65,15 +66,19 @@ public class InscripcionManualController extends AbstractController implements S
     private List<Materia> ofertaMaterias;
     private List<Materia> materias;
     private List<Nota> estadoInscripcion;
-
     private Nota seleccionNota;
-
+    
+    private String[] grupos = {"G1", "G2", "G3", "G4", "G5", "G6"};
+    private String grupo;
+    
     @PostConstruct
     public void init() {
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         materias = new ArrayList();
         estadoInscripcion = new ArrayList();
+        
+        grupo = grupos[0];
     }
 
     public void reinit() {
@@ -81,6 +86,8 @@ public class InscripcionManualController extends AbstractController implements S
         ofertaMaterias = new ArrayList();
         materias = new ArrayList();
         estadoInscripcion = new ArrayList();
+        
+        grupo = grupos[0];
     }
 
     public List<Inscrito> listaInscritos() {
@@ -102,6 +109,16 @@ public class InscripcionManualController extends AbstractController implements S
     public void actualizarOferta() {
         if (seleccionInscrito != null) {
             ofertaMaterias = inscripcionesFacade.ofertaTomaMaterias(seleccionInscrito);
+            
+            for (Materia materia : ofertaMaterias) {
+                List<Grupo> listaGruposAbiertos = grupoFacade.listaGruposAbiertos(seleccionInscrito.getGestionAcademica().getId_gestionacademica(), materia.getId_materia(), grupo);
+                Iterator<Grupo> iterator = listaGruposAbiertos.iterator();
+                if(iterator.hasNext()){
+                    materia.setGrupo(iterator.next());
+                } else {
+                    materia.setGrupo(null);
+                }
+            }
         }
     }
 
@@ -221,13 +238,8 @@ public class InscripcionManualController extends AbstractController implements S
     }
 
     public void retirarMateria() throws IOException {
-        List<Nota> listaNotasPrerequisito = notaFacade.listaNotasPrerequisito(seleccionInscrito.getCarrera().getId_carrera(), seleccionInscrito.getEstudiante().getId_persona(), seleccionNota.getMateria().getId_materia());
-        if (listaNotasPrerequisito.isEmpty()) {
-            if (inscripcionesFacade.retirarMateria(seleccionNota)) {
-                toEstadoInscripcion();
-            }
-        } else {
-            this.mensajeDeError("La nota es prerequisito.");
+        if (inscripcionesFacade.retirarMateria(seleccionNota)) {
+            toEstadoInscripcion();
         }
     }
 
@@ -331,5 +343,33 @@ public class InscripcionManualController extends AbstractController implements S
      */
     public void setMaterias(List<Materia> materias) {
         this.materias = materias;
+    }
+
+    /**
+     * @return the grupos
+     */
+    public String[] getGrupos() {
+        return grupos;
+    }
+
+    /**
+     * @param grupos the grupos to set
+     */
+    public void setGrupos(String[] grupos) {
+        this.grupos = grupos;
+    }
+
+    /**
+     * @return the grupo
+     */
+    public String getGrupo() {
+        return grupo;
+    }
+
+    /**
+     * @param grupo the grupo to set
+     */
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
     }
 }

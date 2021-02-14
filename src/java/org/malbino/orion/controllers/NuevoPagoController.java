@@ -43,7 +43,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
     private Inscrito seleccionInscrito;
     private List<Pago> pagos;
     private List<Pago> seleccionPagos;
-
+    
     @PostConstruct
     public void init() {
         nuevoComprobante = new Comprobante();

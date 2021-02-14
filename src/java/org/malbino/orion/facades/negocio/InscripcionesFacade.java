@@ -108,8 +108,14 @@ public class InscripcionesFacade {
             em.persist(pago);
 
             //comprobante
-            Integer c1 = comprobanteFacade.cantidadComprobantes(comprobante.getFecha()).intValue() + 1;
-            comprobante.setCodigo(String.format("%05d", c1) + "/" + Fecha.extrarAño(comprobante.getFecha()));
+            Integer maximoCodigoComprobante = comprobanteFacade.maximoCodigo(comprobante.getFecha());
+            Integer codigoComprobante;
+            if (maximoCodigoComprobante == null) {
+                codigoComprobante = (Fecha.extrarAño(comprobante.getFecha()) * 100000) + 1;
+            } else {
+                codigoComprobante = maximoCodigoComprobante + 1;
+            }
+            comprobante.setCodigo(codigoComprobante);
             comprobante.setInscrito(inscrito);
             em.persist(comprobante);
 
@@ -178,8 +184,14 @@ public class InscripcionesFacade {
             em.persist(pago);
 
             //comprobante
-            Integer c1 = comprobanteFacade.cantidadComprobantes(comprobante.getFecha()).intValue() + 1;
-            comprobante.setCodigo(String.format("%05d", c1) + "/" + Fecha.extrarAño(comprobante.getFecha()));
+            Integer maximoCodigoComprobante = comprobanteFacade.maximoCodigo(comprobante.getFecha());
+            Integer codigoComprobante;
+            if (maximoCodigoComprobante == null) {
+                codigoComprobante = (Fecha.extrarAño(comprobante.getFecha()) * 100000) + 1;
+            } else {
+                codigoComprobante = maximoCodigoComprobante + 1;
+            }
+            comprobante.setCodigo(codigoComprobante);
             comprobante.setInscrito(inscrito);
             em.persist(comprobante);
 
@@ -250,8 +262,14 @@ public class InscripcionesFacade {
             em.persist(pago);
 
             //comprobante
-            Integer c1 = comprobanteFacade.cantidadComprobantes(comprobante.getFecha()).intValue() + 1;
-            comprobante.setCodigo(String.format("%05d", c1) + "/" + Fecha.extrarAño(comprobante.getFecha()));
+            Integer maximoCodigoComprobante = comprobanteFacade.maximoCodigo(comprobante.getFecha());
+            Integer codigoComprobante;
+            if (maximoCodigoComprobante == null) {
+                codigoComprobante = (Fecha.extrarAño(comprobante.getFecha()) * 100000) + 1;
+            } else {
+                codigoComprobante = maximoCodigoComprobante + 1;
+            }
+            comprobante.setCodigo(codigoComprobante);
             comprobante.setInscrito(inscrito);
             em.persist(comprobante);
 

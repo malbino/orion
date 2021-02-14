@@ -160,7 +160,7 @@ public class ComprobantePago extends HttpServlet {
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(comprobante.getCodigo(), NORMAL));
+        cell = new PdfPCell(new Phrase(String.valueOf(comprobante.getCodigo()), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setColspan(25);
         cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM | Rectangle.RIGHT);

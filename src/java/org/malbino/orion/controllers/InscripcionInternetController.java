@@ -7,6 +7,7 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -63,12 +64,17 @@ public class InscripcionInternetController extends AbstractController implements
     private List<Materia> ofertaMaterias;
     private List<Nota> estadoInscripcion;
 
+    private String[] grupos = {"G1", "G2", "G3", "G4", "G5", "G6"};
+    private String grupo;
+
     @PostConstruct
     public void init() {
         seleccionCarrera = null;
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
+
+        grupo = grupos[0];
     }
 
     public void reinit() {
@@ -76,6 +82,8 @@ public class InscripcionInternetController extends AbstractController implements
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
+
+        grupo = grupos[0];
     }
 
     @Override
@@ -106,6 +114,16 @@ public class InscripcionInternetController extends AbstractController implements
     public void actualizarOferta() {
         if (seleccionInscrito != null) {
             ofertaMaterias = inscripcionesFacade.ofertaTomaMaterias(seleccionInscrito);
+
+            for (Materia materia : ofertaMaterias) {
+                List<Grupo> listaGruposAbiertos = grupoFacade.listaGruposAbiertos(seleccionInscrito.getGestionAcademica().getId_gestionacademica(), materia.getId_materia(), grupo);
+                Iterator<Grupo> iterator = listaGruposAbiertos.iterator();
+                if (iterator.hasNext()) {
+                    materia.setGrupo(iterator.next());
+                } else {
+                    materia.setGrupo(null);
+                }
+            }
         }
     }
 
@@ -240,6 +258,34 @@ public class InscripcionInternetController extends AbstractController implements
      */
     public void setEstadoInscripcion(List<Nota> estadoInscripcion) {
         this.estadoInscripcion = estadoInscripcion;
+    }
+
+    /**
+     * @return the grupos
+     */
+    public String[] getGrupos() {
+        return grupos;
+    }
+
+    /**
+     * @param grupos the grupos to set
+     */
+    public void setGrupos(String[] grupos) {
+        this.grupos = grupos;
+    }
+
+    /**
+     * @return the grupo
+     */
+    public String getGrupo() {
+        return grupo;
+    }
+
+    /**
+     * @param grupo the grupo to set
+     */
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
     }
 
 }

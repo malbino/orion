@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Detalle;
 import org.malbino.orion.entities.Estudiante;
-import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Pago;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.DetalleFacade;
@@ -38,8 +37,14 @@ public class PagosFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean nuevoPago(Comprobante comprobante, List<Pago> pagos) {
-        Integer c1 = comprobanteFacade.cantidadComprobantes(comprobante.getFecha()).intValue() + 1;
-        comprobante.setCodigo(String.format("%05d", c1) + "/" + Fecha.extrarAño(comprobante.getFecha()));
+        Integer maximoCodigo = comprobanteFacade.maximoCodigo(comprobante.getFecha());
+        Integer codigo;
+        if (maximoCodigo == null) {
+            codigo = (Fecha.extrarAño(comprobante.getFecha()) * 100000) + 1;
+        } else {
+            codigo = maximoCodigo + 1;
+        }
+        comprobante.setCodigo(codigo);
         em.persist(comprobante);
 
         for (Pago pago : pagos) {
@@ -55,8 +60,14 @@ public class PagosFacade {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean nuevoPago(Comprobante comprobante, List<Pago> pagos, Estudiante estudiante) {
-        Integer c1 = comprobanteFacade.cantidadComprobantes(comprobante.getFecha()).intValue() + 1;
-        comprobante.setCodigo(String.format("%05d", c1) + "/" + Fecha.extrarAño(comprobante.getFecha()));
+        Integer maximoCodigo = comprobanteFacade.maximoCodigo(comprobante.getFecha());
+        Integer codigo;
+        if (maximoCodigo == null) {
+            codigo = (Fecha.extrarAño(comprobante.getFecha()) * 100000) + 1;
+        } else {
+            codigo = maximoCodigo + 1;
+        }
+        comprobante.setCodigo(codigo);
         em.persist(comprobante);
 
         for (Pago pago : pagos) {

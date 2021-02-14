@@ -6,6 +6,7 @@
 package org.malbino.orion.entities;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,8 +33,8 @@ public class Detalle implements Serializable {
     private Integer monto;
 
     @JoinColumn(name = "id_comprobante")
-    @ManyToOne
-    private Comprobante combrobante;
+    @ManyToOne(cascade = {CascadeType.REMOVE})
+    private Comprobante comprobante;
 
     @JoinColumn(name = "id_pago")
     @ManyToOne
@@ -42,10 +43,10 @@ public class Detalle implements Serializable {
     public Detalle() {
     }
 
-    public Detalle(Concepto concepto, Integer monto, Comprobante combrobante, Pago pago) {
+    public Detalle(Concepto concepto, Integer monto, Comprobante comprobante, Pago pago) {
         this.concepto = concepto;
         this.monto = monto;
-        this.combrobante = combrobante;
+        this.comprobante = comprobante;
         this.pago = pago;
     }
 
@@ -94,17 +95,17 @@ public class Detalle implements Serializable {
     }
 
     /**
-     * @return the combrobante
+     * @return the comprobante
      */
-    public Comprobante getCombrobante() {
-        return combrobante;
+    public Comprobante getComprobante() {
+        return comprobante;
     }
 
     /**
-     * @param combrobante the combrobante to set
+     * @param comprobante the comprobante to set
      */
-    public void setCombrobante(Comprobante combrobante) {
-        this.combrobante = combrobante;
+    public void setComprobante(Comprobante comprobante) {
+        this.comprobante = comprobante;
     }
 
     /**

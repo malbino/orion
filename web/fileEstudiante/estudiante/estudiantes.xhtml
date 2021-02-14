@@ -26,9 +26,9 @@
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:button icon="fa fa-plus" value="Nuevo" outcome="/fileEstudiante/estudiante/nuevoEstudiante"/>
-                                            
+
                                             <p:spacer width="5"/>
-                                            
+
                                             <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{EstudianteController.reinit()}" update="form"/>
                                         </f:facet>
 
@@ -70,7 +70,7 @@
                                         <p:column headerText="Nº">
                                             <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Matrícula" >  
                                             <h:outputText value="#{estudiante.matricula}"/>
                                         </p:column>
@@ -94,7 +94,7 @@
                                         <p:column headerText="Dirección" >  
                                             <h:outputText value="#{estudiante.direccion}"/> 
                                         </p:column>
-                                        
+
                                         <p:column headerText="Teléfono" >  
                                             <h:outputText value="#{estudiante.telefono}"/> 
                                         </p:column>
@@ -133,11 +133,12 @@
                                         <f:facet name="message">
                                             ¡ADVERTENCIA!
                                             <br />
-                                            Al eliminar al estudiante también se eliminaran
                                             <br />
-                                            todas las notas asociadas al mismo. Recuerde que
+                                            Al eliminar al estudiante también se eliminaran todas las
                                             <br />
-                                            el proceso de eliminación es IRREVERSIBLE.
+                                            notas y pagos asociados al mismo. Recuerde que el proceso
+                                            <br />
+                                            de eliminación es IRREVERSIBLE.
                                             <br />
                                             <br />
                                             Esta seguro?
