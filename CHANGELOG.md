@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [1.0.0] - 2021-02-21
+### Added
+- Se añadio el Dashboard
+### Changed
+### Removed
+### Fixed
+
+
+## [1.0.0-beta.6] - 2021-02-14
+### Added
+### Changed
+- Se añadio la modificacion de notas de migracion
+- Se añadio la eliminacion de estudiantes por errores de inscripcion
+### Removed
+### Fixed
+
+
 ## [1.0.0-beta.5] - 2021-01-22
 ### Added
 ### Changed
