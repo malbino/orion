@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <div class="row" style="display: inline-block;" >
+                        <div class="tile_count">
+                            <div class="col-md-1 col-sm-2  tile_stats_count">
+                                <span class="count_top"><i class="fa fa-users"></i> Total Inscritos</span>
+                                <div class="count" style="font-size: xx-large">#{DashboardController.totalInscritos}</div>
+                                <span class="count_bottom"><i class="green">100% </i> Del total de inscritos</span>
+                            </div>
+
+                            <div class="col-md-1 col-sm-2  tile_stats_count">
+                                <span class="count_top"><i class="fa fa-male"></i> Varones</span>
+                                <div class="count green" style="font-size: xx-large">#{DashboardController.varones}</div>
+                                <span class="count_bottom"><i class="green">#{DashboardController.porcentajeVarones}% </i> Del total de inscritos</span>
+                            </div>
+
+                            <div class="col-md-1 col-sm-2  tile_stats_count">
+                                <span class="count_top"><i class="fa fa-female"></i> Mujeres</span>
+                                <div class="count" style="font-size: xx-large">#{DashboardController.mujeres}</div>
+                                <span class="count_bottom"><i class="green">#{DashboardController.porcentajeMujeres}% </i> Del total de inscritos</span>
+                            </div>
+
+                            <div class="col-md-1 col-sm-2  tile_stats_count">
+                                <span class="count_top"><i class="fa fa-user"></i> Efectivos</span>
+                                <div class="count green" style="font-size: xx-large">#{DashboardController.efectivos}</div>
+                                <span class="count_bottom"><i class="green">#{DashboardController.porcentajeEfectivos}% </i> Del total de inscritos</span>
+                            </div>
+
+                            <div class="col-md-1 col-sm-2  tile_stats_count">
+                                <span class="count_top"><i class="fa fa-user-times"></i> Retirados</span>
+                                <div class="count" style="font-size: xx-large">#{DashboardController.retirados}</div>
+                                <span class="count_bottom"><i class="green">#{DashboardController.porcentajeRetirados}% </i> Del total de inscritos</span>
+                            </div>
+
+                            <div class="col-md-1 col-sm-2  tile_stats_count">
+                                <span class="count_top"><i class="fa fa-check"></i> Aprobados</span>
+                                <div class="count green" style="font-size: xx-large">#{DashboardController.aprobados}</div>
+                                <span class="count_bottom"><i class="green">#{DashboardController.porcentajeAprobados}% </i> Del total de inscritos</span>
+                            </div>
+
+                            <div class="col-md-1 col-sm-2  tile_stats_count">
+                                <span class="count_top"><i class="fa fa-close"></i> Reprobados</span>
+                                <div class="count" style="font-size: xx-large">#{DashboardController.reprobados}</div>
+                                <span class="count_bottom"><i class="green">#{DashboardController.porcentajeReprobados}% </i> Del total de inscritos</span>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-4  tile_stats_count">
+                                <span class="count_top"> </span>
+                                <div class="count">
+                                    <p:commandButton value="Actualizar" icon="fa fa-refresh" actionListener="#{DashboardController.toDashboard()}"/>
+                                </div>
+                                <span class="count_bottom"> </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Cantidad de Inscritos por Carrera</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <p:barChart model="#{DashboardController.hbarModel}" style="width: 100%; height: 200px;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Cantidad de Inscritos por Carrera</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <p:pieChart model="#{DashboardController.pieModel}" style="width: 100%; height: 200px;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Cantidad de Inscritos por Genero</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <p:donutChart model="#{DashboardController.donutModel1}" style="width: 100%; height: 200px;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Cantidad de Inscritos por Estado</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <p:donutChart model="#{DashboardController.donutModel2}" style="width: 100%; height: 200px;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Cantidad de Inscritos por Condición</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <p:donutChart model="#{DashboardController.donutModel3}" style="width: 100%; height: 200px;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Cuadro Estadistico: Resumen General por Carreras</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                <p:dataExporter type="xls" target="nivelesCuadroEstadistico" fileName="CuadroEstadistico" />
+                                            </p:commandButton>
+                                        </div>
+                                    </div>
+
+                                    <p:dataTable id="nivelesCuadroEstadistico" var="nivelCuadroEstadistico" value="#{DashboardController.nivelesCuadroEstadistico}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Codigo" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nivel" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.nivel.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Numero Paralelos" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.numeroParalelos}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Total Inscritos" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.totalInscritos}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Varones" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.varones}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Mujeres" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.mujeres}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Efectivos" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.efectivos}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Retirados" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.retirados}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Aprobados" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.aprobados}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Reprobados" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.reprobados}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
