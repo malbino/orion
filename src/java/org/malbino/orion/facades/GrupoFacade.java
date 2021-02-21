@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.Grupo;
-import org.malbino.orion.enums.Turno;
+import org.malbino.orion.enums.Nivel;
 
 /**
  *
@@ -150,7 +150,7 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
         return l;
     }
-    
+
     public List<Grupo> listaGruposAbiertos(int id_gestionacademica, int id_materia, String codigo) {
         List<Grupo> l = new ArrayList();
 
@@ -161,6 +161,22 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
             q.setParameter("codigo", codigo);
 
             l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public Long cantidadGrupos(int id_carrera, Nivel nivel) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(DISTINCT(g.codigo)) FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m JOIN m.carrera c WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+
+            l = (Long) q.getSingleResult();
         } catch (Exception e) {
 
         }

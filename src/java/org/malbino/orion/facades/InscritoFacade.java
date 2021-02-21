@@ -13,6 +13,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.Nivel;
+import org.malbino.orion.enums.Sexo;
 
 /**
  *
@@ -146,5 +149,144 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         }
 
         return i;
+    }
+    
+    public Long cantidadInscritos() {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga WHERE ga.vigente=TRUE");
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
+    
+    public Long cantidadInscritos(Sexo sexo) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.estudiante e WHERE ga.vigente=TRUE AND e.sexo=:sexo");
+            q.setParameter("sexo", sexo);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
+    
+    public Long cantidadInscritosEfectivos() {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(DISTINCT(i)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga WHERE ga.vigente=TRUE AND n.notaFinal!=0");
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
+    
+    public Long cantidadInscritosReprobados() {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(DISTINCT(i)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga WHERE ga.vigente=TRUE AND n.condicion=:condicion");
+            q.setParameter("condicion", Condicion.REPROBADO);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
+    
+    public Long cantidadInscritos(int id_carrera) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera");
+            q.setParameter("id_carrera", id_carrera);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
+    
+    public Long cantidadInscritos(int id_carrera, Nivel nivel) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(DISTINCT(e)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
+    
+    public Long cantidadInscritos(int id_carrera, Nivel nivel, Sexo sexo) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(DISTINCT(e)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND e.sexo=:sexo");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+            q.setParameter("sexo", sexo);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
+    
+    public Long cantidadInscritosEfectivos(int id_carrera, Nivel nivel) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(DISTINCT(e)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND n.notaFinal!=0");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
+    }
+    
+    public Long cantidadInscritosReprobados(int id_carrera, Nivel nivel) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(DISTINCT(e)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND n.condicion=:condicion");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+            q.setParameter("condicion", Condicion.REPROBADO);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+            
+        }
+
+        return l;
     }
 }

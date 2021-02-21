@@ -242,7 +242,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return d;
     }
-    
+
     public Date fechaInicio(int id_persona) {
         Date d = null;
 
