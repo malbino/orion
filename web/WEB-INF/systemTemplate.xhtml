@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    
+
     <h:head>
         <f:facet name="first">
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -137,6 +137,9 @@
                                             <ul class="nav child_menu">
                                                 <li><a href="#{request.contextPath}/reportes/dashboard.xhtml">Dashboard</a></li>
                                                 <li><a href="#{request.contextPath}/reportes/mallaCurricular/reporteMallaCurricular.xhtml">Malla Curricular</a></li>
+                                                <li><a href="#{request.contextPath}/reportes/listaInscritosCarrera/reporteListaInscritosCarrera.xhtml">Lista Inscritos Carrera</a></li>
+                                                <li><a href="#{request.contextPath}/reportes/listaInscritosParalelo/reporteListaInscritosParalelo.xhtml">Lista Inscritos Paralelo</a></li>
+                                                <li><a href="#{request.contextPath}/reportes/listaInscritosGrupo/reporteListaInscritosGrupo.xhtml">Lista Inscritos Grupo</a></li>
                                                 <li><a href="#{request.contextPath}/reportes/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
                                                 <li><a href="#{request.contextPath}/reportes/historialAcademico/reporteHistorialAcademico.xhtml">Historial Academico</a></li>
                                                 <li><a href="#{request.contextPath}/reportes/historialEconomico/reporteHistorialEconomico.xhtml">Historial Economico</a></li>
@@ -275,9 +278,9 @@
 
         <!-- Custom Theme Scripts -->
         <script src="#{request.contextPath}/resources/js/custom.min.js"></script>
-        
+
         <!-- Calendar ES -->
         <h:outputScript library="js" name="calendar_es.js" />
     </h:body>
-    
+
 </html>

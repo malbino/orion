@@ -49,6 +49,23 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
         return l;
     }
+    
+    public List<Grupo> listaGrupos(int id_gestionacademica, int id_carrera, Nivel nivel) {
+        List<Grupo> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT g FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m JOIN m.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.nivel=:nivel ORDER BY m.nombre, g.codigo");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 
     public Long cantidadGrupos(int id_gestionacademica, int id_materia) {
         Long l = 0l;
@@ -177,6 +194,23 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
             q.setParameter("nivel", nivel);
 
             l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<String> listaParalelos(int id_gestionacademica, int id_carrera, Nivel nivel) {
+        List<String> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT g.codigo FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m JOIN m.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.nivel=:nivel ORDER BY g.codigo");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+
+            l = q.getResultList();
         } catch (Exception e) {
 
         }
