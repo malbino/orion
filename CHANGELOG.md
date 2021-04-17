@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2021-04-17
+### Added
+- Se añadio el Registro Pedagógico
+- Se añadio la Planilla de Seguimiento
+### Changed
+### Removed
+### Fixed
+
 ## [1.1.0] - 2021-03-03
 ### Added
 - Se añadio el Reporte de Inscritos por Carrra

@@ -60,7 +60,20 @@
 
                                     <p:toolbar id="toolbar">
                                         <f:facet name="left">
-                                            <p:commandButton icon="fa fa-save" title="Guardar" actionListener="#{PrimerParcialController.guardar()}" update=":form"/>
+                                            <p:commandButton icon="fa fa-save" value="Guardar" actionListener="#{PrimerParcialController.guardar()}" update=":form"/>
+                                            
+                                            <p:spacer width="5"/>
+                                            
+                                            <p:commandButton icon="fa fa-download" value="Bajar Registro" ajax="false" actionListener="#{PrimerParcialController.bajarRegistro()}">
+                                                <p:fileDownload value="#{PrimerParcialController.download}"/>
+                                            </p:commandButton>
+                                            <p:commandButton id="upload" icon="fa fa-upload" value="Subir Registro" type="button"/>
+                                            <p:overlayPanel for="upload" style="width:600px">
+                                                <p:fileUpload listener="#{PrimerParcialController.subirRegistro}" 
+                                                              mode="advanced" dragDropSupport="false" update=":form"
+                                                              label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"
+                                                              allowTypes="/(\.|\/)(xlsx)$/" invalidFileMessage="Formato de archivo invalido"/>
+                                            </p:overlayPanel>
                                         </f:facet>
 
                                         <f:facet name="right">

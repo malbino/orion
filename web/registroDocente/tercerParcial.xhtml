@@ -7,7 +7,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
         <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
 
             <ui:define name="content">
@@ -61,7 +60,20 @@
 
                                     <p:toolbar id="toolbar">
                                         <f:facet name="left">
-                                            <p:commandButton icon="fa fa-save" title="Guardar" actionListener="#{TercerParcialController.guardar()}" update=":form"/>
+                                            <p:commandButton icon="fa fa-save" value="Guardar" actionListener="#{TercerParcialController.guardar()}" update=":form"/>
+
+                                            <p:spacer width="5"/>
+
+                                            <p:commandButton icon="fa fa-download" value="Bajar Registro" ajax="false" actionListener="#{TercerParcialController.bajarRegistro()}">
+                                                <p:fileDownload value="#{TercerParcialController.download}"/>
+                                            </p:commandButton>
+                                            <p:commandButton id="upload" icon="fa fa-upload" value="Subir Registro" type="button"/>
+                                            <p:overlayPanel for="upload" style="width:600px">
+                                                <p:fileUpload listener="#{TercerParcialController.subirRegistro}" 
+                                                              mode="advanced" dragDropSupport="false" update=":form"
+                                                              label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"
+                                                              allowTypes="/(\.|\/)(xlsx)$/" invalidFileMessage="Formato de archivo invalido"/>
+                                            </p:overlayPanel>
                                         </f:facet>
 
                                         <f:facet name="right">
@@ -104,8 +116,8 @@
                                                 <h:outputText value="#{nota.practica1}" />
                                             </p:column>
 
-                                            <p:column headerText="N1">  
-                                                <h:outputText value="#{nota.nota1}"/>
+                                            <p:column headerText="N1" >  
+                                                <h:outputText value="#{nota.nota1}" />
                                             </p:column>
 
                                             <p:column headerText="T2" >  
@@ -116,8 +128,8 @@
                                                 <h:outputText value="#{nota.practica2}" />
                                             </p:column>
 
-                                            <p:column headerText="N2">  
-                                                <h:outputText value="#{nota.nota2}"/>
+                                            <p:column headerText="N2" >  
+                                                <h:outputText value="#{nota.nota2}" />
                                             </p:column>
 
                                             <p:column headerText="T3" >  
@@ -142,12 +154,12 @@
                                                 </p:cellEditor>
                                             </p:column>
 
-                                            <p:column headerText="N3" >  
-                                                <h:outputText id="nota3" value="#{nota.nota3}" />
+                                            <p:column headerText="N3">  
+                                                <h:outputText id="nota3" value="#{nota.nota3}"/>
                                             </p:column>
 
                                             <p:column headerText="NF" style="text-align: center;">
-                                                <h:outputText id="nf" value="#{nota.notaFinal}"/> 
+                                                <h:outputText id="nf" value="#{nota.notaFinal}"/>
                                             </p:column>
 
                                             <p:column headerText="RE" style="text-align: center;">  
@@ -184,8 +196,8 @@
                                                 <h:outputText value="#{nota.practica1}" />
                                             </p:column>
 
-                                            <p:column headerText="N1">  
-                                                <h:outputText value="#{nota.nota1}"/>
+                                            <p:column headerText="N1" >  
+                                                <h:outputText value="#{nota.nota1}" />
                                             </p:column>
 
                                             <p:column headerText="T2" >  
@@ -196,8 +208,8 @@
                                                 <h:outputText value="#{nota.practica2}" />
                                             </p:column>
 
-                                            <p:column headerText="N2">  
-                                                <h:outputText value="#{nota.nota2}"/>
+                                            <p:column headerText="N2" >  
+                                                <h:outputText value="#{nota.nota2}" />
                                             </p:column>
 
                                             <p:column headerText="T3" >  
@@ -222,8 +234,8 @@
                                                 </p:cellEditor>
                                             </p:column>
 
-                                            <p:column headerText="N3" >  
-                                                <h:outputText id="nota3" value="#{nota.nota3}" />
+                                            <p:column headerText="N3">  
+                                                <h:outputText id="nota3" value="#{nota.nota3}"/>
                                             </p:column>
 
                                             <p:column headerText="T4" >  
@@ -235,7 +247,7 @@
                                             </p:column>
 
                                             <p:column headerText="N4">  
-                                                <h:outputText value="#{nota.nota4}"/>
+                                                <h:outputText value="#{nota.nota4}" />
                                             </p:column>
 
                                             <p:column headerText="NF" style="text-align: center;">
@@ -249,7 +261,6 @@
                                             <p:column headerText="CO" style="text-align: center;">
                                                 <h:outputText id="condicion" value="#{nota.condicion.abreviatura}"/>
                                             </p:column>
-
                                         </p:dataTable>
                                     </p:outputPanel>
                                 </div>

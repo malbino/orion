@@ -257,4 +257,36 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return d;
     }
+    
+    public Long cantidadInscritos(int id_grupo) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(n) FROM Nota n JOIN n.grupo g WHERE g.id_grupo=:id_grupo");
+            q.setParameter("id_grupo", id_grupo);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public Long cantidadCondicion(int id_grupo, Condicion condicion) {
+        Long l = 0l;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(n) FROM Nota n JOIN n.grupo g WHERE g.id_grupo=:id_grupo AND n.condicion=:condicion");
+            q.setParameter("id_grupo", id_grupo);
+            q.setParameter("condicion", condicion);
+
+            l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
 }

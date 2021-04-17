@@ -7,7 +7,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
         <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
 
             <ui:define name="content">
@@ -61,12 +60,28 @@
 
                                     <p:toolbar id="toolbar">
                                         <f:facet name="left">
-                                            <p:commandButton icon="fa fa-save" title="Guardar" actionListener="#{CuartoParcialController.guardar()}" update=":form"/>
+                                            <p:commandButton icon="fa fa-save" value="Guardar" actionListener="#{CuartoParcialController.guardar()}" update=":form"/>
+
+                                            <p:spacer width="5"/>
+
+                                            <p:commandButton icon="fa fa-download" value="Bajar Registro" ajax="false" actionListener="#{CuartoParcialController.bajarRegistro()}">
+                                                <p:fileDownload value="#{CuartoParcialController.download}"/>
+                                            </p:commandButton>
+                                            <p:commandButton id="upload" icon="fa fa-upload" value="Subir Registro" type="button"/>
+                                            <p:overlayPanel for="upload" style="width:600px">
+                                                <p:fileUpload listener="#{CuartoParcialController.subirRegistro}" 
+                                                              mode="advanced" dragDropSupport="false" update=":form"
+                                                              label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"
+                                                              allowTypes="/(\.|\/)(xlsx)$/" invalidFileMessage="Formato de archivo invalido"/>
+                                            </p:overlayPanel>
                                         </f:facet>
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{CuartoParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 3}">
+                                                    <p:dataExporter type="xls" target="notasSemestral" fileName="notas" />
+                                                </p:menuitem>
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{CuartoParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
                                                     <p:dataExporter type="xls" target="notasAnual" fileName="notas" />
                                                 </p:menuitem>
                                             </p:menuButton>
@@ -99,8 +114,8 @@
                                             <h:outputText value="#{nota.practica1}" />
                                         </p:column>
 
-                                        <p:column headerText="N1">  
-                                            <h:outputText value="#{nota.nota1}"/>
+                                        <p:column headerText="N1" >  
+                                            <h:outputText value="#{nota.nota1}" />
                                         </p:column>
 
                                         <p:column headerText="T2" >  
@@ -111,8 +126,8 @@
                                             <h:outputText value="#{nota.practica2}" />
                                         </p:column>
 
-                                        <p:column headerText="N2">  
-                                            <h:outputText value="#{nota.nota2}"/>
+                                        <p:column headerText="N2" >  
+                                            <h:outputText value="#{nota.nota2}" />
                                         </p:column>
 
                                         <p:column headerText="T3" >  
@@ -124,7 +139,7 @@
                                         </p:column>
 
                                         <p:column headerText="N3">  
-                                            <h:outputText value="#{nota.nota3}"/>
+                                            <h:outputText value="#{nota.nota3}" />
                                         </p:column>
 
                                         <p:column headerText="T4" >  
@@ -149,8 +164,8 @@
                                             </p:cellEditor>
                                         </p:column>
 
-                                        <p:column headerText="N4" >  
-                                            <h:outputText id="nota4" value="#{nota.nota4}" />
+                                        <p:column headerText="N4">  
+                                            <h:outputText id="nota4" value="#{nota.nota4}"/>
                                         </p:column>
 
                                         <p:column headerText="NF" style="text-align: center;">

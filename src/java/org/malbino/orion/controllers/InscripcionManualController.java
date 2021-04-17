@@ -177,7 +177,7 @@ public class InscripcionManualController extends AbstractController implements S
                     if (verificarGrupos()) {
                         List<Nota> aux = new ArrayList();
                         for (Materia materia : ofertaMaterias) {
-                            Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
+                            Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.ABANDONO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
                             aux.add(nota);
                         }
 
@@ -212,7 +212,7 @@ public class InscripcionManualController extends AbstractController implements S
                     List<Nota> aux = new ArrayList();
                     for (Materia materia : materias) {
                         if (materia.getGrupo() != null && !materiaRepetida(materia)) {
-                            Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.REPROBADO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
+                            Nota nota = new Nota(0, Modalidad.REGULAR, Condicion.ABANDONO, seleccionInscrito.getGestionAcademica(), materia, seleccionInscrito.getEstudiante(), seleccionInscrito, materia.getGrupo());
                             aux.add(nota);
                         }
                     }

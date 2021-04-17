@@ -186,15 +186,15 @@ public abstract class AbstractController implements Serializable {
     public Caracter[] listaCaracteres() {
         return Caracter.values();
     }
-    
+
     public Funcionalidad[] listaFuncionalidades() {
         return Funcionalidad.values();
     }
-    
+
     public Modalidad[] listaModalidades() {
         return Modalidad.values();
     }
-    
+
     public void editarNota(Nota nota) {
         Integer nota1 = 0;
         if (nota.getTeoria1() != null) {
@@ -269,7 +269,7 @@ public abstract class AbstractController implements Serializable {
         if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 3) {
             if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null) {
                 nota.setNotaFinal(null);
-                nota.setCondicion(Condicion.REPROBADO);
+                nota.setCondicion(Condicion.ABANDONO);
             } else {
                 Double promedio = notaFinal.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
                 Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
@@ -277,6 +277,8 @@ public abstract class AbstractController implements Serializable {
 
                 if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                     nota.setCondicion(Condicion.APROBADO);
+                } else if (nota.getNotaFinal() == 0) {
+                    nota.setCondicion(Condicion.ABANDONO);
                 } else {
                     nota.setCondicion(Condicion.REPROBADO);
                 }
@@ -284,7 +286,7 @@ public abstract class AbstractController implements Serializable {
         } else if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
             if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null && nota.getNota4() == null) {
                 nota.setNotaFinal(null);
-                nota.setCondicion(Condicion.REPROBADO);
+                nota.setCondicion(Condicion.ABANDONO);
             } else {
                 Double promedio = notaFinal.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
                 Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
@@ -292,6 +294,8 @@ public abstract class AbstractController implements Serializable {
 
                 if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                     nota.setCondicion(Condicion.APROBADO);
+                } else if (nota.getNotaFinal() == 0) {
+                    nota.setCondicion(Condicion.ABANDONO);
                 } else {
                     nota.setCondicion(Condicion.REPROBADO);
                 }

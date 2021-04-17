@@ -119,7 +119,7 @@ public class FileEstudianteFacade {
         if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 3) {
             if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null) {
                 nota.setNotaFinal(null);
-                nota.setCondicion(Condicion.REPROBADO);
+                nota.setCondicion(Condicion.ABANDONO);
             } else {
                 Double promedio = notaFinal.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
                 Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
@@ -127,6 +127,8 @@ public class FileEstudianteFacade {
 
                 if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                     nota.setCondicion(Condicion.APROBADO);
+                } else if (nota.getNotaFinal() == 0) {
+                    nota.setCondicion(Condicion.ABANDONO);
                 } else {
                     nota.setCondicion(Condicion.REPROBADO);
                 }
@@ -134,7 +136,7 @@ public class FileEstudianteFacade {
         } else if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
             if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null && nota.getNota4() == null) {
                 nota.setNotaFinal(null);
-                nota.setCondicion(Condicion.REPROBADO);
+                nota.setCondicion(Condicion.ABANDONO);
             } else {
                 Double promedio = notaFinal.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
                 Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
@@ -142,6 +144,8 @@ public class FileEstudianteFacade {
 
                 if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                     nota.setCondicion(Condicion.APROBADO);
+                } else if (nota.getNotaFinal() == 0) {
+                    nota.setCondicion(Condicion.ABANDONO);
                 } else {
                     nota.setCondicion(Condicion.REPROBADO);
                 }
@@ -235,6 +239,8 @@ public class FileEstudianteFacade {
         } else if (nota.getNotaFinal() != null) {
             if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                 nota.setCondicion(Condicion.APROBADO);
+            } else if (nota.getNotaFinal() == 0) {
+                nota.setCondicion(Condicion.ABANDONO);
             } else {
                 nota.setCondicion(Condicion.REPROBADO);
             }
@@ -244,7 +250,7 @@ public class FileEstudianteFacade {
 
         return true;
     }
-    
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean editarNota(Nota nota) {
         if (nota.getRecuperatorio() != null) {
@@ -256,6 +262,8 @@ public class FileEstudianteFacade {
         } else if (nota.getNotaFinal() != null) {
             if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                 nota.setCondicion(Condicion.APROBADO);
+            } else if (nota.getNotaFinal() == 0) {
+                nota.setCondicion(Condicion.ABANDONO);
             } else {
                 nota.setCondicion(Condicion.REPROBADO);
             }
