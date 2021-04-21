@@ -62,7 +62,7 @@
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-save" value="Guardar" actionListener="#{CuartoParcialController.guardar()}" update=":form"/>
 
-                                            <p:spacer width="5"/>
+                                            <p:spacer width="10"/>
 
                                             <p:commandButton icon="fa fa-download" value="Bajar Registro" ajax="false" actionListener="#{CuartoParcialController.bajarRegistro()}">
                                                 <p:fileDownload value="#{CuartoParcialController.download}"/>
@@ -74,6 +74,12 @@
                                                               label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"
                                                               allowTypes="/(\.|\/)(xlsx)$/" invalidFileMessage="Formato de archivo invalido"/>
                                             </p:overlayPanel>
+                                             
+                                            <p:spacer width="10"/>
+                                            
+                                            <p:commandButton icon="fa fa-download" value="Bajar Planilla" ajax="false" actionListener="#{CuartoParcialController.bajarPlanilla()}">
+                                                <p:fileDownload value="#{CuartoParcialController.download}"/>
+                                            </p:commandButton>
                                         </f:facet>
 
                                         <f:facet name="right">

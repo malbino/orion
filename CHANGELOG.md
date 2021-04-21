@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2021-04-20
+### Added
+### Changed
+- Se añadio al supervidor externo en la copia de grupos a Moodle
+- Se añadio la descarga de la Planilla de Seguimiento por parte del docente
+### Removed
+### Fixed
+
 ## [1.2.1] - 2021-04-17
 ### Added
 ### Changed

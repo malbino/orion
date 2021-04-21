@@ -46,6 +46,17 @@ public class CopiarGrupo implements Runnable {
     private static final int TEACHER_ROLEID = 4;
     private static final int STUDENT_ROLEID = 5;
 
+    private static final String USUARIO = "supervisor";
+    private static final String CONTRASEÑA = "Pa$$w0rdSupervis0r";
+    private static final String NOMBRE = "SUPERVISOR";
+    private static final String APELLIDOS = "PLATAFORMA";
+    private static final String EMAIL = "supervisor@cambiatuemail.com";
+    private static final String PAIS = "BO";
+    private static final Integer TELEFONO = null;
+    private static final Integer CELULAR = null;
+    private static final String DIRECCION = "";
+    private static final String ID_NUMBER = "supervisor_dde";
+
     String login;
     String webservice;
     String username;
@@ -97,7 +108,7 @@ public class CopiarGrupo implements Runnable {
         String stringurl = String.format("%s?username=%s&password=%s&service=%s", login, username, password, servicename);
 
         System.out.println("url: " + stringurl);
-        
+
         URL url = new URL(stringurl);//your url i.e fetch data from .
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -131,7 +142,7 @@ public class CopiarGrupo implements Runnable {
                 "idnumber",
                 URLEncoder.encode(idnumber, "UTF-8")
         );
-        
+
         URL url = new URL(stringurl);//your url i.e fetch data from .
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -286,7 +297,7 @@ public class CopiarGrupo implements Runnable {
                 URLEncoder.encode(grupo.summaryMoodle(), "UTF-8"));
 
         URL url = new URL(stringurl);//your url i.e fetch data from .
-        
+
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
@@ -346,6 +357,43 @@ public class CopiarGrupo implements Runnable {
         return users;
     }
 
+    public JSONArray getUser(String token, String idnumber) throws MalformedURLException, IOException {
+        String stringurl = String.format("%s?wstoken=%s&wsfunction=%s&moodlewsrestformat=%s&"
+                + "criteria[0][key]=%s&"
+                + "criteria[0][value]=%s",
+                webservice,
+                token,
+                "core_user_get_users",
+                MOODLEWSRESTFORMAT,
+                "idnumber",
+                idnumber
+        );
+
+        URL url = new URL(stringurl);//your url i.e fetch data from .
+
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/json");
+        if (conn.getResponseCode() != 200) {
+            throw new RuntimeException("Failed : HTTP Error code : "
+                    + conn.getResponseCode());
+        }
+        InputStreamReader in = new InputStreamReader(conn.getInputStream());
+        BufferedReader br = new BufferedReader(in);
+        String output;
+        StringBuilder response = new StringBuilder();
+        while ((output = br.readLine()) != null) {
+            response.append(output);
+            response.append('\r');
+        }
+        conn.disconnect();
+
+        JSONObject jsonObject = new JSONObject(response.toString());
+        JSONArray users = jsonObject.getJSONArray("users");
+
+        return users;
+    }
+
     public JSONArray createUser(String token, Usuario usuario) throws MalformedURLException, IOException {
         String stringurl = String.format("%s?wstoken=%s&wsfunction=%s&moodlewsrestformat=%s&"
                 + "users[0][username]=%s&"
@@ -374,6 +422,62 @@ public class CopiarGrupo implements Runnable {
                 usuario.getCelular() != null ? usuario.getCelular() : "",
                 URLEncoder.encode(usuario.getDireccion(), "UTF-8"),
                 usuario.getId_persona());
+
+        URL url = new URL(stringurl);//your url i.e fetch data from .
+
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/json");
+        if (conn.getResponseCode() != 200) {
+            throw new RuntimeException("Failed : HTTP Error code : "
+                    + conn.getResponseCode());
+        }
+        InputStreamReader in = new InputStreamReader(conn.getInputStream());
+        BufferedReader br = new BufferedReader(in);
+        String output;
+        StringBuilder response = new StringBuilder();
+        while ((output = br.readLine()) != null) {
+            response.append(output);
+            response.append('\r');
+        }
+        conn.disconnect();
+
+        System.out.println(response.toString());
+
+        JSONArray courses = new JSONArray(response.toString());
+
+        return courses;
+    }
+
+    public JSONArray createUser(String token, String usuario, String contraseña, String nombre, String apellidos, String email, String pais, Integer telefono,
+            Integer celular, String direccion, String id) throws MalformedURLException, IOException {
+        String stringurl = String.format("%s?wstoken=%s&wsfunction=%s&moodlewsrestformat=%s&"
+                + "users[0][username]=%s&"
+                + "users[0][password]=%s&"
+                + "users[0][firstname]=%s&"
+                + "users[0][lastname]=%s&"
+                + "users[0][email]=%s&"
+                + "users[0][city]=%s&"
+                + "users[0][country]=%s&"
+                + "users[0][phone1]=%s&"
+                + "users[0][phone2]=%s&"
+                + "users[0][address]=%s&"
+                + "users[0][idnumber]=%s",
+                webservice,
+                token,
+                "core_user_create_users",
+                MOODLEWSRESTFORMAT,
+                URLEncoder.encode(usuario, "UTF-8"),
+                URLEncoder.encode(contraseña, "UTF-8"),
+                URLEncoder.encode(nombre, "UTF-8"),
+                URLEncoder.encode(apellidos, "UTF-8"),
+                URLEncoder.encode(email, "UTF-8"),
+                URLEncoder.encode(CITY, "UTF-8"),
+                URLEncoder.encode(pais, "UTF-8"),
+                telefono != null ? telefono : "",
+                celular != null ? celular : "",
+                URLEncoder.encode(direccion, "UTF-8"),
+                id);
 
         URL url = new URL(stringurl);//your url i.e fetch data from .
 
@@ -490,6 +594,20 @@ public class CopiarGrupo implements Runnable {
             }
             JSONObject course = courses.getJSONObject(0);
             System.out.println("course -> " + course.getString("shortname"));
+
+            //supervisor externo
+            JSONArray externalSupervisors = getUser(token, ID_NUMBER);
+            System.out.println("get supervisors -> " + externalSupervisors.length());
+            if (externalSupervisors.isEmpty()) {
+                externalSupervisors = createUser(token, USUARIO, CONTRASEÑA, NOMBRE, APELLIDOS, EMAIL, PAIS, TELEFONO, CELULAR, DIRECCION, ID_NUMBER);
+                System.out.println("create supervisor -> ");
+            }
+
+            JSONObject externalSupervisor = externalSupervisors.getJSONObject(0);
+            System.out.println("supervisor -> " + externalSupervisor.getString("username"));
+
+            enrolUser(token, TEACHER_ROLEID, externalSupervisor.getInt("id"), course.getInt("id"));
+            System.out.println("editing supervisor enrol -> ");
 
             //director academico
             if (grupo.getMateria().getCarrera().getCampus().getInstituto().getDirectorAcademico() != null) {
