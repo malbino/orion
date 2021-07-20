@@ -15,7 +15,7 @@ import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.facades.negocio.CentralizadorCalificacionesFacade;
-import org.malbino.orion.facades.negocio.CentralizadorCalificacionesFacade.Centralizador;
+import org.malbino.orion.pojos.centralizador.Centralizador;
 
 /**
  *
