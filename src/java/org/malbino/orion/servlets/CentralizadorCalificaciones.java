@@ -192,12 +192,12 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     phrase.add(new Chunk("GESTIÓN: ", NEGRITA));
                     phrase.add(new Chunk(paginaNotas.getGestion(), NORMAL));
                     cell = new PdfPCell(phrase);
-                    cell.setColspan(18);
+                    cell.setColspan(24);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
                     cell = new PdfPCell(new Phrase("CÉDULA DE IDENTIDAD", NEGRITA));
-                    cell.setColspan(6);
+                    cell.setColspan(8);
                     cell.setRowspan(6);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -206,14 +206,14 @@ public class CentralizadorCalificaciones extends HttpServlet {
 
                     for (MateriaCentralizador materiaCentralizador : paginaNotas.getMateriasCentralizador()) {
                         cell = new PdfPCell(new Phrase(materiaCentralizador.getCodigo(), NEGRITA_PEQUENA));
-                        cell.setColspan(4);
+                        cell.setColspan(5);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         cell.setBackgroundColor(new BaseColor(155, 187, 89));
                         table.addCell(cell);
                     }
 
                     cell = new PdfPCell(new Phrase("OBSERVACIONES", NEGRITA));
-                    cell.setColspan(6);
+                    cell.setColspan(8);
                     cell.setRowspan(6);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -225,13 +225,13 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     phrase.add(new Chunk("NIVEL: ", NEGRITA));
                     phrase.add(new Chunk(paginaNotas.getNivel(), NORMAL));
                     cell = new PdfPCell(phrase);
-                    cell.setColspan(18);
+                    cell.setColspan(24);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
                     for (MateriaCentralizador materiaCentralizador : paginaNotas.getMateriasCentralizador()) {
                         cell = new PdfPCell(new Phrase(materiaCentralizador.getNombre(), NEGRITA_PEQUENA));
-                        cell.setColspan(4);
+                        cell.setColspan(5);
                         cell.setRowspan(5);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -245,7 +245,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     phrase.add(new Chunk("CARRERA: ", NEGRITA));
                     phrase.add(new Chunk(paginaNotas.getCarrera(), NORMAL));
                     cell = new PdfPCell(phrase);
-                    cell.setColspan(18);
+                    cell.setColspan(24);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
@@ -253,7 +253,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     phrase.add(new Chunk("RÉGIMEN: ", NEGRITA));
                     phrase.add(new Chunk(paginaNotas.getRegimen(), NORMAL));
                     cell = new PdfPCell(phrase);
-                    cell.setColspan(18);
+                    cell.setColspan(24);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
@@ -261,7 +261,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     phrase.add(new Chunk("CURSO: ", NEGRITA));
                     phrase.add(new Chunk(paginaNotas.getCurso(), NORMAL));
                     cell = new PdfPCell(phrase);
-                    cell.setColspan(18);
+                    cell.setColspan(24);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
@@ -273,7 +273,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     table.addCell(cell);
 
                     cell = new PdfPCell(new Phrase("NÓMINA ESTUDIANTES", NEGRITA));
-                    cell.setColspan(16);
+                    cell.setColspan(22);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
                     cell.setBackgroundColor(new BaseColor(216, 228, 188));
@@ -286,24 +286,24 @@ public class CentralizadorCalificaciones extends HttpServlet {
                         table.addCell(cell);
 
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getNombre(), NORMAL));
-                        cell.setColspan(16);
+                        cell.setColspan(22);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                         table.addCell(cell);
 
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getCi(), NORMAL));
-                        cell.setColspan(6);
+                        cell.setColspan(8);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         table.addCell(cell);
 
                         for (String nota : estudianteCentralizador.getNotas()) {
                             cell = new PdfPCell(new Phrase(nota, NORMAL));
-                            cell.setColspan(4);
+                            cell.setColspan(5);
                             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                             table.addCell(cell);
                         }
 
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getObservaciones(), NORMAL));
-                        cell.setColspan(6);
+                        cell.setColspan(8);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         table.addCell(cell);
                     }

@@ -40,7 +40,7 @@ import org.malbino.orion.util.Redondeo;
 public class CentralizadorCalificacionesFacade {
 
     private static final int CANTIDAD_MAXIMA_ESTUDIANTES = 20;
-    private static final int CANTIDAD_MAXIMA_MATERIAS = 15;
+    private static final int CANTIDAD_MAXIMA_MATERIAS = 10;
 
     private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
     private static final String TITULO_CC_PR = "CENTRALIZADOR DE CALIFICACIONES\nPRUEBA DE RECUPERACIÓN";

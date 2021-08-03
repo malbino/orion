@@ -10,5 +10,5 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum Caracter {
-    CONVENIO, PRIVADO, PUBLICO;
+    CONVENIO, PRIVADO, FISCAL;
 }

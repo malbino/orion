@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.5] - 2021-08-02
+### Added
+### Changed
+### Removed
+### Fixed
+- Se corrigio el Centralizador Calificaciones
+
 ## [1.2.4] - 2021-07-24
 ### Added
 ### Changed
