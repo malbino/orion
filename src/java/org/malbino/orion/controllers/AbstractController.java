@@ -275,12 +275,20 @@ public abstract class AbstractController implements Serializable {
                 Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
                 nota.setNotaFinal(promedioRedondeado);
 
-                if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
-                    nota.setCondicion(Condicion.APROBADO);
-                } else if (nota.getNotaFinal() == 0) {
-                    nota.setCondicion(Condicion.ABANDONO);
-                } else {
-                    nota.setCondicion(Condicion.REPROBADO);
+                if (nota.getRecuperatorio() != null) {
+                    if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                        nota.setCondicion(Condicion.APROBADO);
+                    } else {
+                        nota.setCondicion(Condicion.REPROBADO);
+                    }
+                } else if (nota.getNotaFinal() != null) {
+                    if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                        nota.setCondicion(Condicion.APROBADO);
+                    } else if (nota.getNotaFinal() == 0) {
+                        nota.setCondicion(Condicion.ABANDONO);
+                    } else {
+                        nota.setCondicion(Condicion.REPROBADO);
+                    }
                 }
             }
         } else if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
@@ -292,12 +300,20 @@ public abstract class AbstractController implements Serializable {
                 Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
                 nota.setNotaFinal(promedioRedondeado);
 
-                if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
-                    nota.setCondicion(Condicion.APROBADO);
-                } else if (nota.getNotaFinal() == 0) {
-                    nota.setCondicion(Condicion.ABANDONO);
-                } else {
-                    nota.setCondicion(Condicion.REPROBADO);
+                if (nota.getRecuperatorio() != null) {
+                    if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                        nota.setCondicion(Condicion.APROBADO);
+                    } else {
+                        nota.setCondicion(Condicion.REPROBADO);
+                    }
+                } else if (nota.getNotaFinal() != null) {
+                    if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                        nota.setCondicion(Condicion.APROBADO);
+                    } else if (nota.getNotaFinal() == 0) {
+                        nota.setCondicion(Condicion.ABANDONO);
+                    } else {
+                        nota.setCondicion(Condicion.REPROBADO);
+                    }
                 }
             }
         }
