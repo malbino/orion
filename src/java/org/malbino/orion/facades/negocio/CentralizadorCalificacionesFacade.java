@@ -408,7 +408,6 @@ public class CentralizadorCalificacionesFacade {
 
                                     iteratorMaterias = materias.iterator();
                                     String[] notasEstudianteCentralizador = new String[CANTIDAD_MAXIMA_MATERIAS];
-                                    int sumatoriaNotaFinal = 0;
                                     for (int j = 0; j < CANTIDAD_MAXIMA_MATERIAS; j++) { //notas
                                         if (iteratorMaterias.hasNext()) {
                                             Materia materia = iteratorMaterias.next();
@@ -420,7 +419,6 @@ public class CentralizadorCalificacionesFacade {
 
                                                 if (nota.getNotaFinal() != null) {
                                                     notasEstudianteCentralizador[j] = nota.getNotaFinal().toString();
-                                                    sumatoriaNotaFinal += nota.getNotaFinal();
                                                 } else {
                                                     notasEstudianteCentralizador[j] = "";
                                                 }
@@ -429,11 +427,7 @@ public class CentralizadorCalificacionesFacade {
                                             notasEstudianteCentralizador[j] = " ";
                                         }
                                     }
-                                    if (sumatoriaNotaFinal == 0) { //observacion
-                                        estudianteCentralizador.setObservaciones(Condicion.ABANDONO.toString());
-                                    } else {
-                                        estudianteCentralizador.setObservaciones(Condicion.REPROBADO.toString());
-                                    }
+                                    estudianteCentralizador.setObservaciones(Condicion.RECUPERACION.toString()); //observacion
 
                                     estudianteCentralizador.setNotas(notasEstudianteCentralizador);
 

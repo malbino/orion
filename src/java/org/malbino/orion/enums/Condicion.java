@@ -13,7 +13,8 @@ public enum Condicion {
 
     APROBADO("APROBADO", "AP"),
     REPROBADO("REPROBADO", "RE"),
-    ABANDONO("ABANDONO", "AB");
+    ABANDONO("ABANDONO", "AB"),
+    RECUPERACION("RECUPERACIÓN", "RC");
 
     private String nombre;
     private String abreviatura;
