@@ -7,6 +7,7 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,6 +33,7 @@ import org.malbino.orion.facades.MateriaFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
+import org.malbino.orion.util.Constantes;
 import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Moodle;
 
@@ -67,17 +69,17 @@ public class InscripcionManualController extends AbstractController implements S
     private List<Materia> materias;
     private List<Nota> estadoInscripcion;
     private Nota seleccionNota;
-    
-    private String[] grupos = {"G1", "G2", "G3", "G4", "G5", "G6"};
+
+    private String[] grupos = Arrays.copyOfRange(Constantes.ABECEDARIO, 0, 6);
     private String grupo;
-    
+
     @PostConstruct
     public void init() {
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         materias = new ArrayList();
         estadoInscripcion = new ArrayList();
-        
+
         grupo = grupos[0];
     }
 
@@ -86,7 +88,7 @@ public class InscripcionManualController extends AbstractController implements S
         ofertaMaterias = new ArrayList();
         materias = new ArrayList();
         estadoInscripcion = new ArrayList();
-        
+
         grupo = grupos[0];
     }
 
@@ -109,11 +111,11 @@ public class InscripcionManualController extends AbstractController implements S
     public void actualizarOferta() {
         if (seleccionInscrito != null) {
             ofertaMaterias = inscripcionesFacade.ofertaTomaMaterias(seleccionInscrito);
-            
+
             for (Materia materia : ofertaMaterias) {
                 List<Grupo> listaGruposAbiertos = grupoFacade.listaGruposAbiertos(seleccionInscrito.getGestionAcademica().getId_gestionacademica(), materia.getId_materia(), grupo);
                 Iterator<Grupo> iterator = listaGruposAbiertos.iterator();
-                if(iterator.hasNext()){
+                if (iterator.hasNext()) {
                     materia.setGrupo(iterator.next());
                 } else {
                     materia.setGrupo(null);

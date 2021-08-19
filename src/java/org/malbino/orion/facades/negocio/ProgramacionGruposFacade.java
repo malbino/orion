@@ -19,6 +19,7 @@ import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.MateriaFacade;
+import org.malbino.orion.util.Constantes;
 
 /**
  *
@@ -40,8 +41,8 @@ public class ProgramacionGruposFacade {
     public boolean programarGrupos(GestionAcademica gestionAcademica, Carrera carrera, Nivel nivel, Turno turno, Integer capacidad) {
         List<Materia> materias = materiaFacade.listaMaterias(carrera.getId_carrera(), nivel);
         for (Materia materia : materias) {
-            Integer c1 = grupoFacade.cantidadGrupos(gestionAcademica.getId_gestionacademica(), materia.getId_materia()).intValue() + 1;
-            String codigo = "G" + c1;
+            Integer c1 = grupoFacade.cantidadGrupos(gestionAcademica.getId_gestionacademica(), materia.getId_materia()).intValue();
+            String codigo = Constantes.ABECEDARIO[c1];
 
             Grupo grupo = new Grupo(codigo, capacidad, turno, true, gestionAcademica, materia);
             em.persist(grupo);

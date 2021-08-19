@@ -228,7 +228,7 @@ public class CentralizadorCalificacionesFacade {
                                     carrera.getNivelAcademico().getNombre(),
                                     carrera.getNombre(),
                                     carrera.getRegimen().getNombre(),
-                                    nivel.getNombre() + " " + paralelo,
+                                    nivel.getOrdinal() + " " + paralelo,
                                     CANTIDAD_MAXIMA_MATERIAS,
                                     CANTIDAD_MAXIMA_ESTUDIANTES
                             );

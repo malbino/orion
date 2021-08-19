@@ -7,6 +7,7 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,6 +33,7 @@ import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
+import org.malbino.orion.util.Constantes;
 import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Moodle;
 
@@ -64,7 +66,7 @@ public class InscripcionInternetController extends AbstractController implements
     private List<Materia> ofertaMaterias;
     private List<Nota> estadoInscripcion;
 
-    private String[] grupos = {"G1", "G2", "G3", "G4", "G5", "G6"};
+    private String[] grupos = Arrays.copyOfRange(Constantes.ABECEDARIO, 0, 6);
     private String grupo;
 
     @PostConstruct
