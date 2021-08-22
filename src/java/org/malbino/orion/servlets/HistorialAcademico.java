@@ -66,7 +66,6 @@ public class HistorialAcademico extends HttpServlet {
     private static final Font NORMAL_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.ITALIC, BaseColor.BLACK);
     private static final Font NEGRITA_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLDITALIC, BaseColor.BLACK);
     private static final Font NEGRITA_PLOMO = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, BaseColor.LIGHT_GRAY);
-    private static final Font ERROR = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 7, Font.NORMAL, BaseColor.RED);
 
     private static final int MARGEN_IZQUIERDO = -40;
     private static final int MARGEN_DERECHO = -40;
@@ -199,22 +198,49 @@ public class HistorialAcademico extends HttpServlet {
         PdfPTable table = new PdfPTable(60);
 
         Phrase phrase = new Phrase();
-        phrase.add(new Chunk("Resolución Ministerial: ", NEGRITA));
-        phrase.add(new Chunk(carrera.getResolucionMinisterial(), NORMAL));
+        phrase.add(new Chunk("Lugar y fecha: ", NEGRITA_ITALICA));
+        phrase.add(new Chunk("Cochabamba, " + Fecha.formatearFecha_ddMMMMyyyy(fecha), NORMAL_ITALICA));
         PdfPCell cell = new PdfPCell(phrase);
         cell.setColspan(60);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
+        
+        cell = new PdfPCell(new Phrase(" ", ESPACIO));
+        cell.setColspan(60);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
 
         phrase = new Phrase();
-        phrase.add(new Chunk("Lugar y fecha: ", NEGRITA_ITALICA));
-        phrase.add(new Chunk("Cochabamba, " + Fecha.formatearFecha_ddMMMMyyyy(fecha), NORMAL_ITALICA));
+        phrase.add(new Chunk("* PLAN DE ESTUDIOS SEGÚN R.M. ", NEGRITA));
+        phrase.add(new Chunk(carrera.getResolucionMinisterial1(), NORMAL));
         cell = new PdfPCell(phrase);
         cell.setColspan(60);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
+
+        if (carrera.getResolucionMinisterial2() != null && !carrera.getResolucionMinisterial2().isEmpty()) {
+            phrase = new Phrase();
+            phrase.add(new Chunk("* PLAN DE ESTUDIOS SEGÚN R.M. ", NEGRITA));
+            phrase.add(new Chunk(carrera.getResolucionMinisterial2(), NORMAL));
+            cell = new PdfPCell(phrase);
+            cell.setColspan(60);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(Rectangle.NO_BORDER);
+            table.addCell(cell);
+        }
+
+        if (carrera.getResolucionMinisterial3() != null && !carrera.getResolucionMinisterial3().isEmpty()) {
+            phrase = new Phrase();
+            phrase.add(new Chunk("* PLAN DE ESTUDIOS SEGÚN R.M. ", NEGRITA));
+            phrase.add(new Chunk(carrera.getResolucionMinisterial3(), NORMAL));
+            cell = new PdfPCell(phrase);
+            cell.setColspan(60);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setBorder(Rectangle.NO_BORDER);
+            table.addCell(cell);
+        }
 
         cell = new PdfPCell(new Phrase(" ", NEGRITA));
         cell.setColspan(20);
@@ -226,7 +252,7 @@ public class HistorialAcademico extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
         cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setFixedHeight(50);
+        cell.setFixedHeight(30);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(" ", NEGRITA));
@@ -250,7 +276,6 @@ public class HistorialAcademico extends HttpServlet {
         cell.setColspan(20);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setFixedHeight(20);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Sello del Instituto", NEGRITA_PLOMO));
@@ -290,7 +315,7 @@ public class HistorialAcademico extends HttpServlet {
         table.addCell(cell);
 
         int materiasAprobadas = notaFacade.cantidadNotasAprobadas(carrera.getId_carrera(), estudiante.getId_persona()).intValue();
-        int materiasCarrera = materiaFacade.cantidadMaterias(carrera.getId_carrera()).intValue();
+        int materiasCarrera = materiaFacade.cantidadMateriasCurriculares(carrera.getId_carrera()).intValue();
         cell = new PdfPCell(new Phrase(materiasAprobadas + "/" + materiasCarrera, NORMAL));
         cell.setColspan(5);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -413,8 +438,8 @@ public class HistorialAcademico extends HttpServlet {
                 cell.setColspan(20);
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
-                
-                 //fila 0
+
+                //fila 0
                 phrase = new Phrase();
                 phrase.add(new Chunk("INSTITUTO: ", NEGRITA));
                 phrase.add(new Chunk(carrera.getCampus().getInstituto().getNombreRegulador(), NORMAL));

@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2021-08-21
+### Added
+### Changed
+- Se modifico el Historial Académico
+### Removed
+### Fixed
+
+## [1.2.8] - 2021-08-19
+### Added
+### Changed
+- Codigos de los grupos con letras del abecedario
+### Removed
+### Fixed
+
 ## [1.2.7] - 2021-08-16
 ### Added
 ### Changed

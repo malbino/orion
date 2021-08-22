@@ -199,11 +199,11 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return l;
     }
     
-    public Long cantidadMaterias(int id_carrera) {
+    public Long cantidadMateriasCurriculares(int id_carrera) {
         Long l = 0l;
 
         try {
-            Query q = em.createQuery("SELECT COUNT(m) FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera");
+            Query q = em.createQuery("SELECT COUNT(m) FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.curricular = TRUE");
             q.setParameter("id_carrera", id_carrera);
 
             l = (Long) q.getSingleResult();

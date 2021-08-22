@@ -36,24 +36,26 @@ public class Carrera implements Serializable {
     private Regimen regimen;
     private NivelAcademico nivelAcademico;
     private Integer version;
-    private String resolucionMinisterial;
+    private String resolucionMinisterial1;
+    private String resolucionMinisterial2;
+    private String resolucionMinisterial3;
     private Integer creditajeMatricula;
 
     @JoinColumn(name = "id_campus")
     @ManyToOne
     private Campus campus;
-    
+
     @JoinColumn(name = "id_jefecarrera")
     @ManyToOne
     private Empleado jefeCarrera;
 
     public Carrera() {
     }
-    
+
     public String idnumberMoodle() {
         return "c" + this.id_carrera;
     }
-    
+
     public String nameMoodle() {
         return nombre + " v" + version;
     }
@@ -143,17 +145,17 @@ public class Carrera implements Serializable {
     }
 
     /**
-     * @return the resolucionMinisterial
+     * @return the resolucionMinisterial1
      */
-    public String getResolucionMinisterial() {
-        return resolucionMinisterial;
+    public String getResolucionMinisterial1() {
+        return resolucionMinisterial1;
     }
 
     /**
-     * @param resolucionMinisterial the resolucionMinisterial to set
+     * @param resolucionMinisterial1 the resolucionMinisterial1 to set
      */
-    public void setResolucionMinisterial(String resolucionMinisterial) {
-        this.resolucionMinisterial = resolucionMinisterial;
+    public void setResolucionMinisterial1(String resolucionMinisterial1) {
+        this.resolucionMinisterial1 = resolucionMinisterial1;
     }
 
     /**
@@ -228,4 +230,31 @@ public class Carrera implements Serializable {
         this.jefeCarrera = jefeCarrera;
     }
 
+    /**
+     * @return the resolucionMinisterial2
+     */
+    public String getResolucionMinisterial2() {
+        return resolucionMinisterial2;
+    }
+
+    /**
+     * @param resolucionMinisterial2 the resolucionMinisterial2 to set
+     */
+    public void setResolucionMinisterial2(String resolucionMinisterial2) {
+        this.resolucionMinisterial2 = resolucionMinisterial2;
+    }
+
+    /**
+     * @return the resolucionMinisterial3
+     */
+    public String getResolucionMinisterial3() {
+        return resolucionMinisterial3;
+    }
+
+    /**
+     * @param resolucionMinisterial3 the resolucionMinisterial3 to set
+     */
+    public void setResolucionMinisterial3(String resolucionMinisterial3) {
+        this.resolucionMinisterial3 = resolucionMinisterial3;
+    }
 }

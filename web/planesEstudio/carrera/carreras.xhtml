@@ -37,9 +37,9 @@
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:button icon="fa fa-plus" value="Nuevo" outcome="/planesEstudio/carrera/nuevoCarrera"/>
-                                            
+
                                             <p:spacer width="10"/>
-                                            
+
                                             <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{CarreraController.reinit()}" update="form"/>
                                         </f:facet>
 
@@ -73,7 +73,7 @@
                                         <p:column headerText="Nº">
                                             <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Codigo" >  
                                             <h:outputText value="#{carrera.codigo}"/>
                                         </p:column>
@@ -94,8 +94,16 @@
                                             <h:outputText value="#{carrera.version}"/>
                                         </p:column>
 
-                                        <p:column headerText="Resolución ministerial" >  
-                                            <h:outputText value="#{carrera.resolucionMinisterial}"/> 
+                                        <p:column headerText="Resolución ministerial 1" >  
+                                            <h:outputText value="#{carrera.resolucionMinisterial1}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Resolución ministerial 2" >  
+                                            <h:outputText value="#{carrera.resolucionMinisterial2}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Resolución ministerial 3" >  
+                                            <h:outputText value="#{carrera.resolucionMinisterial3}"/> 
                                         </p:column>
 
                                         <p:column headerText="Creditaje matricula" >  
@@ -105,7 +113,7 @@
                                         <p:column headerText="Campus" >  
                                             <h:outputText value="#{carrera.campus}"/> 
                                         </p:column>
-                                        
+
                                         <p:column headerText="Jefe de Carrera" >  
                                             <h:outputText value="#{carrera.jefeCarrera}"/> 
                                         </p:column>

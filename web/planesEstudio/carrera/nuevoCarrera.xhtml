@@ -42,7 +42,7 @@
                                                 <f:selectItems value="#{CarreraController.listaRegimenes()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
                                             </p:selectOneMenu> 
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nivelAcademico" value="Nivel académico:" style="font-size: small"/>
                                             <p:selectOneMenu id="nivelAcademico" value="#{CarreraController.nuevaCarrera.nivelAcademico}" converter="#{NivelAcademicoConverter}" autoWidth="false" required="true" requiredMessage="* Nivel académico requerido."> 
@@ -57,8 +57,18 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="resolucionMinisterial" value="Resolución ministerial:" style="font-size: small"/>
-                                            <p:inputText id="resolucionMinisterial" value="#{CarreraController.nuevaCarrera.resolucionMinisterial}" required="true" requiredMessage="* Resolucion ministerial requerida." />
+                                            <p:outputLabel for="resolucionMinisterial1" value="Resolución ministerial 1:" style="font-size: small"/>
+                                            <p:inputText id="resolucionMinisterial1" value="#{CarreraController.nuevaCarrera.resolucionMinisterial1}" required="true" requiredMessage="* Resolucion ministerial 1 requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="resolucionMinisterial2" value="Resolución ministerial 2:" style="font-size: small"/>
+                                            <p:inputText id="resolucionMinisterial2" value="#{CarreraController.nuevaCarrera.resolucionMinisterial2}"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="resolucionMinisterial3" value="Resolución ministerial 3:" style="font-size: small"/>
+                                            <p:inputText id="resolucionMinisterial3" value="#{CarreraController.nuevaCarrera.resolucionMinisterial3}"/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
@@ -73,7 +83,7 @@
                                                 <f:selectItems value="#{CarreraController.listaCampus()}" var="campus" itemLabel="#{campus.toString()}" itemValue="#{campus}"/>
                                             </p:selectOneMenu>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="jefeCarrera" value="Jefe Carrera:" style="font-size: small"/>
                                             <p:autoComplete id="jefeCarrera" value="#{CarreraController.nuevaCarrera.jefeCarrera}" completeMethod="#{CarreraController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
