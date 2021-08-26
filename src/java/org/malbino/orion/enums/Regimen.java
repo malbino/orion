@@ -10,8 +10,8 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum Regimen {
-    SEMESTRAL("Semestral", "S", 5, 2, 3, 61, 40),
-    ANUAL("Anual", "A", 10, 3, 4, 61, 40);
+    SEMESTRAL("SEMESTRAL", "S", 5, 2, 3, 61, 40),
+    ANUAL("ANUAL", "A", 10, 3, 4, 61, 40);
 
     private String nombre;
     private String inicial;

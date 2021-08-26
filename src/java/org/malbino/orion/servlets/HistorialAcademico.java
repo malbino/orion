@@ -5,32 +5,21 @@
  */
 package org.malbino.orion.servlets;
 
-import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
-import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -106,11 +95,11 @@ public class HistorialAcademico extends HttpServlet {
                 response.setContentType(CONTENIDO_PDF);
 
                 Document document = new Document(PageSize.A4, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
-                PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream());
-                writer.setPageEvent(new HeaderFooter(estudiante, carrera));
+                PdfWriter.getInstance(document, response.getOutputStream());
 
                 document.open();
 
+                document.add(cabecera(estudiante, carrera));
                 document.add(cuerpo(estudiante, carrera));
                 document.add(firmas(estudiante, carrera, fecha));
                 document.add(resumen(estudiante, carrera));
@@ -122,14 +111,239 @@ public class HistorialAcademico extends HttpServlet {
         }
     }
 
+    public PdfPTable cabecera(Estudiante estudiante, Carrera carrera) {
+        PdfPTable table = new PdfPTable(20);
+
+        PdfPCell cell = new PdfPCell(new Phrase(" ", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(20);
+        table.addCell(cell);
+
+        Phrase phrase = new Phrase();
+        phrase.add(new Chunk("Código de registro: ", NEGRITA));
+        GestionAcademica finFormacion = notaFacade.finFormacion(carrera.getId_carrera(), estudiante.getId_persona());
+        if (finFormacion != null) {
+            Inscrito inscrito = inscritoFacade.buscarInscrito(estudiante.getId_persona(), carrera.getId_carrera(), finFormacion.getId_gestionacademica());
+            if (inscrito != null) {
+                phrase.add(new Chunk(String.valueOf(inscrito.getCodigo()), NORMAL));
+            } else {
+                phrase.add(new Chunk(" ", NORMAL));
+            }
+        } else {
+            phrase.add(new Chunk(" ", NORMAL));
+        }
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(20);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(" ", ESPACIO));
+        cell.setColspan(20);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("HISTORIAL ACADÉMICO", TITULO));
+        cell.setColspan(20);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(" ", ESPACIO));
+        cell.setColspan(20);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        //fila 0
+        phrase = new Phrase();
+        phrase.add(new Chunk("INSTITUTO: ", NEGRITA));
+        phrase.add(new Chunk(carrera.getCampus().getInstituto().getNombreRegulador(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setColspan(20);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        //fila 1
+        phrase = new Phrase();
+        phrase.add(new Chunk("MATRÍCULA: ", NEGRITA));
+        if (estudiante.getMatricula() != null) {
+            phrase.add(new Chunk(String.valueOf(estudiante.getMatricula()), NORMAL));
+        } else {
+            phrase.add(new Chunk(String.valueOf(" "), NORMAL));
+        }
+        cell = new PdfPCell(phrase);
+        cell.setColspan(15);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Cédula de Identidad: ", NEGRITA));
+        phrase.add(new Chunk(estudiante.dniLugar(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setColspan(5);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        //fila 2
+        phrase = new Phrase();
+        phrase.add(new Chunk("ESTUDIANTE: ", NEGRITA));
+        phrase.add(new Chunk(estudiante.toString(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setColspan(15);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("FECHA DE ADMISIÓN: ", NEGRITA));
+        GestionAcademica inicioFormacion = notaFacade.inicioFormacion(carrera.getId_carrera(), estudiante.getId_persona());
+        if (inicioFormacion != null) {
+            phrase.add(new Chunk(Fecha.formatearFecha_ddMMyyyy(inicioFormacion.getInicio()), NORMAL));
+        } else {
+            phrase.add(new Chunk(" ", NORMAL));
+        }
+        cell = new PdfPCell(phrase);
+        cell.setColspan(5);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        //fial 3
+        phrase = new Phrase();
+        phrase.add(new Chunk("CARRERA: ", NEGRITA));
+        phrase.add(new Chunk(carrera.getNombre(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setColspan(15);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("FECHA DE CONCLUSIÓN: ", NEGRITA));
+        if (finFormacion != null) {
+            phrase.add(new Chunk(Fecha.formatearFecha_ddMMyyyy(finFormacion.getFin()), NORMAL));
+        } else {
+            phrase.add(new Chunk(" ", NORMAL));
+        }
+        cell = new PdfPCell(phrase);
+        cell.setColspan(5);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        //fila 4
+        phrase = new Phrase();
+        phrase.add(new Chunk("MENCIÓN: ", NEGRITA));
+        phrase.add(new Chunk(" ", NORMAL)); //orion no soporta menciones
+        cell = new PdfPCell(phrase);
+        cell.setColspan(20);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        //fila 5
+        phrase = new Phrase();
+        phrase.add(new Chunk("NIVEL DE FORMACIÓN: ", NEGRITA));
+        phrase.add(new Chunk(carrera.getNivelAcademico().getNombre(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setColspan(20);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        //fila 6
+        phrase = new Phrase();
+        phrase.add(new Chunk("RÉGIMEN: ", NEGRITA));
+        phrase.add(new Chunk(carrera.getRegimen().getNombre(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setColspan(20);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(" ", ESPACIO));
+        cell.setColspan(20);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        return table;
+    }
+
     public PdfPTable cuerpo(Estudiante estudiante, Carrera carrera) {
         PdfPTable table = new PdfPTable(66);
+
+        PdfPCell cell = new PdfPCell(new Phrase("Nº", NEGRITA));
+        cell.setColspan(2);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("GEST. ACAD.", NEGRITA));
+        cell.setColspan(4);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("SEMESTRE/AÑO", NEGRITA));
+        cell.setColspan(6);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("CÓDIGO", NEGRITA));
+        cell.setColspan(5);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("ASIGNATURA", NEGRITA));
+        cell.setColspan(28);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("PRE REQUISITO", NEGRITA));
+        cell.setColspan(6);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("NOTA", NEGRITA));
+        cell.setColspan(4);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("PRUEBA RECUP.", NEGRITA));
+        cell.setColspan(5);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("OBS.", NEGRITA));
+        cell.setColspan(6);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
 
         List<Nota> historialAcademico = notaFacade.reporteHistorialAcademico(estudiante.getId_persona(), carrera.getId_carrera());
         for (int i = 0; i < historialAcademico.size(); i++) {
             Nota nota = historialAcademico.get(i);
 
-            PdfPCell cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
+            cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
             cell.setColspan(2);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
@@ -186,7 +400,7 @@ public class HistorialAcademico extends HttpServlet {
             table.addCell(cell);
         }
 
-        PdfPCell cell = new PdfPCell(new Phrase(" ", ESPACIO));
+        cell = new PdfPCell(new Phrase(" ", ESPACIO));
         cell.setColspan(66);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
@@ -205,7 +419,7 @@ public class HistorialAcademico extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
-        
+
         cell = new PdfPCell(new Phrase(" ", ESPACIO));
         cell.setColspan(60);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -370,293 +584,4 @@ public class HistorialAcademico extends HttpServlet {
         return table;
     }
 
-    class HeaderFooter extends PdfPageEventHelper {
-
-        PdfTemplate t;
-        Image total;
-        Estudiante estudiante;
-        Carrera carrera;
-
-        public HeaderFooter(Estudiante estudiante, Carrera carrera) {
-            this.estudiante = estudiante;
-            this.carrera = carrera;
-        }
-
-        @Override
-        public void onOpenDocument(PdfWriter writer, Document document) {
-            t = writer.getDirectContent().createTemplate(30, 16);
-            try {
-                total = Image.getInstance(t);
-                total.setRole(PdfName.ARTIFACT);
-            } catch (DocumentException de) {
-                throw new ExceptionConverter(de);
-            }
-        }
-
-        @Override
-        public void onStartPage(PdfWriter writer, Document document) {
-            try {
-                PdfPTable table = new PdfPTable(20);
-
-                PdfPCell cell = new PdfPCell(new Phrase(" ", NEGRITA));
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                cell.setColspan(20);
-                table.addCell(cell);
-
-                Phrase phrase = new Phrase();
-                phrase.add(new Chunk("Código de registro: ", NEGRITA));
-                GestionAcademica finFormacion = notaFacade.finFormacion(carrera.getId_carrera(), estudiante.getId_persona());
-                if (finFormacion != null) {
-                    Inscrito inscrito = inscritoFacade.buscarInscrito(estudiante.getId_persona(), carrera.getId_carrera(), finFormacion.getId_gestionacademica());
-                    if (inscrito != null) {
-                        phrase.add(new Chunk(String.valueOf(inscrito.getCodigo()), NORMAL));
-                    } else {
-                        phrase.add(new Chunk(" ", NORMAL));
-                    }
-                } else {
-                    phrase.add(new Chunk(" ", NORMAL));
-                }
-                cell = new PdfPCell(phrase);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                cell.setColspan(20);
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase(" ", ESPACIO));
-                cell.setColspan(20);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("HISTORIAL ACADÉMICO", TITULO));
-                cell.setColspan(20);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase(" ", ESPACIO));
-                cell.setColspan(20);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                //fila 0
-                phrase = new Phrase();
-                phrase.add(new Chunk("INSTITUTO: ", NEGRITA));
-                phrase.add(new Chunk(carrera.getCampus().getInstituto().getNombreRegulador(), NORMAL));
-                cell = new PdfPCell(phrase);
-                cell.setColspan(20);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                //fila 1
-                phrase = new Phrase();
-                phrase.add(new Chunk("MATRÍCULA: ", NEGRITA));
-                if (estudiante.getMatricula() != null) {
-                    phrase.add(new Chunk(String.valueOf(estudiante.getMatricula()), NORMAL));
-                } else {
-                    phrase.add(new Chunk(String.valueOf(" "), NORMAL));
-                }
-                cell = new PdfPCell(phrase);
-                cell.setColspan(15);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                phrase = new Phrase();
-                phrase.add(new Chunk("Cédula de Identidad: ", NEGRITA));
-                phrase.add(new Chunk(estudiante.dniLugar(), NORMAL));
-                cell = new PdfPCell(phrase);
-                cell.setColspan(5);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                //fila 2
-                phrase = new Phrase();
-                phrase.add(new Chunk("ESTUDIANTE: ", NEGRITA));
-                phrase.add(new Chunk(estudiante.toString(), NORMAL));
-                cell = new PdfPCell(phrase);
-                cell.setColspan(15);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                phrase = new Phrase();
-                phrase.add(new Chunk("FECHA DE ADMISIÓN: ", NEGRITA));
-                GestionAcademica inicioFormacion = notaFacade.inicioFormacion(carrera.getId_carrera(), estudiante.getId_persona());
-                if (inicioFormacion != null) {
-                    phrase.add(new Chunk(Fecha.formatearFecha_ddMMyyyy(inicioFormacion.getInicio()), NORMAL));
-                } else {
-                    phrase.add(new Chunk(" ", NORMAL));
-                }
-                cell = new PdfPCell(phrase);
-                cell.setColspan(5);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                //fial 3
-                phrase = new Phrase();
-                phrase.add(new Chunk("CARRERA: ", NEGRITA));
-                phrase.add(new Chunk(carrera.getNombre(), NORMAL));
-                cell = new PdfPCell(phrase);
-                cell.setColspan(15);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                phrase = new Phrase();
-                phrase.add(new Chunk("FECHA DE CONCLUSIÓN: ", NEGRITA));
-                if (finFormacion != null) {
-                    phrase.add(new Chunk(Fecha.formatearFecha_ddMMyyyy(finFormacion.getFin()), NORMAL));
-                } else {
-                    phrase.add(new Chunk(" ", NORMAL));
-                }
-                cell = new PdfPCell(phrase);
-                cell.setColspan(5);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                //fila 4
-                phrase = new Phrase();
-                phrase.add(new Chunk("MENCIÓN: ", NEGRITA));
-                phrase.add(new Chunk(" ", NORMAL)); //orion no soporta menciones
-                cell = new PdfPCell(phrase);
-                cell.setColspan(20);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                //fila 5
-                phrase = new Phrase();
-                phrase.add(new Chunk("NIVEL DE FORMACIÓN: ", NEGRITA));
-                phrase.add(new Chunk(carrera.getNivelAcademico().getNombre(), NORMAL));
-                cell = new PdfPCell(phrase);
-                cell.setColspan(20);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                //fila 6
-                phrase = new Phrase();
-                phrase.add(new Chunk("RÉGIMEN: ", NEGRITA));
-                phrase.add(new Chunk(carrera.getRegimen().getNombre(), NORMAL));
-                cell = new PdfPCell(phrase);
-                cell.setColspan(20);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase(" ", ESPACIO));
-                cell.setColspan(20);
-                cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);
-
-                document.add(table);
-
-                table = new PdfPTable(66);
-
-                cell = new PdfPCell(new Phrase("Nº", NEGRITA));
-                cell.setColspan(2);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("GEST. ACAD.", NEGRITA));
-                cell.setColspan(4);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("SEMESTRE/AÑO", NEGRITA));
-                cell.setColspan(6);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("CÓDIGO", NEGRITA));
-                cell.setColspan(5);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("ASIGNATURA", NEGRITA));
-                cell.setColspan(28);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("PRE REQUISITO", NEGRITA));
-                cell.setColspan(6);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("NOTA", NEGRITA));
-                cell.setColspan(4);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("PRUEBA RECUP.", NEGRITA));
-                cell.setColspan(5);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("OBS.", NEGRITA));
-                cell.setColspan(6);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                cell.setBackgroundColor(new BaseColor(183, 222, 232));
-                table.addCell(cell);
-
-                document.add(table);
-            } catch (BadElementException ex) {
-                Logger.getLogger(HistorialAcademico.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (DocumentException ex) {
-                Logger.getLogger(HistorialAcademico.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        @Override
-        public void onEndPage(PdfWriter writer, Document document) {
-            PdfPTable table = new PdfPTable(3);
-            try {
-                table.setWidths(new int[]{24, 24, 2});
-                table.setTotalWidth(522);
-                table.getDefaultCell().setFixedHeight(20);
-                table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
-                table.addCell(new Phrase(" ", NORMAL));
-                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
-                table.addCell(new Phrase(String.format("Página %d de", writer.getPageNumber()), NORMAL));
-                PdfPCell cell = new PdfPCell(total);
-                cell.setBorder(PdfPCell.NO_BORDER);
-                table.addCell(cell);
-                PdfContentByte canvas = writer.getDirectContent();
-                canvas.beginMarkedContentSequence(PdfName.ARTIFACT);
-                table.writeSelectedRows(0, -1, 36, 30, canvas);
-                canvas.endMarkedContentSequence();
-            } catch (DocumentException de) {
-                throw new ExceptionConverter(de);
-            }
-        }
-
-        @Override
-        public void onCloseDocument(PdfWriter writer, Document document) {
-            ColumnText.showTextAligned(t, Element.ALIGN_LEFT,
-                    new Phrase(String.valueOf((writer.getPageNumber())), NORMAL),
-                    2, 7, 0);
-        }
-    }
 }

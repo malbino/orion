@@ -67,14 +67,14 @@ public class GestionAcademica implements Serializable {
     }
 
     /**
-     * @return the gestion
+     * @return the gestionCentralizador
      */
     public Integer getGestion() {
         return gestion;
     }
 
     /**
-     * @param gestion the gestion to set
+     * @param gestion the gestionCentralizador to set
      */
     public void setGestion(Integer gestion) {
         this.gestion = gestion;
@@ -190,5 +190,9 @@ public class GestionAcademica implements Serializable {
     @Override
     public String toString() {
         return periodo.getPeriodoRomano() + gestion + regimen.getInicial();
+    }
+    
+    public String gestionCentralizador() {
+        return periodo.getPeriodoRomano() + "/" + gestion;
     }
 }

@@ -224,7 +224,7 @@ public class CentralizadorCalificacionesFacade {
                                     numeroLibro,
                                     numeroFolio,
                                     turno.getNombre(),
-                                    gestionAcademica.toString(),
+                                    gestionAcademica.gestionCentralizador(),
                                     carrera.getNivelAcademico().getNombre(),
                                     carrera.getNombre(),
                                     carrera.getRegimen().getNombre(),

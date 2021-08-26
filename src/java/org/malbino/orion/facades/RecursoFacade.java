@@ -58,7 +58,7 @@ public class RecursoFacade extends AbstractFacade<Recurso> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            System.out.println(e);
+
         }
 
         return l;

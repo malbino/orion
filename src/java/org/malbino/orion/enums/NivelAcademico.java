@@ -10,8 +10,8 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum NivelAcademico {
-    TECNICO_MEDIO("Técnico Medio", "TM"),
-    TECNICO_SUPERIOR("Técnico Superior", "TS");
+    TECNICO_MEDIO("TÉCNICO MEDIO", "TM"),
+    TECNICO_SUPERIOR("TÉCNICO SUPERIOR", "TS");
 
     private String nombre;
     private String abreviatura;

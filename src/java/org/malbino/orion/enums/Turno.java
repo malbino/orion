@@ -10,9 +10,9 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum Turno {
-    MAÑANA("Mañana", "M", 1),
-    TARDE("Tarde", "T", 2),
-    NOCHE("Noche", "N", 3);
+    MAÑANA("MAÑANA", "M", 1),
+    TARDE("TARDE", "T", 2),
+    NOCHE("NOCHE", "N", 3);
 
     private String nombre;
     private String inicial;

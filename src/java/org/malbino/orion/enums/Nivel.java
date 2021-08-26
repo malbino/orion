@@ -12,15 +12,15 @@ import java.util.Arrays;
  * @author Martin
  */
 public enum Nivel {
-    PRIMER_SEMESTRE("Primer Semestre", "1S", 1, Regimen.SEMESTRAL, "Primero"),
-    SEGUNDO_SEMESTRE("Segundo Semestre", "2S", 2, Regimen.SEMESTRAL, "Segundo"),
-    TERCER_SEMESTRE("Tercer Semestre", "3S", 3, Regimen.SEMESTRAL, "Tercero"),
-    CUARTO_SEMESTRE("Cuarto Semestre", "4S", 4, Regimen.SEMESTRAL, "Cuarto"),
-    QUITO_SEMESTRE("Quinto Semestre", "5S", 5, Regimen.SEMESTRAL, "Quinto"),
-    SEXTO_SEMESTRE("Sexto Semestre", "6S", 6, Regimen.SEMESTRAL, "Sexto"),
-    PRIMER_AÑO("Primer Año", "1A", 1, Regimen.ANUAL, "Primero"),
-    SEGUNDO_AÑO("Segundo Año", "2A", 2, Regimen.ANUAL, "Segundo"),
-    TERCER_AÑO("Tercer Año", "3A", 3, Regimen.ANUAL, "Tercero");
+    PRIMER_SEMESTRE("PRIMER SEMESTRE", "1S", 1, Regimen.SEMESTRAL, "PRIMERO"),
+    SEGUNDO_SEMESTRE("SEGUNDO SEMESTRE", "2S", 2, Regimen.SEMESTRAL, "SEGUNDO"),
+    TERCER_SEMESTRE("TERCER SEMESTRE", "3S", 3, Regimen.SEMESTRAL, "TERCERO"),
+    CUARTO_SEMESTRE("CUARTO SEMESTRE", "4S", 4, Regimen.SEMESTRAL, "CUARTO"),
+    QUITO_SEMESTRE("QUINTO SEMESTRE", "5S", 5, Regimen.SEMESTRAL, "QUINTO"),
+    SEXTO_SEMESTRE("SEXTO SEMESTRE", "6S", 6, Regimen.SEMESTRAL, "SEXTO"),
+    PRIMER_AÑO("PRIMER AÑO", "1A", 1, Regimen.ANUAL, "PRIMERO"),
+    SEGUNDO_AÑO("SEGUNDO AÑO", "2A", 2, Regimen.ANUAL, "SEGUNDO"),
+    TERCER_AÑO("TERCER AÑO", "3A", 3, Regimen.ANUAL, "TERCERO");
 
     private String nombre;
     private String abreviatura;

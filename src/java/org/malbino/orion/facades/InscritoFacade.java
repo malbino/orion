@@ -55,10 +55,6 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
     public Inscrito buscarInscrito(int id_persona, int id_carrera, int id_gestionacademica) {
         Inscrito i = null;
         
-        System.out.println("id_persona: " + id_persona);
-        System.out.println("id_carrera: " + id_carrera);
-        System.out.println("id_gestionacademica: " + id_gestionacademica);
-
         try {
             Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.estudiante e JOIN i.carrera c JOIN i.gestionAcademica ga WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND ga.id_gestionacademica=:id_gestionacademica");
             q.setParameter("id_persona", id_persona);

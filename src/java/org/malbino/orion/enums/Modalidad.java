@@ -12,10 +12,10 @@ import java.util.Arrays;
  * @author Martin
  */
 public enum Modalidad {
-    REGULAR("Regular", "R", true),
-    CONVALIDACION("Convalidacion", "C", false),
-    TRASPASO("Traspaso", "T", false),
-    MIGRACION("Migracion", "M", false);
+    REGULAR("REGULAR", "R", true),
+    CONVALIDACION("CONVALIDACIÓN", "C", false),
+    TRASPASO("TRASPASO", "T", false),
+    MIGRACION("MIGRACIÓN", "M", false);
     
     private String nombre;
     private String abreviatura;

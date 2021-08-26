@@ -12,22 +12,22 @@ import java.util.Arrays;
  * @author Martin
  */
 public enum Concepto {
-    MATRICULA("Matricula", "MA", 0, null),
-    CUOTA1_SEMESTRAL("Cuota 1", "C1", 1, Regimen.SEMESTRAL),
-    CUOTA2_SEMESTRAL("Cuota 2", "C2", 2, Regimen.SEMESTRAL),
-    CUOTA3_SEMESTRAL("Cuota 3", "C3", 3, Regimen.SEMESTRAL),
-    CUOTA4_SEMESTRAL("Cuota 4", "C4", 4, Regimen.SEMESTRAL),
-    CUOTA5_SEMESTRAL("Cuota 5", "C5", 5, Regimen.SEMESTRAL),
-    CUOTA1_ANUAL("Cuota 1", "C1", 1, Regimen.ANUAL),
-    CUOTA2_ANUAL("Cuota 2", "C2", 2, Regimen.ANUAL),
-    CUOTA3_ANUAL("Cuota 3", "C3", 3, Regimen.ANUAL),
-    CUOTA4_ANUAL("Cuota 4", "C4", 4, Regimen.ANUAL),
-    CUOTA5_ANUAL("Cuota 5", "C5", 5, Regimen.ANUAL),
-    CUOTA6_ANUAL("Cuota 6", "C6", 6, Regimen.ANUAL),
-    CUOTA7_ANUAL("Cuota 7", "C7", 7, Regimen.ANUAL),
-    CUOTA8_ANUAL("Cuota 8", "C8", 8, Regimen.ANUAL),
-    CUOTA9_ANUAL("Cuota 9", "C9", 9, Regimen.ANUAL),
-    CUOTA10_ANUAL("Cuota 10", "C10", 10, Regimen.ANUAL);
+    MATRICULA("MATRICULA", "MA", 0, null),
+    CUOTA1_SEMESTRAL("CUOTA 1", "C1", 1, Regimen.SEMESTRAL),
+    CUOTA2_SEMESTRAL("CUOTA 2", "C2", 2, Regimen.SEMESTRAL),
+    CUOTA3_SEMESTRAL("CUOTA 3", "C3", 3, Regimen.SEMESTRAL),
+    CUOTA4_SEMESTRAL("CUOTA 4", "C4", 4, Regimen.SEMESTRAL),
+    CUOTA5_SEMESTRAL("CUOTA 5", "C5", 5, Regimen.SEMESTRAL),
+    CUOTA1_ANUAL("CUOTA 1", "C1", 1, Regimen.ANUAL),
+    CUOTA2_ANUAL("CUOTA 2", "C2", 2, Regimen.ANUAL),
+    CUOTA3_ANUAL("CUOTA 3", "C3", 3, Regimen.ANUAL),
+    CUOTA4_ANUAL("CUOTA 4", "C4", 4, Regimen.ANUAL),
+    CUOTA5_ANUAL("CUOTA 5", "C5", 5, Regimen.ANUAL),
+    CUOTA6_ANUAL("CUOTA 6", "C6", 6, Regimen.ANUAL),
+    CUOTA7_ANUAL("CUOTA 7", "C7", 7, Regimen.ANUAL),
+    CUOTA8_ANUAL("CUOTA 8", "C8", 8, Regimen.ANUAL),
+    CUOTA9_ANUAL("CUOTA 9", "C9", 9, Regimen.ANUAL),
+    CUOTA10_ANUAL("CUOTA 10", "C10", 10, Regimen.ANUAL);
 
     private String nombre;
     private String codigo;
