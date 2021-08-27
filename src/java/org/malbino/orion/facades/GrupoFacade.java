@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.enums.Nivel;
+import org.malbino.orion.enums.Turno;
 
 /**
  *
@@ -67,13 +68,14 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
         return l;
     }
 
-    public Long cantidadGrupos(int id_gestionacademica, int id_materia) {
+    public Long cantidadGrupos(int id_gestionacademica, int id_materia, Turno turno) {
         Long l = 0l;
 
         try {
-            Query q = em.createQuery("SELECT COUNT(g) FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m WHERE ga.id_gestionacademica=:id_gestionacademica AND m.id_materia=:id_materia");
+            Query q = em.createQuery("SELECT COUNT(g) FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m WHERE ga.id_gestionacademica=:id_gestionacademica AND m.id_materia=:id_materia AND g.turno=:turno");
             q.setParameter("id_gestionacademica", id_gestionacademica);
             q.setParameter("id_materia", id_materia);
+            q.setParameter("turno", turno);
 
             l = (Long) q.getSingleResult();
         } catch (Exception e) {

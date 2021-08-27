@@ -212,7 +212,7 @@ public class CentralizadorCalificacionesFacade {
                             //paginas centralizador
                             String codigoRegistro
                                     = "CC-"
-                                    + gestionAcademica.toString() + "-"
+                                    + gestionAcademica.codigo() + "-"
                                     + carrera.getCodigo() + "-"
                                     + nivel.getAbreviatura() + "-"
                                     + turno.getInicial() + "-"
@@ -224,7 +224,7 @@ public class CentralizadorCalificacionesFacade {
                                     numeroLibro,
                                     numeroFolio,
                                     turno.getNombre(),
-                                    gestionAcademica.gestionCentralizador(),
+                                    gestionAcademica.codigo(),
                                     carrera.getNivelAcademico().getNombre(),
                                     carrera.getNombre(),
                                     carrera.getRegimen().getNombre(),
@@ -371,7 +371,7 @@ public class CentralizadorCalificacionesFacade {
                             //paginas centralziador
                             String codigoRegistro
                                     = "CCPR-"
-                                    + gestionAcademica.toString() + "-"
+                                    + gestionAcademica.codigo() + "-"
                                     + carrera.getCodigo() + "-"
                                     + nivel.getAbreviatura() + "-"
                                     + turno.getInicial() + "-"
@@ -383,11 +383,11 @@ public class CentralizadorCalificacionesFacade {
                                     numeroLibro,
                                     numeroFolio,
                                     turno.getNombre(),
-                                    gestionAcademica.toString(),
+                                    gestionAcademica.codigo(),
                                     carrera.getNivelAcademico().getNombre(),
                                     carrera.getNombre(),
                                     carrera.getRegimen().getNombre(),
-                                    nivel.getNombre() + " " + paralelo,
+                                    nivel.getOrdinal() + " " + paralelo,
                                     CANTIDAD_MAXIMA_MATERIAS,
                                     CANTIDAD_MAXIMA_ESTUDIANTES
                             );
