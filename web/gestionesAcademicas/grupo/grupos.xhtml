@@ -121,9 +121,25 @@
 
                                                     <f:actionListener binding="#{GrupoController.toEditarGrupo()}"/>
                                                 </p:commandButton>
+                                                
+                                                <p:commandButton id="eliminar" process="@this" icon="fa fa-remove" title="Eliminar" update="form">  
+                                                    <f:setPropertyActionListener value="#{grupo}" target="#{GrupoController.seleccionGrupo}" />
+
+                                                    <f:actionListener binding="#{GrupoController.eliminarGrupo()}"/>
+                                                    <p:confirm header="Confirmación" icon="fa fa-exclamation-triangle" />
+                                                </p:commandButton>
                                             </h:panelGroup>
                                         </p:column> 
                                     </p:dataTable>
+                                    
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <f:facet name="message">
+                                            Esta seguro?
+                                        </f:facet>
+
+                                        <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-remove" />
+                                    </p:confirmDialog>
                                 </div>
                             </div>
                         </h:form>

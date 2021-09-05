@@ -26,6 +26,11 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="codigo" value="Codigo:" style="font-size: small"/>
+                                            <p:inputText id="codigo" value="#{GrupoController.seleccionGrupo.codigo}" required="true" requiredMessage="* Codigo requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="turno" value="Turno:" style="font-size: small"/>
                                             <p:selectOneMenu id="turno" value="#{GrupoController.seleccionGrupo.turno}" converter="#{TurnoConverter}" autoWidth="false" required="true" requiredMessage="* Turno requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />

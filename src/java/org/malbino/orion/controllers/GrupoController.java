@@ -28,53 +28,53 @@ import org.malbino.orion.facades.negocio.ProgramacionGruposFacade;
 @Named("GrupoController")
 @SessionScoped
 public class GrupoController extends AbstractController implements Serializable {
-
+    
     @EJB
     GrupoFacade grupoFacade;
     @EJB
     ProgramacionGruposFacade programacionGruposFacade;
-
+    
     private List<Grupo> grupos;
     private Grupo seleccionGrupo;
-
+    
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
     private Nivel seleccionNivel;
     private Turno seleccionTurno;
     private Integer capacidad;
-
+    
     private Boolean filter;
     private String keyword;
-
+    
     @PostConstruct
     public void init() {
         grupos = new ArrayList();
         seleccionGrupo = null;
-
+        
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
         seleccionNivel = null;
         seleccionTurno = null;
         capacidad = null;
-
+        
         filter = false;
         keyword = null;
     }
-
+    
     public void reinit() {
         if (seleccionGestionAcademica != null && seleccionCarrera != null) {
             grupos = grupoFacade.listaGrupos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
         }
         seleccionGrupo = null;
-
+        
         seleccionNivel = null;
         seleccionTurno = null;
         capacidad = null;
-
+        
         filter = false;
         keyword = null;
     }
-
+    
     @Override
     public List<Carrera> listaCarreras() {
         List<Carrera> l = new ArrayList();
@@ -83,16 +83,16 @@ public class GrupoController extends AbstractController implements Serializable 
         }
         return l;
     }
-
+    
     public Nivel[] listaNiveles() {
         return Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
     }
-
+    
     public void filtro() {
         if (filter) {
             filter = false;
             keyword = null;
-
+            
             if (seleccionGestionAcademica != null && seleccionCarrera.getId_carrera() != null) {
                 grupos = grupoFacade.listaGrupos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
             }
@@ -101,40 +101,51 @@ public class GrupoController extends AbstractController implements Serializable 
             keyword = null;
         }
     }
-
+    
     public void buscar() {
         if (seleccionGestionAcademica != null && seleccionCarrera != null) {
             grupos = grupoFacade.buscar(keyword, seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
         }
     }
-
+    
     public long cantidadNotasGrupo(Grupo grupo) {
         return grupoFacade.cantidadNotasGrupo(grupo.getId_grupo());
     }
-
+    
     public void programarGrupos() throws IOException {
         if (programacionGruposFacade.programarGrupos(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionTurno, capacidad)) {
             toGrupos();
         }
     }
-
+    
     public void editarGrupo() throws IOException {
         if (grupoFacade.edit(seleccionGrupo)) {
             this.toGrupos();
         }
     }
-
+    
+    public void eliminarGrupo() throws IOException {
+        long cantidadNotasGrupo = grupoFacade.cantidadNotasGrupo(seleccionGrupo.getId_grupo());
+        if (cantidadNotasGrupo == 0) {
+            if (grupoFacade.remove(seleccionGrupo)) {
+                this.toGrupos();
+            }
+        } else {
+            this.mensajeDeError("No se puede eliminar grupos con estudiantes inscritos.");
+        }
+    }
+    
     public void toProgramarGrupos() throws IOException {
         this.redireccionarViewId("/gestionesAcademicas/grupo/programarGrupos");
     }
-
+    
     public void toEditarGrupo() throws IOException {
         this.redireccionarViewId("/gestionesAcademicas/grupo/editarGrupo");
     }
-
+    
     public void toGrupos() throws IOException {
         reinit();
-
+        
         this.redireccionarViewId("/gestionesAcademicas/grupo/grupos");
     }
 
@@ -263,5 +274,5 @@ public class GrupoController extends AbstractController implements Serializable 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
-
+    
 }

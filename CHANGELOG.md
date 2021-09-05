@@ -6,14 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 2021-09-04
+### Added
+### Changed
+- Se añadio la edición del codigo de los grupos
+- Se añadio la eliminación de grupos que no tengan estudiantes inscritos
+### Removed
+### Fixed
+
 ## [1.3.2] - 2021-08-27
 ### Added
 ### Changed
-### Removed
-### Fixed
 - Se corrigio el Historial Académico
 - Se corrigio el Centralizador Calificaciones
 - Se corrigio la programación de grupos
+### Removed
+### Fixed
 
 ## [1.3.1] - 2021-08-26
 ### Added
