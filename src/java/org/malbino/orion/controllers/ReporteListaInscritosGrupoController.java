@@ -61,7 +61,7 @@ public class ReporteListaInscritosGrupoController extends AbstractController imp
 
     public Nivel[] listaNiveles() {
         Nivel[] niveles = new Nivel[0];
-        if (seleccionCarrera != null) {
+        if (seleccionGestionAcademica != null && seleccionCarrera != null) {
             niveles = Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
         }
         return niveles;
@@ -69,7 +69,7 @@ public class ReporteListaInscritosGrupoController extends AbstractController imp
 
     public List<Grupo> listaGrupos() {
         List<Grupo> grupos = new ArrayList<>();
-        if (seleccionNivel != null) {
+        if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null) {
             grupos = grupoFacade.listaGrupos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel);
         }
         return grupos;

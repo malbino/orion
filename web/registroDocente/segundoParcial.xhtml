@@ -61,9 +61,9 @@
                                     <p:toolbar id="toolbar">
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-save" value="Guardar" actionListener="#{SegundoParcialController.guardar()}" update=":form"/>
-                                            
+
                                             <p:spacer width="10"/>
-                                            
+
                                             <p:commandButton icon="fa fa-download" value="Bajar Registro" ajax="false" actionListener="#{SegundoParcialController.bajarRegistro()}">
                                                 <p:fileDownload value="#{SegundoParcialController.download}"/>
                                             </p:commandButton>
@@ -74,9 +74,9 @@
                                                               label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"
                                                               allowTypes="/(\.|\/)(xlsx)$/" invalidFileMessage="Formato de archivo invalido"/>
                                             </p:overlayPanel>
-                                             
+
                                             <p:spacer width="10"/>
-                                            
+
                                             <p:commandButton icon="fa fa-download" value="Bajar Planilla" ajax="false" actionListener="#{SegundoParcialController.bajarPlanilla()}">
                                                 <p:fileDownload value="#{SegundoParcialController.download}"/>
                                             </p:commandButton>
@@ -89,6 +89,9 @@
                                                 </p:menuitem>
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{SegundoParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
                                                     <p:dataExporter type="xls" target="notasAnual" fileName="notas" />
+                                                </p:menuitem>
+                                                <p:menuitem value="Lista Estudiantes" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="lista_estudiantes" fileName="lista_estudiantes" />
                                                 </p:menuitem>
                                             </p:menuButton>
                                         </f:facet>
@@ -113,7 +116,7 @@
                                             <p:column headerText="MO" style="text-align: center;">  
                                                 <h:outputText value="#{nota.modalidad.abreviatura}"/>
                                             </p:column>
-                                            
+
                                             <p:column headerText="T1" >  
                                                 <h:outputText value="#{nota.teoria1}" />
                                             </p:column>
@@ -266,6 +269,48 @@
 
                                             <p:column headerText="CO" style="text-align: center;">
                                                 <h:outputText id="condicion" value="#{nota.condicion.abreviatura}"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+                                        <p:dataTable id="lista_estudiantes" var="nota" value="#{SegundoParcialController.notas}" rowIndexVar="rowIndex" rendered="false">
+                                            <p:column headerText="Nº">
+                                                <h:outputText value="#{rowIndex + 1}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Primer Apellido" >  
+                                                <h:outputText value="#{nota.estudiante.primerApellido}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Segundo Apellido" >  
+                                                <h:outputText value="#{nota.estudiante.segundoApellido}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nombre" >  
+                                                <h:outputText value="#{nota.estudiante.nombre}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Sexo" >  
+                                                <h:outputText value="#{nota.estudiante.sexo}"/>
+                                            </p:column>
+
+                                            <p:column headerText="DNI" >  
+                                                <h:outputText value="#{nota.estudiante.dniLugar()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Dirección" >  
+                                                <h:outputText value="#{nota.estudiante.direccion}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Telefono" >  
+                                                <h:outputText value="#{nota.estudiante.telefono}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Celular" >  
+                                                <h:outputText value="#{nota.estudiante.celular}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Email" >  
+                                                <h:outputText value="#{nota.inscrito.estudiante.email}"/>
                                             </p:column>
                                         </p:dataTable>
                                     </p:outputPanel>

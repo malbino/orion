@@ -29,37 +29,47 @@
 
                                 <div class="x_content">                  
                                     <div class="ui-g ui-fluid">
-                                        <div class="ui-g-12 ui-md-4">
+                                        <div class="ui-g-12 ui-md-3">
                                             <p:outputLabel for="gestionAcademica" value="Gestion academica: " style="font-size: small"/>
                                             <p:selectOneMenu id="gestionAcademica" value="#{ReporteListaInscritosParaleloController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{ReporteListaInscritosParaleloController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
 
-                                                <p:ajax  update="carrera nivel paralelo"/>
+                                                <p:ajax  update="carrera nivel turno paralelo"/>
                                             </p:selectOneMenu>
                                         </div>
 
-                                        <div class="ui-g-12 ui-md-4">
+                                        <div class="ui-g-12 ui-md-3">
                                             <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
                                             <p:selectOneMenu id="carrera" value="#{ReporteListaInscritosParaleloController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{ReporteListaInscritosParaleloController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
-                                                
-                                                <p:ajax update="nivel paralelo"/>
+
+                                                <p:ajax update="nivel turno paralelo"/>
                                             </p:selectOneMenu>
                                         </div>
-                                        
-                                        <div class="ui-g-12 ui-md-4">
+
+                                        <div class="ui-g-12 ui-md-3">
                                             <p:outputLabel for="nivel" value="Nivel:" style="font-size: small"/>
                                             <p:selectOneMenu id="nivel" value="#{ReporteListaInscritosParaleloController.seleccionNivel}" converter="#{NivelConverter}" autoWidth="false" required="true" requiredMessage="* Nivel requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{ReporteListaInscritosParaleloController.listaNiveles()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
-                                                
+
+                                                <p:ajax update="turno paralelo"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="turno" value="Turnos:" style="font-size: small"/>
+                                            <p:selectOneMenu id="turno" value="#{ReporteListaInscritosParaleloController.seleccionTurno}" converter="#{TurnoConverter}" autoWidth="false" required="true" requiredMessage="* Turno requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{ReporteListaInscritosParaleloController.listaTurnos()}" var="turno" itemLabel="#{turno.toString()}" itemValue="#{turno}"/>  
+
                                                 <p:ajax update="paralelo"/>
                                             </p:selectOneMenu> 
                                         </div>
 
-                                        <div class="ui-g-12 ui-md-4">
+                                        <div class="ui-g-12 ui-md-3">
                                             <p:outputLabel for="paralelo" value="Paralelo:" style="font-size: small"/>
                                             <p:selectOneMenu id="paralelo" value="#{ReporteListaInscritosParaleloController.seleccionParalelo}" autoWidth="false" required="true" requiredMessage="* Paralelo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />

@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -49,7 +50,7 @@ public class Estudiante extends Usuario implements Serializable {
 
     @OneToMany(mappedBy = "estudiante", orphanRemoval = true)
     private List<Inscrito> inscritos;
-    
+
     @Transient
     private Date fechaInscripcion;
 
@@ -164,5 +165,19 @@ public class Estudiante extends Usuario implements Serializable {
      */
     public void setFechaInscripcion(Date fechaInscripcion) {
         this.fechaInscripcion = fechaInscripcion;
+    }
+
+    public String fecha_ddMMyyyy() {
+        return Fecha.formatearFecha_ddMMyyyy(fecha);
+    }
+
+    public String diplomaBachiller_siNo() {
+        String s = "";
+        if (diplomaBachiller) {
+            s = "Sí";
+        } else {
+            s = "No";
+        }
+        return s;
     }
 }

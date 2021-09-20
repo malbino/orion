@@ -162,7 +162,7 @@ public class ListaInscritosCarrera extends HttpServlet {
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("Telfono", NEGRITA));
+        cell = new PdfPCell(new Phrase("DNI", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setColspan(10);
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -202,11 +202,7 @@ public class ListaInscritosCarrera extends HttpServlet {
             cell.setColspan(35);
             table.addCell(cell);
 
-            if (inscrito.getEstudiante().getTelefono() != null) {
-                cell = new PdfPCell(new Phrase(String.valueOf(inscrito.getEstudiante().getTelefono()), NORMAL));
-            } else {
-                cell = new PdfPCell(new Phrase(" ", NORMAL));
-            }
+            cell = new PdfPCell(new Phrase(String.valueOf(inscrito.getEstudiante().dniLugar()), NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell.setColspan(10);

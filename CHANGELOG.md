@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2021-09-19
+### Added
+- Se añadio la eliminacion de inscritos
+### Changed
+### Removed
+### Fixed
+
 ## [1.3.3] - 2021-09-04
 ### Added
 ### Changed

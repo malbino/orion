@@ -16,6 +16,7 @@ import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.enums.Nivel;
+import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
 
 /**
@@ -29,6 +30,7 @@ public class ReporteListaInscritosParaleloController extends AbstractController 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
     private Nivel seleccionNivel;
+    private Turno seleccionTurno;
     private String seleccionParalelo;
 
     @EJB
@@ -60,16 +62,25 @@ public class ReporteListaInscritosParaleloController extends AbstractController 
 
     public Nivel[] listaNiveles() {
         Nivel[] niveles = new Nivel[0];
-        if (seleccionCarrera != null) {
+        if (seleccionGestionAcademica != null && seleccionCarrera != null) {
             niveles = Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
         }
         return niveles;
     }
 
+    @Override
+    public Turno[] listaTurnos() {
+        Turno[] turnos = new Turno[0];
+        if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null) {
+            turnos = Turno.values();
+        }
+        return turnos;
+    }
+
     public List<String> listaParalelos() {
         List<String> paralelos = new ArrayList<>();
-        if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null) {
-            paralelos = grupoFacade.listaParalelos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel);
+        if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null && seleccionTurno != null) {
+            paralelos = grupoFacade.listaParalelos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel, seleccionTurno);
         }
         return paralelos;
     }
@@ -79,6 +90,7 @@ public class ReporteListaInscritosParaleloController extends AbstractController 
             this.insertarParametro("id_gestionacademica", seleccionGestionAcademica.getId_gestionacademica());
             this.insertarParametro("id_carrera", seleccionCarrera.getId_carrera());
             this.insertarParametro("nivel", seleccionNivel);
+            this.insertarParametro("turno", seleccionTurno);
             this.insertarParametro("paralelo", seleccionParalelo);
 
             toListaInscritosParalelo();
@@ -149,5 +161,19 @@ public class ReporteListaInscritosParaleloController extends AbstractController 
      */
     public void setSeleccionParalelo(String seleccionParalelo) {
         this.seleccionParalelo = seleccionParalelo;
+    }
+
+    /**
+     * @return the seleccionTurno
+     */
+    public Turno getSeleccionTurno() {
+        return seleccionTurno;
+    }
+
+    /**
+     * @param seleccionTurno the seleccionTurno to set
+     */
+    public void setSeleccionTurno(Turno seleccionTurno) {
+        this.seleccionTurno = seleccionTurno;
     }
 }

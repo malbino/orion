@@ -90,6 +90,9 @@
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{TercerParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
                                                     <p:dataExporter type="xls" target="notasAnual" fileName="notas" />
                                                 </p:menuitem>
+                                                <p:menuitem value="Lista Estudiantes" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="lista_estudiantes" fileName="lista_estudiantes" />
+                                                </p:menuitem>
                                             </p:menuButton>
                                         </f:facet>
                                     </p:toolbar>
@@ -266,6 +269,48 @@
 
                                             <p:column headerText="CO" style="text-align: center;">
                                                 <h:outputText id="condicion" value="#{nota.condicion.abreviatura}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                        
+                                        <p:dataTable id="lista_estudiantes" var="nota" value="#{TercerParcialController.notas}" rowIndexVar="rowIndex" rendered="false">
+                                            <p:column headerText="Nº">
+                                                <h:outputText value="#{rowIndex + 1}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Primer Apellido" >  
+                                                <h:outputText value="#{nota.estudiante.primerApellido}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Segundo Apellido" >  
+                                                <h:outputText value="#{nota.estudiante.segundoApellido}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nombre" >  
+                                                <h:outputText value="#{nota.estudiante.nombre}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Sexo" >  
+                                                <h:outputText value="#{nota.estudiante.sexo}"/>
+                                            </p:column>
+
+                                            <p:column headerText="DNI" >  
+                                                <h:outputText value="#{nota.estudiante.dniLugar()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Dirección" >  
+                                                <h:outputText value="#{nota.estudiante.direccion}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Telefono" >  
+                                                <h:outputText value="#{nota.estudiante.telefono}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Celular" >  
+                                                <h:outputText value="#{nota.estudiante.celular}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Email" >  
+                                                <h:outputText value="#{nota.inscrito.estudiante.email}"/>
                                             </p:column>
                                         </p:dataTable>
                                     </p:outputPanel>

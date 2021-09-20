@@ -52,7 +52,11 @@
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="comprobantes" var="comprobante" value="#{AnularPagoController.comprobantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                    <p:dataTable id="comprobantes" var="comprobante" value="#{AnularPagoController.comprobantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                 paginator="true" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
                                         <p:column headerText="Nº">
                                             <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
@@ -92,7 +96,7 @@
 
                                                     <f:actionListener binding="#{AnularPagoController.imprimirComprobante()}"/>
                                                 </p:commandButton>
-                                                
+
                                                 <p:commandButton id="anular" process="@this" icon="fa fa-remove" title="Anular" update="form">  
                                                     <f:setPropertyActionListener value="#{comprobante}" target="#{AnularPagoController.seleccionComprobante}" />
 

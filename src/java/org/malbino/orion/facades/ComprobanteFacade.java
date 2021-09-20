@@ -56,7 +56,6 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
 
         try {
             Query q = em.createQuery("SELECT c FROM Comprobante c ORDER BY c.fecha DESC");
-            q.setMaxResults(100);
 
             l = q.getResultList();
         } catch (Exception e) {

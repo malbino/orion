@@ -95,7 +95,7 @@ public class InscripcionManualController extends AbstractController implements S
     public List<Inscrito> listaInscritos() {
         List<Inscrito> l = new ArrayList();
         if (seleccionEstudiante != null) {
-            l = inscritoFacade.listaInscritos(seleccionEstudiante.getId_persona());
+            l = inscritoFacade.listaInscritosPersona(seleccionEstudiante.getId_persona());
         }
         return l;
     }

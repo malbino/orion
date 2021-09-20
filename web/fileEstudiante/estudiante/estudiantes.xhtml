@@ -40,6 +40,9 @@
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="estudiantes" fileName="estudiantes" />
                                                 </p:menuitem>
+                                                <p:menuitem value="Lista Completa" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="lista_completa" fileName="lista_completa" />
+                                                </p:menuitem>
                                             </p:menuButton>
                                         </f:facet>
                                     </p:toolbar>
@@ -66,7 +69,11 @@
                                     </p:outputPanel>
                                     <p:defaultCommand target="buscar"/>
 
-                                    <p:dataTable id="estudiantes" var="estudiante" value="#{EstudianteController.estudiantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                    <p:dataTable id="estudiantes" var="estudiante" value="#{EstudianteController.estudiantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                 paginator="true" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
                                         <p:column headerText="Nº">
                                             <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
@@ -127,6 +134,76 @@
                                                 </p:commandButton>
                                             </h:panelGroup>
                                         </p:column> 
+                                    </p:dataTable>
+
+                                    <p:dataTable id="lista_completa" var="estudiante" value="#{EstudianteController.estudiantes}" rowIndexVar="rowIndex" rendered="false">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Matricula" >  
+                                            <h:outputText value="#{estudiante.matricula}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" >  
+                                            <h:outputText value="#{estudiante.fecha_ddMMyyyy()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Diploma Bachiller" >  
+                                            <h:outputText value="#{estudiante.diplomaBachiller_siNo()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Primer Apellido" >  
+                                            <h:outputText value="#{estudiante.primerApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Segundo Apellido" >  
+                                            <h:outputText value="#{estudiante.segundoApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{estudiante.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Sexo" >  
+                                            <h:outputText value="#{estudiante.sexo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha Nacimiento" >  
+                                            <h:outputText value="#{estudiante.fechaNacimiento_ddMMyyyy()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Lugar Nacimiento" >  
+                                            <h:outputText value="#{estudiante.lugarNacimiento}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nacionalidad" >  
+                                            <h:outputText value="#{estudiante.nacionalidad}"/>
+                                        </p:column>
+
+                                        <p:column headerText="DNI" >  
+                                            <h:outputText value="#{estudiante.dniLugar()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Dirección" >  
+                                            <h:outputText value="#{estudiante.direccion}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Telefono" >  
+                                            <h:outputText value="#{estudiante.telefono}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Celular" >  
+                                            <h:outputText value="#{estudiante.celular}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Email" >  
+                                            <h:outputText value="#{estudiante.email}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Carreras" >  
+                                            <h:outputText value="#{estudiante.carrerasToString()}"/> 
+                                        </p:column>
                                     </p:dataTable>
 
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

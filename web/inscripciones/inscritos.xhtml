@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Inscritos <small>estudiantes inscritos</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="gestionAcademica" value="Gestion academica: " style="font-size: small"/>
+                                            <p:selectOneMenu id="gestionAcademica" value="#{InscritosController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false"> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{InscritosController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+
+                                                <p:ajax update="carrera nivel turno paralelo"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                            <p:selectOneMenu id="carrera" value="#{InscritosController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false"> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{InscritosController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
+
+                                                <p:ajax update="nivel turno paralelo"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="nivel" value="Nivel:" style="font-size: small"/>
+                                            <p:selectOneMenu id="nivel" value="#{InscritosController.seleccionNivel}" converter="#{NivelConverter}" autoWidth="false"> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{InscritosController.listaNiveles()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
+
+                                                <p:ajax update="turno paralelo"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="turno" value="Turnos:" style="font-size: small"/>
+                                            <p:selectOneMenu id="turno" value="#{InscritosController.seleccionTurno}" converter="#{TurnoConverter}" autoWidth="false"> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{InscritosController.listaTurnos()}" var="turno" itemLabel="#{turno.toString()}" itemValue="#{turno}"/>  
+
+                                                <p:ajax update="paralelo"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="paralelo" value="Paralelo:" style="font-size: small"/>
+                                            <p:selectOneMenu id="paralelo" value="#{InscritosController.seleccionParalelo}" autoWidth="false"> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{InscritosController.listaParalelos()}"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+                                    </div>
+
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-search" value="Buscar" actionListener="#{InscritosController.reinit()}" update="form"/>   
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{InscritosController.filtro()}" update="form" rendered="#{!InscritosController.filter}"/>
+                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{InscritosController.filtro()}" update="form" rendered="#{InscritosController.filter}"/>
+
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="inscritos" fileName="inscritos" />
+                                                </p:menuitem>
+                                                <p:menuitem value="Lista Completa" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="lista_completa" fileName="lista_completa" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <p:outputPanel id="filtro" rendered="#{InscritosController.filter}">
+                                        <div class="ui-g ui-fluid">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <div class="ui-inputgroup">
+                                                    <p:inputText value="#{InscritosController.keyword}" style="height: 100%"/>
+                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{InscritosController.buscar()}" update="inscritos"/>           
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </p:outputPanel>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="inscritos" var="inscrito" value="#{InscritosController.inscritos}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                 paginator="true" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Codigo" >  
+                                            <h:outputText value="#{inscrito.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" >  
+                                            <h:outputText value="#{inscrito.fecha_ddMMyyyy()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Primer Apellido" >  
+                                            <h:outputText value="#{inscrito.estudiante.primerApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Segundo Apellido" >  
+                                            <h:outputText value="#{inscrito.estudiante.segundoApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{inscrito.estudiante.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="DNI" >  
+                                            <h:outputText value="#{inscrito.estudiante.dniLugar()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Celular" >  
+                                            <h:outputText value="#{inscrito.estudiante.celular}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Carrera" >  
+                                            <h:outputText value="#{inscrito.carrera.toString()}"/>
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="eliminar" process="@this" icon="fa fa-remove" title="Eliminar" update="form">  
+                                                    <f:setPropertyActionListener value="#{inscrito}" target="#{InscritosController.seleccionInscrito}" />
+
+                                                    <f:actionListener binding="#{InscritosController.eliminarInscrito()}"/>
+                                                    <p:confirm header="Confirmación" message="Esta seguro?" icon="fa fa-exclamation-triangle" />
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+
+                                    <p:dataTable id="lista_completa" var="inscrito" value="#{InscritosController.inscritos}" rowIndexVar="rowIndex" rendered="false">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Codigo" >  
+                                            <h:outputText value="#{inscrito.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" >  
+                                            <h:outputText value="#{inscrito.fecha_ddMMyyyy()}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Diploma Bachiller" >  
+                                            <h:outputText value="#{inscrito.estudiante.diplomaBachiller_siNo()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Primer Apellido" >  
+                                            <h:outputText value="#{inscrito.estudiante.primerApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Segundo Apellido" >  
+                                            <h:outputText value="#{inscrito.estudiante.segundoApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{inscrito.estudiante.nombre}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Sexo" >  
+                                            <h:outputText value="#{inscrito.estudiante.sexo}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Fecha Nacimiento" >  
+                                            <h:outputText value="#{inscrito.estudiante.fechaNacimiento_ddMMyyyy()}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Lugar Nacimiento" >  
+                                            <h:outputText value="#{inscrito.estudiante.lugarNacimiento}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Nacionalidad" >  
+                                            <h:outputText value="#{inscrito.estudiante.nacionalidad}"/>
+                                        </p:column>
+
+                                        <p:column headerText="DNI" >  
+                                            <h:outputText value="#{inscrito.estudiante.dniLugar()}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Dirección" >  
+                                            <h:outputText value="#{inscrito.estudiante.direccion}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Telefono" >  
+                                            <h:outputText value="#{inscrito.estudiante.telefono}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Celular" >  
+                                            <h:outputText value="#{inscrito.estudiante.celular}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="Email" >  
+                                            <h:outputText value="#{inscrito.estudiante.email}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Carrera" >  
+                                            <h:outputText value="#{inscrito.carrera.toString()}"/>
+                                        </p:column>
+                                    </p:dataTable>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+                                    </p:confirmDialog>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
