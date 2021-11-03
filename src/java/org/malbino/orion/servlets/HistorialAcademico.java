@@ -238,7 +238,11 @@ public class HistorialAcademico extends HttpServlet {
         //fila 4
         phrase = new Phrase();
         phrase.add(new Chunk("MENCIÓN: ", NEGRITA));
-        phrase.add(new Chunk(" ", NORMAL)); //orion no soporta menciones
+        if (carrera.getMencion() != null) {
+            phrase.add(new Chunk(carrera.getMencion(), NORMAL));
+        } else {
+            phrase.add(new Chunk(" ", NORMAL));
+        }
         cell = new PdfPCell(phrase);
         cell.setColspan(20);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

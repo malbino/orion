@@ -191,8 +191,14 @@ public class GestionAcademica implements Serializable {
     public String toString() {
         return periodo.getPeriodoRomano() + gestion + regimen.getInicial();
     }
-    
+
     public String codigo() {
-        return periodo.getPeriodoRomano() + "/" + gestion;
+        String s = "";
+        if (this.getRegimen() == Regimen.SEMESTRAL) {
+            s = periodo.getPeriodoRomano() + "/" + gestion;
+        } else if (this.getRegimen() == Regimen.ANUAL) {
+            s = gestion + " ";
+        }
+        return s;
     }
 }

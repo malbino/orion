@@ -37,6 +37,7 @@ public class Instituto implements Serializable {
     private Integer precioCredito;
     private String resolucionMinisterial;
     private String logo;
+    private String abreviatura;
 
     @JoinColumn(name = "id_rector")
     @ManyToOne
@@ -245,6 +246,20 @@ public class Instituto implements Serializable {
     @Override
     public String toString() {
         return nombreRegulador;
+    }
+
+    /**
+     * @return the abreviatura
+     */
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    /**
+     * @param abreviatura the abreviatura to set
+     */
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 
 }

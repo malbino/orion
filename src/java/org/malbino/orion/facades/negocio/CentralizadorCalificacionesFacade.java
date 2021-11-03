@@ -155,7 +155,7 @@ public class CentralizadorCalificacionesFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Centralizador centralizadorCalificaciones(GestionAcademica gestionAcademica, Carrera carrera, int numeroLibro) {
+    public Centralizador centralizadorCalificaciones(GestionAcademica gestionAcademica, Carrera carrera, int numeroLibro, int numeroFolio) {
         Centralizador centralizador = new Centralizador( //centralizador calificaciones
                 carrera.getCampus().getInstituto().getUbicacion(),
                 carrera.getCampus().getInstituto().getNombreRegulador(),
@@ -163,8 +163,6 @@ public class CentralizadorCalificacionesFacade {
                 carrera.getCampus().getInstituto().getCaracter().toString()
         );
         List<PaginaCentralizador> paginasCentralizador = new ArrayList(); //paginas centralizador
-
-        int numeroFolio = 1; //numero folio
 
         //notas
         Nivel[] niveles = Nivel.values(carrera.getRegimen());
@@ -332,21 +330,12 @@ public class CentralizadorCalificacionesFacade {
 
                         paginasCentralizador.add(paginaEstadisticas);
                     }
-                }
-            }
-        }
 
-        //recuperatorio
-        for (Nivel nivel : niveles) { //niveles
-            Turno[] turnos = Turno.values();
-            for (Turno turno : turnos) { //turnos
-                List<String> paralelos = listaParalelos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), nivel, turno);
+                    //recuperatorio
+                    numeroEstudiante = 1;
 
-                for (String paralelo : paralelos) {
-                    int numeroEstudiante = 1;
-
-                    List<Estudiante> estudiantes = listaEstudiantesRecuperatorio(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), nivel, turno, paralelo);
-                    Iterator<Estudiante> iteratorEstudiantes = estudiantes.iterator();
+                    estudiantes = listaEstudiantesRecuperatorio(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), nivel, turno, paralelo);
+                    iteratorEstudiantes = estudiantes.iterator();
                     if (!estudiantes.isEmpty()) {
                         //materias centralizador
                         List<Materia> materias = listaMaterias(carrera.getId_carrera(), nivel);

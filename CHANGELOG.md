@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2021-11-02
+### Added
+### Changed
+- Se añadio abreviatura al instituto
+- Se añadio mención a la carrera
+- Se añadio la generación del Centralizador de Calificaciones en formato XLSX
+- Se añadio la generación del Historial Académico en formato XLSX
+### Removed
+### Fixed
+
 ## [1.4.0] - 2021-09-19
 ### Added
 - Se añadio la eliminacion de inscritos

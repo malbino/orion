@@ -38,7 +38,7 @@
                                                 <p:ajax update="carrera"/>
                                             </p:selectOneMenu>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
                                             <p:selectOneMenu id="carrera" value="#{ReporteCentralizadorCalificacionesController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
@@ -46,16 +46,27 @@
                                                 <f:selectItems value="#{ReporteCentralizadorCalificacionesController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>
                                             </p:selectOneMenu>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="numeroLibro" value="Numero libro:" style="font-size: small"/>
                                             <p:inputText id="numeroLibro" value="#{ReporteCentralizadorCalificacionesController.numeroLibro}" required="true" requiredMessage="* Numero libro requerido." />
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="numeroFolio" value="Numero folio:" style="font-size: small"/>
+                                            <p:inputText id="numeroFolio" value="#{ReporteCentralizadorCalificacionesController.numeroFolio}" required="true" requiredMessage="* Numero folio requerido." />
+                                        </div>
                                     </div>
-                                    
+
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Generar" icon="fa fa-gear" actionListener="#{ReporteCentralizadorCalificacionesController.generarReporte()}" update="messages"/>
+                                            <p:commandButton value="Generar PDF" icon="fa fa-file-pdf-o" actionListener="#{ReporteCentralizadorCalificacionesController.generarPDF()}" update="messages"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Generar XLSX" icon="fa fa-file-excel-o" ajax="false" actionListener="#{ReporteCentralizadorCalificacionesController.generarXLSX()}" update="messages">
+                                                <p:fileDownload value="#{ReporteCentralizadorCalificacionesController.download}"/>
+                                            </p:commandButton>
                                         </div>
                                     </div>
                                 </div>

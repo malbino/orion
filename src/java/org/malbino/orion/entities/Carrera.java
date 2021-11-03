@@ -40,6 +40,7 @@ public class Carrera implements Serializable {
     private String resolucionMinisterial2;
     private String resolucionMinisterial3;
     private Integer creditajeMatricula;
+    private String mencion;
 
     @JoinColumn(name = "id_campus")
     @ManyToOne
@@ -256,5 +257,19 @@ public class Carrera implements Serializable {
      */
     public void setResolucionMinisterial3(String resolucionMinisterial3) {
         this.resolucionMinisterial3 = resolucionMinisterial3;
+    }
+
+    /**
+     * @return the mencion
+     */
+    public String getMencion() {
+        return mencion;
+    }
+
+    /**
+     * @param mencion the mencion to set
+     */
+    public void setMencion(String mencion) {
+        this.mencion = mencion;
     }
 }
