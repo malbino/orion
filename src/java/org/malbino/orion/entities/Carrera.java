@@ -214,7 +214,13 @@ public class Carrera implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + " [" + codigo + "]";
+        String s = "";
+        if (mencion != null) {
+            s = nombre + " - " + mencion + " [" + codigo + "]";
+        } else {
+            s = nombre + " [" + codigo + "]";
+        }
+        return s;
     }
 
     /**

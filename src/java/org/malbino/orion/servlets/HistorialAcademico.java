@@ -56,6 +56,8 @@ public class HistorialAcademico extends HttpServlet {
     private static final Font NEGRITA_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLDITALIC, BaseColor.BLACK);
     private static final Font NEGRITA_PLOMO = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, BaseColor.LIGHT_GRAY);
 
+    //8.5 x 13 pulgadas (1 pulgada = 72 puntos)
+    private static final Rectangle OFICIO_FOLIO = new Rectangle(612, 936);
     private static final int MARGEN_IZQUIERDO = -40;
     private static final int MARGEN_DERECHO = -40;
     private static final int MARGEN_SUPERIOR = 95;
@@ -94,7 +96,7 @@ public class HistorialAcademico extends HttpServlet {
             try {
                 response.setContentType(CONTENIDO_PDF);
 
-                Document document = new Document(PageSize.A4, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
+                Document document = new Document(OFICIO_FOLIO, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
                 PdfWriter.getInstance(document, response.getOutputStream());
 
                 document.open();
