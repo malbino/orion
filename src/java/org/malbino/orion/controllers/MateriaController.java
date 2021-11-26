@@ -112,9 +112,9 @@ public class MateriaController extends AbstractController implements Serializabl
         if (materiaFacade.buscarPorCodigo(seleccionMateria.getCodigo(), seleccionMateria.getId_materia(), seleccionMateria.getCarrera(), seleccionMateria.getMencion()).isEmpty()) {
             if (materiaFacade.edit(seleccionMateria)) {
                 this.toMaterias();
-            } else {
-                this.mensajeDeError("No se pudo editar la materia.");
             }
+        } else {
+            this.mensajeDeError("Materia repetida.");
         }
     }
 

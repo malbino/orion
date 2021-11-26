@@ -74,10 +74,6 @@ public class MencionFacade extends AbstractFacade<Mencion> {
             q.setParameter("id_carrera", id_carrera);
 
             l = q.getResultList();
-            
-            for (Mencion mencion : l) {
-                System.out.println(mencion.toString());
-            }
         } catch (Exception e) {
 
         }

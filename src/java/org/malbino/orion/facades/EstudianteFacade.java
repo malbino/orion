@@ -125,7 +125,7 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            System.out.println("errrrrrrrrrrrrrrrrrrrrrrrrr" + e);
+            
         }
 
         return l;

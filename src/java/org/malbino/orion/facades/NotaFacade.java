@@ -210,7 +210,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
             ga = (GestionAcademica) q.getSingleResult();
         } catch (Exception e) {
-            System.out.println("errrrrrrrrrrrrrrrrrrrrrr" + e);
+            
         }
 
         return ga;
