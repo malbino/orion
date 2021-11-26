@@ -99,7 +99,7 @@
                                                 <f:validator validatorId="validators.emailValidator" />
                                             </p:inputText>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
                                             <p:calendar id="fecha" value="#{EstudianteController.nuevoEstudiante.fecha}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
@@ -109,11 +109,11 @@
                                             <p:outputLabel for="diplomaBachiller" value="Diploma bachiller:" style="font-size: small"/>
                                             <p:selectBooleanButton id="diplomaBachiller" value="#{EstudianteController.nuevoEstudiante.diplomaBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="carreras" value="Carreras:" style="font-size: small"/>
-                                            <p:selectCheckboxMenu id="carreras" value="#{EstudianteController.nuevoEstudiante.carreras}" converter="#{CarreraConverter}" label="Carreras" filter="true" filterMatchMode="contains" style="height: 30px">  
-                                                <f:selectItems value="#{EstudianteController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
+                                            <p:outputLabel for="carrerasEstudiante" value="Carreras:" style="font-size: small"/>
+                                            <p:selectCheckboxMenu id="carrerasEstudiante" value="#{EstudianteController.seleccionCarrerasEstudiante}" converter="#{CarreraEstudianteConverter}" label="Carreras" filter="true" filterMatchMode="contains" style="height: 30px">  
+                                                <f:selectItems value="#{EstudianteController.carrerasEstudiante}" var="carreraEstudiante" itemLabel="#{carreraEstudiante.toString()}" itemValue="#{carreraEstudiante}"/>  
                                             </p:selectCheckboxMenu> 
                                         </div>
                                     </div>

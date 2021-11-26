@@ -109,7 +109,7 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         List<Estudiante> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT e FROM Estudiante e JOIN e.carreras c WHERE c.id_carrera=:id_carrera AND "
+            Query q = em.createQuery("SELECT e FROM Estudiante e, CarreraEstudiante ce WHERE (e.id_persona=ce.carreraEstudianteId.id_persona) AND ce.carreraEstudianteId.id_carrera=:id_carrera AND "
                     + "(CAST(e.matricula AS CHAR) LIKE :keyword OR "
                     + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
@@ -125,6 +125,7 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
 
             l = q.getResultList();
         } catch (Exception e) {
+            System.out.println("errrrrrrrrrrrrrrrrrrrrrrrrr" + e);
         }
 
         return l;

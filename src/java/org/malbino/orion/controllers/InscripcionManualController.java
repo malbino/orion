@@ -17,6 +17,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.moodle.webservices.CopiarInscrito;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Inscrito;
@@ -27,6 +28,7 @@ import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.enums.Modalidad;
 import org.malbino.orion.facades.ActividadFacade;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.MateriaFacade;
@@ -61,6 +63,8 @@ public class InscripcionManualController extends AbstractController implements S
     PagoFacade pagoFacade;
     @EJB
     MateriaFacade materiaFacade;
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
     private Estudiante seleccionEstudiante;
     private Inscrito seleccionInscrito;
@@ -126,7 +130,12 @@ public class InscripcionManualController extends AbstractController implements S
 
     public void actualizarMaterias() {
         if (seleccionInscrito != null) {
-            materias = materiaFacade.listaMaterias(seleccionInscrito.getCarrera().getId_carrera());
+            CarreraEstudiante carreraEstudiante = carreraEstudianteFacade.find(seleccionInscrito.carreraEstudianteId());
+            if (carreraEstudiante != null) {
+                materias = materiaFacade.listaMaterias(seleccionInscrito.getCarrera(), carreraEstudiante.getMencion());
+            } else {
+                materias = materiaFacade.listaMaterias(seleccionInscrito.getCarrera(), null);
+            }
         }
     }
 

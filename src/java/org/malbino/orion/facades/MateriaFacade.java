@@ -11,7 +11,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Materia;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Nivel;
 
@@ -35,45 +38,14 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return em;
     }
 
-    public Materia buscarPorCodigo(String codigo, int id_carrera) {
-        Materia c = null;
+    public List<Materia> buscarPorCodigo(String codigo, Carrera carrera, Mencion mencion) {
+        List<Materia> l = new ArrayList<>();
 
         try {
-            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE m.codigo=:codigo AND c.id_carrera=:id_carrera");
+            Query q = em.createQuery("SELECT m FROM Materia m WHERE m.codigo=:codigo AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion)");
             q.setParameter("codigo", codigo);
-            q.setParameter("id_carrera", id_carrera);
-
-            c = (Materia) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return c;
-    }
-
-    public Materia buscarPorCodigo(String codigo, int id_materia, int id_carrera) {
-        Materia c = null;
-
-        try {
-            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE m.codigo=:codigo AND m.id_materia!=:id_materia AND c.id_carrera=:id_carrera");
-            q.setParameter("codigo", codigo);
-            q.setParameter("id_materia", id_materia);
-            q.setParameter("id_carrera", id_carrera);
-
-            c = (Materia) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return c;
-    }
-
-    public List<Materia> listaMaterias(int id_carrera) {
-        List<Materia> l = new ArrayList();
-
-        try {
-            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera ORDER BY m.nivel, m.numero");
-            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -83,12 +55,62 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return l;
     }
 
-    public List<Materia> listaMaterias(int id_carrera, int id_materia) {
+    public List<Materia> buscarPorCodigo(String codigo, int id_materia, Carrera carrera, Mencion mencion) {
+        List<Materia> l = new ArrayList<>();
+
+        try {
+            Query q = em.createQuery("SELECT m FROM Materia m WHERE m.codigo=:codigo AND m.id_materia!=:id_materia AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion)");
+            q.setParameter("codigo", codigo);
+            q.setParameter("id_materia", id_materia);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Materia> listaMaterias(Carrera carrera) {
         List<Materia> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.id_materia!=:id_materia ORDER BY m.nivel, m.numero");
-            q.setParameter("id_carrera", id_carrera);
+            Query q = em.createQuery("SELECT m FROM Materia m WHERE m.carrera=:carrera ORDER BY m.nivel, m.mencion, m.numero");
+            q.setParameter("carrera", carrera);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Materia> listaMaterias(Carrera carrera, Mencion mencion) {
+        List<Materia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT m FROM Materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) ORDER BY m.nivel, m.mencion, m.numero");
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Materia> listaMaterias(Carrera carrera, Mencion mencion, int id_materia) {
+        List<Materia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT m FROM Materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.id_materia!=:id_materia ORDER BY m.nivel, m.mencion, m.numero");
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
             q.setParameter("id_materia", id_materia);
 
             l = q.getResultList();
@@ -99,31 +121,16 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return l;
     }
 
-    public List<Materia> listaMaterias(int id_carrera, Nivel nivel) {
+    public List<Materia> listaMaterias(Carrera carrera, Mencion mencion, Nivel nivel) {
         List<Materia> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.nivel=:nivel ORDER BY m.numero");
-            q.setParameter("id_carrera", id_carrera);
+            Query q = em.createQuery("SELECT m FROM Materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.nivel=:nivel ORDER BY m.numero");
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
             q.setParameter("nivel", nivel);
 
             l = q.getResultList();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
-    public long creditajeMaterias(int id_carrera, Nivel nivel) {
-        long l = 0;
-
-        try {
-            Query q = em.createQuery("SELECT SUM(m.creditajeMateria) FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.nivel=:nivel");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("nivel", nivel);
-
-            l = (long) q.getSingleResult();
         } catch (Exception e) {
 
         }
@@ -149,13 +156,14 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return l;
     }
 
-    public List<Nivel> nivelesPendientes(int id_persona, int id_carrera) {
+    public List<Nivel> nivelesPendientes(Estudiante estudiante, Carrera carrera, Mencion mencion) {
         List<Nivel> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT DISTINCT m.nivel FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.id_materia NOT IN (SELECT m.id_materia FROM Nota n JOIN n.estudiante e JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND n.condicion=:condicion) ORDER BY m.nivel, m.numero");
-            q.setParameter("id_persona", id_persona);
-            q.setParameter("id_carrera", id_carrera);
+            Query q = em.createQuery("SELECT DISTINCT m.nivel FROM Materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.id_materia NOT IN (SELECT m.id_materia FROM Nota n JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND n.condicion=:condicion) ORDER BY m.nivel, m.numero");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
             q.setParameter("condicion", Condicion.APROBADO);
 
             l = q.getResultList();
@@ -183,12 +191,13 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return l;
     }
 
-    public Long cantidadMaximaMateriasNivel(int id_carrera) {
+    public Long cantidadMaximaMateriasNivel(Carrera carrera, Mencion mencion) {
         Long l = 0l;
 
         try {
-            Query q = em.createQuery("SELECT COUNT(m) AS cantidad FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera GROUP BY m.nivel ORDER BY cantidad DESC");
-            q.setParameter("id_carrera", id_carrera);
+            Query q = em.createQuery("SELECT COUNT(m) AS cantidad FROM Materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) GROUP BY m.nivel ORDER BY cantidad DESC");
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
             q.setMaxResults(1);
 
             l = (Long) q.getSingleResult();
@@ -198,13 +207,14 @@ public class MateriaFacade extends AbstractFacade<Materia> {
 
         return l;
     }
-    
-    public Long cantidadMateriasCurriculares(int id_carrera) {
+
+    public Long cantidadMateriasCurriculares(Carrera carrera, Mencion mencion) {
         Long l = 0l;
 
         try {
-            Query q = em.createQuery("SELECT COUNT(m) FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.curricular = TRUE");
-            q.setParameter("id_carrera", id_carrera);
+            Query q = em.createQuery("SELECT COUNT(m) FROM Materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.curricular = TRUE");
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
 
             l = (Long) q.getSingleResult();
         } catch (Exception e) {

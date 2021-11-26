@@ -13,12 +13,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Materia;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.entities.Pago;
 import org.malbino.orion.entities.Rol;
 import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.EstudianteFacade;
 import org.malbino.orion.facades.MateriaFacade;
 import org.malbino.orion.facades.RolFacade;
@@ -43,6 +45,8 @@ public class FileEstudianteFacade {
     RolFacade rolFacade;
     @EJB
     MateriaFacade materiaFacade;
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean editarParcial(Nota nota) {
@@ -208,7 +212,7 @@ public class FileEstudianteFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public boolean registrarEstudiante(Estudiante estudiante) {
+    public boolean registrarEstudiante(Estudiante estudiante, List<CarreraEstudiante> seleccionCarrerasEstudiante) {
         Integer maximaMatricula = estudianteFacade.maximaMatricula(estudiante.getFecha());
         Integer matricula;
         if (maximaMatricula == null) {
@@ -222,6 +226,36 @@ public class FileEstudianteFacade {
         roles.add(rolFacade.find(Constantes.ID_ROL_ESTUDIANTE));
         estudiante.setRoles(roles);
         em.persist(estudiante);
+        em.flush();
+
+        for (CarreraEstudiante nuevaCarreraEstudiante : seleccionCarrerasEstudiante) {
+            nuevaCarreraEstudiante.getCarreraEstudianteId().setId_persona(estudiante.getId_persona());
+
+            CarreraEstudiante carreraEstudiante = carreraEstudianteFacade.find(nuevaCarreraEstudiante.getCarreraEstudianteId());
+            if (carreraEstudiante == null) {
+                carreraEstudianteFacade.create(nuevaCarreraEstudiante);
+            }
+        }
+
+        return true;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public boolean editarEstudiante(Estudiante estudiante, List<CarreraEstudiante> seleccionCarrerasEstudiante) {
+        estudianteFacade.edit(estudiante);
+
+        List<CarreraEstudiante> carrerasEstudiante = carreraEstudianteFacade.listaCarrerasEstudiante(estudiante.getId_persona());
+        for (CarreraEstudiante carreraEstudiante : carrerasEstudiante) {
+            carreraEstudianteFacade.remove(carreraEstudiante);
+            carreraEstudianteFacade.getEntityManager().flush();
+        }
+
+        for (CarreraEstudiante nuevaCarreraEstudiante : seleccionCarrerasEstudiante) {
+            CarreraEstudiante carreraEstudiante = carreraEstudianteFacade.find(nuevaCarreraEstudiante.getCarreraEstudianteId());
+            if (carreraEstudiante == null) {
+                carreraEstudianteFacade.create(nuevaCarreraEstudiante);
+            }
+        }
 
         return true;
     }
@@ -230,7 +264,17 @@ public class FileEstudianteFacade {
     public List<Materia> oferta(Carrera carrera, Estudiante estudiante) {
         List<Materia> oferta = new ArrayList();
 
-        List<Materia> listaMateriasCarrera = materiaFacade.listaMaterias(carrera.getId_carrera());
+        CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+        carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+        carreraEstudianteId.setId_persona(estudiante.getId_persona());
+        CarreraEstudiante carreraEstudiante = carreraEstudianteFacade.find(carreraEstudianteId);
+        List<Materia> listaMateriasCarrera;
+        if (carreraEstudiante != null) {
+            listaMateriasCarrera = materiaFacade.listaMaterias(carrera, carreraEstudiante.getMencion());
+        } else {
+            listaMateriasCarrera = materiaFacade.listaMaterias(carrera, null);
+        }
+
         List<Materia> listaMateriaAprobadas = materiaFacade.listaMateriaAprobadas(estudiante.getId_persona(), carrera.getId_carrera());
         listaMateriasCarrera.removeAll(listaMateriaAprobadas);
 

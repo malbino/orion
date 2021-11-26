@@ -39,12 +39,6 @@ public class Estudiante extends Usuario implements Serializable {
     private Date fecha;
     private Boolean diplomaBachiller;
 
-    @JoinTable(name = "cursa", joinColumns = {
-        @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_carrera", referencedColumnName = "id_carrera")})
-    @ManyToMany
-    private List<Carrera> carreras;
-
     @OneToMany(mappedBy = "estudiante", orphanRemoval = true)
     private List<Nota> notas;
 
@@ -55,18 +49,6 @@ public class Estudiante extends Usuario implements Serializable {
     private Date fechaInscripcion;
 
     public Estudiante() {
-    }
-
-    public String carrerasToString() {
-        String s = " ";
-        for (Carrera m : carreras) {
-            if (s.compareTo(" ") == 0) {
-                s = m.getCodigo();
-            } else {
-                s += ", " + m.getCodigo();
-            }
-        }
-        return s;
     }
 
     /**
@@ -109,20 +91,6 @@ public class Estudiante extends Usuario implements Serializable {
      */
     public void setDiplomaBachiller(Boolean diplomaBachiller) {
         this.diplomaBachiller = diplomaBachiller;
-    }
-
-    /**
-     * @return the carreras
-     */
-    public List<Carrera> getCarreras() {
-        return carreras;
-    }
-
-    /**
-     * @param carreras the carreras to set
-     */
-    public void setCarreras(List<Carrera> carreras) {
-        this.carreras = carreras;
     }
 
     /**

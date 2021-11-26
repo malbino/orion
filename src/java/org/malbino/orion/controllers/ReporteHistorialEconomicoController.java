@@ -9,10 +9,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 
 /**
  *
@@ -23,32 +25,34 @@ import org.malbino.orion.entities.Estudiante;
 public class ReporteHistorialEconomicoController extends AbstractController implements Serializable {
 
     private Estudiante seleccionEstudiante;
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
+
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
     }
 
     public void reinit() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList();
         if (seleccionEstudiante != null) {
-            l = carreraFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
+            l = carreraEstudianteFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
         }
         return l;
     }
 
     public void generarReporte() throws IOException {
-        if (seleccionEstudiante != null && seleccionCarrera != null) {
+        if (seleccionEstudiante != null && seleccionCarreraEstudiante != null) {
             this.insertarParametro("id_persona", seleccionEstudiante.getId_persona());
-            this.insertarParametro("id_carrera", seleccionCarrera.getId_carrera());
+            this.insertarParametro("id_carrera", seleccionCarreraEstudiante.getCarrera().getId_carrera());
 
             toHistorialEconomico();
         }
@@ -79,16 +83,16 @@ public class ReporteHistorialEconomicoController extends AbstractController impl
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 }

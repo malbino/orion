@@ -32,6 +32,14 @@
                                                 <f:selectItems value="#{GrupoController.listaNiveles()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
                                             </p:selectOneMenu> 
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="mencion" value="Mención: " style="font-size: small"/>
+                                            <p:selectOneMenu id="mencion" value="#{GrupoController.seleccionMencion}" converter="#{MencionConverter}" autoWidth="false">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{GrupoController.listaMenciones()}" var="mencion" itemLabel="#{mencion.toString()}" itemValue="#{mencion}"/>
+                                            </p:selectOneMenu>
+                                        </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="turno" value="Turno:" style="font-size: small"/>

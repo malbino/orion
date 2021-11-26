@@ -13,12 +13,15 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.InscritoFacade;
+import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
@@ -38,9 +41,11 @@ public class CambioCarreraController extends AbstractController implements Seria
     InscripcionesFacade inscripcionesFacade;
     @EJB
     ActividadFacade actividadFacade;
+    @EJB
+    MencionFacade mencionFacade;
 
     private Estudiante seleccionEstudiante;
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
     private GestionAcademica seleccionGestionAcademica;
 
     private Comprobante nuevoComprobante;
@@ -48,7 +53,7 @@ public class CambioCarreraController extends AbstractController implements Seria
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         seleccionGestionAcademica = null;
 
         nuevoComprobante = new Comprobante();
@@ -56,24 +61,56 @@ public class CambioCarreraController extends AbstractController implements Seria
 
     public void reinit() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         seleccionGestionAcademica = null;
 
         nuevoComprobante = new Comprobante();
     }
 
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList<>();
+        List<Carrera> carreras = carreraFacade.listaCarreras();
+        for (Carrera carrera : carreras) {
+
+            List<Mencion> menciones = mencionFacade.listaMenciones(carrera.getId_carrera());
+            if (menciones.isEmpty()) {
+                CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                carreraEstudianteId.setId_persona(0);
+                CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                carreraEstudiante.setCarrera(carrera);
+
+                l.add(carreraEstudiante);
+            } else {
+                for (Mencion mencion : menciones) {
+                    CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                    carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                    carreraEstudianteId.setId_persona(0);
+                    CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                    carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                    carreraEstudiante.setMencion(mencion);
+                    carreraEstudiante.setCarrera(carrera);
+
+                    l.add(carreraEstudiante);
+                }
+            }
+        }
+        return l;
+    }
+
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
         List<GestionAcademica> l = new ArrayList();
-        if (seleccionCarrera != null) {
-            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarrera.getRegimen(), true);
+        if (seleccionCarreraEstudiante != null) {
+            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarreraEstudiante.getCarrera().getRegimen(), true);
         }
         return l;
     }
 
     public void registrarEstudiante() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
-            if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
+            if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarreraEstudiante.getCarrera().getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
                 if (seleccionEstudiante.getDiplomaBachiller()) {
                     nuevoComprobante.setFecha(Fecha.getDate());
                     nuevoComprobante.setValido(true);
@@ -81,7 +118,7 @@ public class CambioCarreraController extends AbstractController implements Seria
                     String contrasena = Generador.generarContrasena();
                     seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));
                     seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
-                    if (inscripcionesFacade.cambioCarrera(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica, nuevoComprobante)) {
+                    if (inscripcionesFacade.cambioCarrera(seleccionEstudiante, seleccionCarreraEstudiante, seleccionGestionAcademica, nuevoComprobante)) {
                         this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                         this.insertarParametro("est", seleccionEstudiante);
 
@@ -125,17 +162,17 @@ public class CambioCarreraController extends AbstractController implements Seria
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**

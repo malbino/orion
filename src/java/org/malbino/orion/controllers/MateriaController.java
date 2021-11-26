@@ -14,8 +14,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Materia;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.MateriaFacade;
+import org.malbino.orion.facades.MencionFacade;
 
 /**
  *
@@ -27,6 +29,8 @@ public class MateriaController extends AbstractController implements Serializabl
 
     @EJB
     MateriaFacade materiaFacade;
+    @EJB
+    MencionFacade mencionFacade;
 
     private List<Materia> materias;
     private Materia nuevaMateria;
@@ -48,7 +52,7 @@ public class MateriaController extends AbstractController implements Serializabl
 
     public void reinit() {
         if (seleccionCarrera != null) {
-            materias = materiaFacade.listaMaterias(seleccionCarrera.getId_carrera());
+            materias = materiaFacade.listaMaterias(seleccionCarrera);
         }
         nuevaMateria = new Materia();
         seleccionMateria = null;
@@ -63,7 +67,7 @@ public class MateriaController extends AbstractController implements Serializabl
             keyword = null;
 
             if (seleccionCarrera != null) {
-                materias = materiaFacade.listaMaterias(seleccionCarrera.getId_carrera());
+                materias = materiaFacade.listaMaterias(seleccionCarrera);
             }
         } else {
             filter = true;
@@ -81,17 +85,21 @@ public class MateriaController extends AbstractController implements Serializabl
         return Nivel.values(seleccionCarrera.getRegimen());
     }
 
+    public List<Mencion> listaMenciones() {
+        return mencionFacade.listaMenciones(seleccionCarrera.getId_carrera());
+    }
+
     public List<Materia> listaMateriasCrear() {
-        return materiaFacade.listaMaterias(seleccionCarrera.getId_carrera());
+        return materiaFacade.listaMaterias(seleccionCarrera, nuevaMateria.getMencion());
     }
 
     public List<Materia> listaMateriasEditar() {
-        return materiaFacade.listaMaterias(seleccionCarrera.getId_carrera(), seleccionMateria.getId_materia());
+        return materiaFacade.listaMaterias(seleccionMateria.getCarrera(), seleccionMateria.getMencion(), seleccionMateria.getId_materia());
     }
 
     public void crearMateria() throws IOException {
         nuevaMateria.setCarrera(seleccionCarrera);
-        if (materiaFacade.buscarPorCodigo(nuevaMateria.getCodigo(), nuevaMateria.getCarrera().getId_carrera()) == null) {
+        if (materiaFacade.buscarPorCodigo(nuevaMateria.getCodigo(), nuevaMateria.getCarrera(), nuevaMateria.getMencion()).isEmpty()) {
             if (materiaFacade.create(nuevaMateria)) {
                 this.toMaterias();
             }
@@ -101,7 +109,7 @@ public class MateriaController extends AbstractController implements Serializabl
     }
 
     public void editarMateria() throws IOException {
-        if (materiaFacade.buscarPorCodigo(seleccionMateria.getCodigo(), seleccionMateria.getId_materia(), seleccionMateria.getCarrera().getId_carrera()) == null) {
+        if (materiaFacade.buscarPorCodigo(seleccionMateria.getCodigo(), seleccionMateria.getId_materia(), seleccionMateria.getCarrera(), seleccionMateria.getMencion()).isEmpty()) {
             if (materiaFacade.edit(seleccionMateria)) {
                 this.toMaterias();
             } else {

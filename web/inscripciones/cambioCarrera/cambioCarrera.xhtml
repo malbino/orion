@@ -44,13 +44,13 @@
                                             <p:outputLabel for="deposito" value="Depósito:" style="font-size: small"/>
                                             <p:inputText id="deposito" value="#{CambioCarreraController.nuevoComprobante.deposito}" required="false" />
                                         </div>
-
+                                        
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="carrera" value="Carrera:" style="font-size: small"/> 
-                                            <p:selectOneMenu id="carrera" value="#{CambioCarreraController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
-                                                <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{CambioCarreraController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
-
+                                            <p:outputLabel for="carrerasEstudiante" value="Carreras:" style="font-size: small"/>
+                                            <p:selectOneMenu id="carrerasEstudiante" value="#{CambioCarreraController.seleccionCarreraEstudiante}" converter="#{CarreraEstudianteConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{CambioCarreraController.listaCarrerasEstudiante()}" var="carreraEstudiante" itemLabel="#{carreraEstudiante.toString()}" itemValue="#{carreraEstudiante}"/>
+                                                
                                                 <p:ajax event="itemSelect" update="gestionAcademica"/>
                                             </p:selectOneMenu>
                                         </div>

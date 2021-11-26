@@ -13,11 +13,14 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
+import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
@@ -35,10 +38,12 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     InscripcionesFacade inscripcionesFacade;
     @EJB
     ActividadFacade actividadFacade;
+    @EJB
+    MencionFacade mencionFacade;
 
     private Estudiante nuevoEstudiante;
     private GestionAcademica seleccionGestionAcademica;
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
 
     private Comprobante nuevoComprobante;
 
@@ -46,7 +51,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     public void init() {
         nuevoEstudiante = new Estudiante();
         seleccionGestionAcademica = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
 
         nuevoComprobante = new Comprobante();
     }
@@ -54,16 +59,40 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     public void reinit() {
         nuevoEstudiante = new Estudiante();
         seleccionGestionAcademica = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
 
         nuevoComprobante = new Comprobante();
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList<>();
         if (seleccionGestionAcademica != null) {
-            l = carreraFacade.listaCarreras(seleccionGestionAcademica.getRegimen());
+            List<Carrera> carreras = carreraFacade.listaCarreras(seleccionGestionAcademica.getRegimen());
+            for (Carrera carrera : carreras) {
+                List<Mencion> menciones = mencionFacade.listaMenciones(carrera.getId_carrera());
+                if (menciones.isEmpty()) {
+                    CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                    carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                    carreraEstudianteId.setId_persona(0);
+                    CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                    carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                    carreraEstudiante.setCarrera(carrera);
+
+                    l.add(carreraEstudiante);
+                } else {
+                    for (Mencion mencion : menciones) {
+                        CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                        carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                        carreraEstudianteId.setId_persona(0);
+                        CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                        carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                        carreraEstudiante.setMencion(mencion);
+                        carreraEstudiante.setCarrera(carrera);
+
+                        l.add(carreraEstudiante);
+                    }
+                }
+            }
         }
         return l;
     }
@@ -78,7 +107,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
                 nuevoEstudiante.setContrasena(Encriptador.encriptar(contrasena));
                 nuevoEstudiante.setContrasenaSinEncriptar(contrasena);
 
-                if (inscripcionesFacade.registrarEstudianteNuevo(nuevoEstudiante, seleccionCarrera, seleccionGestionAcademica, nuevoComprobante)) {
+                if (inscripcionesFacade.registrarEstudianteNuevo(nuevoEstudiante, seleccionCarreraEstudiante, seleccionGestionAcademica, nuevoComprobante)) {
                     this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                     this.insertarParametro("est", nuevoEstudiante);
 
@@ -95,7 +124,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
             this.mensajeDeError("Fuera de fecha.");
         }
     }
-    
+
     public void toEstudianteNuevo() throws IOException {
         this.redireccionarViewId("/inscripciones/estudianteNuevo/estudianteNuevo");
     }
@@ -133,17 +162,17 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**

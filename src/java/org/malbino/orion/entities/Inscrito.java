@@ -185,6 +185,34 @@ public class Inscrito implements Serializable {
         this.gestionAcademica = gestionAcademica;
     }
 
+    /**
+     * @return the notas
+     */
+    public List<Nota> getNotas() {
+        return notas;
+    }
+
+    /**
+     * @param notas the notas to set
+     */
+    public void setNotas(List<Nota> notas) {
+        this.notas = notas;
+    }
+
+    /**
+     * @return the pagos
+     */
+    public List<Pago> getPagos() {
+        return pagos;
+    }
+
+    /**
+     * @param pagos the pagos to set
+     */
+    public void setPagos(List<Pago> pagos) {
+        this.pagos = pagos;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -219,31 +247,11 @@ public class Inscrito implements Serializable {
         return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
 
-    /**
-     * @return the notas
-     */
-    public List<Nota> getNotas() {
-        return notas;
-    }
+    public CarreraEstudiante.CarreraEstudianteId carreraEstudianteId() {
+        CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+        carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+        carreraEstudianteId.setId_persona(estudiante.getId_persona());
 
-    /**
-     * @param notas the notas to set
-     */
-    public void setNotas(List<Nota> notas) {
-        this.notas = notas;
-    }
-
-    /**
-     * @return the pagos
-     */
-    public List<Pago> getPagos() {
-        return pagos;
-    }
-
-    /**
-     * @param pagos the pagos to set
-     */
-    public void setPagos(List<Pago> pagos) {
-        this.pagos = pagos;
+        return carreraEstudianteId;
     }
 }

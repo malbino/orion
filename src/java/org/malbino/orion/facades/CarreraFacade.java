@@ -109,21 +109,6 @@ public class CarreraFacade extends AbstractFacade<Carrera> {
         return l;
     }
     
-    public List<Carrera> listaCarrerasEstudiante(int id_persona) {
-        List<Carrera> l = new ArrayList();
-
-        try {
-            Query q = em.createQuery("SELECT c FROM Estudiante e JOIN e.carreras c WHERE e.id_persona=:id_persona ORDER BY c.nombre");
-            q.setParameter("id_persona", id_persona);
-
-            l = q.getResultList();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-    
     public List<Carrera> buscar(String keyword) {
         List<Carrera> l = new ArrayList();
 

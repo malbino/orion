@@ -26,7 +26,7 @@ import org.malbino.orion.enums.Nivel;
  * @author malbino
  */
 @Entity
-@Table(name = "materia", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "id_carrera"}))
+@Table(name = "materia", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "id_carrera", "id_mencion"}))
 public class Materia implements Serializable {
 
     @Id
@@ -50,6 +50,10 @@ public class Materia implements Serializable {
     @JoinColumn(name = "id_carrera")
     @ManyToOne
     private Carrera carrera;
+    
+    @JoinColumn(name = "id_mencion")
+    @ManyToOne
+    private Mencion mencion;
 
     @Transient
     private Grupo grupo;
@@ -255,5 +259,19 @@ public class Materia implements Serializable {
     @Override
     public String toString() {
         return nombre + " [" + codigo + "]";
+    }
+
+    /**
+     * @return the mencion
+     */
+    public Mencion getMencion() {
+        return mencion;
+    }
+
+    /**
+     * @param mencion the mencion to set
+     */
+    public void setMencion(Mencion mencion) {
+        this.mencion = mencion;
     }
 }

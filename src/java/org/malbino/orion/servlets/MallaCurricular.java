@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Materia;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.enums.Nivel;
-import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.MateriaFacade;
 
 /**
@@ -55,8 +55,6 @@ public class MallaCurricular extends HttpServlet {
     private static final int MARGEN_INFERIOR = 20;
 
     @EJB
-    CarreraFacade carreraFacade;
-    @EJB
     MateriaFacade materiaFacade;
 
     @Override
@@ -70,10 +68,10 @@ public class MallaCurricular extends HttpServlet {
     }
 
     public void generarPDF(HttpServletRequest request, HttpServletResponse response) {
-        Integer id_carrera = (Integer) request.getSession().getAttribute("id_carrera");
+        Carrera carrera = (Carrera) request.getSession().getAttribute("carrera");
+        Mencion mencion = (Mencion) request.getSession().getAttribute("mencion");
 
-        if (id_carrera != null) {
-            Carrera carrera = carreraFacade.find(id_carrera);
+        if (carrera != null) {
             try {
                 response.setContentType(CONTENIDO_PDF);
 
@@ -82,8 +80,8 @@ public class MallaCurricular extends HttpServlet {
 
                 document.open();
 
-                document.add(titulo(carrera));
-                document.add(contenido(carrera));
+                document.add(titulo(carrera, mencion));
+                document.add(contenido(carrera, mencion));
 
                 document.close();
             } catch (IOException | DocumentException ex) {
@@ -93,13 +91,13 @@ public class MallaCurricular extends HttpServlet {
         }
     }
 
-    public PdfPTable titulo(Carrera carrera) throws BadElementException, IOException {
+    public PdfPTable titulo(Carrera carrera, Mencion mencion) throws BadElementException, IOException {
         PdfPTable table = new PdfPTable(100);
 
         //cabecera
         String realPath = getServletContext().getRealPath("/resources/uploads/" + carrera.getCampus().getInstituto().getLogo());
         Image image = Image.getInstance(realPath);
-        image.scaleToFit(50, 50);
+        image.scaleToFit(70, 70);
         image.setAlignment(Image.ALIGN_CENTER);
         PdfPCell cell = new PdfPCell();
         cell.addElement(image);
@@ -122,6 +120,14 @@ public class MallaCurricular extends HttpServlet {
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
+        if (mencion != null) {
+            cell = new PdfPCell(new Phrase(mencion.toString(), SUBTITULO));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setColspan(90);
+            cell.setBorder(Rectangle.NO_BORDER);
+            table.addCell(cell);
+        }
+
         cell = new PdfPCell(new Phrase(carrera.getCampus().getInstituto().getNombreRegulador(), SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(90);
@@ -131,7 +137,7 @@ public class MallaCurricular extends HttpServlet {
         return table;
     }
 
-    public PdfPTable contenido(Carrera carrera) throws BadElementException, IOException {
+    public PdfPTable contenido(Carrera carrera, Mencion mencion) throws BadElementException, IOException {
         Nivel[] niveles = Nivel.values(carrera.getRegimen());
 
         PdfPTable table = new PdfPTable(niveles.length);
@@ -155,9 +161,9 @@ public class MallaCurricular extends HttpServlet {
             cell.setBorder(Rectangle.NO_BORDER);
             subtable.addCell(cell);
 
-            Long cantidadMaximaMateriasNivel = materiaFacade.cantidadMaximaMateriasNivel(carrera.getId_carrera());
+            Long cantidadMaximaMateriasNivel = materiaFacade.cantidadMaximaMateriasNivel(carrera, mencion);
 
-            List<Materia> materias = materiaFacade.listaMaterias(carrera.getId_carrera(), nivel);
+            List<Materia> materias = materiaFacade.listaMaterias(carrera, mencion, nivel);
             Iterator<Materia> iterator = materias.iterator();
             for (int i = 0; i < cantidadMaximaMateriasNivel; i++) {
                 if (iterator.hasNext()) {

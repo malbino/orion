@@ -26,6 +26,16 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="mencion" value="Mención: " style="font-size: small"/>
+                                            <p:selectOneMenu id="mencion" value="#{MateriaController.seleccionMateria.mencion}" converter="#{MencionConverter}" autoWidth="false">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{MateriaController.listaMenciones()}" var="mencion" itemLabel="#{mencion.toString()}" itemValue="#{mencion}"/>
+                                                
+                                                <p:ajax update="prerequisitos"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nivel" value="Nivel:" style="font-size: small"/>
                                             <p:selectOneMenu id="nivel" value="#{MateriaController.seleccionMateria.nivel}" converter="#{NivelMateriaConverter}" autoWidth="false" required="true" requiredMessage="* Nivel requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />

@@ -12,8 +12,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
 
@@ -39,7 +42,6 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
     public List<Nota> listaNotas(int id_inscrito) {
         List<Nota> l = new ArrayList();
-
         try {
             Query q = em.createQuery("SELECT n FROM Nota n JOIN n.inscrito i JOIN n.materia m WHERE i.id_inscrito=:id_inscrito ORDER BY m.nivel, m.numero");
             q.setParameter("id_inscrito", id_inscrito);
@@ -52,13 +54,14 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
-    public List<Nota> historialAcademico(int id_persona, int id_carrera) {
+    public List<Nota> historialAcademico(Estudiante estudiante, Carrera carrera, Mencion mencion) {
         List<Nota> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera ORDER BY ga.gestion, ga.periodo, m.nivel, m.numero");
-            q.setParameter("id_persona", id_persona);
-            q.setParameter("id_carrera", id_carrera);
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) ORDER BY ga.gestion, ga.periodo, m.nivel, m.numero");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -121,14 +124,15 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
-    public List<Nota> listaNotasReprobadas(int id_gestionacademica, int id_carrera, int id_persona) {
+    public List<Nota> listaNotasReprobadas(GestionAcademica gestionAcademica, Carrera carrera, Mencion mencion, Estudiante estudiante) {
         List<Nota> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND n.condicion=:condicion ORDER BY m.numero");
-            q.setParameter("id_gestionacademica", id_gestionacademica);
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("id_persona", id_persona);
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.materia m WHERE n.gestionAcademica=:gestionAcademica AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND n.estudiante=:estudiante AND n.condicion=:condicion ORDER BY m.numero");
+            q.setParameter("gestionAcademica", gestionAcademica);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("estudiante", estudiante);
             q.setParameter("condicion", Condicion.REPROBADO);
 
             l = q.getResultList();
@@ -156,13 +160,14 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
-    public List<Nota> reporteHistorialAcademico(int id_persona, int id_carrera) {
+    public List<Nota> reporteHistorialAcademico(Estudiante estudiante, Carrera carrera, Mencion mencion) {
         List<Nota> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion, ga.periodo, m.nivel, m.numero");
-            q.setParameter("id_persona", id_persona);
-            q.setParameter("id_carrera", id_carrera);
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion, ga.periodo, m.nivel, m.numero");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
             q.setParameter("condicion", Condicion.APROBADO);
 
             l = q.getResultList();
@@ -173,13 +178,14 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
-    public GestionAcademica inicioFormacion(int id_carrera, int id_persona) {
+    public GestionAcademica inicioFormacion(Carrera carrera, Mencion mencion, Estudiante estudiante) {
         GestionAcademica ga = null;
 
         try {
-            Query q = em.createQuery("SELECT DISTINCT ga FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion, ga.periodo");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("id_persona", id_persona);
+            Query q = em.createQuery("SELECT DISTINCT ga FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND n.estudiante=:estudiante AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion, ga.periodo");
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("estudiante", estudiante);
             q.setParameter("condicion", Condicion.APROBADO);
             q.setMaxResults(1);
 
@@ -191,31 +197,33 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return ga;
     }
 
-    public GestionAcademica finFormacion(int id_carrera, int id_persona) {
+    public GestionAcademica finFormacion(Carrera carrera, Mencion mencion, Estudiante estudiante) {
         GestionAcademica ga = null;
 
         try {
-            Query q = em.createQuery("SELECT DISTINCT ga FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion DESC, ga.periodo DESC");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("id_persona", id_persona);
+            Query q = em.createQuery("SELECT DISTINCT ga FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND n.estudiante=:estudiante AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY ga.gestion DESC, ga.periodo DESC");
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("estudiante", estudiante);
             q.setParameter("condicion", Condicion.APROBADO);
             q.setMaxResults(1);
 
             ga = (GestionAcademica) q.getSingleResult();
         } catch (Exception e) {
-
+            System.out.println("errrrrrrrrrrrrrrrrrrrrrr" + e);
         }
 
         return ga;
     }
 
-    public Long cantidadNotasAprobadas(int id_carrera, int id_persona) {
+    public Long cantidadNotasAprobadas(Carrera carrera, Mencion mencion, Estudiante estudiante) {
         Long l = 0l;
 
         try {
-            Query q = em.createQuery("SELECT COUNT(n) FROM Nota n JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE c.id_carrera=:id_carrera AND e.id_persona=:id_persona AND m.curricular=TRUE AND n.condicion=:condicion");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("id_persona", id_persona);
+            Query q = em.createQuery("SELECT COUNT(n) FROM Nota n JOIN n.materia m WHERE m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND n.estudiante=:estudiante AND m.curricular=TRUE AND n.condicion=:condicion");
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("estudiante", estudiante);
             q.setParameter("condicion", Condicion.APROBADO);
 
             l = (Long) q.getSingleResult();
@@ -226,13 +234,14 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
-    public Double promedioReporteHistorialAcademico(int id_persona, int id_carrera) {
+    public Double promedioReporteHistorialAcademico(Estudiante estudiante, Carrera carrera, Mencion mencion) {
         Double d = 0.0;
 
         try {
-            Query q = em.createQuery("SELECT AVG(COALESCE(n.recuperatorio, n.notaFinal)) FROM Nota n JOIN n.estudiante e JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND m.curricular=TRUE AND n.condicion=:condicion");
-            q.setParameter("id_persona", id_persona);
-            q.setParameter("id_carrera", id_carrera);
+            Query q = em.createQuery("SELECT AVG(COALESCE(n.recuperatorio, n.notaFinal)) FROM Nota n JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.curricular=TRUE AND n.condicion=:condicion");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
             q.setParameter("condicion", Condicion.APROBADO);
 
             d = (Double) q.getSingleResult();
@@ -257,7 +266,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return d;
     }
-    
+
     public Long cantidadInscritos(int id_grupo) {
         Long l = 0l;
 
@@ -272,7 +281,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return l;
     }
-    
+
     public Long cantidadCondicion(int id_grupo, Condicion condicion) {
         Long l = 0l;
 
@@ -288,5 +297,5 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return l;
     }
-    
+
 }

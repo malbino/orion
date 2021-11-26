@@ -12,12 +12,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Encriptador;
@@ -38,9 +39,11 @@ public class EstudianteRegularController extends AbstractController implements S
     InscripcionesFacade inscripcionesFacade;
     @EJB
     ActividadFacade actividadFacade;
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
     private Estudiante seleccionEstudiante;
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
     private GestionAcademica seleccionGestionAcademica;
 
     private Comprobante nuevoComprobante;
@@ -48,23 +51,22 @@ public class EstudianteRegularController extends AbstractController implements S
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         seleccionGestionAcademica = null;
         nuevoComprobante = new Comprobante();
     }
 
     public void reinit() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         seleccionGestionAcademica = null;
         nuevoComprobante = new Comprobante();
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList();
         if (seleccionEstudiante != null) {
-            l = carreraFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
+            l = carreraEstudianteFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
         }
         return l;
     }
@@ -72,15 +74,15 @@ public class EstudianteRegularController extends AbstractController implements S
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
         List<GestionAcademica> l = new ArrayList();
-        if (seleccionCarrera != null) {
-            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarrera.getRegimen(), true);
+        if (seleccionCarreraEstudiante != null) {
+            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarreraEstudiante.getCarrera().getRegimen(), true);
         }
         return l;
     }
 
     public void registrarEstudiante() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
-            if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
+            if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarreraEstudiante.getCarrera().getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
                 if (seleccionEstudiante.getDiplomaBachiller()) {
                     nuevoComprobante.setFecha(Fecha.getDate());
                     nuevoComprobante.setValido(true);
@@ -89,7 +91,7 @@ public class EstudianteRegularController extends AbstractController implements S
                     seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));
                     seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
 
-                    if (inscripcionesFacade.registrarEstudianteRegular(seleccionEstudiante, seleccionCarrera, seleccionGestionAcademica, nuevoComprobante)) {
+                    if (inscripcionesFacade.registrarEstudianteRegular(seleccionEstudiante, seleccionCarreraEstudiante.getCarrera(), seleccionGestionAcademica, nuevoComprobante)) {
                         this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                         this.insertarParametro("est", seleccionEstudiante);
 
@@ -109,7 +111,7 @@ public class EstudianteRegularController extends AbstractController implements S
             this.mensajeDeError("Fuera de fecha.");
         }
     }
-    
+
     public void toEstudianteRegular() throws IOException {
         this.redireccionarViewId("/inscripciones/estudianteRegular/estudianteRegular");
     }
@@ -133,17 +135,17 @@ public class EstudianteRegularController extends AbstractController implements S
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**

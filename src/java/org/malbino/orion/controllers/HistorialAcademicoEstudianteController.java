@@ -12,8 +12,10 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
+import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.NotaFacade;
 
 /**
@@ -28,8 +30,10 @@ public class HistorialAcademicoEstudianteController extends AbstractController i
     LoginController loginController;
     @EJB
     NotaFacade notaFacade;
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
     private List<Nota> historialAcademico;
 
     @PostConstruct
@@ -38,32 +42,34 @@ public class HistorialAcademicoEstudianteController extends AbstractController i
     }
 
     public void reinit() {
-        if (seleccionCarrera != null) {
-            historialAcademico = notaFacade.historialAcademico(loginController.getUsr().getId_persona(), seleccionCarrera.getId_carrera());
+        if (seleccionCarreraEstudiante != null) {
+            Estudiante estudiante = estudianteFacade.find(loginController.getUsr().getId_persona());
+            if (estudiante != null) {
+                historialAcademico = notaFacade.historialAcademico(estudiante, seleccionCarreraEstudiante.getCarrera(), seleccionCarreraEstudiante.getMencion());
+            }
         }
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList();
         if (loginController.getUsr() != null) {
-            l = carreraFacade.listaCarrerasEstudiante(loginController.getUsr().getId_persona());
+            l = carreraEstudianteFacade.listaCarrerasEstudiante(loginController.getUsr().getId_persona());
         }
         return l;
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**

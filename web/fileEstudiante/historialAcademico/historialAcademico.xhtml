@@ -32,16 +32,16 @@
                                                             var="estudiante" itemLabel="#{estudiante.toString()}" itemValue="#{estudiante}" converter="#{EstudianteConverter}" forceSelection="true"
                                                             required="true" requiredMessage="* Estudiante requerido.">
 
-                                                <p:ajax event="itemSelect" listener="#{HistorialAcademicoController.reinit()}" update="carrera toolbar panelHistorialAcademico"/>
+                                                <p:ajax event="itemSelect" listener="#{HistorialAcademicoController.reinit()}" update="carrerasEstudiante toolbar panelHistorialAcademico"/>
                                             </p:autoComplete>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
-                                            <p:selectOneMenu id="carrera" value="#{HistorialAcademicoController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
-                                                <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{HistorialAcademicoController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
-
+                                            <p:outputLabel for="carrerasEstudiante" value="Carreras:" style="font-size: small"/>
+                                            <p:selectOneMenu id="carrerasEstudiante" value="#{HistorialAcademicoController.seleccionCarreraEstudiante}" converter="#{CarreraEstudianteConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{HistorialAcademicoController.listaCarrerasEstudiante()}" var="carreraEstudiante" itemLabel="#{carreraEstudiante.toString()}" itemValue="#{carreraEstudiante}"/>
+                                                
                                                 <p:ajax listener="#{HistorialAcademicoController.reinit()}" update="toolbar panelHistorialAcademico"/>
                                             </p:selectOneMenu>
                                         </div>
@@ -52,18 +52,18 @@
                                     <p:toolbar id="toolbar">
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-plus" value="Nuevo" actionListener="#{HistorialAcademicoController.toNuevaNota()}" update="form"/>
-                                            
+
                                             <p:spacer width="10"/>
-                                            
+
                                             <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{HistorialAcademicoController.reinit()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{HistorialAcademicoController.seleccionCarrera.regimen.cantidadParciales == 3}">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{HistorialAcademicoController.seleccionCarreraEstudiante.carrera.regimen.cantidadParciales == 3}">
                                                     <p:dataExporter type="xls" target="historialAcademicoSemestral" fileName="historialAcademico" />
                                                 </p:menuitem>
-                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{HistorialAcademicoController.seleccionCarrera.regimen.cantidadParciales == 4}">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{HistorialAcademicoController.seleccionCarreraEstudiante.carrera.regimen.cantidadParciales == 4}">
                                                     <p:dataExporter type="xls" target="historialAcademicoAnual" fileName="historialAcademico" />
                                                 </p:menuitem>
                                             </p:menuButton>
@@ -75,7 +75,7 @@
                                     <p:outputPanel id="panelHistorialAcademico">
                                         <p:dataTable id="historialAcademicoSemestral" var="nota" value="#{HistorialAcademicoController.historialAcademico}"
                                                      rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
-                                                     rendered="#{HistorialAcademicoController.seleccionCarrera.regimen.cantidadParciales == 3}">
+                                                     rendered="#{HistorialAcademicoController.seleccionCarreraEstudiante.carrera.regimen.cantidadParciales == 3}">
 
                                             <p:column headerText="Gestion" groupRow="true">  
                                                 <h:outputText value="#{nota.gestionAcademica.toString()}"/>
@@ -166,7 +166,7 @@
 
                                                         <f:actionListener binding="#{HistorialAcademicoController.toEditarRecuperatorio()}"/>
                                                     </p:commandButton>
-                                                    
+
                                                     <p:commandButton id="editarNota" process="@this" icon="fa fa-edit" title="Editar nota" rendered="#{!nota.modalidad.regular}">  
                                                         <f:setPropertyActionListener value="#{nota}" target="#{HistorialAcademicoController.seleccionNota}" />
 
@@ -186,7 +186,7 @@
 
                                         <p:dataTable id="historialAcademicoAnual" var="nota" value="#{HistorialAcademicoController.historialAcademico}" reflow="true"
                                                      emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
-                                                     rendered="#{HistorialAcademicoController.seleccionCarrera.regimen.cantidadParciales == 4}">
+                                                     rendered="#{HistorialAcademicoController.seleccionCarreraEstudiante.carrera.regimen.cantidadParciales == 4}">
 
                                             <p:column headerText="Gestion" groupRow="true">  
                                                 <h:outputText value="#{nota.gestionAcademica.toString()}"/>
@@ -289,7 +289,7 @@
 
                                                         <f:actionListener binding="#{HistorialAcademicoController.toEditarRecuperatorio()}"/>
                                                     </p:commandButton>
-                                                    
+
                                                     <p:commandButton id="editarNota" process="@this" icon="fa fa-edit" title="Editar nota" rendered="#{!nota.modalidad.regular}">  
                                                         <f:setPropertyActionListener value="#{nota}" target="#{HistorialAcademicoController.seleccionNota}" />
 

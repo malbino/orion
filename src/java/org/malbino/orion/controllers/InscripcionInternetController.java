@@ -17,7 +17,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.moodle.webservices.CopiarInscrito;
-import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Inscrito;
@@ -28,6 +28,7 @@ import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.enums.Modalidad;
 import org.malbino.orion.facades.ActividadFacade;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.NotaFacade;
@@ -59,8 +60,10 @@ public class InscripcionInternetController extends AbstractController implements
     ActividadFacade actividadFacade;
     @EJB
     PagoFacade pagoFacade;
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
     private Inscrito seleccionInscrito;
 
     private List<Materia> ofertaMaterias;
@@ -71,7 +74,7 @@ public class InscripcionInternetController extends AbstractController implements
 
     @PostConstruct
     public void init() {
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
@@ -80,7 +83,7 @@ public class InscripcionInternetController extends AbstractController implements
     }
 
     public void reinit() {
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         seleccionInscrito = null;
         ofertaMaterias = new ArrayList();
         estadoInscripcion = new ArrayList();
@@ -88,19 +91,18 @@ public class InscripcionInternetController extends AbstractController implements
         grupo = grupos[0];
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList();
         if (loginController.getUsr() != null) {
-            l = carreraFacade.listaCarrerasEstudiante(loginController.getUsr().getId_persona());
+            l = carreraEstudianteFacade.listaCarrerasEstudiante(loginController.getUsr().getId_persona());
         }
         return l;
     }
 
     public List<Inscrito> listaInscritos() {
         List<Inscrito> l = new ArrayList();
-        if (loginController.getUsr() != null && seleccionCarrera != null) {
-            l = inscritoFacade.listaInscritosPorEstudianteCarrera(loginController.getUsr().getId_persona(), seleccionCarrera.getId_carrera());
+        if (loginController.getUsr() != null && seleccionCarreraEstudiante != null) {
+            l = inscritoFacade.listaInscritosPorEstudianteCarrera(loginController.getUsr().getId_persona(), seleccionCarreraEstudiante.getCarrera().getId_carrera());
         }
         return l;
     }
@@ -207,17 +209,17 @@ public class InscripcionInternetController extends AbstractController implements
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**

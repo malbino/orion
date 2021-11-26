@@ -6,6 +6,7 @@
 package org.malbino.orion.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.malbino.orion.enums.NivelAcademico;
 import org.malbino.orion.enums.Regimen;
@@ -40,7 +42,6 @@ public class Carrera implements Serializable {
     private String resolucionMinisterial2;
     private String resolucionMinisterial3;
     private Integer creditajeMatricula;
-    private String mencion;
 
     @JoinColumn(name = "id_campus")
     @ManyToOne
@@ -49,6 +50,9 @@ public class Carrera implements Serializable {
     @JoinColumn(name = "id_jefecarrera")
     @ManyToOne
     private Empleado jefeCarrera;
+
+    @OneToMany(mappedBy = "carrera")
+    private List<Mencion> menciones;
 
     public Carrera() {
     }
@@ -187,42 +191,6 @@ public class Carrera implements Serializable {
         this.campus = campus;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id_carrera);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Carrera other = (Carrera) obj;
-        if (!Objects.equals(this.id_carrera, other.id_carrera)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        String s = "";
-        if (mencion != null) {
-            s = nombre + " - " + mencion + " [" + codigo + "]";
-        } else {
-            s = nombre + " [" + codigo + "]";
-        }
-        return s;
-    }
-
     /**
      * @return the jefeCarrera
      */
@@ -266,16 +234,58 @@ public class Carrera implements Serializable {
     }
 
     /**
-     * @return the mencion
+     * @return the menciones
      */
-    public String getMencion() {
-        return mencion;
+    public List<Mencion> getMenciones() {
+        return menciones;
     }
 
     /**
-     * @param mencion the mencion to set
+     * @param menciones the menciones to set
      */
-    public void setMencion(String mencion) {
-        this.mencion = mencion;
+    public void setMenciones(List<Mencion> menciones) {
+        this.menciones = menciones;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id_carrera);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Carrera other = (Carrera) obj;
+        if (!Objects.equals(this.id_carrera, other.id_carrera)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " [" + codigo + "]";
+    }
+
+    public String mencionesToString() {
+        String s = " ";
+        for (Mencion mencion : menciones) {
+            if (s.compareTo(" ") == 0) {
+                s = mencion.getCodigo();
+            } else {
+                s += ", " + mencion.getCodigo();
+            }
+        }
+        return s;
     }
 }

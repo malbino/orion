@@ -11,7 +11,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -27,9 +26,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.EstudianteFacade;
@@ -85,13 +86,13 @@ public class HistorialAcademico extends HttpServlet {
     }
 
     public void generarPDF(HttpServletRequest request, HttpServletResponse response) {
-        Integer id_persona = (Integer) request.getSession().getAttribute("id_persona");
-        Integer id_carrera = (Integer) request.getSession().getAttribute("id_carrera");
+        CarreraEstudiante carreraEstudiante = (CarreraEstudiante) request.getSession().getAttribute("carreraEstudiante");
         Date fecha = (Date) request.getSession().getAttribute("fecha");
 
-        if (id_persona != null && id_carrera != null && fecha != null) {
-            Estudiante estudiante = estudianteFacade.find(id_persona);
-            Carrera carrera = carreraFacade.find(id_carrera);
+        if (carreraEstudiante != null && fecha != null) {
+            Estudiante estudiante = estudianteFacade.find(carreraEstudiante.getCarreraEstudianteId().getId_persona());
+            Carrera carrera = carreraFacade.find(carreraEstudiante.getCarreraEstudianteId().getId_carrera());
+            Mencion mencion = carreraEstudiante.getMencion();
 
             try {
                 response.setContentType(CONTENIDO_PDF);
@@ -101,10 +102,10 @@ public class HistorialAcademico extends HttpServlet {
 
                 document.open();
 
-                document.add(cabecera(estudiante, carrera));
-                document.add(cuerpo(estudiante, carrera));
+                document.add(cabecera(estudiante, carrera, mencion));
+                document.add(cuerpo(estudiante, carrera, mencion));
                 document.add(firmas(estudiante, carrera, fecha));
-                document.add(resumen(estudiante, carrera));
+                document.add(resumen(estudiante, carrera, mencion));
 
                 document.close();
             } catch (IOException | DocumentException ex) {
@@ -113,7 +114,7 @@ public class HistorialAcademico extends HttpServlet {
         }
     }
 
-    public PdfPTable cabecera(Estudiante estudiante, Carrera carrera) {
+    public PdfPTable cabecera(Estudiante estudiante, Carrera carrera, Mencion mencion) {
         PdfPTable table = new PdfPTable(20);
 
         PdfPCell cell = new PdfPCell(new Phrase(" ", NEGRITA));
@@ -124,7 +125,7 @@ public class HistorialAcademico extends HttpServlet {
 
         Phrase phrase = new Phrase();
         phrase.add(new Chunk("Código de registro: ", NEGRITA));
-        GestionAcademica finFormacion = notaFacade.finFormacion(carrera.getId_carrera(), estudiante.getId_persona());
+        GestionAcademica finFormacion = notaFacade.finFormacion(carrera, mencion, estudiante);
         if (finFormacion != null) {
             Inscrito inscrito = inscritoFacade.buscarInscrito(estudiante.getId_persona(), carrera.getId_carrera(), finFormacion.getId_gestionacademica());
             if (inscrito != null) {
@@ -176,7 +177,7 @@ public class HistorialAcademico extends HttpServlet {
             phrase.add(new Chunk(String.valueOf(" "), NORMAL));
         }
         cell = new PdfPCell(phrase);
-        cell.setColspan(15);
+        cell.setColspan(14);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
@@ -185,7 +186,7 @@ public class HistorialAcademico extends HttpServlet {
         phrase.add(new Chunk("Cédula de Identidad: ", NEGRITA));
         phrase.add(new Chunk(estudiante.dniLugar(), NORMAL));
         cell = new PdfPCell(phrase);
-        cell.setColspan(5);
+        cell.setColspan(6);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
@@ -195,21 +196,21 @@ public class HistorialAcademico extends HttpServlet {
         phrase.add(new Chunk("ESTUDIANTE: ", NEGRITA));
         phrase.add(new Chunk(estudiante.toString(), NORMAL));
         cell = new PdfPCell(phrase);
-        cell.setColspan(15);
+        cell.setColspan(14);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
         phrase = new Phrase();
         phrase.add(new Chunk("FECHA DE ADMISIÓN: ", NEGRITA));
-        GestionAcademica inicioFormacion = notaFacade.inicioFormacion(carrera.getId_carrera(), estudiante.getId_persona());
+        GestionAcademica inicioFormacion = notaFacade.inicioFormacion(carrera, mencion, estudiante);
         if (inicioFormacion != null) {
             phrase.add(new Chunk(Fecha.formatearFecha_ddMMyyyy(inicioFormacion.getInicio()), NORMAL));
         } else {
             phrase.add(new Chunk(" ", NORMAL));
         }
         cell = new PdfPCell(phrase);
-        cell.setColspan(5);
+        cell.setColspan(6);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
@@ -219,7 +220,7 @@ public class HistorialAcademico extends HttpServlet {
         phrase.add(new Chunk("CARRERA: ", NEGRITA));
         phrase.add(new Chunk(carrera.getNombre(), NORMAL));
         cell = new PdfPCell(phrase);
-        cell.setColspan(15);
+        cell.setColspan(14);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
@@ -232,7 +233,7 @@ public class HistorialAcademico extends HttpServlet {
             phrase.add(new Chunk(" ", NORMAL));
         }
         cell = new PdfPCell(phrase);
-        cell.setColspan(5);
+        cell.setColspan(6);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
@@ -240,8 +241,8 @@ public class HistorialAcademico extends HttpServlet {
         //fila 4
         phrase = new Phrase();
         phrase.add(new Chunk("MENCIÓN: ", NEGRITA));
-        if (carrera.getMencion() != null) {
-            phrase.add(new Chunk(carrera.getMencion(), NORMAL));
+        if (mencion != null) {
+            phrase.add(new Chunk(mencion.getNombre(), NORMAL));
         } else {
             phrase.add(new Chunk(" ", NORMAL));
         }
@@ -279,7 +280,7 @@ public class HistorialAcademico extends HttpServlet {
         return table;
     }
 
-    public PdfPTable cuerpo(Estudiante estudiante, Carrera carrera) {
+    public PdfPTable cuerpo(Estudiante estudiante, Carrera carrera, Mencion mencion) {
         PdfPTable table = new PdfPTable(66);
 
         PdfPCell cell = new PdfPCell(new Phrase("Nº", NEGRITA));
@@ -345,7 +346,7 @@ public class HistorialAcademico extends HttpServlet {
         cell.setBackgroundColor(new BaseColor(183, 222, 232));
         table.addCell(cell);
 
-        List<Nota> historialAcademico = notaFacade.reporteHistorialAcademico(estudiante.getId_persona(), carrera.getId_carrera());
+        List<Nota> historialAcademico = notaFacade.reporteHistorialAcademico(estudiante, carrera, mencion);
         for (int i = 0; i < historialAcademico.size(); i++) {
             Nota nota = historialAcademico.get(i);
 
@@ -483,7 +484,7 @@ public class HistorialAcademico extends HttpServlet {
         return table;
     }
 
-    public PdfPTable resumen(Estudiante estudiante, Carrera carrera) {
+    public PdfPTable resumen(Estudiante estudiante, Carrera carrera, Mencion mencion) {
         PdfPTable table = new PdfPTable(60);
 
         PdfPCell cell = new PdfPCell(new Phrase(" ", ESPACIO));
@@ -534,8 +535,8 @@ public class HistorialAcademico extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);
 
-        int materiasAprobadas = notaFacade.cantidadNotasAprobadas(carrera.getId_carrera(), estudiante.getId_persona()).intValue();
-        int materiasCarrera = materiaFacade.cantidadMateriasCurriculares(carrera.getId_carrera()).intValue();
+        int materiasAprobadas = notaFacade.cantidadNotasAprobadas(carrera, mencion, estudiante).intValue();
+        int materiasCarrera = materiaFacade.cantidadMateriasCurriculares(carrera, mencion).intValue();
         cell = new PdfPCell(new Phrase(materiasAprobadas + "/" + materiasCarrera, NORMAL));
         cell.setColspan(5);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -558,7 +559,7 @@ public class HistorialAcademico extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);
 
-        Double promedioGeneral = notaFacade.promedioReporteHistorialAcademico(estudiante.getId_persona(), carrera.getId_carrera());
+        Double promedioGeneral = notaFacade.promedioReporteHistorialAcademico(estudiante, carrera, mencion);
         if (promedioGeneral != null) {
             int promedioGeneralRedondeado = Redondeo.redondear_HALFUP(promedioGeneral, 0).intValue();
             cell = new PdfPCell(new Phrase(String.valueOf(promedioGeneralRedondeado), NORMAL));

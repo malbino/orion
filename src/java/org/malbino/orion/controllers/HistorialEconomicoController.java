@@ -13,11 +13,12 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Pago;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
@@ -38,9 +39,11 @@ public class HistorialEconomicoController extends AbstractController implements 
     FileEstudianteFacade fileEstudianteFacade;
     @EJB
     ComprobanteFacade comprobanteFacade;
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
     private Estudiante seleccionEstudiante;
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
     private List<Pago> historialEconomico;
 
     private Pago seleccionPago;
@@ -48,25 +51,24 @@ public class HistorialEconomicoController extends AbstractController implements 
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         historialEconomico = new ArrayList();
 
         seleccionPago = null;
     }
 
     public void reinit() {
-        if (seleccionEstudiante != null && seleccionCarrera != null) {
-            historialEconomico = pagoFacade.kardexEconomico(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera());
+        if (seleccionEstudiante != null && seleccionCarreraEstudiante != null) {
+            historialEconomico = pagoFacade.kardexEconomico(seleccionEstudiante.getId_persona(), seleccionCarreraEstudiante.getCarrera().getId_carrera());
         }
 
         seleccionPago = null;
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList();
         if (seleccionEstudiante != null) {
-            l = carreraFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
+            l = carreraEstudianteFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
         }
         return l;
     }
@@ -74,8 +76,8 @@ public class HistorialEconomicoController extends AbstractController implements 
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
         List<GestionAcademica> l = new ArrayList();
-        if (seleccionCarrera != null) {
-            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarrera.getRegimen());
+        if (seleccionCarreraEstudiante != null) {
+            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarreraEstudiante.getCarrera().getRegimen());
         }
         return l;
     }
@@ -115,17 +117,17 @@ public class HistorialEconomicoController extends AbstractController implements 
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**

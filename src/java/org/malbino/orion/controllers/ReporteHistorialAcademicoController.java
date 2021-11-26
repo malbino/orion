@@ -27,10 +27,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.MateriaFacade;
 import org.malbino.orion.facades.NotaFacade;
@@ -55,9 +57,11 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
     InscritoFacade inscritoFacade;
     @EJB
     MateriaFacade materiaFacade;
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
     private Estudiante seleccionEstudiante;
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
     private Date fecha;
 
     private StreamedContent download;
@@ -65,29 +69,27 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         fecha = null;
     }
 
     public void reinit() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         fecha = null;
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList();
         if (seleccionEstudiante != null) {
-            l = carreraFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
+            l = carreraEstudianteFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
         }
         return l;
     }
 
     public void generarPDF() throws IOException {
-        if (seleccionEstudiante != null && seleccionCarrera != null && fecha != null) {
-            this.insertarParametro("id_persona", seleccionEstudiante.getId_persona());
-            this.insertarParametro("id_carrera", seleccionCarrera.getId_carrera());
+        if (seleccionCarreraEstudiante != null && fecha != null) {
+            this.insertarParametro("carreraEstudiante", seleccionCarreraEstudiante);
             this.insertarParametro("fecha", fecha);
 
             toHistorialAcademico();
@@ -125,6 +127,8 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
     }
 
     public void generarXLSX() {
+        Carrera carrera = carreraFacade.find(seleccionCarreraEstudiante.getCarreraEstudianteId().getId_carrera());
+
         XSSFWorkbook workbook = leerArchivo(PATHNAME);
 
         XSSFSheet sheet = workbook.getSheetAt(0);
@@ -141,56 +145,56 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
 
                     if (cell.getCellTypeEnum() == CellType.STRING) {
                         if (cell.getStringCellValue().contains("<<INSTITUTO>>")) {
-                            cell.setCellValue(cell.getStringCellValue().replace("<<INSTITUTO>>", seleccionCarrera.getCampus().getInstituto().getNombreRegulador()));
+                            cell.setCellValue(cell.getStringCellValue().replace("<<INSTITUTO>>", carrera.getCampus().getInstituto().getNombreRegulador()));
                         } else if (cell.getStringCellValue().contains("<<CI>>")) {
                             cell.setCellValue(cell.getStringCellValue().replace("<<CI>>", seleccionEstudiante.dniLugar()));
                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                             cell.setCellValue(cell.getStringCellValue().replace("<<ESTUDIANTE>>", seleccionEstudiante.toString()));
                         } else if (cell.getStringCellValue().contains("<<ADMICION>>")) {
-                            GestionAcademica inicioFormacion = notaFacade.inicioFormacion(seleccionCarrera.getId_carrera(), seleccionEstudiante.getId_persona());
+                            GestionAcademica inicioFormacion = notaFacade.inicioFormacion(carrera, seleccionCarreraEstudiante.getMencion(), seleccionEstudiante);
                             if (inicioFormacion != null) {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<ADMICION>>", Fecha.formatearFecha_ddMMyyyy(inicioFormacion.getInicio())));
                             } else {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<ADMICION>>", " "));
                             }
                         } else if (cell.getStringCellValue().contains("<<CARRERA>>")) {
-                            cell.setCellValue(cell.getStringCellValue().replace("<<CARRERA>>", seleccionCarrera.getNombre()));
+                            cell.setCellValue(cell.getStringCellValue().replace("<<CARRERA>>", carrera.getNombre()));
                         } else if (cell.getStringCellValue().contains("<<CONCLUSION>>")) {
-                            GestionAcademica finFormacion = notaFacade.finFormacion(seleccionCarrera.getId_carrera(), seleccionEstudiante.getId_persona());
+                            GestionAcademica finFormacion = notaFacade.finFormacion(carrera, seleccionCarreraEstudiante.getMencion(), seleccionEstudiante);
                             if (finFormacion != null) {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<CONCLUSION>>", Fecha.formatearFecha_ddMMyyyy(finFormacion.getInicio())));
                             } else {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<CONCLUSION>>", " "));
                             }
                         } else if (cell.getStringCellValue().contains("<<MENCION>>")) {
-                            if (seleccionCarrera.getMencion() != null) {
-                                cell.setCellValue(cell.getStringCellValue().replace("<<MENCION>>", seleccionCarrera.getMencion()));
+                            if (seleccionCarreraEstudiante.getMencion() != null) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<MENCION>>", seleccionCarreraEstudiante.getMencion().getNombre()));
                             } else {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<MENCION>>", " "));
                             }
                         } else if (cell.getStringCellValue().contains("<<NIVEL_ACADEMICO>>")) {
-                            cell.setCellValue(cell.getStringCellValue().replace("<<NIVEL_ACADEMICO>>", seleccionCarrera.getNivelAcademico().getNombre()));
+                            cell.setCellValue(cell.getStringCellValue().replace("<<NIVEL_ACADEMICO>>", carrera.getNivelAcademico().getNombre()));
                         } else if (cell.getStringCellValue().contains("<<REGIMEN>>")) {
-                            cell.setCellValue(cell.getStringCellValue().replace("<<REGIMEN>>", seleccionCarrera.getRegimen().getNombre()));
+                            cell.setCellValue(cell.getStringCellValue().replace("<<REGIMEN>>", carrera.getRegimen().getNombre()));
                         } else if (cell.getStringCellValue().contains("<<LUGAR_FECHA>>")) {
                             cell.setCellValue(cell.getStringCellValue().replace("<<LUGAR_FECHA>>", "Cochabamba, " + Fecha.formatearFecha_ddMMMMyyyy(fecha)));
                         } else if (cell.getStringCellValue().contains("<<RM_1>>")) {
-                            cell.setCellValue(cell.getStringCellValue().replace("<<RM_1>>", "* PLAN DE ESTUDIOS SEGÚN R.M. " + seleccionCarrera.getResolucionMinisterial1()));
+                            cell.setCellValue(cell.getStringCellValue().replace("<<RM_1>>", "* PLAN DE ESTUDIOS SEGÚN R.M. " + carrera.getResolucionMinisterial1()));
                         } else if (cell.getStringCellValue().contains("<<RM_2>>")) {
-                            if (seleccionCarrera.getResolucionMinisterial2() != null && !seleccionCarrera.getResolucionMinisterial2().isEmpty()) {
-                                cell.setCellValue(cell.getStringCellValue().replace("<<RM_2>>", "* PLAN DE ESTUDIOS SEGÚN R.M. " + seleccionCarrera.getResolucionMinisterial2()));
+                            if (carrera.getResolucionMinisterial2() != null && !carrera.getResolucionMinisterial2().isEmpty()) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<RM_2>>", "* PLAN DE ESTUDIOS SEGÚN R.M. " + carrera.getResolucionMinisterial2()));
                             } else {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<RM_2>>", " "));
                             }
                         } else if (cell.getStringCellValue().contains("<<RM_3>>")) {
-                            if (seleccionCarrera.getResolucionMinisterial3() != null && !seleccionCarrera.getResolucionMinisterial3().isEmpty()) {
-                                cell.setCellValue(cell.getStringCellValue().replace("<<RM_3>>", "* PLAN DE ESTUDIOS SEGÚN R.M. " + seleccionCarrera.getResolucionMinisterial3()));
+                            if (carrera.getResolucionMinisterial3() != null && !carrera.getResolucionMinisterial3().isEmpty()) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<RM_3>>", "* PLAN DE ESTUDIOS SEGÚN R.M. " + carrera.getResolucionMinisterial3()));
                             } else {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<RM_3>>", " "));
                             }
                         } else if (cell.getStringCellValue().contains("<<MA_MC>>")) {
-                            int materiasAprobadas = notaFacade.cantidadNotasAprobadas(seleccionCarrera.getId_carrera(), seleccionEstudiante.getId_persona()).intValue();
-                            int materiasCarrera = materiaFacade.cantidadMateriasCurriculares(seleccionCarrera.getId_carrera()).intValue();
+                            int materiasAprobadas = notaFacade.cantidadNotasAprobadas(carrera, seleccionCarreraEstudiante.getMencion(), seleccionEstudiante).intValue();
+                            int materiasCarrera = materiaFacade.cantidadMateriasCurriculares(carrera, seleccionCarreraEstudiante.getMencion()).intValue();
 
                             cell.setCellValue(cell.getStringCellValue().replace("<<MA_MC>>", materiasAprobadas + "/" + materiasCarrera));
                         } else if (cell.getStringCellValue().contains("<<GA>>")) {
@@ -198,9 +202,9 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
                         }
                     } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                         if (cell.getNumericCellValue() == -1) {
-                            GestionAcademica finFormacion = notaFacade.finFormacion(seleccionCarrera.getId_carrera(), seleccionEstudiante.getId_persona());
+                            GestionAcademica finFormacion = notaFacade.finFormacion(carrera, seleccionCarreraEstudiante.getMencion(), seleccionEstudiante);
                             if (finFormacion != null) {
-                                Inscrito inscrito = inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera(), finFormacion.getId_gestionacademica());
+                                Inscrito inscrito = inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), carrera.getId_carrera(), finFormacion.getId_gestionacademica());
                                 if (inscrito != null) {
                                     cell.setCellValue(inscrito.getCodigo());
                                 } else {
@@ -216,7 +220,7 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
                                 cell.setCellValue(" ");
                             }
                         } else if (cell.getNumericCellValue() == -4) {
-                            Double promedioGeneral = notaFacade.promedioReporteHistorialAcademico(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera());
+                            Double promedioGeneral = notaFacade.promedioReporteHistorialAcademico(seleccionEstudiante, carrera, seleccionCarreraEstudiante.getMencion());
                             if (promedioGeneral != null) {
                                 int promedioGeneralRedondeado = Redondeo.redondear_HALFUP(promedioGeneral, 0).intValue();
                                 cell.setCellValue(promedioGeneralRedondeado);
@@ -228,7 +232,7 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
                 }
             }
 
-            List<Nota> historialAcademico = notaFacade.reporteHistorialAcademico(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera());
+            List<Nota> historialAcademico = notaFacade.reporteHistorialAcademico(seleccionEstudiante, carrera, seleccionCarreraEstudiante.getMencion());
 
             sheet.shiftRows(rowNum + 1, sheet.getLastRowNum(), historialAcademico.size() - 1, true, true);
 
@@ -282,7 +286,7 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
 
         }
 
-        String name = seleccionEstudiante.toString() + " - " + seleccionCarrera.getNombre();
+        String name = seleccionEstudiante.toString() + " - " + carrera.getNombre();
         descargarArchivo(workbook, name);
     }
 
@@ -311,17 +315,17 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**

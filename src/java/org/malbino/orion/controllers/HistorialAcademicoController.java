@@ -13,12 +13,13 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Materia;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Modalidad;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
 
@@ -36,9 +37,11 @@ public class HistorialAcademicoController extends AbstractController implements 
     NotaFacade notaFacade;
     @EJB
     FileEstudianteFacade fileEstudianteFacade;
+    @EJB
+    CarreraEstudianteFacade carreraEstudianteFacade;
 
     private Estudiante seleccionEstudiante;
-    private Carrera seleccionCarrera;
+    private CarreraEstudiante seleccionCarreraEstudiante;
     private List<Nota> historialAcademico;
 
     private Nota nuevaNota;
@@ -47,7 +50,7 @@ public class HistorialAcademicoController extends AbstractController implements 
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
-        seleccionCarrera = null;
+        seleccionCarreraEstudiante = null;
         historialAcademico = new ArrayList();
 
         nuevaNota = new Nota();
@@ -55,8 +58,8 @@ public class HistorialAcademicoController extends AbstractController implements 
     }
 
     public void reinit() {
-        if (seleccionEstudiante != null && seleccionCarrera != null) {
-            historialAcademico = notaFacade.historialAcademico(seleccionEstudiante.getId_persona(), seleccionCarrera.getId_carrera());
+        if (seleccionEstudiante != null && seleccionCarreraEstudiante != null) {
+            historialAcademico = notaFacade.historialAcademico(seleccionEstudiante, seleccionCarreraEstudiante.getCarrera(), seleccionCarreraEstudiante.getMencion());
         }
 
         nuevaNota = new Nota();
@@ -107,11 +110,10 @@ public class HistorialAcademicoController extends AbstractController implements 
         seleccionNota.setNota4(nota4);
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList();
         if (seleccionEstudiante != null) {
-            l = carreraFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
+            l = carreraEstudianteFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
         }
         return l;
     }
@@ -119,16 +121,16 @@ public class HistorialAcademicoController extends AbstractController implements 
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
         List<GestionAcademica> l = new ArrayList();
-        if (seleccionCarrera != null) {
-            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarrera.getRegimen());
+        if (seleccionCarreraEstudiante != null) {
+            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarreraEstudiante.getCarrera().getRegimen());
         }
         return l;
     }
 
     public List<Materia> listaMaterias() {
         List<Materia> l = new ArrayList();
-        if (seleccionCarrera != null && seleccionEstudiante != null) {
-            l = fileEstudianteFacade.oferta(seleccionCarrera, seleccionEstudiante);
+        if (seleccionCarreraEstudiante != null && seleccionEstudiante != null) {
+            l = fileEstudianteFacade.oferta(seleccionCarreraEstudiante.getCarrera(), seleccionEstudiante);
         }
         return l;
     }
@@ -145,7 +147,7 @@ public class HistorialAcademicoController extends AbstractController implements 
     }
 
     public void editarRecuperatorio() throws IOException {
-        List<Nota> listaNotasReprobadas = notaFacade.listaNotasReprobadas(seleccionNota.getGestionAcademica().getId_gestionacademica(), seleccionNota.getMateria().getCarrera().getId_carrera(), seleccionNota.getEstudiante().getId_persona());
+        List<Nota> listaNotasReprobadas = notaFacade.listaNotasReprobadas(seleccionNota.getGestionAcademica(), seleccionNota.getMateria().getCarrera(), seleccionCarreraEstudiante.getMencion(), seleccionNota.getEstudiante());
         if (listaNotasReprobadas.size() <= seleccionNota.getMateria().getCarrera().getRegimen().getCantidadMaximaReprobaciones()) {
             if (seleccionNota.getNotaFinal() != null
                     && seleccionNota.getNotaFinal() >= seleccionNota.getMateria().getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion()
@@ -222,17 +224,17 @@ public class HistorialAcademicoController extends AbstractController implements 
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionCarreraEstudiante
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**
