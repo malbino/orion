@@ -38,6 +38,8 @@ public class Instituto implements Serializable {
     private String resolucionMinisterial;
     private String logo;
     private String abreviatura;
+    
+    private String token;
 
     @JoinColumn(name = "id_rector")
     @ManyToOne
@@ -260,6 +262,20 @@ public class Instituto implements Serializable {
      */
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
+    }
+
+    /**
+     * @return the token
+     */
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * @param token the token to set
+     */
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }
