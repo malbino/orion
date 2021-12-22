@@ -49,10 +49,10 @@ public class MallaCurricular extends HttpServlet {
     private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.BLACK);
     private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
 
-    private static final int MARGEN_IZQUIERDO = -40;
-    private static final int MARGEN_DERECHO = -40;
-    private static final int MARGEN_SUPERIOR = 20;
-    private static final int MARGEN_INFERIOR = 20;
+    private static final int MARGEN_IZQUIERDO = -60;
+    private static final int MARGEN_DERECHO = -60;
+    private static final int MARGEN_SUPERIOR = 30;
+    private static final int MARGEN_INFERIOR = 30;
 
     @EJB
     MateriaFacade materiaFacade;
@@ -75,7 +75,7 @@ public class MallaCurricular extends HttpServlet {
             try {
                 response.setContentType(CONTENIDO_PDF);
 
-                Document document = new Document(PageSize.A4.rotate(), MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
+                Document document = new Document(PageSize.LETTER.rotate(), MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
                 PdfWriter.getInstance(document, response.getOutputStream());
 
                 document.open();

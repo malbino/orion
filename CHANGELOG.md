@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.2] - 2021-12-22
+### Added
+### Changed
+- Se añadio las instrucciones de uso al Comprobante de Pago
+- Se cambio el tamaño de pagina de los reportes a Carta
+### Removed
+### Fixed
+
 ## [1.7.1] - 2021-12-21
 ### Added
 ### Changed

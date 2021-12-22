@@ -7,6 +7,7 @@ package org.malbino.orion.servlets;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -47,11 +48,15 @@ public class ComprobantePago extends HttpServlet {
     private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.BLACK);
     private static final Font NEGRITA_BLANCO = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.WHITE);
     private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.NORMAL, BaseColor.BLACK);
+    private static final Font BOLDITALIC = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLDITALIC, BaseColor.BLACK);
+    private static final Font ITALIC = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.ITALIC, BaseColor.BLACK);
 
     private static final int MARGEN_IZQUIERDO = -40;
     private static final int MARGEN_DERECHO = -40;
-    private static final int MARGEN_SUPERIOR = 20;
-    private static final int MARGEN_INFERIOR = 20;
+    private static final int MARGEN_SUPERIOR = 30;
+    private static final int MARGEN_INFERIOR = 30;
+
+    private static final int CANTIDAD_MINIMA_DETALLES = 5;
 
     @EJB
     ComprobanteFacade comprobanteFacade;
@@ -77,12 +82,17 @@ public class ComprobantePago extends HttpServlet {
             try {
                 response.setContentType(CONTENIDO_PDF);
 
-                Document document = new Document(PageSize.A5.rotate(), MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
+                Document document = new Document(PageSize.LETTER, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
                 PdfWriter.getInstance(document, response.getOutputStream());
 
                 document.open();
 
                 document.add(comprobante(comprobante, estudiante));
+
+                document.newPage();
+
+                document.add(comprobante(comprobante, estudiante));
+                document.add(cuenta(request, estudiante));
 
                 document.close();
             } catch (IOException | DocumentException ex) {
@@ -305,34 +315,59 @@ public class ComprobantePago extends HttpServlet {
 
         List<Detalle> detalles = detalleFacade.listaDetalles(comprobante.getId_comprobante());
         Integer total = 0;
-        for (int i = 0; i < detalles.size(); i++) {
-            Detalle detalle = detalles.get(i);
+        for (int i = 0; i < CANTIDAD_MINIMA_DETALLES; i++) {
+            if (i < detalles.size()) {
+                Detalle detalle = detalles.get(i);
 
-            cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(10);
-            cell.setBorder(PdfPCell.NO_BORDER);
-            table.addCell(cell);
+                cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setColspan(10);
+                cell.setBorder(Rectangle.LEFT);
+                table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(detalle.getConcepto().getCodigo(), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(20);
-            cell.setBorder(PdfPCell.NO_BORDER);
-            table.addCell(cell);
+                cell = new PdfPCell(new Phrase(detalle.getConcepto().getCodigo(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setColspan(20);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(detalle.getConcepto().getNombre(), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            cell.setColspan(50);
-            cell.setBorder(PdfPCell.NO_BORDER);
-            table.addCell(cell);
+                cell = new PdfPCell(new Phrase(detalle.getConcepto().getNombre(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setColspan(50);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(detalle.getMonto().toString(), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            cell.setColspan(20);
-            cell.setBorder(PdfPCell.NO_BORDER);
-            table.addCell(cell);
+                cell = new PdfPCell(new Phrase(detalle.getMonto().toString(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setColspan(20);
+                cell.setBorder(Rectangle.RIGHT);
+                table.addCell(cell);
+                total += detalle.getMonto();
+            } else {
+                cell = new PdfPCell(new Phrase(" ", NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setColspan(10);
+                cell.setBorder(Rectangle.LEFT);
+                table.addCell(cell);
 
-            total += detalle.getMonto();
+                cell = new PdfPCell(new Phrase(" ", NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setColspan(20);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(" ", NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setColspan(50);
+                cell.setBorder(PdfPCell.NO_BORDER);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(" ", NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setColspan(20);
+                cell.setBorder(Rectangle.RIGHT);
+                table.addCell(cell);
+            }
         }
 
         cell = new PdfPCell(new Phrase("Total:", NEGRITA));
@@ -342,58 +377,65 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(total.toString(), NORMAL));
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setColspan(20);
         cell.setBorder(Rectangle.TOP | Rectangle.RIGHT | Rectangle.BOTTOM);
         table.addCell(cell);
 
-        //codigos
-        if (estudiante != null) {
-            cell = new PdfPCell(new Phrase(" ", NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(100);
-            cell.setBorder(Rectangle.NO_BORDER);
-            table.addCell(cell);
+        return table;
+    }
 
-            //fila 1
-            cell = new PdfPCell(new Phrase(" ", NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(20);
-            cell.setBorder(Rectangle.BOTTOM | Rectangle.LEFT | Rectangle.TOP);
-            table.addCell(cell);
+    public PdfPTable cuenta(HttpServletRequest request, Estudiante estudiante) throws BadElementException, IOException {
+        PdfPTable table = new PdfPTable(100);
 
-            cell = new PdfPCell(new Phrase("Usuario: ", NEGRITA));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(15);
-            cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
-            table.addCell(cell);
+        PdfPCell cell = new PdfPCell(new Phrase(" ", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setColspan(100);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setFixedHeight(180f);
+        table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(estudiante.getUsuario(), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(15);
-            cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
-            cell.setBackgroundColor(BaseColor.GRAY);
-            table.addCell(cell);
+        Phrase phrase = new Phrase();
+        phrase.add(new Chunk("INSTRUCCIONES DE USO", BOLDITALIC));
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setColspan(100);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase("Contraseña: ", NEGRITA));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(15);
-            cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
-            table.addCell(cell);
+        phrase = new Phrase();
+        phrase.add(new Chunk(" ", BOLDITALIC));
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setColspan(100);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(estudiante.getContrasenaSinEncriptar(), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(15);
-            cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
-            cell.setBackgroundColor(BaseColor.GRAY);
-            table.addCell(cell);
+        phrase = new Phrase();
+        phrase.add(new Chunk("Para ingresar al sistema:\n\n", ITALIC));
+        phrase.add(new Chunk("1) Abre un navegador web y dirigete a la siguiente dirección ", ITALIC));
 
-            cell = new PdfPCell(new Phrase(" ", NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setColspan(20);
-            cell.setBorder(Rectangle.TOP | Rectangle.RIGHT | Rectangle.BOTTOM);
-            table.addCell(cell);
-        }
+        String requestURL = request.getRequestURL().toString().replaceAll(request.getRequestURI(), "");
+        phrase.add(new Chunk(requestURL + "\n", BOLDITALIC));
+
+        phrase.add(new Chunk("2) Ingresa tu usuario y contraseña\n\n", ITALIC));
+        phrase.add(new Chunk("Usuario: ", BOLDITALIC));
+        phrase.add(new Chunk(estudiante.getUsuario() + "\n", ITALIC));
+        phrase.add(new Chunk("Contraseña: ", BOLDITALIC));
+        phrase.add(new Chunk(estudiante.getContrasenaSinEncriptar() + "\n\n", ITALIC));
+        phrase.add(new Chunk("3) Utiliza el menu para acceder a las opciones del sistema\n\n", ITALIC));
+        phrase.add(new Chunk(
+                "En el sistema pordras realizar tu Inscripción por Internet, revisar tu Historial Académico, "
+                + "revisar tu Historial Económico y actualizar tus datos personales.",
+                BOLDITALIC));
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setColspan(100);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
 
         return table;
     }

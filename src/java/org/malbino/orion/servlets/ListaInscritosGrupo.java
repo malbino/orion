@@ -49,8 +49,8 @@ public class ListaInscritosGrupo extends HttpServlet {
 
     private static final int MARGEN_IZQUIERDO = -40;
     private static final int MARGEN_DERECHO = -40;
-    private static final int MARGEN_SUPERIOR = 20;
-    private static final int MARGEN_INFERIOR = 20;
+    private static final int MARGEN_SUPERIOR = 30;
+    private static final int MARGEN_INFERIOR = 30;
 
     @EJB
     GrupoFacade grupoFacade;
@@ -75,7 +75,7 @@ public class ListaInscritosGrupo extends HttpServlet {
             try {
                 response.setContentType(CONTENIDO_PDF);
 
-                Document document = new Document(PageSize.A4, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
+                Document document = new Document(PageSize.LETTER, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
                 PdfWriter.getInstance(document, response.getOutputStream());
 
                 document.open();
