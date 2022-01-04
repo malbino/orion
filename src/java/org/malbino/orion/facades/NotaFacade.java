@@ -251,6 +251,25 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return d;
     }
+    
+    public Double promedioBoletinNotas(Estudiante estudiante, Carrera carrera, Mencion mencion, GestionAcademica gestionAcademica) {
+        Double d = 0.0;
+
+        try {
+            Query q = em.createQuery("SELECT AVG(COALESCE(n.recuperatorio, n.notaFinal)) FROM Nota n JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND n.gestionAcademica=:gestionAcademica AND m.curricular=TRUE AND n.condicion=:condicion");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("gestionAcademica", gestionAcademica);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            d = (Double) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return d;
+    }
 
     public Date fechaInicio(int id_persona) {
         Date d = null;

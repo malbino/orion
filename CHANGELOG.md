@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.3] - 2021-12-22
+### Added
+- Se añadio el Reporte Boletin Notas
+### Changed
+### Removed
+### Fixed
+
 ## [1.7.2] - 2021-12-22
 ### Added
 ### Changed
