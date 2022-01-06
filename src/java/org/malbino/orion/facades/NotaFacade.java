@@ -19,6 +19,7 @@ import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.Modalidad;
 
 /**
  *
@@ -210,7 +211,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
             ga = (GestionAcademica) q.getSingleResult();
         } catch (Exception e) {
-            
+
         }
 
         return ga;
@@ -234,8 +235,8 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
-    public Double promedioReporteHistorialAcademico(Estudiante estudiante, Carrera carrera, Mencion mencion) {
-        Double d = 0.0;
+    public double promedioReporteHistorialAcademico(Estudiante estudiante, Carrera carrera, Mencion mencion) {
+        double d = 0.0;
 
         try {
             Query q = em.createQuery("SELECT AVG(COALESCE(n.recuperatorio, n.notaFinal)) FROM Nota n JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.curricular=TRUE AND n.condicion=:condicion");
@@ -244,16 +245,16 @@ public class NotaFacade extends AbstractFacade<Nota> {
             q.setParameter("mencion", mencion);
             q.setParameter("condicion", Condicion.APROBADO);
 
-            d = (Double) q.getSingleResult();
+            d = (double) q.getSingleResult();
         } catch (Exception e) {
 
         }
 
         return d;
     }
-    
-    public Double promedioBoletinNotas(Estudiante estudiante, Carrera carrera, Mencion mencion, GestionAcademica gestionAcademica) {
-        Double d = 0.0;
+
+    public double promedioBoletinNotas(Estudiante estudiante, Carrera carrera, Mencion mencion, GestionAcademica gestionAcademica) {
+        double d = 0.0;
 
         try {
             Query q = em.createQuery("SELECT AVG(COALESCE(n.recuperatorio, n.notaFinal)) FROM Nota n JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND n.gestionAcademica=:gestionAcademica AND m.curricular=TRUE AND n.condicion=:condicion");
@@ -263,7 +264,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
             q.setParameter("gestionAcademica", gestionAcademica);
             q.setParameter("condicion", Condicion.APROBADO);
 
-            d = (Double) q.getSingleResult();
+            d = (double) q.getSingleResult();
         } catch (Exception e) {
 
         }
@@ -317,4 +318,37 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
+    public List<Nota> listaNotasFaltantesSemestral(int id_gestionacademica, int id_carrera) {
+        List<Nota> l = new ArrayList();
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND (n.nota1 IS NULL OR n.nota2 IS NULL OR n.nota3 IS NULL) ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("curricular", Boolean.TRUE);
+            q.setParameter("modalidad", Modalidad.REGULAR);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Nota> listaNotasFaltantesAnual(int id_gestionacademica, int id_carrera) {
+        List<Nota> l = new ArrayList();
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND (n.nota1 IS NULL OR n.nota2 IS NULL OR n.nota3 IS NULL OR n.nota4 IS NULL) ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("curricular", Boolean.TRUE);
+            q.setParameter("modalidad", Modalidad.REGULAR);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }

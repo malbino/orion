@@ -6,7 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.7.3] - 2021-12-22
+## [1.7.4] - 2022-01-06
+### Added
+- Se añadio el Reporte Notas Faltantes
+### Changed
+- Se añadio el control de notas faltantes al Centralizador de Calificaciones
+### Removed
+### Fixed
+- Se corrigio el calculo del promedio en el Reporte Boletin Notas
+
+## [1.7.3] - 2022-01-03
 ### Added
 - Se añadio el Reporte Boletin Notas
 ### Changed
