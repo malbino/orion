@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/admisionesTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Registrar Postulante <small>registrar nuevo postulante</small></h2>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:growl />
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="foto" value="Fotografía:" style="font-size: small"/>
+                                            <br/>
+                                            <p:graphicImage id="foto" title="Foto" value="/resources/uploads/photos/#{AdmisionesController.nuevoPostulante.foto}" height="200" />
+                                            <p:fileUpload listener="#{AdmisionesController.subirArchivoRegistrarPostulante}" 
+                                                          mode="advanced" label="Seleccionar" auto="true" update="foto"
+                                                          sizeLimit="102400" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                          invalidSizeMessage="Tamaño máximo del archivo 100 KB"
+                                                          invalidFileMessage="Solo gif | jpg | jpeg | png estan permitidos"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <h:outputText value="Formato de fotografía:" style="font-size: small"/>
+                                            <br/>
+                                            <p:graphicImage title="Formato Foto" value="/resources/images/formatoFoto.png" height="200" />
+                                            <br/>
+                                            <h:outputText value="Tamaño máximo del archivo 100 KB" style="font-size: small"/>
+                                            <br/>
+                                            <h:outputText value="Solo gif | jpg | jpeg | png estan permitidos" style="font-size: small"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombre" value="Nombre:" style="font-size: small"/>
+                                            <p:inputText id="nombre" value="#{AdmisionesController.nuevoPostulante.nombre}" required="true" requiredMessage="* Nombre requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="primerApellido" value="Primer apellido:" style="font-size: small"/>
+                                            <p:inputText id="primerApellido" value="#{AdmisionesController.nuevoPostulante.primerApellido}" required="true" requiredMessage="* Primer apellido requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="segundoApellido" value="Segundo apellido:" style="font-size: small"/>
+                                            <p:inputText id="segundoApellido" value="#{AdmisionesController.nuevoPostulante.segundoApellido}" />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="ci" value="CI:" style="font-size: small"/>
+                                            <p:inputText id="ci" value="#{AdmisionesController.nuevoPostulante.ci}" required="true" requiredMessage="* CI requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="lugarExpedicion" value="Lugar expedición:" style="font-size: small"/>
+                                            <p:selectOneMenu id="lugarExpedicion" value="#{AdmisionesController.nuevoPostulante.lugarExpedicion}" converter="#{LugarExpedicionConverter}" autoWidth="false" required="false"> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{AdmisionesController.listaLugaresExpedicion()}" var="lugarExpedicion" itemLabel="#{lugarExpedicion}" itemValue="#{lugarExpedicion}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="fechaNacimiento" value="Fecha de nacimiento:" style="font-size: small"/>
+                                            <p:calendar id="fechaNacimiento" value="#{AdmisionesController.nuevoPostulante.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" yearRange="c-100:c+100" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="lugarNacimiento" value="Lugar de nacimiento:" style="font-size: small"/>
+                                            <p:inputText id="lugarNacimiento" value="#{AdmisionesController.nuevoPostulante.lugarNacimiento}" required="true" requiredMessage="* Lugar de nacimiento requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nacionalidad" value="Nacionalidad:" style="font-size: small"/>
+                                            <p:inputText id="nacionalidad" value="#{AdmisionesController.nuevoPostulante.nacionalidad}" required="true" requiredMessage="* Nacionalidad requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="sexo" value="Sexo:" style="font-size: small"/>
+                                            <p:selectOneMenu id="sexo" value="#{AdmisionesController.nuevoPostulante.sexo}" converter="#{SexoConverter}" autoWidth="false" required="true" requiredMessage="* Sexo requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{EmpleadoController.listaSexos()}" var="sexo" itemLabel="#{sexo}" itemValue="#{sexo}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="direccion" value="Dirección:" style="font-size: small"/>
+                                            <p:inputText id="direccion" value="#{AdmisionesController.nuevoPostulante.direccion}" required="true" requiredMessage="* Dirección requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="telefono" value="Teléfono:" style="font-size: small"/> 
+                                            <p:inputMask id="telefono" value="#{AdmisionesController.nuevoPostulante.telefono}" mask="9999999" required="false"/>
+
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="celular" value="Celular:" style="font-size: small"/> 
+                                            <p:inputMask id="celular" value="#{AdmisionesController.nuevoPostulante.celular}" mask="99999999" required="true" requiredMessage="* Celular requerido."/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="email" value="Email:" style="font-size: small"/> 
+                                            <p:inputText id="email" value="#{AdmisionesController.nuevoPostulante.email}" required="true" requiredMessage="* Email requerido.">
+                                                <f:validator validatorId="validators.emailValidator" />
+                                            </p:inputText>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombreContacto" value="Nombre de contacto:" style="font-size: small"/>
+                                            <p:inputText id="nombreContacto" value="#{AdmisionesController.nuevoPostulante.nombreContacto}" required="true" requiredMessage="* Nombre de contacto requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="celularContacto" value="Celular de Contacto:" style="font-size: small"/> 
+                                            <p:inputMask id="celularContacto" value="#{AdmisionesController.nuevoPostulante.celularContacto}" mask="99999999" required="true" requiredMessage="* Celular de contacto requerido."/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="diplomaBachiller" value="Diploma bachiller:" style="font-size: small"/>
+                                            <p:selectBooleanButton id="diplomaBachiller" value="#{AdmisionesController.nuevoPostulante.diplomaBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="gestionAcademica" value="Gestion academica:" style="font-size: small"/> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{AdmisionesController.nuevoPostulante.gestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{AdmisionesController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+
+                                                <p:ajax update="carrera"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                            <p:selectOneMenu id="carrera" value="#{AdmisionesController.nuevoPostulante.carrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{AdmisionesController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="deposito" value="Deposito:" style="font-size: small"/>
+                                            <p:inputText id="deposito" value="#{AdmisionesController.nuevoPostulante.deposito}" />
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{AdmisionesController.registrarPostulante()}" update="form"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{AdmisionesController.toHome()}" update="form"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

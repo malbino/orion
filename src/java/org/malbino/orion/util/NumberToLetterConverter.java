@@ -45,6 +45,38 @@ public abstract class NumberToLetterConverter {
             return null;
         }
     }
+    
+    public static String convertNumberToLetter(Double numero) {
+        String literal;
+        String parte_decimal;
+
+        String snumero = String.valueOf(numero);
+        snumero = snumero.replace(".", ",");
+        if (!snumero.contains(",")) {
+            snumero = snumero + ",00";
+        }
+        if (Pattern.matches("\\d{1,9},\\d{1,2}", snumero)) {
+            String Num[] = snumero.split(",");
+            parte_decimal = Num[1] + "/100 BOLIVIANOS";
+            if (Integer.parseInt(Num[0]) == 0) {
+                literal = "CERO ";
+            } else if (Integer.parseInt(Num[0]) > 999999) {
+                literal = getMillones(Num[0]);
+            } else if (Integer.parseInt(Num[0]) > 999) {
+                literal = getMiles(Num[0]);
+            } else if (Integer.parseInt(Num[0]) > 99) {
+                literal = getCentenas(Num[0]);
+            } else if (Integer.parseInt(Num[0]) > 9) {
+                literal = getDecenas(Num[0]);
+            } else {
+                literal = getUnidades(Num[0]);
+            }
+
+            return (literal + parte_decimal);
+        } else {
+            return null;
+        }
+    }
 
     private static String getUnidades(String numero) {
         String num = numero.substring(numero.length() - 1);

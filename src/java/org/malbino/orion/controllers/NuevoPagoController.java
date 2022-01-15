@@ -11,6 +11,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
@@ -37,6 +38,8 @@ public class NuevoPagoController extends AbstractController implements Serializa
     InscritoFacade inscritoFacade;
     @EJB
     PagoFacade pagoFacade;
+    @Inject
+    LoginController loginController;
 
     private Comprobante nuevoComprobante;
     private Estudiante seleccionEstudiante;
@@ -87,6 +90,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
             nuevoComprobante.setFecha(Fecha.getDate());
             nuevoComprobante.setValido(true);
             nuevoComprobante.setInscrito(seleccionInscrito);
+            nuevoComprobante.setUsuario(loginController.getUsr());
 
             String contrasena = Generador.generarContrasena();
             seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));
@@ -108,6 +112,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
             nuevoComprobante.setFecha(Fecha.getDate());
             nuevoComprobante.setValido(true);
             nuevoComprobante.setInscrito(seleccionInscrito);
+            nuevoComprobante.setUsuario(loginController.getUsr());
             if (!seleccionPagos.isEmpty()) {
                 if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos)) {
                     this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());

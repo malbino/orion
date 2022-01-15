@@ -8,6 +8,7 @@ package org.malbino.orion.util;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  *
@@ -54,8 +55,26 @@ public class Redondeo {
 
         return df.format(numero);
     }
-    
+
     public static String mostrar_0p00(BigDecimal bigDecimal) {
         return bigDecimal.setScale(2, RoundingMode.HALF_UP).toString();
+    }
+
+    public static String formatear_csm(double numero) {
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        dfs.setGroupingSeparator(',');
+        DecimalFormat df = new DecimalFormat("###,##0.00", dfs);
+
+        return df.format(numero);
+    }
+
+    public static String formatear_ssm(double numero) {
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        dfs.setGroupingSeparator(',');
+        DecimalFormat df = new DecimalFormat("0.00", dfs);
+
+        return df.format(numero);
     }
 }

@@ -55,7 +55,7 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fechaNacimiento" value="Fecha de nacimiento:" style="font-size: small"/>
-                                            <p:calendar id="fechaNacimiento" value="#{EstudianteNuevoController.nuevoEstudiante.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
+                                            <p:calendar id="fechaNacimiento" value="#{EstudianteNuevoController.nuevoEstudiante.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" yearRange="c-100:c+100" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">

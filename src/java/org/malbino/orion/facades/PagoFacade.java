@@ -47,6 +47,21 @@ public class PagoFacade extends AbstractFacade<Pago> {
 
         return l;
     }
+    
+    public List<Pago> listaPagosAdeudadosPostulante(int id_postulante) {
+        List<Pago> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Pago p JOIN p.postulante o WHERE o.id_postulante=:id_postulante AND p.pagado=FALSE ORDER BY p.concepto");
+            q.setParameter("id_postulante", id_postulante);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 
     public List<Pago> listaPagosPagados(int id_inscrito) {
         List<Pago> l = new ArrayList();

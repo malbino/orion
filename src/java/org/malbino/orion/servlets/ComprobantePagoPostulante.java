@@ -7,7 +7,6 @@ package org.malbino.orion.servlets;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -31,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Detalle;
-import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.DetalleFacade;
 import org.malbino.orion.util.NumberToLetterConverter;
@@ -41,8 +39,8 @@ import org.malbino.orion.util.Redondeo;
  *
  * @author tincho
  */
-@WebServlet(name = "ComprobantePago", urlPatterns = {"/pagos/ComprobantePago"})
-public class ComprobantePago extends HttpServlet {
+@WebServlet(name = "ComprobantePagoPostulante", urlPatterns = {"/pagos/ComprobantePagoPostulante"})
+public class ComprobantePagoPostulante extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
 
@@ -77,7 +75,6 @@ public class ComprobantePago extends HttpServlet {
 
     public void generarPDF(HttpServletRequest request, HttpServletResponse response) {
         Integer id_comprobante = (Integer) request.getSession().getAttribute("id_comprobante");
-        Estudiante estudiante = (Estudiante) request.getSession().getAttribute("est");
 
         if (id_comprobante != null) {
             Comprobante comprobante = comprobanteFacade.find(id_comprobante);
@@ -89,26 +86,25 @@ public class ComprobantePago extends HttpServlet {
 
                 document.open();
 
-                document.add(comprobante(comprobante, estudiante));
+                document.add(comprobante(comprobante));
 
                 document.newPage();
 
-                document.add(comprobante(comprobante, estudiante));
-                document.add(cuenta(request, estudiante));
+                document.add(comprobante(comprobante));
 
                 document.close();
             } catch (IOException | DocumentException ex) {
-                Logger.getLogger(ComprobantePago.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ComprobantePagoPostulante.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
     }
 
-    public PdfPTable comprobante(Comprobante comprobante, Estudiante estudiante) throws BadElementException, IOException {
+    public PdfPTable comprobante(Comprobante comprobante) throws BadElementException, IOException {
         PdfPTable table = new PdfPTable(100);
 
         //cabecera
-        String realPath = getServletContext().getRealPath("/resources/uploads/" + comprobante.getInscrito().getCarrera().getCampus().getInstituto().getLogo());
+        String realPath = getServletContext().getRealPath("/resources/uploads/" + comprobante.getPostulante().getCarrera().getCampus().getInstituto().getLogo());
         Image image = Image.getInstance(realPath);
         image.scaleToFit(160, 80);
         image.setAlignment(Image.ALIGN_CENTER);
@@ -160,7 +156,7 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //fila 3
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getSucursal(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getPostulante().getCarrera().getCampus().getSucursal(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
@@ -179,7 +175,7 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //fila 4
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getDireccion(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getPostulante().getCarrera().getCampus().getDireccion(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
@@ -198,8 +194,8 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //fial 5
-        if (comprobante.getInscrito().getCarrera().getCampus().getTelefono() != null) {
-            cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getTelefono().toString(), NORMAL));
+        if (comprobante.getPostulante().getCarrera().getCampus().getTelefono() != null) {
+            cell = new PdfPCell(new Phrase(comprobante.getPostulante().getCarrera().getCampus().getTelefono().toString(), NORMAL));
         } else {
             cell = new PdfPCell(new Phrase(" ", NORMAL));
         }
@@ -221,7 +217,7 @@ public class ComprobantePago extends HttpServlet {
         table.addCell(cell);
 
         //fila 6
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().getCampus().getInstituto().getUbicacion(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getPostulante().getCarrera().getCampus().getInstituto().getUbicacion(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM | Rectangle.RIGHT);
@@ -253,7 +249,7 @@ public class ComprobantePago extends HttpServlet {
         cell.setBorder(Rectangle.LEFT | Rectangle.TOP);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getCarrera().toString(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getPostulante().getCarrera().toString(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.TOP);
@@ -265,20 +261,20 @@ public class ComprobantePago extends HttpServlet {
         cell.setBorder(Rectangle.TOP);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getGestionAcademica().toString(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getPostulante().getGestionAcademica().toString(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(10);
         cell.setBorder(Rectangle.TOP | Rectangle.RIGHT);
         table.addCell(cell);
 
         //fila 2
-        cell = new PdfPCell(new Phrase("Estudiante:", NEGRITA));
+        cell = new PdfPCell(new Phrase("Postulante:", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(20);
         cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getEstudiante().toString(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getPostulante().toString(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
         cell.setBorder(Rectangle.BOTTOM);
@@ -290,7 +286,7 @@ public class ComprobantePago extends HttpServlet {
         cell.setBorder(Rectangle.BOTTOM);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(comprobante.getInscrito().getGestionAcademica().getRegimen().getNombre(), NORMAL));
+        cell = new PdfPCell(new Phrase(comprobante.getPostulante().getGestionAcademica().getRegimen().getNombre(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(15);
         cell.setBorder(Rectangle.BOTTOM | Rectangle.RIGHT);
@@ -387,13 +383,13 @@ public class ComprobantePago extends HttpServlet {
         cell = new PdfPCell(new Phrase("Total:", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         cell.setColspan(80);
-        cell.setBorder(Rectangle.LEFT | Rectangle.TOP | Rectangle.BOTTOM);
+        cell.setBorder(Rectangle.LEFT | Rectangle.TOP);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(Redondeo.formatear_csm(total), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setColspan(20);
-        cell.setBorder(Rectangle.TOP | Rectangle.RIGHT | Rectangle.BOTTOM);
+        cell.setBorder(Rectangle.TOP | Rectangle.RIGHT);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("SON: ", NEGRITA));
@@ -425,7 +421,7 @@ public class ComprobantePago extends HttpServlet {
         cell.setFixedHeight(50f);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("Firma Estudiante", NORMAL));
+        cell = new PdfPCell(new Phrase("Firma Postulante", NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setColspan(50);
         cell.setBorder(PdfPCell.NO_BORDER);
@@ -447,58 +443,4 @@ public class ComprobantePago extends HttpServlet {
         return table;
     }
 
-    public PdfPTable cuenta(HttpServletRequest request, Estudiante estudiante) throws BadElementException, IOException {
-        PdfPTable table = new PdfPTable(100);
-
-        PdfPCell cell = new PdfPCell(new Phrase(" ", NEGRITA));
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setColspan(100);
-        cell.setBorder(Rectangle.NO_BORDER);
-        cell.setFixedHeight(180f);
-        table.addCell(cell);
-
-        Phrase phrase = new Phrase();
-        phrase.add(new Chunk("INSTRUCCIONES DE USO", BOLDITALIC));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setColspan(100);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk(" ", BOLDITALIC));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setColspan(100);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Para ingresar al sistema:\n\n", ITALIC));
-        phrase.add(new Chunk("1) Abre un navegador web y dirigete a la siguiente dirección ", ITALIC));
-
-        String requestURL = request.getRequestURL().toString().replaceAll(request.getRequestURI(), "");
-        phrase.add(new Chunk(requestURL + "\n", BOLDITALIC));
-
-        phrase.add(new Chunk("2) Ingresa tu usuario y contraseña\n\n", ITALIC));
-        phrase.add(new Chunk("Usuario: ", BOLDITALIC));
-        phrase.add(new Chunk(estudiante.getUsuario() + "\n", ITALIC));
-        phrase.add(new Chunk("Contraseña: ", BOLDITALIC));
-        phrase.add(new Chunk(estudiante.getContrasenaSinEncriptar() + "\n\n", ITALIC));
-        phrase.add(new Chunk("3) Utiliza el menu para acceder a las opciones del sistema\n\n", ITALIC));
-        phrase.add(new Chunk(
-                "En el sistema pordras realizar tu Inscripción por Internet, revisar tu Historial Académico, "
-                + "revisar tu Historial Económico y actualizar tus datos personales.",
-                BOLDITALIC));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setColspan(100);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        return table;
-    }
 }

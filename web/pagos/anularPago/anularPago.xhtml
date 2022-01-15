@@ -73,16 +73,16 @@
                                             <h:outputText value="#{comprobante.fecha_ddMMyyyy()}"/>
                                         </p:column>
 
-                                        <p:column headerText="Estudiante" >  
-                                            <h:outputText value="#{comprobante.inscrito.estudiante.toString()}"/>
+                                        <p:column headerText="Estudiante/Postulante" >  
+                                            <h:outputText value="#{comprobante.estudiantePostulante()}"/>
                                         </p:column>
 
                                         <p:column headerText="Carrera" >  
-                                            <h:outputText value="#{comprobante.inscrito.carrera.toString()}"/>
+                                            <h:outputText value="#{comprobante.carrera()}"/>
                                         </p:column>
 
                                         <p:column headerText="Gestión Académica" >  
-                                            <h:outputText value="#{comprobante.inscrito.gestionAcademica.toString()}"/>
+                                            <h:outputText value="#{comprobante.gestionAcademica()}"/>
                                         </p:column>
 
                                         <p:column headerText="Valido" >  

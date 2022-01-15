@@ -21,6 +21,7 @@ import org.malbino.orion.entities.Empleado;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.entities.Postulante;
 import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Funcionalidad;
@@ -36,6 +37,7 @@ import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.EmpleadoFacade;
 import org.malbino.orion.facades.EstudianteFacade;
 import org.malbino.orion.facades.GestionAcademicaFacade;
+import org.malbino.orion.facades.PostulanteFacade;
 import org.malbino.orion.util.Redondeo;
 import org.primefaces.PrimeFaces;
 
@@ -55,6 +57,8 @@ public abstract class AbstractController implements Serializable {
     CarreraFacade carreraFacade;
     @EJB
     GestionAcademicaFacade gestionAcademicaFacade;
+    @EJB
+    PostulanteFacade postulanteFacade;
 
     protected void mensajeDeError(String mensaje) {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -145,6 +149,19 @@ public abstract class AbstractController implements Serializable {
         }
 
         return estudiantesFiltrados;
+    }
+
+    public List<Postulante> completarPostulante(String consulta) {
+        List<Postulante> postulantes = postulanteFacade.findAll();
+        List<Postulante> postulantesFiltrados = new ArrayList();
+
+        for (Postulante p : postulantes) {
+            if (p.toString().toLowerCase().contains(consulta.toLowerCase())) {
+                postulantesFiltrados.add(p);
+            }
+        }
+
+        return postulantesFiltrados;
     }
 
     public List<Campus> listaCampus() {

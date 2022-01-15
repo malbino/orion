@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="theme-color" content="" />
+        </f:facet>
+
+        <title>Orion</title>
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/images/favicon.png" />
+
+        <!-- Bootstrap -->
+        <link href="#{request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Font Awesome -->
+        <link href="#{request.contextPath}/resources/css/font-awesome.min.css" rel="stylesheet"/>
+
+        <!-- Custom Theme Style -->
+        <link href="#{request.contextPath}/resources/css/custom.min.css" rel="stylesheet"/>
+
+    </h:head>
+
+    <h:body styleClass="nav-md">
+        <div class="container body">
+            <div class="main_container">
+                <h:form>
+                    <div class="col-md-3 left_col">
+                        <div class="left_col scroll-view">
+                            <div class="navbar nav_title" style="border: 0;">
+                                <a href="#{request.contextPath}/home.xhtml" class="site_title"><i class="fa fa-star"></i> <span>Orion</span></a>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <!-- menu profile quick info -->
+                            <div class="profile clearfix">
+                                <div class="profile_pic">
+                                    <img src="#{request.contextPath}/resources/images/user.png" alt="..." class="img-circle profile_img"/>
+                                </div>
+                                <div class="profile_info">
+                                    <span>Bienvenido,</span>
+                                </div>
+                            </div>
+                            <!-- /menu profile quick info -->
+
+                            <br />
+
+                            <!-- sidebar menu -->
+                            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                                <div class="menu_section">
+                                    <h3>Contenido</h3>
+                                    <ul class="nav side-menu">
+                                        <li><a href="#{request.contextPath}/admisiones/registrarPostulante.xhtml"><i class="fa fa-plus"></i> Registrar Postulante </a></li>
+                                        <li><a href="#{request.contextPath}/admisiones/modificar/buscarPostulante.xhtml"><i class="fa fa-edit"></i> Modificar Postulante </a></li>
+                                        <li><a href="#{request.contextPath}/admisiones/imprimir/buscarPostulante.xhtml"><i class="fa fa-print"></i> Imprimir Formulario </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /sidebar menu -->
+
+                            <!-- /menu footer buttons -->
+                            <div class="sidebar-footer hidden-small">
+                                <p:outputPanel>
+                                    
+                                </p:outputPanel>
+                            </div>
+                            <!-- /menu footer buttons -->
+                        </div>
+                    </div>
+
+                    <!-- top navigation -->
+                    <div class="top_nav">
+                        <div class="nav_menu">
+                            <div class="nav toggle">
+                                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                            </div>
+                            <nav class="nav navbar-nav">
+                                <ul class=" navbar-right">
+                                    <li>
+                                        <a href="#{request.contextPath}/admisiones/home.xhtml" class="user-profile" aria-haspopup="true" aria-expanded="false">
+                                            <img src="#{request.contextPath}/resources/images/home.png" alt=""/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- /top navigation -->
+                </h:form>
+
+                <!-- page content -->
+                <div class="right_col" role="main">
+                    <div class="">
+                        <ui:insert name="content">
+
+                        </ui:insert>
+                    </div>
+                </div>
+
+                <!-- /page content -->
+
+                <!-- footer content -->
+                <footer>
+                    <div class="pull-right">
+                        Orion por <a href="https://github.com/malbino">malbino</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </footer>
+                <!-- /footer content -->
+            </div>
+        </div>
+
+        <!-- Bootstrap -->
+        <script src="#{request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Custom Theme Scripts -->
+        <script src="#{request.contextPath}/resources/js/custom.min.js"></script>
+
+        <!-- Calendar ES -->
+        <h:outputScript library="js" name="calendar_es.js" />
+    </h:body>
+
+</html>

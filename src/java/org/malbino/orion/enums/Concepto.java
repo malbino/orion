@@ -27,7 +27,8 @@ public enum Concepto {
     CUOTA7_ANUAL("CUOTA 7", "C7", 7, Regimen.ANUAL),
     CUOTA8_ANUAL("CUOTA 8", "C8", 8, Regimen.ANUAL),
     CUOTA9_ANUAL("CUOTA 9", "C9", 9, Regimen.ANUAL),
-    CUOTA10_ANUAL("CUOTA 10", "C10", 10, Regimen.ANUAL);
+    CUOTA10_ANUAL("CUOTA 10", "C10", 10, Regimen.ANUAL),
+    ADMISION("ADMISIÓN", "AD", 0, null),;
 
     private String nombre;
     private String codigo;

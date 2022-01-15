@@ -41,6 +41,7 @@ public class Carrera implements Serializable {
     private String resolucionMinisterial1;
     private String resolucionMinisterial2;
     private String resolucionMinisterial3;
+    private Integer creditajeAdmision;
     private Integer creditajeMatricula;
 
     @JoinColumn(name = "id_campus")
@@ -287,5 +288,19 @@ public class Carrera implements Serializable {
             }
         }
         return s;
+    }
+
+    /**
+     * @return the creditajeAdmision
+     */
+    public Integer getCreditajeAdmision() {
+        return creditajeAdmision;
+    }
+
+    /**
+     * @param creditajeAdmision the creditajeAdmision to set
+     */
+    public void setCreditajeAdmision(Integer creditajeAdmision) {
+        this.creditajeAdmision = creditajeAdmision;
     }
 }

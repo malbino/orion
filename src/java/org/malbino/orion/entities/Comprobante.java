@@ -43,6 +43,14 @@ public class Comprobante implements Serializable {
     @ManyToOne
     private Inscrito inscrito;
 
+    @JoinColumn(name = "id_postulante")
+    @ManyToOne
+    private Postulante postulante;
+
+    @JoinColumn(name = "id_usuario")
+    @ManyToOne
+    private Usuario usuario;
+
     public Comprobante() {
     }
 
@@ -116,6 +124,48 @@ public class Comprobante implements Serializable {
         this.inscrito = inscrito;
     }
 
+    /**
+     * @return the deposito
+     */
+    public String getDeposito() {
+        return deposito;
+    }
+
+    /**
+     * @param deposito the deposito to set
+     */
+    public void setDeposito(String deposito) {
+        this.deposito = deposito;
+    }
+
+    /**
+     * @return the postulante
+     */
+    public Postulante getPostulante() {
+        return postulante;
+    }
+
+    /**
+     * @param postulante the postulante to set
+     */
+    public void setPostulante(Postulante postulante) {
+        this.postulante = postulante;
+    }
+
+    /**
+     * @return the usuario
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -154,17 +204,36 @@ public class Comprobante implements Serializable {
         return valido ? "Sí" : "No";
     }
 
-    /**
-     * @return the deposito
-     */
-    public String getDeposito() {
-        return deposito;
+    public String estudiantePostulante() {
+        String s = "";
+        if (inscrito != null) {
+            s = inscrito.getEstudiante().toString();
+        }
+        if (postulante != null) {
+            s = postulante.toString();
+        }
+        return s;
     }
 
-    /**
-     * @param deposito the deposito to set
-     */
-    public void setDeposito(String deposito) {
-        this.deposito = deposito;
+    public String carrera() {
+        String s = "";
+        if (inscrito != null) {
+            s = inscrito.getCarrera().toString();
+        }
+        if (postulante != null) {
+            s = postulante.getCarrera().toString();
+        }
+        return s;
+    }
+
+    public String gestionAcademica() {
+        String s = "";
+        if (inscrito != null) {
+            s = inscrito.getGestionAcademica().toString();
+        }
+        if (postulante != null) {
+            s = postulante.getGestionAcademica().toString();
+        }
+        return s;
     }
 }

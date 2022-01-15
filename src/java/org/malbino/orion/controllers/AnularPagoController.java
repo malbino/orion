@@ -71,21 +71,29 @@ public class AnularPagoController extends AbstractController implements Serializ
     }
 
     public void imprimirComprobante() throws IOException {
-        Estudiante estudiante = seleccionComprobante.getInscrito().getEstudiante();
+        if (seleccionComprobante.getInscrito() != null) {
+            Estudiante estudiante = seleccionComprobante.getInscrito().getEstudiante();
 
-        String contrasena = Generador.generarContrasena();
-        estudiante.setContrasena(Encriptador.encriptar(contrasena));
-        estudiante.setContrasenaSinEncriptar(contrasena);
+            String contrasena = Generador.generarContrasena();
+            estudiante.setContrasena(Encriptador.encriptar(contrasena));
+            estudiante.setContrasenaSinEncriptar(contrasena);
 
-        if (estudianteFacade.edit(estudiante)) {
+            if (estudianteFacade.edit(estudiante)) {
+                this.insertarParametro("id_comprobante", seleccionComprobante.getId_comprobante());
+                this.insertarParametro("est", estudiante);
+
+                this.reinit();
+
+                this.toComprobantePago();
+            } else {
+                this.mensajeDeError("No se puede imprimir el comprobante.");
+            }
+        } else if (seleccionComprobante.getPostulante() != null) {
             this.insertarParametro("id_comprobante", seleccionComprobante.getId_comprobante());
-            this.insertarParametro("est", estudiante);
 
             this.reinit();
 
-            this.toComprobantePago();
-        } else {
-            this.mensajeDeError("No se puede imprimir el comprobante.");
+            this.toComprobantePagoPostulante();
         }
     }
 
@@ -96,13 +104,17 @@ public class AnularPagoController extends AbstractController implements Serializ
             this.mensajeDeError("No se pudo eliminar el pago.");
         }
     }
-    
+
     public void toAnularPago() throws IOException {
         this.redireccionarViewId("/pagos/anularPago/anularPago");
     }
-    
+
     public void toComprobantePago() throws IOException {
         this.redireccionarViewId("/pagos/anularPago/comprobantePago");
+    }
+
+    public void toComprobantePagoPostulante() throws IOException {
+        this.redireccionarViewId("/pagos/anularPago/comprobantePagoPostulante");
     }
 
     /**

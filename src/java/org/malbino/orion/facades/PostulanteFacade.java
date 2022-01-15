@@ -1,0 +1,103 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.malbino.orion.facades;
+
+import java.util.Date;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import org.malbino.orion.entities.Postulante;
+
+/**
+ *
+ * @author malbino
+ */
+@Stateless
+@LocalBean
+public class PostulanteFacade extends AbstractFacade<Postulante> {
+
+    @PersistenceContext(unitName = "orionPU")
+    private EntityManager em;
+
+    public PostulanteFacade() {
+        super(Postulante.class);
+    }
+
+    @Override
+    public EntityManager getEntityManager() {
+        return em;
+    }
+
+    public Postulante buscarPostulante(String ci, int id_gestionacademica, int id_carrera) {
+        Postulante p = null;
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Postulante p JOIN p.gestionAcademica ga JOIN p.carrera c WHERE p.ci=:ci AND ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
+            q.setParameter("ci", ci);
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+
+            p = (Postulante) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return p;
+    }
+
+    public Postulante buscarPostulante(String ci, int id_gestionacademica, int id_carrera, int id_postulante) {
+        Postulante p = null;
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Postulante p JOIN p.gestionAcademica ga JOIN p.carrera c WHERE p.ci=:ci AND ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND p.id_postulante!=:id_postulante");
+            q.setParameter("ci", ci);
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("id_postulante", id_postulante);
+
+            p = (Postulante) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return p;
+    }
+
+    public Postulante buscarPostulante(String ci, Date fechaNacimiento, int id_gestionacademica, int id_carrera) {
+        Postulante p = null;
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Postulante p JOIN p.gestionAcademica ga JOIN p.carrera c WHERE p.ci=:ci AND p.fechaNacimiento=:fechaNacimiento AND ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
+            q.setParameter("ci", ci);
+            q.setParameter("fechaNacimiento", fechaNacimiento);
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+
+            p = (Postulante) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return p;
+    }
+
+    public long cantidadPostulantes(int id_gestionacademica, int id_carrera) {
+        long l = 0;
+
+        try {
+            Query q = em.createQuery("SELECT COUNT(p) FROM Postulante p JOIN p.gestionAcademica ga JOIN p.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+
+            l = (long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+}
