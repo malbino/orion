@@ -8,17 +8,16 @@ package org.malbino.orion.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.LugarExpedicion;
 import org.malbino.orion.enums.Sexo;
 import org.malbino.orion.util.Fecha;
@@ -28,21 +27,17 @@ import org.malbino.orion.util.Fecha;
  * @author malbino
  */
 @Entity
-@Table(name = "persona")
-
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "tipo")
-@DiscriminatorValue("Persona")
-public abstract class Persona implements Serializable {
+@Table(name = "postulante", uniqueConstraints = @UniqueConstraint(columnNames = {"dni", "codigo", "id_gestionacademica", "id_carrera"}))
+public class Postulante implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_persona;
+    private Integer id_postulante;
 
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
-    private String dni;
+    private String ci;
     private LugarExpedicion lugarExpedicion;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
@@ -53,23 +48,38 @@ public abstract class Persona implements Serializable {
     private Integer telefono;
     private Integer celular;
     private String email;
+    private String nombreContacto;
+    private Integer celularContacto;
     private String foto;
 
-    public Persona() {
+    private String codigo;
+    private Date fecha;
+    private Boolean diplomaBachiller;
+    private String deposito;
+
+    @JoinColumn(name = "id_gestionacademica")
+    @ManyToOne
+    private GestionAcademica gestionAcademica;
+
+    @JoinColumn(name = "id_carrera")
+    @ManyToOne
+    private Carrera carrera;
+
+    public Postulante() {
     }
 
     /**
-     * @return the id_persona
+     * @return the id_postulante
      */
-    public Integer getId_persona() {
-        return id_persona;
+    public Integer getId_postulante() {
+        return id_postulante;
     }
 
     /**
-     * @param id_persona the id_persona to set
+     * @param id_postulante the id_postulante to set
      */
-    public void setId_persona(Integer id_persona) {
-        this.id_persona = id_persona;
+    public void setId_postulante(Integer id_postulante) {
+        this.id_postulante = id_postulante;
     }
 
     /**
@@ -83,7 +93,7 @@ public abstract class Persona implements Serializable {
      * @param nombre the nombre to set
      */
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.toUpperCase();
     }
 
     /**
@@ -97,7 +107,7 @@ public abstract class Persona implements Serializable {
      * @param primerApellido the primerApellido to set
      */
     public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
+        this.primerApellido = primerApellido.toUpperCase();
     }
 
     /**
@@ -111,21 +121,21 @@ public abstract class Persona implements Serializable {
      * @param segundoApellido the segundoApellido to set
      */
     public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
+        this.segundoApellido = segundoApellido.toUpperCase();
     }
 
     /**
-     * @return the dni
+     * @return the ci
      */
-    public String getDni() {
-        return dni;
+    public String getCi() {
+        return ci;
     }
 
     /**
-     * @param dni the dni to set
+     * @param ci the ci to set
      */
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setCi(String ci) {
+        this.ci = ci.toUpperCase();
     }
 
     /**
@@ -167,7 +177,7 @@ public abstract class Persona implements Serializable {
      * @param lugarNacimiento the lugarNacimiento to set
      */
     public void setLugarNacimiento(String lugarNacimiento) {
-        this.lugarNacimiento = lugarNacimiento;
+        this.lugarNacimiento = lugarNacimiento.toUpperCase();
     }
 
     /**
@@ -181,7 +191,7 @@ public abstract class Persona implements Serializable {
      * @param nacionalidad the nacionalidad to set
      */
     public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
+        this.nacionalidad = nacionalidad.toUpperCase();
     }
 
     /**
@@ -268,12 +278,124 @@ public abstract class Persona implements Serializable {
         this.foto = foto;
     }
 
-    public String dniLugar() {
+    /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the fecha
+     */
+    public Date getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @param fecha the fecha to set
+     */
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
+     * @return the diplomaBachiller
+     */
+    public Boolean getDiplomaBachiller() {
+        return diplomaBachiller;
+    }
+
+    /**
+     * @param diplomaBachiller the diplomaBachiller to set
+     */
+    public void setDiplomaBachiller(Boolean diplomaBachiller) {
+        this.diplomaBachiller = diplomaBachiller;
+    }
+
+    /**
+     * @return the gestionAcademica
+     */
+    public GestionAcademica getGestionAcademica() {
+        return gestionAcademica;
+    }
+
+    /**
+     * @param gestionAcademica the gestionAcademica to set
+     */
+    public void setGestionAcademica(GestionAcademica gestionAcademica) {
+        this.gestionAcademica = gestionAcademica;
+    }
+
+    /**
+     * @return the carrera
+     */
+    public Carrera getCarrera() {
+        return carrera;
+    }
+
+    /**
+     * @param carrera the carrera to set
+     */
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
+    }
+
+    /**
+     * @return the deposito
+     */
+    public String getDeposito() {
+        return deposito;
+    }
+
+    /**
+     * @param deposito the deposito to set
+     */
+    public void setDeposito(String deposito) {
+        this.deposito = deposito;
+    }
+
+    /**
+     * @return the nombreContacto
+     */
+    public String getNombreContacto() {
+        return nombreContacto;
+    }
+
+    /**
+     * @param nombreContacto the nombreContacto to set
+     */
+    public void setNombreContacto(String nombreContacto) {
+        this.nombreContacto = nombreContacto.toUpperCase();
+    }
+
+    /**
+     * @return the celularContacto
+     */
+    public Integer getCelularContacto() {
+        return celularContacto;
+    }
+
+    /**
+     * @param celularContacto the celularContacto to set
+     */
+    public void setCelularContacto(Integer celularContacto) {
+        this.celularContacto = celularContacto;
+    }
+
+    public String ciLugar() {
         String s = "";
-        if (dni != null && lugarExpedicion != null) {
-            s = dni + " " + lugarExpedicion;
-        } else if (dni != null && lugarExpedicion == null) {
-            s = dni;
+        if (ci != null && lugarExpedicion != null) {
+            s = ci + " " + lugarExpedicion;
+        } else if (ci != null && lugarExpedicion == null) {
+            s = ci;
         }
         return s;
     }
@@ -282,10 +404,14 @@ public abstract class Persona implements Serializable {
         return Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
     }
 
+    public String diplomaBachillerToString() {
+        return diplomaBachiller ? "Sí" : "No";
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id_persona);
+        hash = 29 * hash + Objects.hashCode(this.id_postulante);
         return hash;
     }
 
@@ -300,8 +426,8 @@ public abstract class Persona implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Persona other = (Persona) obj;
-        if (!Objects.equals(this.id_persona, other.id_persona)) {
+        final Postulante other = (Postulante) obj;
+        if (!Objects.equals(this.id_postulante, other.id_postulante)) {
             return false;
         }
         return true;
