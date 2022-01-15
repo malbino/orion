@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.1] - 2022-01-15
+### Added
+### Changed
+### Removed
+### Fixed
+- Se corrigio la modificacion del postulante
+
 ## [1.8.0] - 2022-01-15
 ### Added
 - Se añadio el soporte para admisiones

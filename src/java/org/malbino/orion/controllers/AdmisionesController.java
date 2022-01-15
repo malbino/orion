@@ -165,8 +165,6 @@ public class AdmisionesController extends AbstractController implements Serializ
             if (postulanteFacade.buscarPostulante(seleccionPostulante.getCi(), seleccionPostulante.getGestionAcademica().getId_gestionacademica(), seleccionPostulante.getCarrera().getId_carrera(), seleccionPostulante.getId_postulante()) == null) {
                 if (seleccionPostulante.getFoto() != null && !seleccionPostulante.getFoto().isEmpty()) {
                     if (postulanteFacade.edit(seleccionPostulante)) {
-                        reinit();
-
                         this.mensajeDeInformacion("Postulante modificado exitosamente.");
                     } else {
                         this.mensajeDeError("No se pudo modificar al postulante.");
