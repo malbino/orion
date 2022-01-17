@@ -91,6 +91,12 @@
                                             </ul>
                                         </li>
 
+                                        <li style="display: #{LoginController.display('Admisiones')}"><a><i class="fa fa-filter"></i> Admisiones <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#{request.contextPath}/admisiones/postulantes.xhtml">Postulantes</a></li>
+                                            </ul>
+                                        </li>
+
                                         <li style="display: #{LoginController.display('Inscripciones')}"><a><i class="fa fa-user-plus"></i> Inscripciones <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
                                                 <li><a href="#{request.contextPath}/inscripciones/estudianteNuevo/estudianteNuevo.xhtml">Estudiante Nuevo</a></li>
@@ -105,7 +111,7 @@
                                             <ul class="nav child_menu">
                                                 <li><a href="#{request.contextPath}/pagos/nuevoPago/nuevoPago.xhtml">Nuevo Pago</a></li>
                                                 <li><a href="#{request.contextPath}/pagos/nuevoPagoPostulante/nuevoPagoPostulante.xhtml">Nuevo Pago Postulante</a></li>
-                                                <li><a href="#{request.contextPath}/pagos/anularPago/anularPago.xhtml">Anular Pago</a></li>
+                                                <li><a href="#{request.contextPath}/pagos/pagos/pagos.xhtml">Pagos</a></li>
                                             </ul>
                                         </li>
 

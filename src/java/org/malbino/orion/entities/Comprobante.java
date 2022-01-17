@@ -7,6 +7,7 @@ package org.malbino.orion.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.malbino.orion.util.Fecha;
+import org.malbino.orion.util.Redondeo;
 
 /**
  *
@@ -27,30 +30,33 @@ import org.malbino.orion.util.Fecha;
 @Entity
 @Table(name = "comprobante")
 public class Comprobante implements Serializable {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_comprobante;
-
+    
     @Column(unique = true)
     private Integer codigo;
     private String deposito;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     private Boolean valido;
-
+    
     @JoinColumn(name = "id_inscrito")
     @ManyToOne
     private Inscrito inscrito;
-
+    
     @JoinColumn(name = "id_postulante")
     @ManyToOne
     private Postulante postulante;
-
+    
     @JoinColumn(name = "id_usuario")
     @ManyToOne
     private Usuario usuario;
-
+    
+    @OneToMany(mappedBy = "comprobante")
+    private List<Detalle> detalles;
+    
     public Comprobante() {
     }
 
@@ -166,13 +172,27 @@ public class Comprobante implements Serializable {
         this.usuario = usuario;
     }
 
+    /**
+     * @return the detalles
+     */
+    public List<Detalle> getDetalles() {
+        return detalles;
+    }
+
+    /**
+     * @param detalles the detalles to set
+     */
+    public void setDetalles(List<Detalle> detalles) {
+        this.detalles = detalles;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 61 * hash + Objects.hashCode(this.id_comprobante);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -190,20 +210,20 @@ public class Comprobante implements Serializable {
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
         return codigo + " [" + fecha_ddMMyyyy() + "]";
     }
-
+    
     public String fecha_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
-
+    
     public String validoToString() {
         return valido ? "Sí" : "No";
     }
-
+    
     public String estudiantePostulante() {
         String s = "";
         if (inscrito != null) {
@@ -214,7 +234,7 @@ public class Comprobante implements Serializable {
         }
         return s;
     }
-
+    
     public String carrera() {
         String s = "";
         if (inscrito != null) {
@@ -225,7 +245,7 @@ public class Comprobante implements Serializable {
         }
         return s;
     }
-
+    
     public String gestionAcademica() {
         String s = "";
         if (inscrito != null) {
@@ -233,6 +253,22 @@ public class Comprobante implements Serializable {
         }
         if (postulante != null) {
             s = postulante.getGestionAcademica().toString();
+        }
+        return s;
+    }
+    
+    public String monto() {
+        Integer monto = 0;
+        for (Detalle detalle : detalles) {
+            monto += detalle.getMonto();
+        }
+        return Redondeo.formatear_0p00(monto);
+    }
+    
+    public String usuario() {
+        String s = "";
+        if (usuario != null) {
+            s = usuario.toString();
         }
         return s;
     }

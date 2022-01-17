@@ -398,7 +398,7 @@ public class ComprobantePagoPostulante extends HttpServlet {
         cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(NumberToLetterConverter.convertNumberToLetter(total.doubleValue()), NORMAL));
+        cell = new PdfPCell(new Phrase(NumberToLetterConverter.convertNumberToLetterComprobante(total), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(90);
         cell.setBorder(Rectangle.RIGHT | Rectangle.BOTTOM);

@@ -65,24 +65,35 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
         return l;
     }
 
-    public List<Comprobante> buscar(String keyword) {
+    public List<Comprobante> buscar(Date desde, Date hasta, String keyword) {
         List<Comprobante> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT c FROM Comprobante c JOIN c.inscrito i JOIN i.estudiante e JOIN i.carrera a JOIN i.gestionAcademica ga WHERE "
-                    + "LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+            Query q = em.createQuery("SELECT c FROM Comprobante c WHERE c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.postulante p WHERE c.fecha BETWEEN :desde AND :hasta AND "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
+                    + "LOWER(p.primerApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(p.segundoApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(p.nombre) LIKE LOWER(:keyword))"
+                    + ") OR c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.inscrito i JOIN i.estudiante e WHERE c.fecha BETWEEN :desde AND :hasta AND "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
                     + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword) OR "
-                    + "LOWER(a.nombre) LIKE LOWER(:keyword) OR "
-                    + "LOWER(CAST(ga.gestion AS CHAR)) LIKE LOWER(:keyword) "
+                    + "LOWER(e.nombre) LIKE LOWER(:keyword))"
+                    + ") "
                     + "ORDER BY c.fecha DESC");
+            q.setParameter("desde", Fecha.getInicioDia(desde));
+            q.setParameter("hasta", Fecha.getFinDia(hasta));
             q.setParameter("keyword", "%" + keyword + "%");
-
+            
             l = q.getResultList();
         } catch (Exception e) {
-
+            System.out.println(e.toString());
         }
 
         return l;
@@ -102,5 +113,38 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
         }
 
         return c;
+    }
+
+    public List<Comprobante> listaComprobantes(Date desde, Date hasta) {
+        List<Comprobante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Comprobante c WHERE c.fecha BETWEEN :desde AND :hasta ORDER BY c.fecha DESC");
+            q.setParameter("desde", Fecha.getInicioDia(desde));
+            q.setParameter("hasta", Fecha.getFinDia(hasta));
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Comprobante> listaComprobantes(Date desde, Date hasta, int id_persona) {
+        List<Comprobante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Comprobante c JOIN c.usuario u WHERE c.fecha BETWEEN :desde AND :hasta AND u.id_persona=:id_persona ORDER BY c.fecha DESC");
+            q.setParameter("desde", Fecha.getInicioDia(desde));
+            q.setParameter("hasta", Fecha.getFinDia(hasta));
+            q.setParameter("id_persona", id_persona);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
     }
 }

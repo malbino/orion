@@ -6,6 +6,8 @@ package org.malbino.orion.controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,6 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.entities.Usuario;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.negocio.PagosFacade;
 import org.malbino.orion.util.Encriptador;
@@ -22,14 +25,18 @@ import org.malbino.orion.util.Generador;
  *
  * @author Tincho
  */
-@Named("AnularPagoController")
+@Named("PagosController")
 @SessionScoped
-public class AnularPagoController extends AbstractController implements Serializable {
+public class PagosController extends AbstractController implements Serializable {
 
     @EJB
     ComprobanteFacade comprobanteFacade;
     @EJB
     PagosFacade pagosFacade;
+
+    private Date desde;
+    private Date hasta;
+    private Usuario seleccionUsuario;
 
     private List<Comprobante> comprobantes;
     private Comprobante seleccionComprobante;
@@ -39,7 +46,7 @@ public class AnularPagoController extends AbstractController implements Serializ
 
     @PostConstruct
     public void init() {
-        comprobantes = comprobanteFacade.listaComprobantes();
+        comprobantes = new ArrayList<>();
         seleccionComprobante = null;
 
         filter = false;
@@ -47,7 +54,11 @@ public class AnularPagoController extends AbstractController implements Serializ
     }
 
     public void reinit() {
-        comprobantes = comprobanteFacade.listaComprobantes();
+        if (desde != null && hasta != null && seleccionUsuario == null) {
+            comprobantes = comprobanteFacade.listaComprobantes(desde, hasta);
+        } else if (desde != null && hasta != null && seleccionUsuario != null) {
+            comprobantes = comprobanteFacade.listaComprobantes(desde, hasta, seleccionUsuario.getId_persona());
+        }
         seleccionComprobante = null;
 
         filter = false;
@@ -59,7 +70,11 @@ public class AnularPagoController extends AbstractController implements Serializ
             filter = false;
             keyword = null;
 
-            comprobantes = comprobanteFacade.listaComprobantes();
+            if (desde != null && hasta != null && seleccionUsuario == null) {
+                comprobantes = comprobanteFacade.listaComprobantes(desde, hasta);
+            } else if (desde != null && hasta != null && seleccionUsuario != null) {
+                comprobantes = comprobanteFacade.listaComprobantes(desde, hasta, seleccionUsuario.getId_persona());
+            }
         } else {
             filter = true;
             keyword = null;
@@ -67,7 +82,11 @@ public class AnularPagoController extends AbstractController implements Serializ
     }
 
     public void buscar() {
-        comprobantes = comprobanteFacade.buscar(keyword);
+        if (desde != null && hasta != null && seleccionUsuario == null) {
+            comprobantes = comprobanteFacade.buscar(desde, hasta, keyword);
+        } else if (desde != null && hasta != null && seleccionUsuario != null) {
+            comprobantes = comprobanteFacade.buscar(desde, hasta, keyword);
+        }
     }
 
     public void imprimirComprobante() throws IOException {
@@ -105,16 +124,16 @@ public class AnularPagoController extends AbstractController implements Serializ
         }
     }
 
-    public void toAnularPago() throws IOException {
-        this.redireccionarViewId("/pagos/anularPago/anularPago");
+    public void toPagos() throws IOException {
+        this.redireccionarViewId("/pagos/pagos/pagos");
     }
 
     public void toComprobantePago() throws IOException {
-        this.redireccionarViewId("/pagos/anularPago/comprobantePago");
+        this.redireccionarViewId("/pagos/pagos/comprobantePago");
     }
 
     public void toComprobantePagoPostulante() throws IOException {
-        this.redireccionarViewId("/pagos/anularPago/comprobantePagoPostulante");
+        this.redireccionarViewId("/pagos/pagos/comprobantePagoPostulante");
     }
 
     /**
@@ -171,5 +190,47 @@ public class AnularPagoController extends AbstractController implements Serializ
      */
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    /**
+     * @return the desde
+     */
+    public Date getDesde() {
+        return desde;
+    }
+
+    /**
+     * @param desde the desde to set
+     */
+    public void setDesde(Date desde) {
+        this.desde = desde;
+    }
+
+    /**
+     * @return the hasta
+     */
+    public Date getHasta() {
+        return hasta;
+    }
+
+    /**
+     * @param hasta the hasta to set
+     */
+    public void setHasta(Date hasta) {
+        this.hasta = hasta;
+    }
+
+    /**
+     * @return the seleccionUsuario
+     */
+    public Usuario getSeleccionUsuario() {
+        return seleccionUsuario;
+    }
+
+    /**
+     * @param seleccionUsuario the seleccionUsuario to set
+     */
+    public void setSeleccionUsuario(Usuario seleccionUsuario) {
+        this.seleccionUsuario = seleccionUsuario;
     }
 }

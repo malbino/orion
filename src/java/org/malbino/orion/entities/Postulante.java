@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.LugarExpedicion;
 import org.malbino.orion.enums.Sexo;
 import org.malbino.orion.util.Fecha;
@@ -50,6 +51,10 @@ public class Postulante implements Serializable {
     private String email;
     private String nombreContacto;
     private Integer celularContacto;
+    private String parentescoContacto;
+    private String nombreColegio;
+    private Caracter caracterColegio;
+    private Integer egresoColegio;
     private String foto;
 
     private String codigo;
@@ -390,6 +395,62 @@ public class Postulante implements Serializable {
         this.celularContacto = celularContacto;
     }
 
+    /**
+     * @return the parentescoContacto
+     */
+    public String getParentescoContacto() {
+        return parentescoContacto;
+    }
+
+    /**
+     * @param parentescoContacto the parentescoContacto to set
+     */
+    public void setParentescoContacto(String parentescoContacto) {
+        this.parentescoContacto = parentescoContacto.toUpperCase();
+    }
+
+    /**
+     * @return the nombreColegio
+     */
+    public String getNombreColegio() {
+        return nombreColegio;
+    }
+
+    /**
+     * @param nombreColegio the nombreColegio to set
+     */
+    public void setNombreColegio(String nombreColegio) {
+        this.nombreColegio = nombreColegio.toUpperCase();
+    }
+
+    /**
+     * @return the caracterColegio
+     */
+    public Caracter getCaracterColegio() {
+        return caracterColegio;
+    }
+
+    /**
+     * @param caracterColegio the caracterColegio to set
+     */
+    public void setCaracterColegio(Caracter caracterColegio) {
+        this.caracterColegio = caracterColegio;
+    }
+
+    /**
+     * @return the egresoColegio
+     */
+    public Integer getEgresoColegio() {
+        return egresoColegio;
+    }
+
+    /**
+     * @param egresoColegio the egresoColegio to set
+     */
+    public void setEgresoColegio(Integer egresoColegio) {
+        this.egresoColegio = egresoColegio;
+    }
+
     public String ciLugar() {
         String s = "";
         if (ci != null && lugarExpedicion != null) {
@@ -403,9 +464,17 @@ public class Postulante implements Serializable {
     public String fechaNacimiento_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
     }
+    
+     public String fecha_ddMMyyyy() {
+        return Fecha.formatearFecha_ddMMyyyy(fecha);
+    }
 
     public String diplomaBachillerToString() {
-        return diplomaBachiller ? "Sí" : "No";
+        String s = "";
+        if (diplomaBachiller != null) {
+            s = diplomaBachiller ? "Sí" : "No";
+        }
+        return s;
     }
 
     @Override

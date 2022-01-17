@@ -8,14 +8,14 @@
 
     <body>
 
-        <ui:composition template="./../../WEB-INF/admisionesTemplate.xhtml">
+        <ui:composition template="./../../WEB-INF/postulantesTemplate.xhtml">
 
             <ui:define name="content">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Buscar Postulante <small>buscar postulante</small></h2>
+                                <h2>Buscar Postulante <small>buscar postulante para imprimir formulario</small></h2>
 
                                 <div class="clearfix"></div>
                             </div>
@@ -27,19 +27,19 @@
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="ci" value="CI:" style="font-size: small"/>
-                                            <p:inputText id="ci" value="#{AdmisionesController.ci}" required="true" requiredMessage="* CI requerido." />
+                                            <p:inputText id="ci" value="#{PostulantesController.ci}" required="true" requiredMessage="* CI requerido." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fechaNacimiento" value="Fecha de nacimiento:" style="font-size: small"/>
-                                            <p:calendar id="fechaNacimiento" value="#{AdmisionesController.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" yearRange="c-100:c+100" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
+                                            <p:calendar id="fechaNacimiento" value="#{PostulantesController.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" yearRange="c-100:c+100" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="gestionAcademica" value="Gestion academica:" style="font-size: small"/> 
-                                            <p:selectOneMenu id="gestionAcademica" value="#{AdmisionesController.gestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{PostulantesController.gestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{AdmisionesController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+                                                <f:selectItems value="#{PostulantesController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
 
                                                 <p:ajax update="carrera"/>
                                             </p:selectOneMenu>
@@ -47,20 +47,20 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
-                                            <p:selectOneMenu id="carrera" value="#{AdmisionesController.carrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
+                                            <p:selectOneMenu id="carrera" value="#{PostulantesController.carrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
                                                 <f:selectItem itemLabel="" itemValue=""/>
-                                                <f:selectItems value="#{AdmisionesController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>
+                                                <f:selectItems value="#{PostulantesController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>
                                             </p:selectOneMenu>
                                         </div>
                                     </div>
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Buscar" icon="fa fa-search" actionListener="#{AdmisionesController.buscarPostulanteImprimir()}" update="form"/>
+                                            <p:commandButton value="Buscar" icon="fa fa-search" actionListener="#{PostulantesController.buscarPostulanteImprimir()}" update="form"/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{AdmisionesController.toHome()}" update="form"/>
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{PostulantesController.toHome()}" update="form"/>
                                         </div>
                                     </div>
                                 </h:form>

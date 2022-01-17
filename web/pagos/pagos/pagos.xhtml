@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Pagos <small>pagos registrados</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="desde" value="Desde:" style="font-size: small"/>
+                                            <p:calendar id="desde" value="#{PagosController.desde}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" yearRange="c-100:c+100" autocomplete="false"/>  
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="hasta" value="Hasta:" style="font-size: small"/>
+                                            <p:calendar id="hasta" value="#{PagosController.hasta}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" yearRange="c-100:c+100" autocomplete="false"/>  
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="usuario" value="Usuario:"/>
+                                            <p:autoComplete id="usuario" value="#{PagosController.seleccionUsuario}" completeMethod="#{PagosController.completarUsuario}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
+                                                            var="usuario" itemLabel="#{usuario.toString()}" itemValue="#{usuario}" converter="#{UsuarioConverter}" forceSelection="true">
+                                            </p:autoComplete>
+                                        </div>
+                                    </div>
+
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-search" value="Buscar" actionListener="#{PagosController.reinit()}" update="form"/>   
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{PagosController.filtro()}" update="form" rendered="#{!PagosController.filter}"/>
+                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{PagosController.filtro()}" update="form" rendered="#{PagosController.filter}"/>
+
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="comprobantes" fileName="comprobantes" />
+                                                </p:menuitem>
+                                                <p:menuitem value="Lista Completa" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="lista_completa" fileName="lista_completa" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <p:outputPanel id="filtro" rendered="#{PagosController.filter}">
+                                        <div class="ui-g ui-fluid">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <div class="ui-inputgroup">
+                                                    <p:inputText value="#{PagosController.keyword}" style="height: 100%"/>
+                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{PagosController.buscar()}" update="comprobantes"/>           
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </p:outputPanel>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="comprobantes" var="comprobante" value="#{PagosController.comprobantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                 paginator="true" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Codigo" >  
+                                            <h:outputText value="#{comprobante.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Depósito" >  
+                                            <h:outputText value="#{comprobante.deposito}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" >  
+                                            <h:outputText value="#{comprobante.fecha_ddMMyyyy()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Estudiante/Postulante" >  
+                                            <h:outputText value="#{comprobante.estudiantePostulante()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Usuario" >  
+                                            <h:outputText value="#{comprobante.usuario()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Monto">  
+                                            <h:outputText value="#{comprobante.monto()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Valido" >  
+                                            <h:outputText value="#{comprobante.validoToString()}"/>
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="imprimir" process="@this" icon="fa fa-print" title="Imprimir">  
+                                                    <f:setPropertyActionListener value="#{comprobante}" target="#{PagosController.seleccionComprobante}" />
+
+                                                    <f:actionListener binding="#{PagosController.imprimirComprobante()}"/>
+                                                </p:commandButton>
+
+                                                <p:commandButton id="anular" process="@this" icon="fa fa-remove" title="Anular" update="form">  
+                                                    <f:setPropertyActionListener value="#{comprobante}" target="#{PagosController.seleccionComprobante}" />
+
+                                                    <f:actionListener binding="#{PagosController.anularPago()}"/>
+                                                    <p:confirm header="Confirmación" message="Esta seguro?" icon="fa fa-exclamation-triangle" />
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+
+                                    <p:dataTable id="lista_completa" var="comprobante" value="#{PagosController.comprobantes}" rowIndexVar="rowIndex" rendered="false">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Codigo" >  
+                                            <h:outputText value="#{comprobante.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Depósito" >  
+                                            <h:outputText value="#{comprobante.deposito}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" >  
+                                            <h:outputText value="#{comprobante.fecha_ddMMyyyy()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Estudiante/Postulante" >  
+                                            <h:outputText value="#{comprobante.estudiantePostulante()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Gestión Académica" >  
+                                            <h:outputText value="#{comprobante.gestionAcademica()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Carrera" >  
+                                            <h:outputText value="#{comprobante.carrera()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Usuario" >  
+                                            <h:outputText value="#{comprobante.usuario()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Monto">  
+                                            <h:outputText value="#{comprobante.monto()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Valido" >  
+                                            <h:outputText value="#{comprobante.validoToString()}"/>
+                                        </p:column>
+                                    </p:dataTable>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+                                    </p:confirmDialog>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

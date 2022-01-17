@@ -4,7 +4,9 @@
  */
 package org.malbino.orion.facades;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -96,6 +98,78 @@ public class PostulanteFacade extends AbstractFacade<Postulante> {
             l = (long) q.getSingleResult();
         } catch (Exception e) {
 
+        }
+
+        return l;
+    }
+
+    public List<Postulante> listaPostulantes(int id_gestionacademica) {
+        List<Postulante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Postulante p JOIN p.gestionAcademica ga WHERE ga.id_gestionacademica=:id_gestionacademica ORDER BY p.fecha");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Postulante> listaPostulantes(int id_gestionacademica, int id_carrera) {
+        List<Postulante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Postulante p JOIN p.gestionAcademica ga JOIN p.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera ORDER BY p.fecha");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Postulante> buscar(int id_gestionacademica, String keyword) {
+        List<Postulante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Postulante p JOIN p.gestionAcademica ga WHERE ga.id_gestionacademica=:id_gestionacademica AND "
+                    + "(CAST(p.codigo AS CHAR) LIKE :keyword OR "
+                    + "LOWER(p.primerApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(p.segundoApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(p.nombre) LIKE LOWER(:keyword)) "
+                    + "ORDER BY p.primerApellido, p.segundoApellido, p.nombre");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("keyword", "%" + keyword + "%");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return l;
+    }
+
+    public List<Postulante> buscar(int id_gestionacademica, int id_carrera, String keyword) {
+        List<Postulante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Postulante p JOIN p.gestionAcademica ga JOIN p.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND "
+                    + "(CAST(p.codigo AS CHAR) LIKE :keyword OR "
+                    + "LOWER(p.primerApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(p.segundoApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(p.nombre) LIKE LOWER(:keyword)) "
+                    + "ORDER BY p.primerApellido, p.segundoApellido, p.nombre");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("keyword", "%" + keyword + "%");
+
+            l = q.getResultList();
+        } catch (Exception e) {
         }
 
         return l;

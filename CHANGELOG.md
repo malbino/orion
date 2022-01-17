@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2022-01-17
+### Added
+- Se añadio la gestión de postulantes
+### Changed
+- Se renombro Anular Pago a Pagos
+- Se añadio filtros a las opcion Pagos
+### Removed
+### Fixed
+
 ## [1.8.1] - 2022-01-15
 ### Added
 ### Changed

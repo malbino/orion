@@ -46,7 +46,7 @@ public abstract class NumberToLetterConverter {
         }
     }
     
-    public static String convertNumberToLetter(Double numero) {
+    public static String convertNumberToLetterComprobante(int numero) {
         String literal;
         String parte_decimal;
 
