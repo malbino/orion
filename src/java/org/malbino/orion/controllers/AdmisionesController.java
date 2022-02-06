@@ -12,10 +12,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.malbino.moodle.webservices.CopiarPostulantes;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Postulante;
 import org.malbino.orion.facades.PostulanteFacade;
+import org.malbino.orion.util.Moodle;
 
 /**
  *
@@ -99,6 +101,24 @@ public class AdmisionesController extends AbstractController implements Serializ
             this.insertarParametro("id_postulante", seleccionPostulante.getId_postulante());
 
             toFormularioPostulante();
+        }
+    }
+
+    //moolde
+    public void copiarPostulantes() {
+        if (!postulantes.isEmpty()) {
+            String[] properties = Moodle.getProperties();
+
+            String webservice = properties[0];
+            String login = properties[1];
+            String username = properties[2];
+            String password = properties[3];
+            String serviceName = properties[4];
+
+            CopiarPostulantes copiarGrupo = new CopiarPostulantes(login, webservice, username, password, serviceName, postulantes);
+            new Thread(copiarGrupo).start();
+        } else {
+            this.mensajeDeError("Ningun postulante para copiar.");
         }
     }
 

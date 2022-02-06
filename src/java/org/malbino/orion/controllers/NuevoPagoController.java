@@ -13,16 +13,15 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
+import org.malbino.orion.entities.Detalle;
 import org.malbino.orion.entities.Estudiante;
-import org.malbino.orion.entities.Inscrito;
-import org.malbino.orion.entities.Pago;
-import org.malbino.orion.facades.InscritoFacade;
+import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.PagosFacade;
-import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
-import org.malbino.orion.util.Generador;
 
 /**
  *
@@ -33,98 +32,85 @@ import org.malbino.orion.util.Generador;
 public class NuevoPagoController extends AbstractController implements Serializable {
 
     @EJB
-    private PagosFacade pagosFacade;
+    PagosFacade pagosFacade;
     @EJB
-    InscritoFacade inscritoFacade;
+    CarreraEstudianteFacade carreraEstudianteFacade;
     @EJB
     PagoFacade pagoFacade;
     @Inject
     LoginController loginController;
 
-    private Comprobante nuevoComprobante;
     private Estudiante seleccionEstudiante;
-    private Inscrito seleccionInscrito;
-    private List<Pago> pagos;
-    private List<Pago> seleccionPagos;
-    
+    private CarreraEstudiante seleccionCarreraEstudiante;
+    private GestionAcademica seleccionGestionAcademica;
+    private Comprobante nuevoComprobante;
+    private List<Detalle> detalles;
+
     @PostConstruct
     public void init() {
-        nuevoComprobante = new Comprobante();
         seleccionEstudiante = null;
-        seleccionInscrito = null;
-        pagos = new ArrayList();
-        seleccionPagos = new ArrayList();
+        seleccionCarreraEstudiante = null;
+        seleccionGestionAcademica = null;
+
+        nuevoComprobante = new Comprobante();
+        detalles = new ArrayList<>();
     }
 
     public void reinit() {
-        nuevoComprobante = new Comprobante();
         seleccionEstudiante = null;
-        seleccionInscrito = null;
-        pagos = new ArrayList();
-        seleccionPagos = new ArrayList();
+        seleccionCarreraEstudiante = null;
+        seleccionGestionAcademica = null;
+
+        nuevoComprobante = new Comprobante();
+        detalles = new ArrayList<>();
     }
 
-    public List<Inscrito> listaInscritos() {
-        List<Inscrito> l = new ArrayList();
+    public List<CarreraEstudiante> listaCarrerasEstudiante() {
+        List<CarreraEstudiante> l = new ArrayList();
         if (seleccionEstudiante != null) {
-            l = inscritoFacade.listaInscritosPersona(seleccionEstudiante.getId_persona());
+            l = carreraEstudianteFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
+        }
+        return l;
+    }
+    
+    @Override
+    public List<GestionAcademica> listaGestionesAcademicas() {
+        List<GestionAcademica> l = new ArrayList();
+        if (seleccionCarreraEstudiante != null) {
+            l = gestionAcademicaFacade.listaGestionAcademica(seleccionCarreraEstudiante.getCarrera().getRegimen(), true);
         }
         return l;
     }
 
-    public void actualizarPagos() {
-        if (seleccionInscrito != null) {
-            pagos = pagoFacade.listaPagosAdeudados(seleccionInscrito.getId_inscrito());
-            int montoAcumulado = 0;
-            for (Pago pago : pagos) {
-                montoAcumulado += pago.getMonto();
+    public void actualizarDetalles() {
+        if (seleccionCarreraEstudiante != null) {
+            Detalle detalle = new Detalle();
+            detalle.setCodigo("");
+            detalle.setNombre("");
+            detalle.setMonto(0);
 
-                pago.setMontoAcumulado(montoAcumulado);
-            }
+            detalles.add(detalle);
         }
     }
 
     public void crearPago() throws IOException {
-        List<Pago> pagosPagados = pagoFacade.listaPagosPagados(seleccionInscrito.getId_inscrito());
-        if (pagosPagados.isEmpty()) {
-            nuevoComprobante.setFecha(Fecha.getDate());
-            nuevoComprobante.setValido(true);
-            nuevoComprobante.setInscrito(seleccionInscrito);
-            nuevoComprobante.setUsuario(loginController.getUsr());
+        nuevoComprobante.setFecha(Fecha.getDate());
+        nuevoComprobante.setValido(true);
+        nuevoComprobante.setEstudiante(seleccionEstudiante);
+        nuevoComprobante.setCarrera(seleccionCarreraEstudiante.getCarrera());
+        nuevoComprobante.setGestionAcademica(seleccionGestionAcademica);
+        nuevoComprobante.setUsuario(loginController.getUsr());
+        if (!detalles.isEmpty()) {
+            if (pagosFacade.nuevoComprobante(nuevoComprobante, detalles)) {
+                this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
+                this.insertarParametro("est", null);
 
-            String contrasena = Generador.generarContrasena();
-            seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));
-            seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
+                this.reinit();
 
-            if (!seleccionPagos.isEmpty()) {
-                if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos, seleccionEstudiante)) {
-                    this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
-                    this.insertarParametro("est", seleccionEstudiante);
-
-                    this.reinit();
-
-                    this.toComprobantePago();
-                }
-            } else {
-                this.mensajeDeError("Ningun pago seleccionado.");
+                this.toComprobantePago();
             }
         } else {
-            nuevoComprobante.setFecha(Fecha.getDate());
-            nuevoComprobante.setValido(true);
-            nuevoComprobante.setInscrito(seleccionInscrito);
-            nuevoComprobante.setUsuario(loginController.getUsr());
-            if (!seleccionPagos.isEmpty()) {
-                if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos)) {
-                    this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
-                    this.insertarParametro("est", null);
-
-                    this.reinit();
-
-                    this.toComprobantePago();
-                }
-            } else {
-                this.mensajeDeError("Ningun pago seleccionado.");
-            }
+            this.mensajeDeError("Ningun pago seleccionado.");
         }
     }
 
@@ -165,45 +151,45 @@ public class NuevoPagoController extends AbstractController implements Serializa
     }
 
     /**
-     * @return the seleccionInscrito
+     * @return the detalles
      */
-    public Inscrito getSeleccionInscrito() {
-        return seleccionInscrito;
+    public List<Detalle> getDetalles() {
+        return detalles;
     }
 
     /**
-     * @param seleccionInscrito the seleccionInscrito to set
+     * @param detalles the detalles to set
      */
-    public void setSeleccionInscrito(Inscrito seleccionInscrito) {
-        this.seleccionInscrito = seleccionInscrito;
+    public void setDetalles(List<Detalle> detalles) {
+        this.detalles = detalles;
     }
 
     /**
-     * @return the pagos
+     * @return the seleccionCarreraEstudiante
      */
-    public List<Pago> getPagos() {
-        return pagos;
+    public CarreraEstudiante getSeleccionCarreraEstudiante() {
+        return seleccionCarreraEstudiante;
     }
 
     /**
-     * @param pagos the pagos to set
+     * @param seleccionCarreraEstudiante the seleccionCarreraEstudiante to set
      */
-    public void setPagos(List<Pago> pagos) {
-        this.pagos = pagos;
+    public void setSeleccionCarreraEstudiante(CarreraEstudiante seleccionCarreraEstudiante) {
+        this.seleccionCarreraEstudiante = seleccionCarreraEstudiante;
     }
 
     /**
-     * @return the seleccionPagos
+     * @return the seleccionGestionAcademica
      */
-    public List<Pago> getSeleccionPagos() {
-        return seleccionPagos;
+    public GestionAcademica getSeleccionGestionAcademica() {
+        return seleccionGestionAcademica;
     }
 
     /**
-     * @param seleccionPagos the seleccionPagos to set
+     * @param seleccionGestionAcademica the seleccionGestionAcademica to set
      */
-    public void setSeleccionPagos(List<Pago> seleccionPagos) {
-        this.seleccionPagos = seleccionPagos;
+    public void setSeleccionGestionAcademica(GestionAcademica seleccionGestionAcademica) {
+        this.seleccionGestionAcademica = seleccionGestionAcademica;
     }
 
 }

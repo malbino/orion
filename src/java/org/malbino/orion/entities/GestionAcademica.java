@@ -52,6 +52,22 @@ public class GestionAcademica implements Serializable {
         return periodo.getPeriodoRomano() + gestion + " " + regimen.getNombre();
     }
 
+    public String fullNameMoodle() {
+        return nameMoodle();
+    }
+
+    public String shortNameMoodle() {
+        return toString();
+    }
+    
+    public long inicioMoodle() {
+        return inicio.getTime() / 1000;
+    }
+
+    public long finMoodle() {
+        return fin.getTime() / 1000;
+    }
+
     /**
      * @return the id_gestionacademica
      */

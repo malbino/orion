@@ -19,6 +19,7 @@ import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.entities.Postulante;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.MencionFacade;
@@ -31,9 +32,9 @@ import org.malbino.orion.util.Generador;
  *
  * @author Tincho
  */
-@Named("EstudianteNuevoController")
+@Named("EstudianteNuevoPostulacionController")
 @SessionScoped
-public class EstudianteNuevoController extends AbstractController implements Serializable {
+public class EstudianteNuevoPostulacionController extends AbstractController implements Serializable {
 
     @EJB
     InscripcionesFacade inscripcionesFacade;
@@ -44,6 +45,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     @Inject
     LoginController loginController;
 
+    private Postulante seleccionPostulante;
     private Estudiante nuevoEstudiante;
     private GestionAcademica seleccionGestionAcademica;
     private CarreraEstudiante seleccionCarreraEstudiante;
@@ -52,6 +54,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
 
     @PostConstruct
     public void init() {
+        seleccionPostulante = null;
         nuevoEstudiante = new Estudiante();
         seleccionGestionAcademica = null;
         seleccionCarreraEstudiante = null;
@@ -60,11 +63,47 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     }
 
     public void reinit() {
+        seleccionPostulante = null;
         nuevoEstudiante = new Estudiante();
         seleccionGestionAcademica = null;
         seleccionCarreraEstudiante = null;
 
         nuevoComprobante = new Comprobante();
+    }
+
+    public void cargarPostulante() {
+        if (seleccionPostulante != null) {
+            nuevoEstudiante.setNombre(seleccionPostulante.getNombre());
+            nuevoEstudiante.setPrimerApellido(seleccionPostulante.getPrimerApellido());
+            nuevoEstudiante.setSegundoApellido(seleccionPostulante.getSegundoApellido());
+            nuevoEstudiante.setDni(seleccionPostulante.getCi());
+            nuevoEstudiante.setLugarExpedicion(seleccionPostulante.getLugarExpedicion());
+            nuevoEstudiante.setFechaNacimiento(seleccionPostulante.getFechaNacimiento());
+            nuevoEstudiante.setLugarNacimiento(seleccionPostulante.getLugarNacimiento());
+            nuevoEstudiante.setNacionalidad(seleccionPostulante.getNacionalidad());
+            nuevoEstudiante.setSexo(seleccionPostulante.getSexo());
+            nuevoEstudiante.setDireccion(seleccionPostulante.getDireccion());
+            nuevoEstudiante.setTelefono(seleccionPostulante.getTelefono());
+            nuevoEstudiante.setCelular(seleccionPostulante.getCelular());
+            nuevoEstudiante.setEmail(seleccionPostulante.getEmail());
+            nuevoEstudiante.setNombreContacto(seleccionPostulante.getNombreContacto());
+            nuevoEstudiante.setCelularContacto(seleccionPostulante.getCelularContacto());
+            nuevoEstudiante.setParentescoContacto(seleccionPostulante.getParentescoContacto());
+            nuevoEstudiante.setNombreColegio(seleccionPostulante.getNombreColegio());
+            nuevoEstudiante.setCaracterColegio(seleccionPostulante.getCaracterColegio());
+            nuevoEstudiante.setEgresoColegio(seleccionPostulante.getEgresoColegio());
+            nuevoEstudiante.setFecha(Fecha.getDate());
+            nuevoEstudiante.setDiplomaBachiller(seleccionPostulante.getDiplomaBachiller());
+
+            seleccionGestionAcademica = seleccionPostulante.getGestionAcademica();
+            CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+            carreraEstudianteId.setId_carrera(seleccionPostulante.getCarrera().getId_carrera());
+            carreraEstudianteId.setId_persona(0);
+            CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+            carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+            carreraEstudiante.setCarrera(seleccionPostulante.getCarrera());
+            seleccionCarreraEstudiante = carreraEstudiante;
+        }
     }
 
     public List<CarreraEstudiante> listaCarrerasEstudiante() {
@@ -129,12 +168,12 @@ public class EstudianteNuevoController extends AbstractController implements Ser
         }
     }
 
-    public void toEstudianteNuevo() throws IOException {
-        this.redireccionarViewId("/inscripciones/estudianteNuevo/estudianteNuevo");
+    public void toEstudianteNuevoPostulacion() throws IOException {
+        this.redireccionarViewId("/inscripciones/estudianteNuevoPostulacion/estudianteNuevoPostulacion");
     }
 
     public void toComprobantePago() throws IOException {
-        this.redireccionarViewId("/inscripciones/estudianteNuevo/comprobantePago");
+        this.redireccionarViewId("/inscripciones/estudianteNuevoPostulacion/comprobantePago");
     }
 
     /**
@@ -191,5 +230,19 @@ public class EstudianteNuevoController extends AbstractController implements Ser
      */
     public void setNuevoComprobante(Comprobante nuevoComprobante) {
         this.nuevoComprobante = nuevoComprobante;
+    }
+
+    /**
+     * @return the seleccionPostulante
+     */
+    public Postulante getSeleccionPostulante() {
+        return seleccionPostulante;
+    }
+
+    /**
+     * @param seleccionPostulante the seleccionPostulante to set
+     */
+    public void setSeleccionPostulante(Postulante seleccionPostulante) {
+        this.seleccionPostulante = seleccionPostulante;
     }
 }

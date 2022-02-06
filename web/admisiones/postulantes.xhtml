@@ -21,6 +21,8 @@
 
                             <div class="x_content">
                                 <h:form id="form">
+                                    <p:messages/>
+                                    
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-3">
                                             <p:outputLabel for="gestionAcademica" value="Gestion academica: " style="font-size: small"/>
@@ -43,7 +45,11 @@
 
                                     <p:toolbar>
                                         <f:facet name="left">
-                                            <p:commandButton icon="fa fa-search" value="Buscar" actionListener="#{AdmisionesController.reinit()}" update="form"/>   
+                                            <p:commandButton icon="fa fa-search" value="Buscar" actionListener="#{AdmisionesController.reinit()}" update="form"/>
+                                            
+                                            <p:spacer width="10"/>
+                                            
+                                            <p:commandButton icon="fa fa-cloud-upload" value="Copiar Postulantes" actionListener="#{AdmisionesController.copiarPostulantes()}" update="form"/> 
                                         </f:facet>
 
                                         <f:facet name="right">

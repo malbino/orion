@@ -72,6 +72,30 @@ public class Postulante implements Serializable {
 
     public Postulante() {
     }
+    
+    public String idnumberMoodle() {
+        return "p" + id_postulante;
+    }
+    
+    public String usuarioMoodle() {
+        return ci.trim().replaceAll("-", "").toLowerCase();
+    }
+
+    public String contraseñaMoodle() {
+        return "*M00dle" + this.usuarioMoodle() + "*";
+    }
+    
+    public String apellidos() {
+        String apellidos = this.getPrimerApellido();
+        if(this.getSegundoApellido() != null) {
+            apellidos += " " + this.getSegundoApellido();            
+        }
+        return apellidos;
+    }
+    
+    public String emailTemporal() {
+        return this.usuarioMoodle() + "@cambiatuemail.com";
+    }
 
     /**
      * @return the id_postulante
@@ -98,7 +122,7 @@ public class Postulante implements Serializable {
      * @param nombre the nombre to set
      */
     public void setNombre(String nombre) {
-        this.nombre = nombre.toUpperCase();
+        this.nombre = nombre.trim().toUpperCase();
     }
 
     /**
@@ -112,7 +136,7 @@ public class Postulante implements Serializable {
      * @param primerApellido the primerApellido to set
      */
     public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido.toUpperCase();
+        this.primerApellido = primerApellido.trim().toUpperCase();
     }
 
     /**
@@ -126,7 +150,7 @@ public class Postulante implements Serializable {
      * @param segundoApellido the segundoApellido to set
      */
     public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido.toUpperCase();
+        this.segundoApellido = segundoApellido.trim().toUpperCase();
     }
 
     /**
@@ -140,7 +164,7 @@ public class Postulante implements Serializable {
      * @param ci the ci to set
      */
     public void setCi(String ci) {
-        this.ci = ci.toUpperCase();
+        this.ci = ci.trim();
     }
 
     /**
@@ -182,7 +206,7 @@ public class Postulante implements Serializable {
      * @param lugarNacimiento the lugarNacimiento to set
      */
     public void setLugarNacimiento(String lugarNacimiento) {
-        this.lugarNacimiento = lugarNacimiento.toUpperCase();
+        this.lugarNacimiento = lugarNacimiento.trim().toUpperCase();
     }
 
     /**
@@ -196,7 +220,7 @@ public class Postulante implements Serializable {
      * @param nacionalidad the nacionalidad to set
      */
     public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad.toUpperCase();
+        this.nacionalidad = nacionalidad.trim().toUpperCase();
     }
 
     /**
@@ -224,7 +248,7 @@ public class Postulante implements Serializable {
      * @param direccion the direccion to set
      */
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+        this.direccion = direccion.trim().toUpperCase();
     }
 
     /**
@@ -378,7 +402,7 @@ public class Postulante implements Serializable {
      * @param nombreContacto the nombreContacto to set
      */
     public void setNombreContacto(String nombreContacto) {
-        this.nombreContacto = nombreContacto.toUpperCase();
+        this.nombreContacto = nombreContacto.trim().toUpperCase();
     }
 
     /**
@@ -406,7 +430,7 @@ public class Postulante implements Serializable {
      * @param parentescoContacto the parentescoContacto to set
      */
     public void setParentescoContacto(String parentescoContacto) {
-        this.parentescoContacto = parentescoContacto.toUpperCase();
+        this.parentescoContacto = parentescoContacto.trim().toUpperCase();
     }
 
     /**
@@ -420,7 +444,7 @@ public class Postulante implements Serializable {
      * @param nombreColegio the nombreColegio to set
      */
     public void setNombreColegio(String nombreColegio) {
-        this.nombreColegio = nombreColegio.toUpperCase();
+        this.nombreColegio = nombreColegio.trim().toUpperCase();
     }
 
     /**

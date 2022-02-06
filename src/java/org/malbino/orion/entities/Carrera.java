@@ -65,6 +65,14 @@ public class Carrera implements Serializable {
     public String nameMoodle() {
         return nombre + " v" + version;
     }
+    
+    public String fullNameMoodle() {
+        return nameMoodle();
+    }
+
+    public String shortNameMoodle() {
+        return codigo + " v" + version;
+    }
 
     /**
      * @return the id_carrera

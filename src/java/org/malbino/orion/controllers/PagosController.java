@@ -90,7 +90,9 @@ public class PagosController extends AbstractController implements Serializable 
     }
 
     public void imprimirComprobante() throws IOException {
-        if (seleccionComprobante.getInscrito() != null) {
+        if (seleccionComprobante.getInscrito() != null && seleccionComprobante.getPostulante() == null
+                && seleccionComprobante.getEstudiante() == null && seleccionComprobante.getCarrera() == null
+                && seleccionComprobante.getGestionAcademica() == null) {
             Estudiante estudiante = seleccionComprobante.getInscrito().getEstudiante();
 
             String contrasena = Generador.generarContrasena();
@@ -103,16 +105,26 @@ public class PagosController extends AbstractController implements Serializable 
 
                 this.reinit();
 
-                this.toComprobantePago();
+                this.toComprobantePagoEstudiante();
             } else {
                 this.mensajeDeError("No se puede imprimir el comprobante.");
             }
-        } else if (seleccionComprobante.getPostulante() != null) {
+        } else if (seleccionComprobante.getInscrito() == null && seleccionComprobante.getPostulante() != null
+                && seleccionComprobante.getEstudiante() == null && seleccionComprobante.getCarrera() == null
+                && seleccionComprobante.getGestionAcademica() == null) {
             this.insertarParametro("id_comprobante", seleccionComprobante.getId_comprobante());
 
             this.reinit();
 
             this.toComprobantePagoPostulante();
+        } else if (seleccionComprobante.getInscrito() == null && seleccionComprobante.getPostulante() == null
+                && seleccionComprobante.getEstudiante() != null && seleccionComprobante.getCarrera() != null
+                && seleccionComprobante.getGestionAcademica() != null) {
+            this.insertarParametro("id_comprobante", seleccionComprobante.getId_comprobante());
+
+            this.reinit();
+
+            this.toComprobantePago();
         }
     }
 
@@ -128,12 +140,16 @@ public class PagosController extends AbstractController implements Serializable 
         this.redireccionarViewId("/pagos/pagos/pagos");
     }
 
-    public void toComprobantePago() throws IOException {
-        this.redireccionarViewId("/pagos/pagos/comprobantePago");
+    public void toComprobantePagoEstudiante() throws IOException {
+        this.redireccionarViewId("/pagos/pagos/comprobantePagoEstudiante");
     }
 
     public void toComprobantePagoPostulante() throws IOException {
         this.redireccionarViewId("/pagos/pagos/comprobantePagoPostulante");
+    }
+
+    public void toComprobantePago() throws IOException {
+        this.redireccionarViewId("/pagos/pagos/comprobantePago");
     }
 
     /**

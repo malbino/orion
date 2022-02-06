@@ -101,6 +101,39 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombreContacto" value="Nombre de contacto:" style="font-size: small"/>
+                                            <p:inputText id="nombreContacto" value="#{EstudianteController.nuevoEstudiante.nombreContacto}" autocomplete="false" required="true" requiredMessage="* Nombre de contacto requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="celularContacto" value="Celular de contacto:" style="font-size: small"/> 
+                                            <p:inputMask id="celularContacto" value="#{EstudianteController.nuevoEstudiante.celularContacto}" mask="99999999" autocomplete="false" required="true" requiredMessage="* Celular de contacto requerido."/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="parentescoContacto" value="Parentesco contacto:" style="font-size: small"/>
+                                            <p:inputText id="parentescoContacto" value="#{EstudianteController.nuevoEstudiante.parentescoContacto}" autocomplete="false" required="true" requiredMessage="* Parentesco contacto requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombreColegio" value="Nombre colegio:" style="font-size: small"/>
+                                            <p:inputText id="nombreColegio" value="#{EstudianteController.nuevoEstudiante.nombreColegio}" autocomplete="false" required="true" requiredMessage="* Nombre colegio requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="caracterColegio" value="Caracter colegio:" style="font-size: small"/>
+                                            <p:selectOneMenu id="caracterColegio" value="#{EstudianteController.nuevoEstudiante.caracterColegio}" converter="#{CaracterConverter}" autoWidth="false" required="true" requiredMessage="* Caracter colegio requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{EstudianteController.listaCaracteres()}" var="caracter" itemLabel="#{caracter}" itemValue="#{caracter}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="egresoColegio" value="Año de egreso colegio:" style="font-size: small"/>
+                                            <p:inputMask id="egresoColegio" value="#{EstudianteController.nuevoEstudiante.egresoColegio}" mask="9999" autocomplete="false" required="true" requiredMessage="* Año de egreso colegio requerido."/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
                                             <p:calendar id="fecha" value="#{EstudianteController.nuevoEstudiante.fecha}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
                                         </div>

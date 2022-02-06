@@ -30,33 +30,45 @@ import org.malbino.orion.util.Redondeo;
 @Entity
 @Table(name = "comprobante")
 public class Comprobante implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_comprobante;
-    
+
     @Column(unique = true)
     private Integer codigo;
     private String deposito;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     private Boolean valido;
-    
+
     @JoinColumn(name = "id_inscrito")
     @ManyToOne
     private Inscrito inscrito;
-    
+
     @JoinColumn(name = "id_postulante")
     @ManyToOne
     private Postulante postulante;
-    
+
+    @JoinColumn(name = "id_estudiante")
+    @ManyToOne
+    private Estudiante estudiante;
+
+    @JoinColumn(name = "id_carrera")
+    @ManyToOne
+    private Carrera carrera;
+
+    @JoinColumn(name = "id_gestionacademica")
+    @ManyToOne
+    private GestionAcademica gestionAcademica;
+
     @JoinColumn(name = "id_usuario")
     @ManyToOne
     private Usuario usuario;
-    
+
     @OneToMany(mappedBy = "comprobante")
     private List<Detalle> detalles;
-    
+
     public Comprobante() {
     }
 
@@ -185,14 +197,56 @@ public class Comprobante implements Serializable {
     public void setDetalles(List<Detalle> detalles) {
         this.detalles = detalles;
     }
-    
+
+    /**
+     * @return the estudiante
+     */
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    /**
+     * @param estudiante the estudiante to set
+     */
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+
+    /**
+     * @return the carrera
+     */
+    public Carrera getCarrera() {
+        return carrera;
+    }
+
+    /**
+     * @param carrera the carrera to set
+     */
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
+    }
+
+    /**
+     * @return the gestionAcademica
+     */
+    public GestionAcademica getGestionAcademica() {
+        return gestionAcademica;
+    }
+
+    /**
+     * @param gestionAcademica the gestionAcademica to set
+     */
+    public void setGestionAcademica(GestionAcademica gestionAcademica) {
+        this.gestionAcademica = gestionAcademica;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 61 * hash + Objects.hashCode(this.id_comprobante);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -210,20 +264,20 @@ public class Comprobante implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return codigo + " [" + fecha_ddMMyyyy() + "]";
     }
-    
+
     public String fecha_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
-    
+
     public String validoToString() {
         return valido ? "Sí" : "No";
     }
-    
+
     public String estudiantePostulante() {
         String s = "";
         if (inscrito != null) {
@@ -232,9 +286,12 @@ public class Comprobante implements Serializable {
         if (postulante != null) {
             s = postulante.toString();
         }
+        if (estudiante != null && carrera != null && gestionAcademica != null) {
+            s = estudiante.toString();
+        }
         return s;
     }
-    
+
     public String carrera() {
         String s = "";
         if (inscrito != null) {
@@ -243,9 +300,12 @@ public class Comprobante implements Serializable {
         if (postulante != null) {
             s = postulante.getCarrera().toString();
         }
+        if (estudiante != null && carrera != null && gestionAcademica != null) {
+            s = carrera.toString();
+        }
         return s;
     }
-    
+
     public String gestionAcademica() {
         String s = "";
         if (inscrito != null) {
@@ -254,9 +314,12 @@ public class Comprobante implements Serializable {
         if (postulante != null) {
             s = postulante.getGestionAcademica().toString();
         }
+        if (estudiante != null && carrera != null && gestionAcademica != null) {
+            s = gestionAcademica.toString();
+        }
         return s;
     }
-    
+
     public String monto() {
         Integer monto = 0;
         for (Detalle detalle : detalles) {
@@ -264,7 +327,7 @@ public class Comprobante implements Serializable {
         }
         return Redondeo.formatear_0p00(monto);
     }
-    
+
     public String usuario() {
         String s = "";
         if (usuario != null) {

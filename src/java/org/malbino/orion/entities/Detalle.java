@@ -31,6 +31,8 @@ public class Detalle implements Serializable {
 
     private Concepto concepto;
     private Integer monto;
+    private String codigo;
+    private String nombre;
 
     @JoinColumn(name = "id_comprobante")
     @ManyToOne(cascade = {CascadeType.REMOVE})
@@ -120,5 +122,33 @@ public class Detalle implements Serializable {
      */
     public void setPago(Pago pago) {
         this.pago = pago;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

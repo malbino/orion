@@ -15,7 +15,7 @@
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Estudiante Nuevo <small>registrar nuevo estudiante</small></h2>
+                                <h2>Estudiante Nuevo Postulación <small>registrar nuevo estudiante con postulación</small></h2>
 
                                 <div class="clearfix"></div>
                             </div>
@@ -26,51 +26,61 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="postulante" value="Postulante:"/>
+                                            <p:autoComplete id="postulante" value="#{EstudianteNuevoPostulacionController.seleccionPostulante}" completeMethod="#{EstudianteNuevoPostulacionController.completarPostulante}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
+                                                            var="postulante" itemLabel="#{postulante.toString()}" itemValue="#{postulante}" converter="#{PostulanteConverter}" forceSelection="true"
+                                                            required="true" requiredMessage="* Postulante requerido.">
+
+                                                <p:ajax listener="#{EstudianteNuevoPostulacionController.cargarPostulante()}" update="form"/>
+                                            </p:autoComplete>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nombre" value="Nombre:" style="font-size: small"/>
-                                            <p:inputText id="nombre" value="#{EstudianteNuevoController.nuevoEstudiante.nombre}" required="true" requiredMessage="* Nombre requerido." />
+                                            <p:inputText id="nombre" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.nombre}" required="true" requiredMessage="* Nombre requerido." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="primerApellido" value="Primer apellido:" style="font-size: small"/>
-                                            <p:inputText id="primerApellido" value="#{EstudianteNuevoController.nuevoEstudiante.primerApellido}" required="true" requiredMessage="* Primer apellido requerido." />
+                                            <p:inputText id="primerApellido" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.primerApellido}" required="true" requiredMessage="* Primer apellido requerido." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="segundoApellido" value="Segundo apellido:" style="font-size: small"/>
-                                            <p:inputText id="segundoApellido" value="#{EstudianteNuevoController.nuevoEstudiante.segundoApellido}" />
+                                            <p:inputText id="segundoApellido" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.segundoApellido}" />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="dni" value="DNI:" style="font-size: small"/>
-                                            <p:inputText id="dni" value="#{EstudianteNuevoController.nuevoEstudiante.dni}" required="true" requiredMessage="* DNI requerido." />
+                                            <p:inputText id="dni" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.dni}" required="true" requiredMessage="* DNI requerido." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="lugarExpedicion" value="Lugar expedición:" style="font-size: small"/>
-                                            <p:selectOneMenu id="lugarExpedicion" value="#{EstudianteNuevoController.nuevoEstudiante.lugarExpedicion}" converter="#{LugarExpedicionConverter}" autoWidth="false" required="false"> 
+                                            <p:selectOneMenu id="lugarExpedicion" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.lugarExpedicion}" converter="#{LugarExpedicionConverter}" autoWidth="false" required="false"> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{EstudianteNuevoController.listaLugaresExpedicion()}" var="lugarExpedicion" itemLabel="#{lugarExpedicion}" itemValue="#{lugarExpedicion}"/>  
+                                                <f:selectItems value="#{EstudianteNuevoPostulacionController.listaLugaresExpedicion()}" var="lugarExpedicion" itemLabel="#{lugarExpedicion}" itemValue="#{lugarExpedicion}"/>  
                                             </p:selectOneMenu> 
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fechaNacimiento" value="Fecha de nacimiento:" style="font-size: small"/>
-                                            <p:calendar id="fechaNacimiento" value="#{EstudianteNuevoController.nuevoEstudiante.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" yearRange="c-100:c+100" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
+                                            <p:calendar id="fechaNacimiento" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.fechaNacimiento}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" yearRange="c-100:c+100" required="true" requiredMessage="* Fecha de nacimiento requerido."/>  
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="lugarNacimiento" value="Lugar de nacimiento:" style="font-size: small"/>
-                                            <p:inputText id="lugarNacimiento" value="#{EstudianteNuevoController.nuevoEstudiante.lugarNacimiento}" required="true" requiredMessage="* Lugar de nacimiento requerido." />
+                                            <p:inputText id="lugarNacimiento" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.lugarNacimiento}" required="true" requiredMessage="* Lugar de nacimiento requerido." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nacionalidad" value="Nacionalidad:" style="font-size: small"/>
-                                            <p:inputText id="nacionalidad" value="#{EstudianteNuevoController.nuevoEstudiante.nacionalidad}" required="true" requiredMessage="* Nacionalidad requerida." />
+                                            <p:inputText id="nacionalidad" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.nacionalidad}" required="true" requiredMessage="* Nacionalidad requerida." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="sexo" value="Sexo:" style="font-size: small"/>
-                                            <p:selectOneMenu id="sexo" value="#{EstudianteNuevoController.nuevoEstudiante.sexo}" converter="#{SexoConverter}" autoWidth="false" required="true" requiredMessage="* Sexo requerido."> 
+                                            <p:selectOneMenu id="sexo" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.sexo}" converter="#{SexoConverter}" autoWidth="false" required="true" requiredMessage="* Sexo requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{EmpleadoController.listaSexos()}" var="sexo" itemLabel="#{sexo}" itemValue="#{sexo}"/>  
                                             </p:selectOneMenu> 
@@ -78,80 +88,79 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="direccion" value="Dirección:" style="font-size: small"/>
-                                            <p:inputText id="direccion" value="#{EstudianteNuevoController.nuevoEstudiante.direccion}" required="true" requiredMessage="* Dirección requerida." />
+                                            <p:inputText id="direccion" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.direccion}" required="true" requiredMessage="* Dirección requerida." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="telefono" value="Teléfono:" style="font-size: small"/> 
-                                            <p:inputMask id="telefono" value="#{EstudianteNuevoController.nuevoEstudiante.telefono}" mask="9999999" required="false"/>
-
+                                            <p:inputMask id="telefono" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.telefono}" mask="9999999" required="false"/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="celular" value="Celular:" style="font-size: small"/> 
-                                            <p:inputMask id="celular" value="#{EstudianteNuevoController.nuevoEstudiante.celular}" mask="99999999" required="false"/>
+                                            <p:inputMask id="celular" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.celular}" mask="99999999" required="false"/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="email" value="Email:" style="font-size: small"/> 
-                                            <p:inputText id="email" value="#{EstudianteNuevoController.nuevoEstudiante.email}" required="true" requiredMessage="* Email requerido.">
+                                            <p:inputText id="email" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.email}" required="true" requiredMessage="* Email requerido.">
                                                 <f:validator validatorId="validators.emailValidator" />
                                             </p:inputText>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nombreContacto" value="Nombre de contacto:" style="font-size: small"/>
-                                            <p:inputText id="nombreContacto" value="#{EstudianteNuevoController.nuevoEstudiante.nombreContacto}" autocomplete="false" required="true" requiredMessage="* Nombre de contacto requerido." />
+                                            <p:inputText id="nombreContacto" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.nombreContacto}" autocomplete="false" required="true" requiredMessage="* Nombre de contacto requerido." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="celularContacto" value="Celular de contacto:" style="font-size: small"/> 
-                                            <p:inputMask id="celularContacto" value="#{EstudianteNuevoController.nuevoEstudiante.celularContacto}" mask="99999999" autocomplete="false" required="true" requiredMessage="* Celular de contacto requerido."/>
+                                            <p:inputMask id="celularContacto" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.celularContacto}" mask="99999999" autocomplete="false" required="true" requiredMessage="* Celular de contacto requerido."/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="parentescoContacto" value="Parentesco contacto:" style="font-size: small"/>
-                                            <p:inputText id="parentescoContacto" value="#{EstudianteNuevoController.nuevoEstudiante.parentescoContacto}" autocomplete="false" required="true" requiredMessage="* Parentesco contacto requerido." />
+                                            <p:inputText id="parentescoContacto" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.parentescoContacto}" autocomplete="false" required="true" requiredMessage="* Parentesco contacto requerido." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nombreColegio" value="Nombre colegio:" style="font-size: small"/>
-                                            <p:inputText id="nombreColegio" value="#{EstudianteNuevoController.nuevoEstudiante.nombreColegio}" autocomplete="false" required="true" requiredMessage="* Nombre colegio requerido." />
+                                            <p:inputText id="nombreColegio" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.nombreColegio}" autocomplete="false" required="true" requiredMessage="* Nombre colegio requerido." />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="caracterColegio" value="Caracter colegio:" style="font-size: small"/>
-                                            <p:selectOneMenu id="caracterColegio" value="#{EstudianteNuevoController.nuevoEstudiante.caracterColegio}" converter="#{CaracterConverter}" autoWidth="false" required="true" requiredMessage="* Caracter colegio requerido."> 
+                                            <p:selectOneMenu id="caracterColegio" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.caracterColegio}" converter="#{CaracterConverter}" autoWidth="false" required="true" requiredMessage="* Caracter colegio requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{EstudianteNuevoController.listaCaracteres()}" var="caracter" itemLabel="#{caracter}" itemValue="#{caracter}"/>  
+                                                <f:selectItems value="#{EstudianteNuevoPostulacionController.listaCaracteres()}" var="caracter" itemLabel="#{caracter}" itemValue="#{caracter}"/>  
                                             </p:selectOneMenu> 
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="egresoColegio" value="Año de egreso colegio:" style="font-size: small"/>
-                                            <p:inputMask id="egresoColegio" value="#{EstudianteNuevoController.nuevoEstudiante.egresoColegio}" mask="9999" autocomplete="false" required="true" requiredMessage="* Año de egreso colegio requerido."/>
+                                            <p:inputMask id="egresoColegio" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.egresoColegio}" mask="9999" autocomplete="false" required="true" requiredMessage="* Año de egreso colegio requerido."/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
-                                            <p:calendar id="fecha" value="#{EstudianteNuevoController.nuevoEstudiante.fecha}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
+                                            <p:calendar id="fecha" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.fecha}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="diplomaBachiller" value="Diploma bachiller:" style="font-size: small"/>
-                                            <p:selectBooleanButton id="diplomaBachiller" value="#{EstudianteNuevoController.nuevoEstudiante.diplomaBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
+                                            <p:selectBooleanButton id="diplomaBachiller" value="#{EstudianteNuevoPostulacionController.nuevoEstudiante.diplomaBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="deposito" value="Depósito:" style="font-size: small"/>
-                                            <p:inputText id="deposito" value="#{EstudianteNuevoController.nuevoComprobante.deposito}" required="false" />
+                                            <p:inputText id="deposito" value="#{EstudianteNuevoPostulacionController.nuevoComprobante.deposito}" required="false" />
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="gestionAcademica" value="Gestion academica:" style="font-size: small"/> 
-                                            <p:selectOneMenu id="gestionAcademica" value="#{EstudianteNuevoController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{EstudianteNuevoPostulacionController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{EstudianteNuevoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+                                                <f:selectItems value="#{EstudianteNuevoPostulacionController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
 
                                                 <p:ajax update="carrerasEstudiante"/>
                                             </p:selectOneMenu>
@@ -159,20 +168,20 @@
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrerasEstudiante" value="Carreras:" style="font-size: small"/>
-                                            <p:selectOneMenu id="carrerasEstudiante" value="#{EstudianteNuevoController.seleccionCarreraEstudiante}" converter="#{CarreraEstudianteConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
+                                            <p:selectOneMenu id="carrerasEstudiante" value="#{EstudianteNuevoPostulacionController.seleccionCarreraEstudiante}" converter="#{CarreraEstudianteConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida.">
                                                 <f:selectItem itemLabel="" itemValue=""/>
-                                                <f:selectItems value="#{EstudianteNuevoController.listaCarrerasEstudiante()}" var="carreraEstudiante" itemLabel="#{carreraEstudiante.toString()}" itemValue="#{carreraEstudiante}"/>
+                                                <f:selectItems value="#{EstudianteNuevoPostulacionController.listaCarrerasEstudiante()}" var="carreraEstudiante" itemLabel="#{carreraEstudiante.toString()}" itemValue="#{carreraEstudiante}"/>
                                             </p:selectOneMenu>
                                         </div>
                                     </div>
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{EstudianteNuevoController.registrarEstudiante()}" update="form"/>
+                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{EstudianteNuevoPostulacionController.registrarEstudiante()}" update="form"/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{EstudianteNuevoController.reinit()}" update="form"/>
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{EstudianteNuevoPostulacionController.reinit()}" update="form"/>
                                         </div>
                                     </div>
                                 </h:form>

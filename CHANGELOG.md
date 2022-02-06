@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2022-02-06
+### Added
+- Se añadio la copia de postulantes a Moodle
+- Se añadio el registro de estudiantes nuevos con postulacion
+- Se añadio el registro de pagos por cualquier concepto
+### Changed
+### Removed
+### Fixed
+
 ## [1.9.0] - 2022-01-17
 ### Added
 - Se añadio la gestión de postulantes

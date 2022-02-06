@@ -99,12 +99,45 @@
                                                 <f:validator validatorId="validators.emailValidator" />
                                             </p:inputText>
                                         </div>
-                                        
-                                         <div class="ui-g-12 ui-md-4">
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombreContacto" value="Nombre de contacto:" style="font-size: small"/>
+                                            <p:inputText id="nombreContacto" value="#{EstudianteController.seleccionEstudiante.nombreContacto}" autocomplete="false" required="true" requiredMessage="* Nombre de contacto requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="celularContacto" value="Celular de contacto:" style="font-size: small"/> 
+                                            <p:inputMask id="celularContacto" value="#{EstudianteController.seleccionEstudiante.celularContacto}" mask="99999999" autocomplete="false" required="true" requiredMessage="* Celular de contacto requerido."/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="parentescoContacto" value="Parentesco contacto:" style="font-size: small"/>
+                                            <p:inputText id="parentescoContacto" value="#{EstudianteController.seleccionEstudiante.parentescoContacto}" autocomplete="false" required="true" requiredMessage="* Parentesco contacto requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombreColegio" value="Nombre colegio:" style="font-size: small"/>
+                                            <p:inputText id="nombreColegio" value="#{EstudianteController.seleccionEstudiante.nombreColegio}" autocomplete="false" required="true" requiredMessage="* Nombre colegio requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="caracterColegio" value="Caracter colegio:" style="font-size: small"/>
+                                            <p:selectOneMenu id="caracterColegio" value="#{EstudianteController.seleccionEstudiante.caracterColegio}" converter="#{CaracterConverter}" autoWidth="false" required="true" requiredMessage="* Caracter colegio requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{EstudianteController.listaCaracteres()}" var="caracter" itemLabel="#{caracter}" itemValue="#{caracter}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="egresoColegio" value="Año de egreso colegio:" style="font-size: small"/>
+                                            <p:inputMask id="egresoColegio" value="#{EstudianteController.seleccionEstudiante.egresoColegio}" mask="9999" autocomplete="false" required="true" requiredMessage="* Año de egreso colegio requerido."/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="diplomaBachiller" value="Diploma bachiller:" style="font-size: small"/>
                                             <p:selectBooleanButton id="diplomaBachiller" value="#{EstudianteController.seleccionEstudiante.diplomaBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="carrerasEstudiante" value="Carreras:" style="font-size: small"/>
                                             <p:selectCheckboxMenu id="carrerasEstudiante" value="#{EstudianteController.seleccionCarrerasEstudiante}" converter="#{CarreraEstudianteConverter}" label="Carreras" filter="true" filterMatchMode="contains" style="height: 30px">  

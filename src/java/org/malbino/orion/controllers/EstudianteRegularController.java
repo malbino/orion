@@ -11,6 +11,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
@@ -41,6 +42,8 @@ public class EstudianteRegularController extends AbstractController implements S
     ActividadFacade actividadFacade;
     @EJB
     CarreraEstudianteFacade carreraEstudianteFacade;
+    @Inject
+    LoginController loginController;
 
     private Estudiante seleccionEstudiante;
     private CarreraEstudiante seleccionCarreraEstudiante;
@@ -86,6 +89,7 @@ public class EstudianteRegularController extends AbstractController implements S
                 if (seleccionEstudiante.getDiplomaBachiller()) {
                     nuevoComprobante.setFecha(Fecha.getDate());
                     nuevoComprobante.setValido(true);
+                    nuevoComprobante.setUsuario(loginController.getUsr());
 
                     String contrasena = Generador.generarContrasena();
                     seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));

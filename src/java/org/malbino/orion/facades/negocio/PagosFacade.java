@@ -84,6 +84,27 @@ public class PagosFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public boolean nuevoComprobante(Comprobante comprobante, List<Detalle> detalles) {
+        Integer maximoCodigo = comprobanteFacade.maximoCodigo(comprobante.getFecha());
+        Integer codigo;
+        if (maximoCodigo == null) {
+            codigo = (Fecha.extrarAño(comprobante.getFecha()) * 100000) + 1;
+        } else {
+            codigo = maximoCodigo + 1;
+        }
+        comprobante.setCodigo(codigo);
+        em.persist(comprobante);
+
+        for (Detalle detalle : detalles) {
+            detalle.setComprobante(comprobante);
+
+            em.persist(detalle);
+        }
+
+        return true;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean anularPago(Comprobante comprobante) {
         comprobante.setValido(false);
         em.merge(comprobante);
@@ -91,8 +112,11 @@ public class PagosFacade {
         List<Detalle> detalles = detalleFacade.listaDetalles(comprobante.getId_comprobante());
         for (Detalle detalle : detalles) {
             Pago pago = detalle.getPago();
-            pago.setPagado(false);
-            em.merge(pago);
+
+            if (pago != null) {
+                pago.setPagado(false);
+                em.merge(pago);
+            }
         }
 
         return true;

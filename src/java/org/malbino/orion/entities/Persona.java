@@ -83,7 +83,7 @@ public abstract class Persona implements Serializable {
      * @param nombre the nombre to set
      */
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.trim().toUpperCase();
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class Persona implements Serializable {
      * @param primerApellido the primerApellido to set
      */
     public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
+        this.primerApellido = primerApellido.trim().toUpperCase();
     }
 
     /**
@@ -111,7 +111,7 @@ public abstract class Persona implements Serializable {
      * @param segundoApellido the segundoApellido to set
      */
     public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
+        this.segundoApellido = segundoApellido.trim().toUpperCase();
     }
 
     /**
@@ -125,7 +125,7 @@ public abstract class Persona implements Serializable {
      * @param dni the dni to set
      */
     public void setDni(String dni) {
-        this.dni = dni;
+        this.dni = dni.trim();
     }
 
     /**
@@ -167,7 +167,7 @@ public abstract class Persona implements Serializable {
      * @param lugarNacimiento the lugarNacimiento to set
      */
     public void setLugarNacimiento(String lugarNacimiento) {
-        this.lugarNacimiento = lugarNacimiento;
+        this.lugarNacimiento = lugarNacimiento.trim().toUpperCase();;
     }
 
     /**
@@ -181,7 +181,7 @@ public abstract class Persona implements Serializable {
      * @param nacionalidad the nacionalidad to set
      */
     public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
+        this.nacionalidad = nacionalidad.trim().toUpperCase();
     }
 
     /**
@@ -209,7 +209,7 @@ public abstract class Persona implements Serializable {
      * @param direccion the direccion to set
      */
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+        this.direccion = direccion.trim().toUpperCase();
     }
 
     /**

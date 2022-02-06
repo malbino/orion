@@ -24,6 +24,7 @@ import org.malbino.orion.entities.Nota;
 import org.malbino.orion.entities.Postulante;
 import org.malbino.orion.entities.Usuario;
 import org.malbino.orion.enums.Caracter;
+import org.malbino.orion.enums.Concepto;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.enums.LugarExpedicion;
@@ -227,6 +228,10 @@ public abstract class AbstractController implements Serializable {
 
     public Modalidad[] listaModalidades() {
         return Modalidad.values();
+    }
+    
+    public Concepto[] listaConceptos() {
+        return Concepto.values();
     }
 
     public void editarNota(Nota nota) {

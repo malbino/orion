@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.util.Fecha;
 
 /**
@@ -35,6 +36,13 @@ public class Estudiante extends Usuario implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     private Boolean diplomaBachiller;
+    
+    private String nombreContacto;
+    private Integer celularContacto;
+    private String parentescoContacto;
+    private String nombreColegio;
+    private Caracter caracterColegio;
+    private Integer egresoColegio;
 
     @OneToMany(mappedBy = "estudiante", orphanRemoval = true)
     private List<Nota> notas;
@@ -144,5 +152,89 @@ public class Estudiante extends Usuario implements Serializable {
             s = "No";
         }
         return s;
+    }
+
+    /**
+     * @return the nombreContacto
+     */
+    public String getNombreContacto() {
+        return nombreContacto;
+    }
+
+    /**
+     * @param nombreContacto the nombreContacto to set
+     */
+    public void setNombreContacto(String nombreContacto) {
+        this.nombreContacto = nombreContacto.trim().toUpperCase();
+    }
+
+    /**
+     * @return the celularContacto
+     */
+    public Integer getCelularContacto() {
+        return celularContacto;
+    }
+
+    /**
+     * @param celularContacto the celularContacto to set
+     */
+    public void setCelularContacto(Integer celularContacto) {
+        this.celularContacto = celularContacto;
+    }
+
+    /**
+     * @return the parentescoContacto
+     */
+    public String getParentescoContacto() {
+        return parentescoContacto;
+    }
+
+    /**
+     * @param parentescoContacto the parentescoContacto to set
+     */
+    public void setParentescoContacto(String parentescoContacto) {
+        this.parentescoContacto = parentescoContacto.trim().toUpperCase();
+    }
+
+    /**
+     * @return the nombreColegio
+     */
+    public String getNombreColegio() {
+        return nombreColegio;
+    }
+
+    /**
+     * @param nombreColegio the nombreColegio to set
+     */
+    public void setNombreColegio(String nombreColegio) {
+        this.nombreColegio = nombreColegio.trim().toUpperCase();
+    }
+
+    /**
+     * @return the caracterColegio
+     */
+    public Caracter getCaracterColegio() {
+        return caracterColegio;
+    }
+
+    /**
+     * @param caracterColegio the caracterColegio to set
+     */
+    public void setCaracterColegio(Caracter caracterColegio) {
+        this.caracterColegio = caracterColegio;
+    }
+
+    /**
+     * @return the egresoColegio
+     */
+    public Integer getEgresoColegio() {
+        return egresoColegio;
+    }
+
+    /**
+     * @param egresoColegio the egresoColegio to set
+     */
+    public void setEgresoColegio(Integer egresoColegio) {
+        this.egresoColegio = egresoColegio;
     }
 }
