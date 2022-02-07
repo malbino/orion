@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.1] - 2022-02-06
+### Added
+### Changed
+### Removed
+### Fixed
+- Se añadio la foto en el registro de los estudiantes nuevos con postulacion
+
 ## [1.10.0] - 2022-02-06
 ### Added
 - Se añadio la copia de postulantes a Moodle
