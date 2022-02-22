@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.2] - 2022-02-21
+### Added
+### Changed
+### Removed
+### Fixed
+- Exportar lista completa en Inscritos y Estudiantes
+
 ## [1.10.1] - 2022-02-06
 ### Added
 ### Changed

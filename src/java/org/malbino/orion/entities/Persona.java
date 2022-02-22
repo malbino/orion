@@ -279,7 +279,11 @@ public abstract class Persona implements Serializable {
     }
 
     public String fechaNacimiento_ddMMyyyy() {
-        return Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
+        String s = "";
+        if (fechaNacimiento != null) {
+            s = Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
+        }
+        return s;
     }
 
     @Override
