@@ -59,7 +59,7 @@ public class EstudianteFacadeREST extends AbstractFacade<Estudiante> {
         Instituto instituto = institutoFacade.buscarPorId(Constantes.ID_INSTITUTO);
         if (token.equals(instituto.getToken())) {
             try {
-                Query q = em.createQuery("SELECT new org.malbino.orion.middleware.pojos.Estudiante_(e.id_persona, e.nombre, e.primerApellido, e.segundoApellido, e.dni, e.lugarExpedicion, e.fechaNacimiento, e.lugarNacimiento, e.nacionalidad, e.sexo, e.direccion, e.telefono, e.celular, e.email, e.foto, e.usuario, e.contrasena, e.matricula, e.fecha, e.diplomaBachiller) FROM Estudiante e WHERE e.usuario IS NOT NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+                Query q = em.createQuery("SELECT new org.malbino.orion.middleware.pojos.Estudiante_(e.id_persona, e.nombre, e.primerApellido, e.segundoApellido, e.dni, e.lugarExpedicion, e.fechaNacimiento, e.lugarNacimiento, e.nacionalidad, e.sexo, e.direccion, e.telefono, e.celular, e.email, e.foto, e.usuario, e.contrasena, e.matricula, e.fecha, e.diplomaBachiller, e.nombreContacto, e.celularContacto, e.parentescoContacto, e.nombreColegio, e.caracterColegio, e.egresoColegio) FROM Estudiante e WHERE e.usuario IS NOT NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
 
                 l = q.getResultList();
             } catch (Exception e) {

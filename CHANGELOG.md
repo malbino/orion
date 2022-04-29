@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.4] - 2022-04-29
+### Added
+### Changed
+- Se agrego atributos al estudiante del middleware
+### Removed
+### Fixed
+
 ## [1.10.3] - 2022-02-24
 ### Added
 ### Changed

@@ -7,6 +7,7 @@ package org.malbino.orion.middleware.pojos;
 
 import java.io.Serializable;
 import java.util.Date;
+import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.LugarExpedicion;
 import org.malbino.orion.enums.Sexo;
 
@@ -38,11 +39,18 @@ public class Estudiante_ implements Serializable {
     private Integer matricula;
     private Date fecha;
     private Boolean diplomaBachiller;
+    
+    private String nombreContacto;
+    private Integer celularContacto;
+    private String parentescoContacto;
+    private String nombreColegio;
+    private Caracter caracterColegio;
+    private Integer egresoColegio;
 
     public Estudiante_() {
     }
 
-    public Estudiante_(Integer id_persona, String nombre, String primerApellido, String segundoApellido, String dni, LugarExpedicion lugarExpedicion, Date fechaNacimiento, String lugarNacimiento, String nacionalidad, Sexo sexo, String direccion, Integer telefono, Integer celular, String email, String foto, String usuario, String contrasena, Integer matricula, Date fecha, Boolean diplomaBachiller) {
+    public Estudiante_(Integer id_persona, String nombre, String primerApellido, String segundoApellido, String dni, LugarExpedicion lugarExpedicion, Date fechaNacimiento, String lugarNacimiento, String nacionalidad, Sexo sexo, String direccion, Integer telefono, Integer celular, String email, String foto, String usuario, String contrasena, Integer matricula, Date fecha, Boolean diplomaBachiller, String nombreContacto, Integer celularContacto, String parentescoContacto, String nombreColegio, Caracter caracterColegio, Integer egresoColegio) {
         this.id_persona = id_persona;
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -63,6 +71,12 @@ public class Estudiante_ implements Serializable {
         this.matricula = matricula;
         this.fecha = fecha;
         this.diplomaBachiller = diplomaBachiller;
+        this.nombreContacto = nombreContacto;
+        this.celularContacto = celularContacto;
+        this.parentescoContacto = parentescoContacto;
+        this.nombreColegio = nombreColegio;
+        this.caracterColegio = caracterColegio;
+        this.egresoColegio = egresoColegio;
     }
 
     /**
@@ -345,5 +359,89 @@ public class Estudiante_ implements Serializable {
         this.diplomaBachiller = diplomaBachiller;
     }
 
+    /**
+     * @return the nombreContacto
+     */
+    public String getNombreContacto() {
+        return nombreContacto;
+    }
+
+    /**
+     * @param nombreContacto the nombreContacto to set
+     */
+    public void setNombreContacto(String nombreContacto) {
+        this.nombreContacto = nombreContacto;
+    }
+
+    /**
+     * @return the celularContacto
+     */
+    public Integer getCelularContacto() {
+        return celularContacto;
+    }
+
+    /**
+     * @param celularContacto the celularContacto to set
+     */
+    public void setCelularContacto(Integer celularContacto) {
+        this.celularContacto = celularContacto;
+    }
+
+    /**
+     * @return the parentescoContacto
+     */
+    public String getParentescoContacto() {
+        return parentescoContacto;
+    }
+
+    /**
+     * @param parentescoContacto the parentescoContacto to set
+     */
+    public void setParentescoContacto(String parentescoContacto) {
+        this.parentescoContacto = parentescoContacto;
+    }
+
+    /**
+     * @return the nombreColegio
+     */
+    public String getNombreColegio() {
+        return nombreColegio;
+    }
+
+    /**
+     * @param nombreColegio the nombreColegio to set
+     */
+    public void setNombreColegio(String nombreColegio) {
+        this.nombreColegio = nombreColegio;
+    }
+
+    /**
+     * @return the caracterColegio
+     */
+    public Caracter getCaracterColegio() {
+        return caracterColegio;
+    }
+
+    /**
+     * @param caracterColegio the caracterColegio to set
+     */
+    public void setCaracterColegio(Caracter caracterColegio) {
+        this.caracterColegio = caracterColegio;
+    }
+
+    /**
+     * @return the egresoColegio
+     */
+    public Integer getEgresoColegio() {
+        return egresoColegio;
+    }
+
+    /**
+     * @param egresoColegio the egresoColegio to set
+     */
+    public void setEgresoColegio(Integer egresoColegio) {
+        this.egresoColegio = egresoColegio;
+    }
+    
     
 }
