@@ -434,11 +434,13 @@ public class ComprobantePagoPostulante extends HttpServlet {
         table.addCell(cell);
 
         //usuario
-        cell = new PdfPCell(new Phrase(comprobante.getUsuario().getUsuario(), ITALIC));
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-        cell.setColspan(100);
-        cell.setBorder(PdfPCell.NO_BORDER);
-        table.addCell(cell);
+        if (comprobante.getUsuario() != null) {
+            cell = new PdfPCell(new Phrase(comprobante.getUsuario().getUsuario(), ITALIC));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            cell.setColspan(100);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            table.addCell(cell);
+        }
 
         return table;
     }
