@@ -74,7 +74,7 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         List<Inscrito> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT i FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN n.grupo g JOIN g.empleado e WHERE ga.id_gestionacademica=:id_gestionacademica AND e.id_persona=:id_persona AND n.notaFinal<:notaMinimaAprobacion GROUP BY i HAVING COUNT(n) >= 1 AND COUNT(n) <=:cantidadMaximaReprobaciones");
+            Query q = em.createQuery("SELECT DISTINCT i FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN n.grupo g JOIN g.empleado e JOIN i.estudiante s WHERE ga.id_gestionacademica=:id_gestionacademica AND e.id_persona=:id_persona AND i.id_inscrito IN (SELECT i.id_inscrito FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga WHERE ga.id_gestionacademica=:id_gestionacademica AND n.notaFinal<:notaMinimaAprobacion GROUP BY i.id_inscrito HAVING COUNT(n) >= 1 AND COUNT(n) <=:cantidadMaximaReprobaciones) ORDER BY s.primerApellido, s.segundoApellido, s.nombre");
             q.setParameter("id_gestionacademica", gestionAcademica.getId_gestionacademica());
             q.setParameter("id_persona", id_persona);
             q.setParameter("notaMinimaAprobacion", gestionAcademica.getRegimen().getNotaMinimaAprobacion());

@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.1] - 2022-06-23
+### Added
+### Changed
+### Removed
+### Fixed
+- Se corrigio la lista de estudiantes habilitados a pruebas de recuperacion
+
 ## [1.11.0] - 2022-05-08
 ### Added
 - Reporte Seguimiento Academico
