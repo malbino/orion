@@ -88,14 +88,18 @@
                                             <h:outputText value="#{actividad.nombre}"/>
                                         </p:column>
 
-                                        <p:column headerText="Descricpion" >  
+                                        <p:column headerText="Descripcion" >  
                                             <h:outputText value="#{actividad.descripcion}"/> 
+                                        </p:column>
+                                        
+                                        <p:column headerText="Carrera" >  
+                                            <h:outputText value="#{actividad.carrera.toString()}"/> 
                                         </p:column>
 
                                         <p:column headerText="Funcionalidad" >  
                                             <h:outputText value="#{actividad.funcionalidad.toString()}"/> 
                                         </p:column>
-
+                                        
                                         <p:column exportable="false"> 
                                             <h:panelGroup id="group" >
                                                 <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  

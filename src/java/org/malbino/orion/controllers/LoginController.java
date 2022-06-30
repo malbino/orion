@@ -41,12 +41,14 @@ public class LoginController extends AbstractController {
 
     private List<Recurso> listaRecursos;
     private List<Actividad> listaActividadesProximas;
+    private List<Actividad> listaActividadesVigentes;
 
     public void login() throws IOException {
         usr = usuarioFacade.buscarPorUsuario(usuario);
         if (usr != null && usr.getContrasena() != null && Encriptador.comparar(contrasena, usr.getContrasena())) {
             listaRecursos = recursoFacade.buscarPorPersonaNombre(usr.getId_persona());
             listaActividadesProximas = actividadFacade.listaActividadesProximas(Fecha.getInicioDia(Fecha.getDate()));
+            listaActividadesVigentes = actividadFacade.listaActividadesVigentes();
 
             toHome();
         } else {
@@ -162,5 +164,19 @@ public class LoginController extends AbstractController {
      */
     public void setListaActividadesProximas(List<Actividad> listaActividadesProximas) {
         this.listaActividadesProximas = listaActividadesProximas;
+    }
+
+    /**
+     * @return the listaActividadesVigentes
+     */
+    public List<Actividad> getListaActividadesVigentes() {
+        return listaActividadesVigentes;
+    }
+
+    /**
+     * @param listaActividadesVigentes the listaActividadesVigentes to set
+     */
+    public void setListaActividadesVigentes(List<Actividad> listaActividadesVigentes) {
+        this.listaActividadesVigentes = listaActividadesVigentes;
     }
 }

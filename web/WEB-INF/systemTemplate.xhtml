@@ -240,9 +240,11 @@
                                                         <span class="image"><img src="#{request.contextPath}/resources/images/activity.png" alt="Actividad proxima" /></span>
                                                         <span>
                                                             <span>#{actividad.gestionAcademica.toString()}</span>
-                                                            <span class="time">#{actividad.inicio_ddMMyyyy()}</span>
+                                                            <span class="time">#{actividad.inicio_ddMMyyyy()} - #{actividad.fin_ddMMyyyy()}</span>
                                                         </span>
                                                         <span class="message">
+                                                            #{actividad.carrera.toString()}
+                                                            <br/>
                                                             #{actividad.descripcion}
                                                         </span>
                                                     </a>
@@ -251,7 +253,7 @@
 
                                             <li class="nav-item">
                                                 <div class="text-center">
-                                                    <a class="dropdown-item">
+                                                    <a class="dropdown-item" href="#{request.contextPath}/calendarioAcademico.xhtml">
                                                         <strong>Ver todas las alertas</strong>
                                                         <i class="fa fa-angle-right"></i>
                                                     </a>

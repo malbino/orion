@@ -46,6 +46,14 @@
                                         </div>
                                         
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                            <p:selectOneMenu id="carrera" value="#{CalendarioAcademicoController.seleccionActividad.carrera}" converter="#{CarreraConverter}" autoWidth="false"> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{CalendarioAcademicoController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="funcionalidad" value="Funcionalidad:" style="font-size: small"/>
                                             <p:selectOneMenu id="funcionalidad" value="#{CalendarioAcademicoController.seleccionActividad.funcionalidad}" converter="#{FuncionalidadConverter}" autoWidth="false"> 
                                                 <f:selectItem itemLabel="" itemValue="" />

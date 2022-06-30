@@ -118,7 +118,7 @@ public class TercerParcialController extends AbstractController implements Seria
     }
 
     public void guardar() {
-        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_TERCER_PARCIAL, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
+        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_TERCER_PARCIAL, seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera()).isEmpty()) {
             if (registroDocenteFacade.editarNotas(notas)) {
                 actualizarNotas();
 
@@ -238,7 +238,7 @@ public class TercerParcialController extends AbstractController implements Seria
     }
 
     public void subirRegistro(FileUploadEvent event) throws IOException {
-        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_TERCER_PARCIAL, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
+        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_TERCER_PARCIAL, seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera()).isEmpty()) {
             if (seleccionGrupo != null) {
                 XSSFWorkbook workbook = new XSSFWorkbook(event.getFile().getInputStream());
 

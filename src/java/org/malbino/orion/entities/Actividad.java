@@ -44,6 +44,10 @@ public class Actividad implements Serializable {
     @ManyToOne
     private GestionAcademica gestionAcademica;
 
+    @JoinColumn(name = "id_carrera")
+    @ManyToOne
+    private Carrera carrera;
+
     public Actividad() {
     }
 
@@ -177,8 +181,26 @@ public class Actividad implements Serializable {
     public String fin_ddMMyyyyHHmm() {
         return Fecha.formatearFecha_ddMMyyyyHHmm(fin);
     }
-    
-     public String inicio_ddMMyyyy() {
+
+    public String inicio_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(inicio);
+    }
+    
+    public String fin_ddMMyyyy() {
+        return Fecha.formatearFecha_ddMMyyyy(fin);
+    }
+
+    /**
+     * @return the carrera
+     */
+    public Carrera getCarrera() {
+        return carrera;
+    }
+
+    /**
+     * @param carrera the carrera to set
+     */
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
     }
 }
