@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.1] - 2022-09-29
+### Added
+### Changed
+- Se quito el registro de notas por carrera en el calendario academico
+### Removed
+### Fixed
+
 ## [1.12.0] - 2022-07-11
 ### Added
 - Reporte boletin de notas por carrera

@@ -29,30 +29,22 @@
                                             <p:outputLabel for="inicio" value="Inicio:"/>
                                             <p:calendar id="inicio" value="#{CalendarioAcademicoController.nuevaActividad.inicio}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Inicio requerido."/>  
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fin" value="Fin:"/>
                                             <p:calendar id="fin" value="#{CalendarioAcademicoController.nuevaActividad.fin}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Inicio requerido."/>  
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nombre" value="Nombre:" style="font-size: small"/>
                                             <p:inputText id="nombre" value="#{CalendarioAcademicoController.nuevaActividad.nombre}" required="true" requiredMessage="* Nombre requerido." />
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="descripcion" value="Descripcion:" style="font-size: small"/>
                                             <p:inputText id="descripcion" value="#{CalendarioAcademicoController.nuevaActividad.descripcion}" required="true" requiredMessage="* Nombre requerido." />
                                         </div>
-                                        
-                                        <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
-                                            <p:selectOneMenu id="carrera" value="#{CalendarioAcademicoController.nuevaActividad.carrera}" converter="#{CarreraConverter}" autoWidth="false"> 
-                                                <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{CalendarioAcademicoController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>
-                                            </p:selectOneMenu>
-                                        </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="funcionalidad" value="Funcionalidad:" style="font-size: small"/>
                                             <p:selectOneMenu id="funcionalidad" value="#{CalendarioAcademicoController.nuevaActividad.funcionalidad}" converter="#{FuncionalidadConverter}" autoWidth="false"> 

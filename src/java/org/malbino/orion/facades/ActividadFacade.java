@@ -85,24 +85,6 @@ public class ActividadFacade extends AbstractFacade<Actividad> {
 
         return l;
     }
-    
-    public List<Actividad> listaActividades(Date fecha, Funcionalidad funcionalidad, int id_gestionacademica, int id_carrera) {
-        List<Actividad> l = new ArrayList();
-
-        try {
-            Query q = em.createQuery("SELECT a FROM Actividad a JOIN a.gestionAcademica ga JOIN a.carrera c WHERE :fecha BETWEEN a.inicio AND a.fin AND a.funcionalidad=:funcionalidad AND ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
-            q.setParameter("fecha", fecha);
-            q.setParameter("funcionalidad", funcionalidad);
-            q.setParameter("id_gestionacademica", id_gestionacademica);
-            q.setParameter("id_carrera", id_carrera);
-
-            l = q.getResultList();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
 
     public List<Actividad> listaActividadesProximas(Date fecha) {
         List<Actividad> l = new ArrayList();
@@ -119,7 +101,7 @@ public class ActividadFacade extends AbstractFacade<Actividad> {
 
         return l;
     }
-    
+
     public List<Actividad> listaActividadesVigentes() {
         List<Actividad> l = new ArrayList();
 

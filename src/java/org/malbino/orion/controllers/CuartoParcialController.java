@@ -124,7 +124,7 @@ public class CuartoParcialController extends AbstractController implements Seria
     }
 
     public void guardar() {
-        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_CUARTO_PARCIAL, seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera()).isEmpty()) {
+        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_CUARTO_PARCIAL, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (registroDocenteFacade.editarNotas(notas)) {
                 actualizarNotas();
 
@@ -244,7 +244,7 @@ public class CuartoParcialController extends AbstractController implements Seria
     }
 
     public void subirRegistro(FileUploadEvent event) throws IOException {
-        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_CUARTO_PARCIAL, seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera()).isEmpty()) {
+        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_CUARTO_PARCIAL, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (seleccionGrupo != null) {
                 XSSFWorkbook workbook = new XSSFWorkbook(event.getFile().getInputStream());
 
