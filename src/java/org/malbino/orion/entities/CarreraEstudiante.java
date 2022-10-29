@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import org.malbino.orion.enums.Nivel;
 
 /**
  *
@@ -29,6 +30,8 @@ public class CarreraEstudiante implements Serializable {
     @JoinColumn(name = "id_mencion")
     @ManyToOne
     private Mencion mencion;
+
+    private Nivel nivelInicio;
 
     @Transient
     private Carrera carrera;
@@ -86,8 +89,9 @@ public class CarreraEstudiante implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.carreraEstudianteId);
-        hash = 79 * hash + Objects.hashCode(this.mencion);
+        hash = 89 * hash + Objects.hashCode(this.carreraEstudianteId);
+        hash = 89 * hash + Objects.hashCode(this.mencion);
+        hash = 89 * hash + Objects.hashCode(this.nivelInicio);
         return hash;
     }
 
@@ -109,16 +113,20 @@ public class CarreraEstudiante implements Serializable {
         if (!Objects.equals(this.mencion, other.mencion)) {
             return false;
         }
+        if (this.nivelInicio != other.nivelInicio) {
+            return false;
+        }
         return true;
     }
-    
-    
-    
+
     @Override
     public String toString() {
         String s = carrera.getNombre();
         if (mencion != null) {
             s += " [" + mencion.getNombre() + "]";
+        }
+        if (nivelInicio != null) {
+            s += " -> " + nivelInicio.getAbreviatura();
         }
         return s;
     }
@@ -194,5 +202,19 @@ public class CarreraEstudiante implements Serializable {
             return true;
         }
 
+    }
+
+    /**
+     * @return the nivelInicio
+     */
+    public Nivel getNivelInicio() {
+        return nivelInicio;
+    }
+
+    /**
+     * @param nivelInicio the nivelInicio to set
+     */
+    public void setNivelInicio(Nivel nivelInicio) {
+        this.nivelInicio = nivelInicio;
     }
 }

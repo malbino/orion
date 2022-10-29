@@ -270,7 +270,18 @@ public class FileEstudianteFacade {
         CarreraEstudiante carreraEstudiante = carreraEstudianteFacade.find(carreraEstudianteId);
         List<Materia> listaMateriasCarrera;
         if (carreraEstudiante != null) {
-            listaMateriasCarrera = materiaFacade.listaMaterias(carrera, carreraEstudiante.getMencion());
+            if (carreraEstudiante.getNivelInicio() != null) {
+                List<Materia> listaMaterias = materiaFacade.listaMaterias(carrera, carreraEstudiante.getMencion());
+
+                listaMateriasCarrera = new ArrayList<>();
+                for (Materia materia : listaMaterias) {
+                    if (materia.getNivel().getNivel() >= carreraEstudiante.getNivelInicio().getNivel()) {
+                        listaMateriasCarrera.add(materia);
+                    }
+                }
+            } else {
+                listaMateriasCarrera = materiaFacade.listaMaterias(carrera, carreraEstudiante.getMencion());
+            }
         } else {
             listaMateriasCarrera = materiaFacade.listaMaterias(carrera, null);
         }
@@ -278,10 +289,29 @@ public class FileEstudianteFacade {
         List<Materia> listaMateriaAprobadas = materiaFacade.listaMateriaAprobadas(estudiante.getId_persona(), carrera.getId_carrera());
         listaMateriasCarrera.removeAll(listaMateriaAprobadas);
 
-        for (Materia materia : listaMateriasCarrera) {
-            List<Materia> prerequisitos = materia.getPrerequisitos();
-            if (listaMateriaAprobadas.containsAll(prerequisitos)) {
-                oferta.add(materia);
+        if (carreraEstudiante != null) {
+            if (carreraEstudiante.getNivelInicio() != null) {
+                for (Materia materia : listaMateriasCarrera) {
+                    List<Materia> prerequisitos = materia.getPrerequisitos();
+
+                    List<Materia> prerequisitosNivelInicio = new ArrayList<>();
+                    for (Materia prerequisito : prerequisitos) {
+                        if (prerequisito.getNivel().getNivel() >= carreraEstudiante.getNivelInicio().getNivel()) {
+                            prerequisitosNivelInicio.add(prerequisito);
+                        }
+                    }
+
+                    if (listaMateriaAprobadas.containsAll(prerequisitosNivelInicio)) {
+                        oferta.add(materia);
+                    }
+                }
+            }
+        } else {
+            for (Materia materia : listaMateriasCarrera) {
+                List<Materia> prerequisitos = materia.getPrerequisitos();
+                if (listaMateriaAprobadas.containsAll(prerequisitos)) {
+                    oferta.add(materia);
+                }
             }
         }
 

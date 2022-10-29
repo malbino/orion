@@ -20,6 +20,7 @@ import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.enums.Funcionalidad;
+import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.MencionFacade;
@@ -35,7 +36,7 @@ import org.malbino.orion.util.Generador;
 @Named("CambioCarreraController")
 @SessionScoped
 public class CambioCarreraController extends AbstractController implements Serializable {
-    
+
     @EJB
     InscritoFacade inscritoFacade;
     @EJB
@@ -46,62 +47,101 @@ public class CambioCarreraController extends AbstractController implements Seria
     MencionFacade mencionFacade;
     @Inject
     LoginController loginController;
-    
+
     private Estudiante seleccionEstudiante;
+    private Boolean traspasoConvalidacion;
     private CarreraEstudiante seleccionCarreraEstudiante;
     private GestionAcademica seleccionGestionAcademica;
-    
+
     private Comprobante nuevoComprobante;
-    
+
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
+        traspasoConvalidacion = Boolean.FALSE;
         seleccionCarreraEstudiante = null;
         seleccionGestionAcademica = null;
-        
+
         nuevoComprobante = new Comprobante();
     }
-    
+
     public void reinit() {
         seleccionEstudiante = null;
+        traspasoConvalidacion = Boolean.FALSE;
         seleccionCarreraEstudiante = null;
         seleccionGestionAcademica = null;
-        
+
         nuevoComprobante = new Comprobante();
     }
-    
+
     public List<CarreraEstudiante> listaCarrerasEstudiante() {
         List<CarreraEstudiante> l = new ArrayList<>();
+        
         List<Carrera> carreras = carreraFacade.listaCarreras();
         for (Carrera carrera : carreras) {
-            
             List<Mencion> menciones = mencionFacade.listaMenciones(carrera.getId_carrera());
             if (menciones.isEmpty()) {
-                CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
-                carreraEstudianteId.setId_carrera(carrera.getId_carrera());
-                carreraEstudianteId.setId_persona(0);
-                CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
-                carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
-                carreraEstudiante.setCarrera(carrera);
-                
-                l.add(carreraEstudiante);
-            } else {
-                for (Mencion mencion : menciones) {
+                if (!traspasoConvalidacion) {
                     CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
                     carreraEstudianteId.setId_carrera(carrera.getId_carrera());
                     carreraEstudianteId.setId_persona(0);
                     CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
                     carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
-                    carreraEstudiante.setMencion(mencion);
                     carreraEstudiante.setCarrera(carrera);
-                    
+
                     l.add(carreraEstudiante);
+                } else {
+                    Nivel[] niveles = Nivel.values(carrera.getRegimen());
+                    for (int i = 1; i < niveles.length; i++) {
+                        Nivel nivel = niveles[i];
+
+                        CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                        carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                        carreraEstudianteId.setId_persona(0);
+                        CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                        carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                        carreraEstudiante.setCarrera(carrera);
+                        carreraEstudiante.setNivelInicio(nivel);
+
+                        l.add(carreraEstudiante);
+                    }
+                }
+            } else {
+                for (Mencion mencion : menciones) {
+                    if (!traspasoConvalidacion) {
+                        CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                        carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                        carreraEstudianteId.setId_persona(0);
+                        CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                        carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                        carreraEstudiante.setMencion(mencion);
+                        carreraEstudiante.setCarrera(carrera);
+
+                        l.add(carreraEstudiante);
+                    } else {
+                        Nivel[] niveles = Nivel.values(carrera.getRegimen());
+                        for (int i = 1; i < niveles.length; i++) {
+                            Nivel nivel = niveles[i];
+
+                            CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                            carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                            carreraEstudianteId.setId_persona(0);
+                            CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                            carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                            carreraEstudiante.setMencion(mencion);
+                            carreraEstudiante.setCarrera(carrera);
+                            carreraEstudiante.setNivelInicio(nivel);
+
+                            l.add(carreraEstudiante);
+                        }
+                    }
+
                 }
             }
         }
         return l;
     }
-    
+
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
         List<GestionAcademica> l = new ArrayList();
@@ -110,7 +150,7 @@ public class CambioCarreraController extends AbstractController implements Seria
         }
         return l;
     }
-    
+
     public void registrarEstudiante() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (inscritoFacade.buscarInscrito(seleccionEstudiante.getId_persona(), seleccionCarreraEstudiante.getCarrera().getId_carrera(), seleccionGestionAcademica.getId_gestionacademica()) == null) {
@@ -118,16 +158,16 @@ public class CambioCarreraController extends AbstractController implements Seria
                     nuevoComprobante.setFecha(Fecha.getDate());
                     nuevoComprobante.setValido(true);
                     nuevoComprobante.setUsuario(loginController.getUsr());
-                    
+
                     String contrasena = Generador.generarContrasena();
                     seleccionEstudiante.setContrasena(Encriptador.encriptar(contrasena));
                     seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
                     if (inscripcionesFacade.cambioCarrera(seleccionEstudiante, seleccionCarreraEstudiante, seleccionGestionAcademica, nuevoComprobante)) {
                         this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                         this.insertarParametro("est", seleccionEstudiante);
-                        
+
                         reinit();
-                        
+
                         this.toComprobantePago();
                     } else {
                         this.mensajeDeError("No se pudo registrar al estudiante.");
@@ -142,11 +182,11 @@ public class CambioCarreraController extends AbstractController implements Seria
             this.mensajeDeError("Fuera de fecha.");
         }
     }
-    
+
     public void toCambioCarrera() throws IOException {
         this.redireccionarViewId("/inscripciones/cambioCarrera/cambioCarrera");
     }
-    
+
     public void toComprobantePago() throws IOException {
         this.redireccionarViewId("/inscripciones/cambioCarrera/comprobantePago");
     }
@@ -206,5 +246,19 @@ public class CambioCarreraController extends AbstractController implements Seria
     public void setNuevoComprobante(Comprobante nuevoComprobante) {
         this.nuevoComprobante = nuevoComprobante;
     }
-    
+
+    /**
+     * @return the traspasoConvalidacion
+     */
+    public Boolean getTraspasoConvalidacion() {
+        return traspasoConvalidacion;
+    }
+
+    /**
+     * @param traspasoConvalidacion the traspasoConvalidacion to set
+     */
+    public void setTraspasoConvalidacion(Boolean traspasoConvalidacion) {
+        this.traspasoConvalidacion = traspasoConvalidacion;
+    }
+
 }

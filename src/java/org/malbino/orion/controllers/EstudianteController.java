@@ -16,6 +16,7 @@ import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.PagoFacade;
@@ -111,8 +112,22 @@ public class EstudianteController extends AbstractController implements Serializ
                 CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
                 carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
                 carreraEstudiante.setCarrera(carrera);
-
                 l.add(carreraEstudiante);
+
+                Nivel[] niveles = Nivel.values(carrera.getRegimen());
+                for (int i = 1; i < niveles.length; i++) {
+                    Nivel nivel = niveles[i];
+
+                    carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                    carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                    carreraEstudianteId.setId_persona(0);
+                    carreraEstudiante = new CarreraEstudiante();
+                    carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                    carreraEstudiante.setCarrera(carrera);
+                    carreraEstudiante.setNivelInicio(nivel);
+
+                    l.add(carreraEstudiante);
+                }
             } else {
                 for (Mencion mencion : menciones) {
                     CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
@@ -122,8 +137,23 @@ public class EstudianteController extends AbstractController implements Serializ
                     carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
                     carreraEstudiante.setMencion(mencion);
                     carreraEstudiante.setCarrera(carrera);
-
                     l.add(carreraEstudiante);
+
+                    Nivel[] niveles = Nivel.values(carrera.getRegimen());
+                    for (int i = 1; i < niveles.length; i++) {
+                        Nivel nivel = niveles[i];
+
+                        carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                        carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                        carreraEstudianteId.setId_persona(0);
+                        carreraEstudiante = new CarreraEstudiante();
+                        carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                        carreraEstudiante.setMencion(mencion);
+                        carreraEstudiante.setCarrera(carrera);
+                        carreraEstudiante.setNivelInicio(nivel);
+
+                        l.add(carreraEstudiante);
+                    }
                 }
             }
         }
@@ -142,8 +172,22 @@ public class EstudianteController extends AbstractController implements Serializ
                 CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
                 carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
                 carreraEstudiante.setCarrera(carrera);
-
                 l.add(carreraEstudiante);
+
+                Nivel[] niveles = Nivel.values(carrera.getRegimen());
+                for (int i = 1; i < niveles.length; i++) {
+                    Nivel nivel = niveles[i];
+
+                    carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                    carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                    carreraEstudianteId.setId_persona(seleccionEstudiante.getId_persona());
+                    carreraEstudiante = new CarreraEstudiante();
+                    carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                    carreraEstudiante.setCarrera(carrera);
+                    carreraEstudiante.setNivelInicio(nivel);
+
+                    l.add(carreraEstudiante);
+                }
             } else {
                 for (Mencion mencion : menciones) {
                     CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
@@ -153,12 +197,37 @@ public class EstudianteController extends AbstractController implements Serializ
                     carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
                     carreraEstudiante.setMencion(mencion);
                     carreraEstudiante.setCarrera(carrera);
-
                     l.add(carreraEstudiante);
+
+                    Nivel[] niveles = Nivel.values(carrera.getRegimen());
+                    for (int i = 1; i < niveles.length; i++) {
+                        Nivel nivel = niveles[i];
+
+                        carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                        carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                        carreraEstudianteId.setId_persona(seleccionEstudiante.getId_persona());
+                        carreraEstudiante = new CarreraEstudiante();
+                        carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                        carreraEstudiante.setMencion(mencion);
+                        carreraEstudiante.setCarrera(carrera);
+                        carreraEstudiante.setNivelInicio(nivel);
+
+                        l.add(carreraEstudiante);
+                    }
                 }
             }
         }
         return l;
+    }
+
+    public void actualizar_listaCarrerasEstudiante_NuevoEstudiante() {
+        carrerasEstudiante = listaCarrerasEstudiante_NuevoEstudiante();
+        seleccionCarrerasEstudiante = new ArrayList<>();
+    }
+
+    public void actualizar_listaCarrerasEstudiante_EditarEstudiante() {
+        carrerasEstudiante = listaCarrerasEstudiante_EditarEstudiante();
+        seleccionCarrerasEstudiante = carreraEstudianteFacade.listaCarrerasEstudiante(seleccionEstudiante.getId_persona());
     }
 
     public String carrerasEstudianteToString(Estudiante estudiante) {

@@ -20,6 +20,7 @@ import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.enums.Funcionalidad;
+import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
@@ -46,6 +47,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
 
     private Estudiante nuevoEstudiante;
     private GestionAcademica seleccionGestionAcademica;
+    private Boolean traspasoConvalidacion;
     private CarreraEstudiante seleccionCarreraEstudiante;
 
     private Comprobante nuevoComprobante;
@@ -54,6 +56,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     public void init() {
         nuevoEstudiante = new Estudiante();
         seleccionGestionAcademica = null;
+        traspasoConvalidacion = Boolean.FALSE;
         seleccionCarreraEstudiante = null;
 
         nuevoComprobante = new Comprobante();
@@ -62,6 +65,7 @@ public class EstudianteNuevoController extends AbstractController implements Ser
     public void reinit() {
         nuevoEstudiante = new Estudiante();
         seleccionGestionAcademica = null;
+        traspasoConvalidacion = Boolean.FALSE;
         seleccionCarreraEstudiante = null;
 
         nuevoComprobante = new Comprobante();
@@ -74,25 +78,61 @@ public class EstudianteNuevoController extends AbstractController implements Ser
             for (Carrera carrera : carreras) {
                 List<Mencion> menciones = mencionFacade.listaMenciones(carrera.getId_carrera());
                 if (menciones.isEmpty()) {
-                    CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
-                    carreraEstudianteId.setId_carrera(carrera.getId_carrera());
-                    carreraEstudianteId.setId_persona(0);
-                    CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
-                    carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
-                    carreraEstudiante.setCarrera(carrera);
-
-                    l.add(carreraEstudiante);
-                } else {
-                    for (Mencion mencion : menciones) {
+                    if (!traspasoConvalidacion) {
                         CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
                         carreraEstudianteId.setId_carrera(carrera.getId_carrera());
                         carreraEstudianteId.setId_persona(0);
                         CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
                         carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
-                        carreraEstudiante.setMencion(mencion);
                         carreraEstudiante.setCarrera(carrera);
 
                         l.add(carreraEstudiante);
+                    } else {
+                        Nivel[] niveles = Nivel.values(carrera.getRegimen());
+                        for (int i = 1; i < niveles.length; i++) {
+                            Nivel nivel = niveles[i];
+
+                            CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                            carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                            carreraEstudianteId.setId_persona(0);
+                            CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                            carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                            carreraEstudiante.setCarrera(carrera);
+                            carreraEstudiante.setNivelInicio(nivel);
+
+                            l.add(carreraEstudiante);
+                        }
+                    }
+                } else {
+                    for (Mencion mencion : menciones) {
+                        if (!traspasoConvalidacion) {
+                            CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                            carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                            carreraEstudianteId.setId_persona(0);
+                            CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                            carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                            carreraEstudiante.setMencion(mencion);
+                            carreraEstudiante.setCarrera(carrera);
+
+                            l.add(carreraEstudiante);
+                        } else {
+                            Nivel[] niveles = Nivel.values(carrera.getRegimen());
+                            for (int i = 1; i < niveles.length; i++) {
+                                Nivel nivel = niveles[i];
+
+                                CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+                                carreraEstudianteId.setId_carrera(carrera.getId_carrera());
+                                carreraEstudianteId.setId_persona(0);
+                                CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+                                carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+                                carreraEstudiante.setMencion(mencion);
+                                carreraEstudiante.setCarrera(carrera);
+                                carreraEstudiante.setNivelInicio(nivel);
+
+                                l.add(carreraEstudiante);
+                            }
+                        }
+
                     }
                 }
             }
@@ -191,5 +231,19 @@ public class EstudianteNuevoController extends AbstractController implements Ser
      */
     public void setNuevoComprobante(Comprobante nuevoComprobante) {
         this.nuevoComprobante = nuevoComprobante;
+    }
+
+    /**
+     * @return the traspasoConvalidacion
+     */
+    public Boolean getTraspasoConvalidacion() {
+        return traspasoConvalidacion;
+    }
+
+    /**
+     * @param traspasoConvalidacion the traspasoConvalidacion to set
+     */
+    public void setTraspasoConvalidacion(Boolean traspasoConvalidacion) {
+        this.traspasoConvalidacion = traspasoConvalidacion;
     }
 }

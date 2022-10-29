@@ -13,6 +13,7 @@ import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.MencionFacade;
 
@@ -37,39 +38,24 @@ public class CarreraEstudianteConverter implements Converter {
             o = null;
         } else {
             String[] split = submittedValue.split(",");
-            if (split.length == 2) {
-                Integer id_carrera = Integer.valueOf(split[0]);
-                Integer id_persona = Integer.valueOf(split[1]);
 
-                CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
-                carreraEstudianteId.setId_carrera(id_carrera);
-                carreraEstudianteId.setId_persona(id_persona);
-                CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
-                carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+            Integer id_carrera = Integer.valueOf(split[0]);
+            Integer id_persona = Integer.valueOf(split[1]);
+            Mencion mencion = mencionFacade.find(Integer.valueOf(split[2]));
+            Nivel nivel = Nivel.getById(Integer.valueOf(split[3]));
 
-                Carrera carrera = carreraFacade.find(id_carrera);
-                carreraEstudiante.setCarrera(carrera);
+            CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
+            carreraEstudianteId.setId_carrera(id_carrera);
+            carreraEstudianteId.setId_persona(id_persona);
+            CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
+            carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
+            carreraEstudiante.setMencion(mencion);
+            carreraEstudiante.setNivelInicio(nivel);
 
-                o = carreraEstudiante;
-            }
-            if (split.length == 3) {
-                Integer id_carrera = Integer.valueOf(split[0]);
-                Integer id_persona = Integer.valueOf(split[1]);
-                Mencion mencion = mencionFacade.find(Integer.valueOf(split[2]));
+            Carrera carrera = carreraFacade.find(id_carrera);
+            carreraEstudiante.setCarrera(carrera);
 
-                CarreraEstudiante.CarreraEstudianteId carreraEstudianteId = new CarreraEstudiante.CarreraEstudianteId();
-                carreraEstudianteId.setId_carrera(id_carrera);
-                carreraEstudianteId.setId_persona(id_persona);
-                CarreraEstudiante carreraEstudiante = new CarreraEstudiante();
-                carreraEstudiante.setCarreraEstudianteId(carreraEstudianteId);
-                carreraEstudiante.setMencion(mencion);
-
-                Carrera carrera = carreraFacade.find(id_carrera);
-                carreraEstudiante.setCarrera(carrera);
-
-                o = carreraEstudiante;
-            }
-
+            o = carreraEstudiante;
         }
 
         return o;
@@ -83,15 +69,21 @@ public class CarreraEstudianteConverter implements Converter {
             s = "";
         } else {
             CarreraEstudiante ce = (CarreraEstudiante) value;
-            if (ce.getMencion() == null) {
-                s = String.valueOf(ce.getCarreraEstudianteId().getId_carrera() + ","
-                        + ce.getCarreraEstudianteId().getId_persona()
-                );
+            s = String.valueOf(
+                    ce.getCarreraEstudianteId().getId_carrera()
+                    + "," + ce.getCarreraEstudianteId().getId_persona()
+            );
+
+            if (ce.getMencion() != null) {
+                s += "," + ce.getMencion().getId_mencion();
             } else {
-                s = String.valueOf(ce.getCarreraEstudianteId().getId_carrera() + ","
-                        + ce.getCarreraEstudianteId().getId_persona() + ","
-                        + ce.getMencion().getId_mencion()
-                );
+                s += ",-1";
+            }
+
+            if (ce.getNivelInicio() != null) {
+                s += "," + ce.getNivelInicio().getId();
+            } else {
+                s += ",-1";
             }
         }
 

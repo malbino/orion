@@ -354,6 +354,63 @@ public class InscripcionesFacade {
         return oferta;
     }
 
+    public List<Materia> oferta(Inscrito inscrito, Mencion mencion, Nivel nivelInicio) {
+        List<Materia> oferta = new ArrayList();
+
+        List<Materia> listaMateriaAprobadas = materiaFacade.listaMateriaAprobadas(inscrito.getEstudiante().getId_persona(), inscrito.getCarrera().getId_carrera());
+        List<Nivel> nivelesPendientes = materiaFacade.nivelesPendientes(inscrito.getEstudiante(), inscrito.getCarrera(), mencion);
+
+        List<Nivel> nivelesPendientesNivelInicio = new ArrayList<>();
+        for (Nivel nivelPendiente : nivelesPendientes) {
+            if (nivelPendiente.getNivel() >= nivelInicio.getNivel()) {
+                nivelesPendientesNivelInicio.add(nivelPendiente);
+            }
+        }
+
+        ListIterator<Nivel> listIterator = nivelesPendientesNivelInicio.listIterator();
+        List<Materia> listaMaterias;
+        if (listIterator.hasNext()) {
+            listaMaterias = materiaFacade.listaMaterias(inscrito.getCarrera(), mencion, listIterator.next());
+            listaMaterias.removeAll(listaMateriaAprobadas);
+
+            for (Materia materia : listaMaterias) {
+                List<Materia> prerequisitos = materia.getPrerequisitos();
+
+                List<Materia> prerequisitosNivelInicio = new ArrayList<>();
+                for (Materia prerequisito : prerequisitos) {
+                    if (prerequisito.getNivel().getNivel() >= nivelInicio.getNivel()) {
+                        prerequisitosNivelInicio.add(prerequisito);
+                    }
+                }
+
+                if (listaMateriaAprobadas.containsAll(prerequisitosNivelInicio)) {
+                    oferta.add(materia);
+                }
+            }
+        }
+        if (inscrito.getTipo().equals(Tipo.REGULAR) && listIterator.hasNext() && oferta.size() <= inscrito.getCarrera().getRegimen().getCantidadMaximaReprobaciones()) {
+            listaMaterias = materiaFacade.listaMaterias(inscrito.getCarrera(), mencion, listIterator.next());
+            listaMaterias.removeAll(listaMateriaAprobadas);
+
+            for (Materia materia : listaMaterias) {
+                List<Materia> prerequisitos = materia.getPrerequisitos();
+
+                List<Materia> prerequisitosNivelInicio = new ArrayList<>();
+                for (Materia prerequisito : prerequisitos) {
+                    if (prerequisito.getNivel().getNivel() >= nivelInicio.getNivel()) {
+                        prerequisitosNivelInicio.add(prerequisito);
+                    }
+                }
+
+                if (listaMateriaAprobadas.containsAll(prerequisitosNivelInicio)) {
+                    oferta.add(materia);
+                }
+            }
+        }
+
+        return oferta;
+    }
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean tomarMaterias(List<Nota> notas) {
         for (Nota nota : notas) {
@@ -396,7 +453,11 @@ public class InscripcionesFacade {
         CarreraEstudiante carreraEstudiante = carreraEstudianteFacade.find(inscrito.carreraEstudianteId());
         List<Materia> ofertaTomaMaterias;
         if (carreraEstudiante != null) {
-            ofertaTomaMaterias = oferta(inscrito, carreraEstudiante.getMencion());
+            if (carreraEstudiante.getNivelInicio() != null) {
+                ofertaTomaMaterias = oferta(inscrito, carreraEstudiante.getMencion(), carreraEstudiante.getNivelInicio());
+            } else {
+                ofertaTomaMaterias = oferta(inscrito, carreraEstudiante.getMencion());
+            }
         } else {
             ofertaTomaMaterias = oferta(inscrito, null);
         }
