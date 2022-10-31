@@ -51,7 +51,7 @@
                                                             var="docente" itemLabel="#{docente.toString()}" itemValue="#{docente}" converter="#{EmpleadoConverter}" forceSelection="true"
                                                             required="true" requiredMessage="* Empleado requerido.">
 
-                                                <p:ajax update="grupo"/>
+                                                <p:ajax event="itemSelect" update="grupo"/>
                                             </p:autoComplete>
                                         </div>
 

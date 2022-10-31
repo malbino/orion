@@ -31,7 +31,7 @@
                                                             var="postulante" itemLabel="#{postulante.toString()}" itemValue="#{postulante}" converter="#{PostulanteConverter}" forceSelection="true"
                                                             required="true" requiredMessage="* Postulante requerido.">
 
-                                                <p:ajax listener="#{NuevoPagoPostulanteController.actualizarPagos()}" update="deposito pagos"/>
+                                                <p:ajax event="itemSelect" listener="#{NuevoPagoPostulanteController.actualizarPagos()}" update="deposito pagos"/>
                                             </p:autoComplete>
                                         </div>
 
