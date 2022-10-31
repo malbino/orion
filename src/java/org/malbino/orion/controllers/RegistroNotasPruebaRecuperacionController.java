@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.malbino.orion.entities.Empleado;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
@@ -24,34 +25,35 @@ import org.malbino.orion.util.Fecha;
  *
  * @author Tincho
  */
-@Named("PruebaRecuperacionController")
+@Named("RegistroNotasPruebaRecuperacionController")
 @SessionScoped
-public class PruebaRecuperacionController extends AbstractController implements Serializable {
+public class RegistroNotasPruebaRecuperacionController extends AbstractController implements Serializable {
 
-    @Inject
-    LoginController loginController;
     @EJB
     RegistroDocenteFacade registroDocenteFacade;
     @EJB
     ActividadFacade actividadFacade;
 
     private GestionAcademica seleccionGestionAcademica;
+    private Empleado seleccionEmpleado;
     private List<Nota> notas;
 
     @PostConstruct
     public void init() {
         seleccionGestionAcademica = null;
+        seleccionEmpleado = null;
         notas = new ArrayList();
     }
 
     public void reinit() {
         seleccionGestionAcademica = null;
+        seleccionEmpleado = null;
         notas = new ArrayList();
     }
 
     public void actualizarNotas() {
-        if (seleccionGestionAcademica != null && loginController.getUsr() != null) {
-            notas = registroDocenteFacade.listaRecuperatorios(seleccionGestionAcademica, loginController.getUsr().getId_persona());
+        if (seleccionGestionAcademica != null && seleccionEmpleado != null) {
+            notas = registroDocenteFacade.listaRecuperatorios(seleccionGestionAcademica, seleccionEmpleado.getId_persona());
         }
     }
 
@@ -73,16 +75,10 @@ public class PruebaRecuperacionController extends AbstractController implements 
     }
 
     public void guardar() {
-        if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_PRUEBA_RECUPERACION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
-            if (registroDocenteFacade.editarNotas(notas)) {
-                actualizarNotas();
-
-                this.mensajeDeInformacion("Guardado.");
-            }
-        } else {
+        if (registroDocenteFacade.editarNotas(notas)) {
             actualizarNotas();
 
-            this.mensajeDeError("Fuera de fecha.");
+            this.mensajeDeInformacion("Guardado.");
         }
     }
 
@@ -112,5 +108,19 @@ public class PruebaRecuperacionController extends AbstractController implements 
      */
     public void setNotas(List<Nota> notas) {
         this.notas = notas;
+    }
+
+    /**
+     * @return the seleccionEmpleado
+     */
+    public Empleado getSeleccionEmpleado() {
+        return seleccionEmpleado;
+    }
+
+    /**
+     * @param seleccionEmpleado the seleccionEmpleado to set
+     */
+    public void setSeleccionEmpleado(Empleado seleccionEmpleado) {
+        this.seleccionEmpleado = seleccionEmpleado;
     }
 }
