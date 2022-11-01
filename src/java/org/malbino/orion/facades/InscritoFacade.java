@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.enums.Condicion;
@@ -77,6 +78,24 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
             Query q = em.createQuery("SELECT DISTINCT i FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN n.grupo g JOIN g.empleado e JOIN i.estudiante s WHERE ga.id_gestionacademica=:id_gestionacademica AND e.id_persona=:id_persona AND i.id_inscrito IN (SELECT i.id_inscrito FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga WHERE ga.id_gestionacademica=:id_gestionacademica AND n.notaFinal<:notaMinimaAprobacion GROUP BY i.id_inscrito HAVING COUNT(n) >= 1 AND COUNT(n) <=:cantidadMaximaReprobaciones) ORDER BY s.primerApellido, s.segundoApellido, s.nombre");
             q.setParameter("id_gestionacademica", gestionAcademica.getId_gestionacademica());
             q.setParameter("id_persona", id_persona);
+            q.setParameter("notaMinimaAprobacion", gestionAcademica.getRegimen().getNotaMinimaAprobacion());
+            q.setParameter("cantidadMaximaReprobaciones", gestionAcademica.getRegimen().getCantidadMaximaReprobaciones());
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Inscrito> listaInscritosPruebaRecuperacion(GestionAcademica gestionAcademica, Carrera carrera) {
+        List<Inscrito> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT i FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN i.estudiante s WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND i.id_inscrito IN (SELECT i.id_inscrito FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga WHERE ga.id_gestionacademica=:id_gestionacademica AND n.notaFinal<:notaMinimaAprobacion GROUP BY i.id_inscrito HAVING COUNT(n) >= 1 AND COUNT(n) <=:cantidadMaximaReprobaciones) ORDER BY s.primerApellido, s.segundoApellido, s.nombre");
+            q.setParameter("id_gestionacademica", gestionAcademica.getId_gestionacademica());
+            q.setParameter("id_carrera", carrera.getId_carrera());
             q.setParameter("notaMinimaAprobacion", gestionAcademica.getRegimen().getNotaMinimaAprobacion());
             q.setParameter("cantidadMaximaReprobaciones", gestionAcademica.getRegimen().getCantidadMaximaReprobaciones());
 

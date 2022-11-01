@@ -18,7 +18,7 @@ public enum TipoNota {
     SEGUNDO_PARCIAL_ANUAL("SEGUNDO PARCIAL", Regimen.ANUAL),
     TERCER_PARCIAL_ANUAL("TERCER PARCIAL", Regimen.ANUAL),
     CUARTO_PARCIAL_ANUAL("CUARTO PARCIAL", Regimen.ANUAL),
-    RECUPERATORIO("RECUPERATORIO", Regimen.ANUAL);
+    RECUPERATORIO_ANUAL("RECUPERATORIO", Regimen.ANUAL);
 
     private String nombre;
     private Regimen regimen;

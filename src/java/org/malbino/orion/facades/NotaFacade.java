@@ -125,6 +125,23 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return l;
     }
+    
+    public List<Nota> listaNotasPruebaRecuperacion(Inscrito inscrito) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.inscrito i JOIN n.materia m WHERE i.id_inscrito=:id_inscrito AND n.notaFinal>=:notaMinimaPruebaRecuperacion AND n.notaFinal<:notaMinimaAprobacion ORDER BY m.nivel, m.numero");
+            q.setParameter("id_inscrito", inscrito.getId_inscrito());
+            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion());
+            q.setParameter("notaMinimaAprobacion", inscrito.getCarrera().getRegimen().getNotaMinimaAprobacion());
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 
     public List<Nota> listaNotasReprobadas(GestionAcademica gestionAcademica, Carrera carrera, Mencion mencion, Estudiante estudiante) {
         List<Nota> l = new ArrayList();
@@ -398,6 +415,23 @@ public class NotaFacade extends AbstractFacade<Nota> {
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("curricular", Boolean.TRUE);
             q.setParameter("modalidad", Modalidad.REGULAR);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Nota> listaRegistroNotasRecuperatorio(Inscrito inscrito) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.inscrito i JOIN n.materia m WHERE i.id_inscrito=:id_inscrito AND n.notaFinal>=:notaMinimaPruebaRecuperacion AND n.notaFinal<:notaMinimaAprobacion AND n.recuperatorio IS NULL ORDER BY m.nivel, m.numero");
+            q.setParameter("id_inscrito", inscrito.getId_inscrito());
+            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion());
+            q.setParameter("notaMinimaAprobacion", inscrito.getCarrera().getRegimen().getNotaMinimaAprobacion());
 
             l = q.getResultList();
         } catch (Exception e) {

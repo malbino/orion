@@ -30,11 +30,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.enums.TipoNota;
 import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.GestionAcademicaFacade;
+import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.NotaFacade;
 
 /**
@@ -62,6 +64,8 @@ public class RegistroNotas extends HttpServlet {
     CarreraFacade carreraFacade;
     @EJB
     NotaFacade notaFacade;
+    @EJB
+    InscritoFacade inscritoFacade;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -189,37 +193,78 @@ public class RegistroNotas extends HttpServlet {
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
-        List<Nota> notasFaltantes = notaFacade.listaRegistroNotasSemestral(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), tipoNota);
-        for (int i = 0; i < notasFaltantes.size(); i++) {
-            Nota nota = notasFaltantes.get(i);
+        if (tipoNota.equals(TipoNota.RECUPERATORIO_SEMESTRAL)) {
+            int contador = 1;
 
-            cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(5);
-            table.addCell(cell);
+            List<Inscrito> listaInscritosPruebaRecuperacion = inscritoFacade.listaInscritosPruebaRecuperacion(gestionAcademica, carrera);
+            for (Inscrito inscrito : listaInscritosPruebaRecuperacion) {
 
-            cell = new PdfPCell(new Phrase(String.valueOf(nota.getEstudiante().toString()), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(30);
-            table.addCell(cell);
+                List<Nota> listaRegistroNotasRecuperatorio = notaFacade.listaRegistroNotasRecuperatorio(inscrito);
+                for (Nota nota : listaRegistroNotasRecuperatorio) {
+                    cell = new PdfPCell(new Phrase(String.valueOf(contador), NORMAL));
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setColspan(5);
+                    table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(String.valueOf(nota.getMateria().toString()), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(35);
-            table.addCell(cell);
+                    cell = new PdfPCell(new Phrase(String.valueOf(nota.getEstudiante().toString()), NORMAL));
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setColspan(30);
+                    table.addCell(cell);
 
-            if (nota.getGrupo().getEmpleado() != null) {
-                cell = new PdfPCell(new Phrase(nota.getGrupo().getEmpleado().toString(), NORMAL));
-            } else {
-                cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell = new PdfPCell(new Phrase(String.valueOf(nota.getMateria().toString()), NORMAL));
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setColspan(35);
+                    table.addCell(cell);
+
+                    if (nota.getGrupo().getEmpleado() != null) {
+                        cell = new PdfPCell(new Phrase(nota.getGrupo().getEmpleado().toString(), NORMAL));
+                    } else {
+                        cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    }
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setColspan(30);
+                    table.addCell(cell);
+
+                    contador++;
+                }
             }
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(30);
-            table.addCell(cell);
+        } else {
+            List<Nota> notasFaltantes = notaFacade.listaRegistroNotasSemestral(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), tipoNota);
+            for (int i = 0; i < notasFaltantes.size(); i++) {
+                Nota nota = notasFaltantes.get(i);
+
+                cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setColspan(5);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(String.valueOf(nota.getEstudiante().toString()), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setColspan(30);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(String.valueOf(nota.getMateria().toString()), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setColspan(35);
+                table.addCell(cell);
+
+                if (nota.getGrupo().getEmpleado() != null) {
+                    cell = new PdfPCell(new Phrase(nota.getGrupo().getEmpleado().toString(), NORMAL));
+                } else {
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                }
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setColspan(30);
+                table.addCell(cell);
+            }
         }
 
         return table;
@@ -258,37 +303,77 @@ public class RegistroNotas extends HttpServlet {
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
-        List<Nota> notasFaltantes = notaFacade.listaRegistroNotasAnual(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), tipoNota);
-        for (int i = 0; i < notasFaltantes.size(); i++) {
-            Nota nota = notasFaltantes.get(i);
+        if (tipoNota.equals(TipoNota.RECUPERATORIO_ANUAL)) {
+            int contador = 1;
 
-            cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(5);
-            table.addCell(cell);
+            List<Inscrito> listaInscritosPruebaRecuperacion = inscritoFacade.listaInscritosPruebaRecuperacion(gestionAcademica, carrera);
+            for (Inscrito inscrito : listaInscritosPruebaRecuperacion) {
+                List<Nota> listaRegistroNotasRecuperatorio = notaFacade.listaRegistroNotasRecuperatorio(inscrito);
+                for (Nota nota : listaRegistroNotasRecuperatorio) {
+                    cell = new PdfPCell(new Phrase(String.valueOf(contador), NORMAL));
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setColspan(5);
+                    table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(String.valueOf(nota.getEstudiante().toString()), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(30);
-            table.addCell(cell);
+                    cell = new PdfPCell(new Phrase(String.valueOf(nota.getEstudiante().toString()), NORMAL));
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setColspan(30);
+                    table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(String.valueOf(nota.getMateria().toString()), NORMAL));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(35);
-            table.addCell(cell);
+                    cell = new PdfPCell(new Phrase(String.valueOf(nota.getMateria().toString()), NORMAL));
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setColspan(35);
+                    table.addCell(cell);
 
-            if (nota.getGrupo().getEmpleado() != null) {
-                cell = new PdfPCell(new Phrase(nota.getGrupo().getEmpleado().toString(), NORMAL));
-            } else {
-                cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    if (nota.getGrupo().getEmpleado() != null) {
+                        cell = new PdfPCell(new Phrase(nota.getGrupo().getEmpleado().toString(), NORMAL));
+                    } else {
+                        cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    }
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setColspan(30);
+                    table.addCell(cell);
+
+                    contador++;
+                }
             }
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(30);
-            table.addCell(cell);
+        } else {
+            List<Nota> notasFaltantes = notaFacade.listaRegistroNotasAnual(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), tipoNota);
+            for (int i = 0; i < notasFaltantes.size(); i++) {
+                Nota nota = notasFaltantes.get(i);
+
+                cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setColspan(5);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(String.valueOf(nota.getEstudiante().toString()), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setColspan(30);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(String.valueOf(nota.getMateria().toString()), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setColspan(35);
+                table.addCell(cell);
+
+                if (nota.getGrupo().getEmpleado() != null) {
+                    cell = new PdfPCell(new Phrase(nota.getGrupo().getEmpleado().toString(), NORMAL));
+                } else {
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                }
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setColspan(30);
+                table.addCell(cell);
+            }
         }
 
         return table;

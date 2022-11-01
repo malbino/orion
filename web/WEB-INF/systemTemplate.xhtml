@@ -136,7 +136,7 @@
                                                 <li><a href="#{request.contextPath}/registroDocente/pruebaRecuperacion.xhtml">Prueba de Recuperacion</a></li>
                                             </ul>
                                         </li>
-                                        
+
                                         <li style="display: #{LoginController.display('File Estudiante')}"><a><i class="fa fa-folder-o"></i> File Estudiante <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
                                                 <li><a href="#{request.contextPath}/fileEstudiante/historialAcademico/historialAcademico.xhtml">Historial Academico</a></li>
@@ -144,7 +144,7 @@
                                                 <li><a href="#{request.contextPath}/fileEstudiante/estudiante/estudiantes.xhtml">Estudiantes</a></li>
                                             </ul>
                                         </li>
-                                        
+
                                         <li style="display: #{LoginController.display('Registro Notas')}"><a><i class="fa fa-edit"></i> Registro Notas <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
                                                 <li><a href="#{request.contextPath}/registroNotas/primerParcial.xhtml">Primer Parcial</a></li>
@@ -159,18 +159,30 @@
                                             <ul class="nav child_menu">
                                                 <li><a href="#{request.contextPath}/reportes/dashboard.xhtml">Dashboard</a></li>
                                                 <li><a href="#{request.contextPath}/reportes/mallaCurricular/reporteMallaCurricular.xhtml">Malla Curricular</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/listaInscritosCarrera/reporteListaInscritosCarrera.xhtml">Lista Inscritos Carrera</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/listaInscritosParalelo/reporteListaInscritosParalelo.xhtml">Lista Inscritos Paralelo</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/listaInscritosGrupo/reporteListaInscritosGrupo.xhtml">Lista Inscritos Grupo</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
+
+                                                <li><a>Inscripciones<span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        <li><a href="#{request.contextPath}/reportes/listaInscritosCarrera/reporteListaInscritosCarrera.xhtml">Lista Inscritos Carrera</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/listaInscritosParalelo/reporteListaInscritosParalelo.xhtml">Lista Inscritos Paralelo</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/listaInscritosGrupo/reporteListaInscritosGrupo.xhtml">Lista Inscritos Grupo</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
+                                                    </ul>
+                                                </li>
+
+                                                <li><a>Notas<span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        <li><a href="#{request.contextPath}/reportes/boletinNotas/reporteBoletinNotas.xhtml">Boletín Notas</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/boletinNotasCarrera/reporteBoletinNotasCarrera.xhtml">Boletín Notas Carrera</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/reportePlanillaSeguimiento.xhtml">Planilla Seguimiento</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/reporteSeguimientoAcademico.xhtml">Seguimiento Académico</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/registroNotas/reporteRegistroNotas.xhtml">Registro Notas</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/habilitadosRecuperatorio/reporteHabilitadosRecuperatorio.xhtml">Habilitados Recuperatorio</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/notasFaltantes/reporteNotasFaltantes.xhtml">Notas Faltantes</a></li>
+                                                    </ul>
+                                                </li>
+
                                                 <li><a href="#{request.contextPath}/reportes/historialAcademico/reporteHistorialAcademico.xhtml">Historial Academico</a></li>
                                                 <li><a href="#{request.contextPath}/reportes/historialEconomico/reporteHistorialEconomico.xhtml">Historial Economico</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/reportePlanillaSeguimiento.xhtml">Planilla Seguimiento</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/reporteSeguimientoAcademico.xhtml">Seguimiento Académico</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/boletinNotas/reporteBoletinNotas.xhtml">Boletín Notas</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/boletinNotasCarrera/reporteBoletinNotasCarrera.xhtml">Boletín Notas Carrera</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/notasFaltantes/reporteNotasFaltantes.xhtml">Notas Faltantes</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/registroNotas/reporteRegistroNotas.xhtml">Registro Notas</a></li>
                                                 <li><a href="#{request.contextPath}/reportes/centralizadorCalificaciones/reporteCentralizadorCalificaciones.xhtml">Centralizador Calificaciones</a></li>
                                             </ul>
                                         </li>
