@@ -505,4 +505,18 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         return l;
     }
 
+    public List<Inscrito> listaInscritosMulticarrera(GestionAcademica gestionAcademica) {
+        List<Inscrito> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND e.id_persona IN (SELECT e.id_persona FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica GROUP BY e.id_persona HAVING COUNT(e) > 1) ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("id_gestionacademica", gestionAcademica.getId_gestionacademica());
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return l;
+    }
 }
