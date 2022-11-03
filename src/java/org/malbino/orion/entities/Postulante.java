@@ -72,11 +72,11 @@ public class Postulante implements Serializable {
 
     public Postulante() {
     }
-    
+
     public String idnumberMoodle() {
         return "p" + id_postulante;
     }
-    
+
     public String usuarioMoodle() {
         return ci.trim().replaceAll("-", "").toLowerCase();
     }
@@ -84,17 +84,27 @@ public class Postulante implements Serializable {
     public String contraseñaMoodle() {
         return "*M00dle" + this.usuarioMoodle() + "*";
     }
-    
+
     public String apellidos() {
         String apellidos = this.getPrimerApellido();
-        if(this.getSegundoApellido() != null) {
-            apellidos += " " + this.getSegundoApellido();            
+        if (this.getSegundoApellido() != null) {
+            apellidos += " " + this.getSegundoApellido();
         }
         return apellidos;
     }
-    
+
     public String emailTemporal() {
         return this.usuarioMoodle() + "@cambiatuemail.com";
+    }
+
+    public String dniLugar() {
+        String s = "";
+        if (ci != null && lugarExpedicion != null) {
+            s = ci + " " + lugarExpedicion;
+        } else if (ci != null && lugarExpedicion == null) {
+            s = ci;
+        }
+        return s;
     }
 
     /**
@@ -488,8 +498,8 @@ public class Postulante implements Serializable {
     public String fechaNacimiento_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
     }
-    
-     public String fecha_ddMMyyyy() {
+
+    public String fecha_ddMMyyyy() {
         return Fecha.formatearFecha_ddMMyyyy(fecha);
     }
 

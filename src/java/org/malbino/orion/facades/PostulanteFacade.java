@@ -133,6 +133,22 @@ public class PostulanteFacade extends AbstractFacade<Postulante> {
 
         return l;
     }
+    
+    public List<Postulante> listaPostulantesGACarrera(int id_gestionacademica, int id_carrera) {
+        List<Postulante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT p FROM Postulante p JOIN p.gestionAcademica ga JOIN p.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera ORDER BY p.primerApellido, p.segundoApellido, p.nombre");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 
     public List<Postulante> buscar(int id_gestionacademica, String keyword) {
         List<Postulante> l = new ArrayList();
