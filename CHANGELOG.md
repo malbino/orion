@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.13.0] - 2022-11-03
+### Added
+- Se agrego el Reporte Lista de Cobros
+- Se agrego el Reporte Lista Inscritos Multicarrera
+- Se agrego el Reporte Lista Postulantes
+- Se agrego el Reporte Habilitados Recuperatorio
+- Se agrego el Estado de Inscripcion para el Estudiante
+- Se agrego el registro de notas por parte del administrador
+- Se agrego el Reporte Registro Notas
+- Se agrego soporte para traspasos y convalidaciones
+### Changed
+### Removed
+### Fixed
+
 ## [1.12.1] - 2022-09-29
 ### Added
 ### Changed
