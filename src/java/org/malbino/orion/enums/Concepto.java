@@ -106,4 +106,8 @@ public enum Concepto {
     public static Concepto[] values(Regimen regimen) {
         return Arrays.stream(Concepto.values()).filter(concepto -> concepto.getRegimen() != null && concepto.getRegimen().equals(regimen)).toArray(Concepto[]::new);
     }
+
+    public static Concepto[] valuesSinRegimen() {
+        return Arrays.stream(Concepto.values()).filter(concepto -> concepto.getRegimen() == null).toArray(Concepto[]::new);
+    }
 }

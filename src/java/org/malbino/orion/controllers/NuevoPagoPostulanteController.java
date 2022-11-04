@@ -13,7 +13,9 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Comprobante;
+import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Pago;
 import org.malbino.orion.entities.Postulante;
 import org.malbino.orion.facades.InscritoFacade;
@@ -39,6 +41,9 @@ public class NuevoPagoPostulanteController extends AbstractController implements
     LoginController loginController;
 
     private Comprobante nuevoComprobante;
+    private GestionAcademica seleccionGestionAcademica;
+    private Carrera seleccionCarrera;
+    private List<Postulante> postulantes;
     private Postulante seleccionPostulante;
     private List<Pago> pagos;
     private List<Pago> seleccionPagos;
@@ -46,6 +51,8 @@ public class NuevoPagoPostulanteController extends AbstractController implements
     @PostConstruct
     public void init() {
         nuevoComprobante = new Comprobante();
+        seleccionGestionAcademica = null;
+        postulantes = new ArrayList<>();
         seleccionPostulante = null;
         pagos = new ArrayList();
         seleccionPagos = new ArrayList();
@@ -53,9 +60,40 @@ public class NuevoPagoPostulanteController extends AbstractController implements
 
     public void reinit() {
         nuevoComprobante = new Comprobante();
+        seleccionGestionAcademica = null;
+        postulantes = new ArrayList<>();
         seleccionPostulante = null;
         pagos = new ArrayList();
         seleccionPagos = new ArrayList();
+    }
+
+    @Override
+    public List<Carrera> listaCarreras() {
+        List<Carrera> l = new ArrayList<>();
+        if (seleccionGestionAcademica != null) {
+            l = carreraFacade.listaCarreras(seleccionGestionAcademica.getRegimen());
+        }
+        return l;
+    }
+
+    public void actualizarPostulantes() {
+        seleccionPostulante = null;
+
+        postulantes = new ArrayList<>();
+        if (seleccionGestionAcademica != null && seleccionCarrera != null) {
+            postulantes = postulanteFacade.listaPostulantes(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
+        }
+    }
+
+    @Override
+    public List<Postulante> completarPostulante(String consulta) {
+        List<Postulante> postulantesFiltrados = new ArrayList();
+        for (Postulante p : postulantes) {
+            if (p.toString().toLowerCase().contains(consulta.toLowerCase())) {
+                postulantesFiltrados.add(p);
+            }
+        }
+        return postulantesFiltrados;
     }
 
     public void actualizarPagos() {
@@ -152,6 +190,48 @@ public class NuevoPagoPostulanteController extends AbstractController implements
      */
     public void setSeleccionPagos(List<Pago> seleccionPagos) {
         this.seleccionPagos = seleccionPagos;
+    }
+
+    /**
+     * @return the seleccionGestionAcademica
+     */
+    public GestionAcademica getSeleccionGestionAcademica() {
+        return seleccionGestionAcademica;
+    }
+
+    /**
+     * @param seleccionGestionAcademica the seleccionGestionAcademica to set
+     */
+    public void setSeleccionGestionAcademica(GestionAcademica seleccionGestionAcademica) {
+        this.seleccionGestionAcademica = seleccionGestionAcademica;
+    }
+
+    /**
+     * @return the seleccionCarrera
+     */
+    public Carrera getSeleccionCarrera() {
+        return seleccionCarrera;
+    }
+
+    /**
+     * @param seleccionCarrera the seleccionCarrera to set
+     */
+    public void setSeleccionCarrera(Carrera seleccionCarrera) {
+        this.seleccionCarrera = seleccionCarrera;
+    }
+
+    /**
+     * @return the postulantes
+     */
+    public List<Postulante> getPostulantes() {
+        return postulantes;
+    }
+
+    /**
+     * @param postulantes the postulantes to set
+     */
+    public void setPostulantes(List<Postulante> postulantes) {
+        this.postulantes = postulantes;
     }
 
 }

@@ -9,35 +9,40 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
-import org.malbino.orion.enums.TipoNota;
+import org.malbino.orion.enums.Concepto;
+import org.malbino.orion.facades.GrupoFacade;
 
 /**
  *
  * @author Tincho
  */
-@Named("ReporteRegistroNotasController")
+@Named("ReporteListaCobrosController")
 @SessionScoped
-public class ReporteRegistroNotasController extends AbstractController implements Serializable {
+public class ReporteListaCobrosController extends AbstractController implements Serializable {
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
-    private TipoNota seleccionTipoNota;
+    private Concepto seleccionConcepto;
+
+    @EJB
+    GrupoFacade grupoFacade;
 
     @PostConstruct
     public void init() {
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
-        seleccionTipoNota = null;
+        seleccionConcepto = null;
     }
 
     public void reinit() {
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
-        seleccionTipoNota = null;
+        seleccionConcepto = null;
     }
 
     @Override
@@ -48,33 +53,29 @@ public class ReporteRegistroNotasController extends AbstractController implement
         }
         return l;
     }
-
-    public TipoNota[] listaTiposNota() {
-        TipoNota[] a = new TipoNota[0];
-        if (seleccionGestionAcademica != null) {
-            a = TipoNota.values(seleccionGestionAcademica.getRegimen());
-        }
-        return a;
+    
+    public Concepto[] listaConceptos() {
+        return Concepto.valuesSinRegimen();
     }
 
     public void generarReporte() throws IOException {
-        if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionTipoNota != null) {
+        if (seleccionGestionAcademica != null && seleccionCarrera != null) {
             this.insertarParametro("id_gestionacademica", seleccionGestionAcademica.getId_gestionacademica());
             this.insertarParametro("id_carrera", seleccionCarrera.getId_carrera());
-            this.insertarParametro("tipoNota", seleccionTipoNota);
+            this.insertarParametro("concepto", seleccionConcepto);
 
-            toRegistroNotas();
+            toListaCobros();
         }
     }
 
-    public void toReporteRegistroNotas() throws IOException {
+    public void toReporteListaCobros() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/registroNotas/reporteRegistroNotas");
+        this.redireccionarViewId("/reportes/listaCobros/reporteListaCobros");
     }
 
-    public void toRegistroNotas() throws IOException {
-        this.redireccionarViewId("/reportes/registroNotas/registroNotas");
+    public void toListaCobros() throws IOException {
+        this.redireccionarViewId("/reportes/listaCobros/listaCobros");
     }
 
     /**
@@ -106,17 +107,16 @@ public class ReporteRegistroNotasController extends AbstractController implement
     }
 
     /**
-     * @return the seleccionTipoNota
+     * @return the seleccionConcepto
      */
-    public TipoNota getSeleccionTipoNota() {
-        return seleccionTipoNota;
+    public Concepto getSeleccionConcepto() {
+        return seleccionConcepto;
     }
 
     /**
-     * @param seleccionTipoNota the seleccionTipoNota to set
+     * @param seleccionConcepto the seleccionConcepto to set
      */
-    public void setSeleccionTipoNota(TipoNota seleccionTipoNota) {
-        this.seleccionTipoNota = seleccionTipoNota;
+    public void setSeleccionConcepto(Concepto seleccionConcepto) {
+        this.seleccionConcepto = seleccionConcepto;
     }
-
 }

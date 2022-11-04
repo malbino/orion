@@ -26,6 +26,26 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="gestionAcademica" value="Gestion academica:" style="font-size: small"/> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{NuevoPagoPostulanteController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{NuevoPagoPostulanteController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+
+                                                <p:ajax listener="#{NuevoPagoPostulanteController.actualizarPostulantes()}" update="carrera postulante"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="carrera" value="Carrera:" style="font-size: small"/> 
+                                            <p:selectOneMenu id="carrera" value="#{NuevoPagoPostulanteController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{NuevoPagoPostulanteController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
+
+                                                <p:ajax listener="#{NuevoPagoPostulanteController.actualizarPostulantes()}" update="postulante"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="postulante" value="Postulante:"/>
                                             <p:autoComplete id="postulante" value="#{NuevoPagoPostulanteController.seleccionPostulante}" completeMethod="#{NuevoPagoPostulanteController.completarPostulante}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
                                                             var="postulante" itemLabel="#{postulante.toString()}" itemValue="#{postulante}" converter="#{PostulanteConverter}" forceSelection="true"
@@ -45,7 +65,7 @@
                                         <f:facet name="header">
                                             Detalles
                                         </f:facet>
-                                        
+
                                         <p:column selectionMode="multiple" style="text-align:center"/>
 
                                         <p:column headerText="Codigo" >  

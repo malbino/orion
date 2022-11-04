@@ -5,6 +5,8 @@
  */
 package org.malbino.orion.enums;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Martin
@@ -59,5 +61,9 @@ public enum TipoNota {
      */
     public void setRegimen(Regimen regimen) {
         this.regimen = regimen;
+    }
+    
+    public static TipoNota[] values(Regimen regimen) {
+        return Arrays.stream(TipoNota.values()).filter(tipoNota -> tipoNota.getRegimen() != null && tipoNota.getRegimen().equals(regimen)).toArray(TipoNota[]::new);
     }
 }
