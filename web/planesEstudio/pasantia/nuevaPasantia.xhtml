@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Nueva Pasantia <small>registrar nueva pasantia</small></h2>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:messages/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="mencion" value="Mención: " style="font-size: small"/>
+                                            <p:selectOneMenu id="mencion" value="#{PasantiaController.nuevaPasantia.mencion}" converter="#{MencionConverter}" autoWidth="false">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{PasantiaController.listaMenciones()}" var="mencion" itemLabel="#{mencion.toString()}" itemValue="#{mencion}"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nivel" value="Nivel:" style="font-size: small"/>
+                                            <p:selectOneMenu id="nivel" value="#{PasantiaController.nuevaPasantia.nivel}" converter="#{NivelPasantiaConverter}" autoWidth="false" required="true" requiredMessage="* Nivel requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{PasantiaController.listaNiveles()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="codigo" value="Codigo:" style="font-size: small"/>
+                                            <p:inputText id="codigo" value="#{PasantiaController.nuevaPasantia.codigo}" required="true" requiredMessage="* Codigo requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombre" value="Nombre:" style="font-size: small"/>
+                                            <p:inputText id="nombre" value="#{PasantiaController.nuevaPasantia.nombre}" required="true" requiredMessage="* Nombre requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="horas" value="Horas:" style="font-size: small"/>
+                                            <p:inputText id="horas" value="#{PasantiaController.nuevaPasantia.horas}" required="true" requiredMessage="* Horas requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="creditajePasantia" value="Creditaje pasantia" style="font-size: small"/>
+                                            <p:inputText id="creditajePasantia" value="#{PasantiaController.nuevaPasantia.creditajePasantia}" required="true" requiredMessage="* Creditaje pasantia requerido." />
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{PasantiaController.crearPasantia()}" update="form"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{PasantiaController.toPasantias()}"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

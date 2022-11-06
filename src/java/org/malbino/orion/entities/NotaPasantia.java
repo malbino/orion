@@ -6,6 +6,8 @@
 package org.malbino.orion.entities;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,36 +15,97 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-import org.malbino.orion.enums.Evaluacion;
-import org.malbino.orion.enums.Indicador;
+import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
  * @author malbino
  */
 @Entity
-@Table(name = "notapasantia", uniqueConstraints = @UniqueConstraint(columnNames = {"indicador", "id_pasantia"}))
+@Table(name = "notapasantia", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "id_persona", "id_grupo", "id_empresa"}))
 public class NotaPasantia implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_notapasantia;
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
+    private Long codigo;
+    private Integer notaTutor;
+    private Integer notaEmpresa;
+    private Integer notaFinal;
+    private Condicion condicion;
+    private Boolean contratado;
+    private String observaciones;
 
-    private Indicador indicador;
-    private Evaluacion evaluacion;
-
-    @JoinColumn(name = "id_pasantia")
+    @JoinColumn(name = "id_persona")
     @ManyToOne
-    private Pasantia pasantia;
+    private Estudiante estudiante;
+
+    @JoinColumn(name = "id_grupo")
+    @ManyToOne
+    private Grupo grupo;
+
+    @JoinColumn(name = "id_empresa")
+    @ManyToOne
+    private Empresa empresa;
 
     public NotaPasantia() {
     }
 
-    public NotaPasantia(Indicador indicador, Evaluacion evaluacion, Pasantia pasantia) {
-        this.indicador = indicador;
-        this.evaluacion = evaluacion;
-        this.pasantia = pasantia;
+    public NotaPasantia(Date fecha, Long codigo, Integer notaTutor, Integer notaEmpresa, Integer notaFinal, Condicion condicion, String observaciones, Estudiante estudiante, Grupo grupo, Empresa empresa) {
+        this.fecha = fecha;
+        this.codigo = codigo;
+        this.notaTutor = notaTutor;
+        this.notaEmpresa = notaEmpresa;
+        this.notaFinal = notaFinal;
+        this.condicion = condicion;
+        this.observaciones = observaciones;
+        this.estudiante = estudiante;
+        this.grupo = grupo;
+        this.empresa = empresa;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id_notapasantia);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final NotaPasantia other = (NotaPasantia) obj;
+        if (!Objects.equals(this.id_notapasantia, other.id_notapasantia)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return grupo.getMateria().getNombre() + " [" + grupo.getGestionAcademica().toString() + "]";
+    }
+
+    public String fecha_ddMMyyyy() {
+        return Fecha.formatearFecha_ddMMyyyy(fecha);
+    }
+
+    public String contratadoToString() {
+        return contratado ? "Sí" : "No";
     }
 
     /**
@@ -60,46 +123,157 @@ public class NotaPasantia implements Serializable {
     }
 
     /**
-     * @return the indicador
+     * @return the fecha
      */
-    public Indicador getIndicador() {
-        return indicador;
+    public Date getFecha() {
+        return fecha;
     }
 
     /**
-     * @param indicador the indicador to set
+     * @param fecha the fecha to set
      */
-    public void setIndicador(Indicador indicador) {
-        this.indicador = indicador;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     /**
-     * @return the evaluacion
+     * @return the codigo
      */
-    public Evaluacion getEvaluacion() {
-        return evaluacion;
+    public Long getCodigo() {
+        return codigo;
     }
 
     /**
-     * @param evaluacion the evaluacion to set
+     * @param codigo the codigo to set
      */
-    public void setEvaluacion(Evaluacion evaluacion) {
-        this.evaluacion = evaluacion;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     /**
-     * @return the pasantia
+     * @return the notaTutor
      */
-    public Pasantia getPasantia() {
-        return pasantia;
+    public Integer getNotaTutor() {
+        return notaTutor;
     }
 
     /**
-     * @param pasantia the pasantia to set
+     * @param notaTutor the notaTutor to set
      */
-    public void setPasantia(Pasantia pasantia) {
-        this.pasantia = pasantia;
+    public void setNotaTutor(Integer notaTutor) {
+        this.notaTutor = notaTutor;
     }
-    
-    
+
+    /**
+     * @return the notaEmpresa
+     */
+    public Integer getNotaEmpresa() {
+        return notaEmpresa;
+    }
+
+    /**
+     * @param notaEmpresa the notaEmpresa to set
+     */
+    public void setNotaEmpresa(Integer notaEmpresa) {
+        this.notaEmpresa = notaEmpresa;
+    }
+
+    /**
+     * @return the notaFinal
+     */
+    public Integer getNotaFinal() {
+        return notaFinal;
+    }
+
+    /**
+     * @param notaFinal the notaFinal to set
+     */
+    public void setNotaFinal(Integer notaFinal) {
+        this.notaFinal = notaFinal;
+    }
+
+    /**
+     * @return the condicion
+     */
+    public Condicion getCondicion() {
+        return condicion;
+    }
+
+    /**
+     * @param condicion the condicion to set
+     */
+    public void setCondicion(Condicion condicion) {
+        this.condicion = condicion;
+    }
+
+    /**
+     * @return the estudiante
+     */
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    /**
+     * @param estudiante the estudiante to set
+     */
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+
+    /**
+     * @return the grupo
+     */
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    /**
+     * @param grupo the grupo to set
+     */
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    /**
+     * @return the empresa
+     */
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    /**
+     * @param empresa the empresa to set
+     */
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    /**
+     * @return the observaciones
+     */
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    /**
+     * @param observaciones the observaciones to set
+     */
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    /**
+     * @return the contratado
+     */
+    public Boolean getContratado() {
+        return contratado;
+    }
+
+    /**
+     * @param contratado the contratado to set
+     */
+    public void setContratado(Boolean contratado) {
+        this.contratado = contratado;
+    }
+
 }
