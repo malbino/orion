@@ -26,6 +26,7 @@ import org.malbino.orion.entities.Usuario;
 import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.Concepto;
 import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.Departamento;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.enums.LugarExpedicion;
 import org.malbino.orion.enums.Modalidad;
@@ -33,6 +34,7 @@ import org.malbino.orion.enums.NivelAcademico;
 import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.enums.Sexo;
+import org.malbino.orion.enums.TipoEmpresa;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.CampusFacade;
 import org.malbino.orion.facades.CarreraFacade;
@@ -168,7 +170,7 @@ public abstract class AbstractController implements Serializable {
 
         return postulantesFiltrados;
     }
-    
+
     public List<Usuario> completarUsuario(String consulta) {
         List<Usuario> usuarios = usuarioFacade.findAll();
         List<Usuario> usuariosFiltrados = new ArrayList();
@@ -229,9 +231,17 @@ public abstract class AbstractController implements Serializable {
     public Modalidad[] listaModalidades() {
         return Modalidad.values();
     }
-    
+
     public Concepto[] listaConceptos() {
         return Concepto.values();
+    }
+
+    public TipoEmpresa[] listaTiposEmpresa() {
+        return TipoEmpresa.values();
+    }
+
+    public Departamento[] listaDepartamentos() {
+        return Departamento.values();
     }
 
     public void editarNota(Nota nota) {

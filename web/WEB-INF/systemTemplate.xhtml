@@ -64,6 +64,7 @@
                                             <ul class="nav child_menu">
                                                 <li><a href="#{request.contextPath}/administrador/instituto.xhtml">Instituto</a></li>
                                                 <li><a href="#{request.contextPath}/administrador/empleado/empleados.xhtml">Empleados</a></li>
+                                                <li><a href="#{request.contextPath}/administrador/empresa/empresas.xhtml">Empresas</a></li>
                                                 <li><a href="#{request.contextPath}/administrador/usuario/usuarios.xhtml">Usuarios</a></li>
                                             </ul>
                                         </li>
@@ -105,6 +106,13 @@
                                                 <li><a href="#{request.contextPath}/inscripciones/cambioCarrera/cambioCarrera.xhtml">Cambio de Carrera</a></li>
                                                 <li><a href="#{request.contextPath}/inscripciones/inscripcionManual/estadoInscripcion.xhtml">Inscripción Manual</a></li>
                                                 <li><a href="#{request.contextPath}/inscripciones/inscritos.xhtml">Inscritos</a></li>
+                                            </ul>
+                                        </li>
+                                        
+                                        <li style="display: #{LoginController.display('Pasantias')}"><a><i class="fa fa-child"></i> Pasantias <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="#{request.contextPath}/inscripciones/estudianteNuevo/estudianteNuevo.xhtml">Inscripción Pasantia</a></li>
+                                                <li><a href="#{request.contextPath}/inscripciones/estudianteNuevo/estudianteNuevo.xhtml">Pasantias</a></li>
                                             </ul>
                                         </li>
 
@@ -168,6 +176,15 @@
                                                         <li><a href="#{request.contextPath}/reportes/listaInscritosGrupo/reporteListaInscritosGrupo.xhtml">Lista Inscritos Grupo</a></li>
                                                         <li><a href="#{request.contextPath}/reportes/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
                                                         <li><a href="#{request.contextPath}/reportes/listaInscritosMulticarrera/reporteListaInscritosMulticarrera.xhtml">Lista Inscritos Multicarrera</a></li>
+                                                    </ul>
+                                                </li>
+                                                
+                                                 <li><a>Pasantias<span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        <li><a href="#{request.contextPath}/reportes/listaPostulantes/reporteListaPostulantes.xhtml">Ficha de Inscripción</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/listaPostulantes/reporteListaPostulantes.xhtml">Reporte de Asistencia</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/listaPostulantes/reporteListaPostulantes.xhtml">Ficha de Evaluación Empresa</a></li>
+                                                        <li><a href="#{request.contextPath}/reportes/listaPostulantes/reporteListaPostulantes.xhtml">Ficha de Evaluación Tutor</a></li>
                                                     </ul>
                                                 </li>
 

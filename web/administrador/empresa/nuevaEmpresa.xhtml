@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Nueva Empresa <small>registrar nueva empresa</small></h2>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:messages/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:graphicImage id="logo" title="Logo instituto" value="/resources/uploads/empresas/#{EmpresaController.nuevaEmpresa.logo}" class="img-fluid"/>
+                                            <p:fileUpload listener="#{EmpresaController.subirArchivo_NuevaEmpresa}"  mode="advanced" label="Seleccionar" auto="true" update="logo"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <h4>I. Datos Empresa</h4>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombreEmpresa" value="Nombre o Razón Social:" style="font-size: small"/>
+                                            <p:inputText id="nombreEmpresa" value="#{EmpresaController.nuevaEmpresa.nombreEmpresa}" required="true" requiredMessage="* Nombre o Razón Social requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="actividad" value="Actividad:" style="font-size: small"/>
+                                            <p:inputText id="actividad" value="#{EmpresaController.nuevaEmpresa.actividad}" required="true" requiredMessage="* Actividad requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="tipoEmpresa" value="Tipo:" style="font-size: small"/>
+                                            <p:selectOneMenu id="tipoEmpresa" value="#{EmpresaController.nuevaEmpresa.tipoEmpresa}" converter="#{TipoEmpresaConverter}" autoWidth="false" required="true" requiredMessage="* Tipo requerido." > 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{EmpresaController.listaTiposEmpresa()}" var="tipoEmpresa" itemLabel="#{tipoEmpresa}" itemValue="#{tipoEmpresa}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nit" value="NIT:" style="font-size: small"/>
+                                            <p:inputText id="nit" value="#{EmpresaController.nuevaEmpresa.nit}" required="true" requiredMessage="* NIT requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="departamento" value="Departamento:" style="font-size: small"/>
+                                            <p:selectOneMenu id="departamento" value="#{EmpresaController.nuevaEmpresa.departamento}" converter="#{DepartamentoConverter}" autoWidth="false" required="true" requiredMessage="* Departamento requerido." > 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{EmpresaController.listaDepartamentos()}" var="departamento" itemLabel="#{departamento}" itemValue="#{departamento}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="provincia" value="Provincia:" style="font-size: small"/>
+                                            <p:inputText id="provincia" value="#{EmpresaController.nuevaEmpresa.provincia}" required="true" requiredMessage="* Provincia requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="direccionEmpresa" value="Dirección:" style="font-size: small"/>
+                                            <p:inputText id="direccionEmpresa" value="#{EmpresaController.nuevaEmpresa.direccionEmpresa}" required="true" requiredMessage="* Dirección requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="telefonoEmpresa" value="Teléfono:" style="font-size: small"/> 
+                                            <p:inputMask id="telefonoEmpresa" value="#{EmpresaController.nuevaEmpresa.telefonoEmpresa}" mask="9999999" required="false"/>
+
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="celularEmpresa" value="Celular:" style="font-size: small"/> 
+                                            <p:inputMask id="celularEmpresa" value="#{EmpresaController.nuevaEmpresa.celularEmpresa}" mask="99999999" required="false"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="emailEmpresa" value="Email:" style="font-size: small"/> 
+                                            <p:inputText id="emailEmpresa" value="#{EmpresaController.nuevaEmpresa.emailEmpresa}">
+                                                <f:validator validatorId="validators.emailValidator" />
+                                            </p:inputText>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="paginaEmpresa" value="Pagina:" style="font-size: small"/>
+                                            <p:inputText id="paginaEmpresa" value="#{EmpresaController.nuevaEmpresa.paginaEmpresa}" />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-12">
+                                            <h4>II. Datos Contacto</h4>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nombre" value="Nombre:" style="font-size: small"/>
+                                            <p:inputText id="nombre" value="#{EmpresaController.nuevaEmpresa.nombre}" required="true" requiredMessage="* Nombre requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="primerApellido" value="Primer apellido:" style="font-size: small"/>
+                                            <p:inputText id="primerApellido" value="#{EmpresaController.nuevaEmpresa.primerApellido}" required="true" requiredMessage="* Primer apellido requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="segundoApellido" value="Segundo apellido:" style="font-size: small"/>
+                                            <p:inputText id="segundoApellido" value="#{EmpresaController.nuevaEmpresa.segundoApellido}" />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="celular" value="Celular:" style="font-size: small"/> 
+                                            <p:inputMask id="celular" value="#{EmpresaController.nuevaEmpresa.celular}" mask="99999999" required="false"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="email" value="Email:" style="font-size: small"/> 
+                                            <p:inputText id="email" value="#{EmpresaController.nuevaEmpresa.email}" required="true" requiredMessage="* Email requerido.">
+                                                <f:validator validatorId="validators.emailValidator" />
+                                            </p:inputText>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{EmpresaController.crearEmpresa()}" update="form"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{EmpresaController.toEmpresas()}"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
