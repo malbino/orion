@@ -48,7 +48,7 @@ public class NotaPasantia implements Serializable {
 
     @JoinColumn(name = "id_grupo")
     @ManyToOne
-    private Grupo grupo;
+    private GrupoPasantia grupoPasantia;
 
     @JoinColumn(name = "id_empresa")
     @ManyToOne
@@ -57,7 +57,7 @@ public class NotaPasantia implements Serializable {
     public NotaPasantia() {
     }
 
-    public NotaPasantia(Date fecha, Long codigo, Integer notaTutor, Integer notaEmpresa, Integer notaFinal, Condicion condicion, String observaciones, Estudiante estudiante, Grupo grupo, Empresa empresa) {
+    public NotaPasantia(Date fecha, Long codigo, Integer notaTutor, Integer notaEmpresa, Integer notaFinal, Condicion condicion, String observaciones, Estudiante estudiante, GrupoPasantia grupoPasantia, Empresa empresa) {
         this.fecha = fecha;
         this.codigo = codigo;
         this.notaTutor = notaTutor;
@@ -66,7 +66,7 @@ public class NotaPasantia implements Serializable {
         this.condicion = condicion;
         this.observaciones = observaciones;
         this.estudiante = estudiante;
-        this.grupo = grupo;
+        this.grupoPasantia = grupoPasantia;
         this.empresa = empresa;
     }
 
@@ -97,7 +97,7 @@ public class NotaPasantia implements Serializable {
 
     @Override
     public String toString() {
-        return grupo.getMateria().getNombre() + " [" + grupo.getGestionAcademica().toString() + "]";
+        return grupoPasantia.getPasantia().getNombre() + " [" + grupoPasantia.getGestionAcademica().toString() + "]";
     }
 
     public String fecha_ddMMyyyy() {
@@ -221,17 +221,17 @@ public class NotaPasantia implements Serializable {
     }
 
     /**
-     * @return the grupo
+     * @return the grupoPasantia
      */
-    public Grupo getGrupo() {
-        return grupo;
+    public GrupoPasantia getGrupoPasantia() {
+        return grupoPasantia;
     }
 
     /**
-     * @param grupo the grupo to set
+     * @param grupoPasantia the grupoPasantia to set
      */
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
+    public void setGrupoPasantia(GrupoPasantia grupoPasantia) {
+        this.grupoPasantia = grupoPasantia;
     }
 
     /**

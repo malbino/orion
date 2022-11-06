@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Editar Grupo Pasantia <small>editar grupo pasantia existente</small></h2>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:messages/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="codigo" value="Codigo:" style="font-size: small"/>
+                                            <p:inputText id="codigo" value="#{GrupoPasantiaController.seleccionGrupoPasantia.codigo}" required="true" requiredMessage="* Codigo requerido." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="turno" value="Turno:" style="font-size: small"/>
+                                            <p:selectOneMenu id="turno" value="#{GrupoPasantiaController.seleccionGrupoPasantia.turno}" converter="#{TurnoConverter}" autoWidth="false" required="true" requiredMessage="* Turno requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GrupoPasantiaController.listaTurnos()}" var="turno" itemLabel="#{turno.toString()}" itemValue="#{turno}"/>  
+                                            </p:selectOneMenu> 
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="docente" value="Docente:" style="font-size: small"/>
+                                            <p:autoComplete id="docente" value="#{GrupoPasantiaController.seleccionGrupoPasantia.empleado}" completeMethod="#{GrupoPasantiaController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
+                                                            var="docente" itemLabel="#{docente.toString()}" itemValue="#{docente}" converter="#{EmpleadoConverter}" forceSelection="true"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="capacidad" value="Capacidad:" style="font-size: small"/>
+                                            <p:inputText id="capacidad" value="#{GrupoPasantiaController.seleccionGrupoPasantia.capacidad}" required="true" requiredMessage="* Capacidad requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="abierto" value="Abierto:" style="font-size: small"/>
+                                            <p:selectBooleanButton id="abierto" value="#{GrupoPasantiaController.seleccionGrupoPasantia.abierto}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{GrupoPasantiaController.editarGrupoPasantia()}" update="form"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Cancelar" icon="fa fa-remove" process="@this" actionListener="#{GrupoPasantiaController.toGruposPasantias()}"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

@@ -131,7 +131,7 @@ public class PasantiaFacade extends AbstractFacade<Pasantia> {
 
             l = q.getResultList();
         } catch (Exception e) {
-
+            
         }
 
         return l;
