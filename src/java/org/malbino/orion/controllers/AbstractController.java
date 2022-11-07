@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.malbino.orion.entities.Campus;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Empleado;
+import org.malbino.orion.entities.Empresa;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Nota;
@@ -39,6 +40,7 @@ import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.CampusFacade;
 import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.EmpleadoFacade;
+import org.malbino.orion.facades.EmpresaFacade;
 import org.malbino.orion.facades.EstudianteFacade;
 import org.malbino.orion.facades.GestionAcademicaFacade;
 import org.malbino.orion.facades.PostulanteFacade;
@@ -66,6 +68,8 @@ public abstract class AbstractController implements Serializable {
     PostulanteFacade postulanteFacade;
     @EJB
     UsuarioFacade usuarioFacade;
+    @EJB
+    EmpresaFacade empresaFacade;
 
     protected void mensajeDeError(String mensaje) {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -242,6 +246,10 @@ public abstract class AbstractController implements Serializable {
 
     public Departamento[] listaDepartamentos() {
         return Departamento.values();
+    }
+
+    public List<Empresa> listaEmpresas() {
+        return empresaFacade.listaEmpresas();
     }
 
     public void editarNota(Nota nota) {

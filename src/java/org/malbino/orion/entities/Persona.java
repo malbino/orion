@@ -6,6 +6,9 @@
 package org.malbino.orion.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.DiscriminatorColumn;
@@ -284,6 +287,17 @@ public abstract class Persona implements Serializable {
             s = Fecha.formatearFecha_ddMMyyyy(fechaNacimiento);
         }
         return s;
+    }
+
+    public int edad() {
+        LocalDate fnacimiento = fechaNacimiento.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate now = LocalDate.now();
+
+        Period periodo = Period.between(fnacimiento, now);
+
+        return periodo.getYears();
     }
 
     @Override

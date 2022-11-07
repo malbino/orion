@@ -22,7 +22,7 @@ import org.malbino.orion.enums.Indicador;
  * @author malbino
  */
 @Entity
-@Table(name = "indicadorpasantia", uniqueConstraints = @UniqueConstraint(columnNames = {"indicador", "id_pasantia"}))
+@Table(name = "indicadorpasantia", uniqueConstraints = @UniqueConstraint(columnNames = {"indicador", "id_notapasantia"}))
 public class IndicadorPasantia implements Serializable {
 
     @Id
@@ -32,9 +32,9 @@ public class IndicadorPasantia implements Serializable {
     private Indicador indicador;
     private Evaluacion evaluacion;
 
-    @JoinColumn(name = "id_pasantia")
+    @JoinColumn(name = "id_notapasantia")
     @ManyToOne
-    private NotaPasantia pasantia;
+    private NotaPasantia notaPasantia;
 
     public IndicadorPasantia() {
     }
@@ -42,7 +42,7 @@ public class IndicadorPasantia implements Serializable {
     public IndicadorPasantia(Indicador indicador, Evaluacion evaluacion, NotaPasantia pasantia) {
         this.indicador = indicador;
         this.evaluacion = evaluacion;
-        this.pasantia = pasantia;
+        this.notaPasantia = pasantia;
     }
 
     /**
@@ -88,18 +88,17 @@ public class IndicadorPasantia implements Serializable {
     }
 
     /**
-     * @return the pasantia
+     * @return the notaPasantia
      */
-    public NotaPasantia getPasantia() {
-        return pasantia;
+    public NotaPasantia getNotaPasantia() {
+        return notaPasantia;
     }
 
     /**
-     * @param pasantia the pasantia to set
+     * @param notaPasantia the notaPasantia to set
      */
-    public void setPasantia(NotaPasantia pasantia) {
-        this.pasantia = pasantia;
+    public void setNotaPasantia(NotaPasantia notaPasantia) {
+        this.notaPasantia = notaPasantia;
     }
-    
-    
+
 }

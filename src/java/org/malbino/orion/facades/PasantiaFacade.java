@@ -15,6 +15,7 @@ import javax.persistence.Query;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Pasantia;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Nivel;
 
 /**
@@ -131,7 +132,7 @@ public class PasantiaFacade extends AbstractFacade<Pasantia> {
 
             l = q.getResultList();
         } catch (Exception e) {
-            
+
         }
 
         return l;
@@ -165,6 +166,23 @@ public class PasantiaFacade extends AbstractFacade<Pasantia> {
             q.setMaxResults(1);
 
             l = (Long) q.getSingleResult();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Pasantia> listaPasantiasAprobadas(int id_persona, int id_carrera) {
+        List<Pasantia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT p FROM NotaPasantia np JOIN np.estudiante e JOIN np.pasantia p JOIN p.carrera c WHERE e.id_persona=:id_persona AND c.id_carrera=:id_carrera AND np.condicion=:condicion ORDER BY p.nombre");
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            l = q.getResultList();
         } catch (Exception e) {
 
         }
