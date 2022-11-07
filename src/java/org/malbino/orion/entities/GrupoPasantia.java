@@ -203,8 +203,4 @@ public class GrupoPasantia implements Serializable {
     public String toString() {
         return codigo + " [" + turno.getNombre() + "]";
     }
-
-    public int getId_grupo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

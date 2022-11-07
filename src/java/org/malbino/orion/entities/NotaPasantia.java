@@ -26,7 +26,7 @@ import org.malbino.orion.util.Fecha;
  * @author malbino
  */
 @Entity
-@Table(name = "notapasantia", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "id_persona", "id_grupo", "id_empresa"}))
+@Table(name = "notapasantia", uniqueConstraints = @UniqueConstraint(columnNames = {"codigo", "id_persona", "id_grupopasantia", "id_empresa"}))
 public class NotaPasantia implements Serializable {
 
     @Id
@@ -46,7 +46,7 @@ public class NotaPasantia implements Serializable {
     @ManyToOne
     private Estudiante estudiante;
 
-    @JoinColumn(name = "id_grupo")
+    @JoinColumn(name = "id_grupopasantia")
     @ManyToOne
     private GrupoPasantia grupoPasantia;
 

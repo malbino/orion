@@ -50,6 +50,23 @@ public class GrupoPasantiaFacade extends AbstractFacade<GrupoPasantia> {
 
         return l;
     }
+    
+    public List<GrupoPasantia> listaGrupoPasantiasAbiertos(int id_gestionacademica, int id_carrera) {
+        List<GrupoPasantia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT gp FROM GrupoPasantia gp JOIN gp.gestionAcademica ga JOIN gp.pasantia p JOIN p.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND gp.abierto=:abierto ORDER BY p.nivel, p.mencion, gp.turno, gp.codigo, p.nombre");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("abierto", Boolean.TRUE);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 
     public List<GrupoPasantia> listaGrupoPasantias(int id_gestionacademica, int id_carrera, Nivel nivel) {
         List<GrupoPasantia> l = new ArrayList();

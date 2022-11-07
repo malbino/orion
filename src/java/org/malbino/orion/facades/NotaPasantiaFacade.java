@@ -4,6 +4,8 @@
  */
 package org.malbino.orion.facades;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,6 +67,41 @@ public class NotaPasantiaFacade extends AbstractFacade<NotaPasantia> {
             l = (Long) q.getSingleResult();
         } catch (Exception e) {
             log.error("maximoCodigo\n" + e.getMessage());
+        }
+
+        return l;
+    }
+
+    public List<NotaPasantia> listaNotasPasantias(int id_grupopasantia) {
+        List<NotaPasantia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT np FROM NotaPasantia np JOIN np.grupoPasantia gp JOIN np.estudiante e WHERE gp.id_grupopasantia=:id_grupopasantia ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("id_grupopasantia", id_grupopasantia);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            log.error("listaNotasPasantias\n" + e.getMessage());
+        }
+
+        return l;
+    }
+
+    public List<NotaPasantia> buscar(GrupoPasantia grupoPasantia, String keyword) {
+        List<NotaPasantia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT np FROM NotaPasantia np JOIN np.estudiante e WHERE np.grupoPasantia=:grupoPasantia AND "
+                    + "(CAST(np.codigo AS CHAR) LIKE :keyword OR "
+                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
+                    + "LOWER(e.nombre) LIKE LOWER(:keyword)) "
+                    + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("grupoPasantia", grupoPasantia);
+            q.setParameter("keyword", "%" + keyword + "%");
+
+            l = q.getResultList();
+        } catch (Exception e) {
         }
 
         return l;
