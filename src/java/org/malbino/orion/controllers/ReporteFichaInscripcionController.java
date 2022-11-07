@@ -15,29 +15,22 @@ import javax.ejb.EJB;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.GrupoPasantia;
-import org.malbino.orion.entities.IndicadorPasantia;
 import org.malbino.orion.entities.NotaPasantia;
 import org.malbino.orion.facades.GrupoPasantiaFacade;
-import org.malbino.orion.facades.IndicadorPasantiaFacade;
 import org.malbino.orion.facades.NotaPasantiaFacade;
-import org.malbino.orion.facades.negocio.EvaluacionPasantiaFacade;
 
 /**
  *
  * @author Tincho
  */
-@Named("NotaPasantiaController")
+@Named("ReporteFichaInscripcionController")
 @SessionScoped
-public class NotaPasantiaController extends AbstractController implements Serializable {
+public class ReporteFichaInscripcionController extends AbstractController implements Serializable {
 
     @EJB
     NotaPasantiaFacade notaPasantiaFacade;
     @EJB
     GrupoPasantiaFacade grupoPasantiaFacade;
-    @EJB
-    IndicadorPasantiaFacade indicadorPasantiaFacade;
-    @EJB
-    EvaluacionPasantiaFacade evaluacionPasantiaFacade;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -47,8 +40,6 @@ public class NotaPasantiaController extends AbstractController implements Serial
 
     private Boolean filter;
     private String keyword;
-
-    private List<IndicadorPasantia> indicadoresPasantia;
 
     @PostConstruct
     public void init() {
@@ -111,48 +102,16 @@ public class NotaPasantiaController extends AbstractController implements Serial
         }
     }
 
-    public void actualizarIndicadoresPasantia() {
-        if (seleccionNotaPasantia != null) {
-            indicadoresPasantia = indicadorPasantiaFacade.listaIndicadoresPasantias(seleccionNotaPasantia);
-        }
+    public void toFichaInscripcion() throws IOException {
+        this.insertarParametro("id_notapasantia", seleccionNotaPasantia.getId_notapasantia());
+
+        this.redireccionarViewId("/reportes/fichaInscripcion/fichaInscripcion");
     }
 
-    public void evaluacionEmpresa() throws IOException {
-        if (evaluacionPasantiaFacade.evaluacionEmpresa(seleccionNotaPasantia, indicadoresPasantia)) {
-            toPasantias();
-        }
-    }
-
-    public void evaluacionTutor() throws IOException {
-        if (evaluacionPasantiaFacade.evaluacionTutor(seleccionNotaPasantia)) {
-            toPasantias();
-        }
-    }
-
-    public void editarPasantia() throws IOException {
-        if (notaPasantiaFacade.edit(seleccionNotaPasantia)) {
-            toPasantias();
-        }
-    }
-
-    public void toEditarPasantia() throws IOException {
-        this.redireccionarViewId("/pasantias/pasantias/editarPasantia");
-    }
-
-    public void toEvaluacionEmpresa() throws IOException {
-        actualizarIndicadoresPasantia();
-
-        this.redireccionarViewId("/pasantias/pasantias/evaluacionEmpresa");
-    }
-
-    public void toEvaluacionTutor() throws IOException {
-        this.redireccionarViewId("/pasantias/pasantias/evaluacionTutor");
-    }
-
-    public void toPasantias() throws IOException {
+    public void toReporteFichaInscripcion() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/pasantias/pasantias/pasantias");
+        this.redireccionarViewId("/reportes/fichaInscripcion/pasantias");
     }
 
     /**
@@ -223,20 +182,6 @@ public class NotaPasantiaController extends AbstractController implements Serial
      */
     public void setKeyword(String keyword) {
         this.keyword = keyword;
-    }
-
-    /**
-     * @return the indicadoresPasantia
-     */
-    public List<IndicadorPasantia> getIndicadoresPasantia() {
-        return indicadoresPasantia;
-    }
-
-    /**
-     * @param indicadoresPasantia the indicadoresPasantia to set
-     */
-    public void setIndicadoresPasantia(List<IndicadorPasantia> indicadoresPasantia) {
-        this.indicadoresPasantia = indicadoresPasantia;
     }
 
     /**

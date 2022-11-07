@@ -61,10 +61,6 @@ public class Anuncio implements Serializable {
     @ManyToOne
     private Empresa empresa;
 
-    @JoinColumn(name = "id_instituto")
-    @ManyToOne
-    private Instituto instituto;
-
     public Anuncio() {
     }
 
@@ -296,20 +292,6 @@ public class Anuncio implements Serializable {
      */
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
-    }
-
-    /**
-     * @return the instituto
-     */
-    public Instituto getInstituto() {
-        return instituto;
-    }
-
-    /**
-     * @param instituto the instituto to set
-     */
-    public void setInstituto(Instituto instituto) {
-        this.instituto = instituto;
     }
 
     /**

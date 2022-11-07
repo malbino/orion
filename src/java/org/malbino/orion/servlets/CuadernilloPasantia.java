@@ -28,16 +28,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.itextpdf.text.Chunk;
+import java.util.List;
+import org.malbino.orion.entities.Asistencia;
 import org.malbino.orion.entities.NotaPasantia;
+import org.malbino.orion.facades.AsistenciaFacade;
 import org.malbino.orion.facades.NotaPasantiaFacade;
 import org.malbino.orion.util.Fecha;
+import org.malbino.orion.util.Redondeo;
 
 /**
  *
  * @author tincho
  */
-@WebServlet(name = "FichaInscripcionPasantia", urlPatterns = {"/inscripciones/FichaInscripcionPasantia"})
-public class FichaInscripcionPasantia extends HttpServlet {
+@WebServlet(name = "ReporteAsistencia", urlPatterns = {"/reportes/ReporteAsistencia"})
+public class CuadernilloPasantia extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
 
@@ -55,6 +59,8 @@ public class FichaInscripcionPasantia extends HttpServlet {
 
     @EJB
     NotaPasantiaFacade notaPasantiaFacade;
+    @EJB
+    AsistenciaFacade asistenciaFacade;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -97,7 +103,7 @@ public class FichaInscripcionPasantia extends HttpServlet {
 
                 document.close();
             } catch (IOException | DocumentException ex) {
-                Logger.getLogger(FichaInscripcionPasantia.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CuadernilloPasantia.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -132,7 +138,7 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell.setPaddingLeft(30f);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("FICHA DE INSCRIPCIÓN PASANTÍA", TITULO));
+        cell = new PdfPCell(new Phrase("CUADERNILLO DE PASANTIA", TITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setColspan(80);
@@ -163,9 +169,7 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
+        cell.setColspan(50);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
@@ -176,9 +180,18 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
+        cell.setColspan(50);
+        cell.setFixedHeight(20f);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Pasante: ", NEGRITA));
+        phrase.add(new Chunk(notaPasantia.getEstudiante().toString(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setColspan(50);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
@@ -191,8 +204,19 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
+        cell.setColspan(50);
+        cell.setFixedHeight(20f);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Empresa: ", NEGRITA));
+        if (notaPasantia.getGrupoPasantia().getEmpleado() != null) {
+            phrase.add(new Chunk(notaPasantia.getEmpresa().toString(), NORMAL));
+        }
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setColspan(100);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -201,274 +225,90 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(new Phrase(" ", SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
         cell.setColspan(100);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("PASANTE", NEGRITA));
+        cell = new PdfPCell(new Phrase("Nro", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(7);
         table.addCell(cell);
 
-        phrase = new Phrase();
-        phrase.add(new Chunk("Apellidos y Nombres: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEstudiante().toString(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Carnet de Identidad: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEstudiante().dniLugar(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Fecha de nacimiento: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEstudiante().fechaNacimiento_ddMMyyyy(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(50);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Edad: ", NEGRITA));
-        phrase.add(new Chunk(String.valueOf(notaPasantia.getEstudiante().edad()), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(50);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Lugar de nacimiento: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEstudiante().getLugarNacimiento(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Dirección: ", NEGRITA));
-        if (notaPasantia.getEstudiante().getDireccion() != null) {
-            phrase.add(new Chunk(notaPasantia.getEstudiante().getDireccion(), NORMAL));
-        }
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Teléfono: ", NEGRITA));
-        if (notaPasantia.getEstudiante().getTelefono() != null) {
-            phrase.add(new Chunk(String.valueOf(notaPasantia.getEstudiante().getTelefono()), NORMAL));
-        }
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(50);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Celular: ", NEGRITA));
-        if (notaPasantia.getEstudiante().getCelular() != null) {
-            phrase.add(new Chunk(String.valueOf(notaPasantia.getEstudiante().getCelular()), NORMAL));
-        }
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(50);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Email: ", NEGRITA));
-        if (notaPasantia.getEstudiante().getEmail() != null) {
-            phrase.add(new Chunk(notaPasantia.getEstudiante().getEmail(), NORMAL));
-        }
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        cell = new PdfPCell(new Phrase(" ", SUBTITULO));
+        cell = new PdfPCell(new Phrase("Ingreso", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(20);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase("EMPRESA", NEGRITA));
+        cell = new PdfPCell(new Phrase("Salida", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(20);
         table.addCell(cell);
 
-        phrase = new Phrase();
-        phrase.add(new Chunk("Nombre o Razón Social: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEmpresa().getNombreEmpresa(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell = new PdfPCell(new Phrase("Descripción", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(43);
         table.addCell(cell);
 
-        phrase = new Phrase();
-        phrase.add(new Chunk("Actividad: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEmpresa().getActividad(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell = new PdfPCell(new Phrase("Horas", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(10);
         table.addCell(cell);
 
-        phrase = new Phrase();
-        phrase.add(new Chunk("Tipo: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEmpresa().getTipoEmpresa().getNombre(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
+        List<Asistencia> asistencias = asistenciaFacade.listaAsistencias(notaPasantia);
+        double total = 0.0;
+        for (int i = 0; i < asistencias.size(); i++) {
+            Asistencia asistencia = asistencias.get(i);
 
-        phrase = new Phrase();
-        phrase.add(new Chunk("NIT: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEmpresa().getNit(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
+            cell = new PdfPCell(new Phrase(String.valueOf(i + 1), NORMAL));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setColspan(7);
+            table.addCell(cell);
 
-        phrase = new Phrase();
-        phrase.add(new Chunk("Dirección: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEmpresa().getDireccionEmpresa(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
+            cell = new PdfPCell(new Phrase(asistencia.ingreso_ddMMyyyyHHmm(), NORMAL));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setColspan(20);
+            table.addCell(cell);
 
-        phrase = new Phrase();
-        phrase.add(new Chunk("Teléfono: ", NEGRITA));
-        if (notaPasantia.getEstudiante().getTelefono() != null) {
-            phrase.add(new Chunk(String.valueOf(notaPasantia.getEmpresa().getTelefonoEmpresa()), NORMAL));
+            cell = new PdfPCell(new Phrase(asistencia.salida_ddMMyyyyHHmm(), NORMAL));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setColspan(20);
+            table.addCell(cell);
+
+            cell = new PdfPCell(new Phrase(asistencia.getDescripcion(), NORMAL));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setColspan(43);
+            table.addCell(cell);
+
+            double horas = asistencia.horas();
+            total += horas;
+            cell = new PdfPCell(new Phrase(String.valueOf(horas), NORMAL));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setColspan(10);
+            table.addCell(cell);
         }
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
+        cell = new PdfPCell(new Phrase("Total:", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(50);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(90);
         table.addCell(cell);
 
-        phrase = new Phrase();
-        phrase.add(new Chunk("Celular: ", NEGRITA));
-        if (notaPasantia.getEstudiante().getCelular() != null) {
-            phrase.add(new Chunk(String.valueOf(notaPasantia.getEmpresa().getCelularEmpresa()), NORMAL));
-        }
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        Double totalRedondeado = Redondeo.redondear_HALFUP(total, 2);
+        cell = new PdfPCell(new Phrase(String.valueOf(totalRedondeado), NORMAL));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(50);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
-
-        phrase = new Phrase();
-        phrase.add(new Chunk("Email: ", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getEmpresa().getEmailEmpresa(), NORMAL));
-        cell = new PdfPCell(phrase);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
-        cell.setColspan(100);
-        cell.setFixedHeight(20f);
-        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(10);
         table.addCell(cell);
 
         return table;
@@ -481,7 +321,7 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(100);
         cell.setBorder(Rectangle.NO_BORDER);
-        cell.setFixedHeight(40f);
+        cell.setFixedHeight(20f);
         table.addCell(cell);
 
         Phrase phrase = new Phrase();
@@ -489,8 +329,6 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
         cell.setColspan(100);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -499,8 +337,6 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(new Phrase(" ", SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
         cell.setColspan(100);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -511,8 +347,6 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
         cell.setColspan(50);
         cell.setFixedHeight(40f);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -523,8 +357,6 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
         cell.setColspan(50);
         cell.setFixedHeight(40f);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -533,8 +365,6 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(new Phrase(" ", SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
         cell.setColspan(100);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -548,8 +378,6 @@ public class FichaInscripcionPasantia extends HttpServlet {
         cell = new PdfPCell(new Phrase(s, SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setPaddingLeft(30f);
-        cell.setPaddingRight(30f);
         cell.setColspan(100);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);

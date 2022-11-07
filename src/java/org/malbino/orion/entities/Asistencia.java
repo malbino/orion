@@ -24,7 +24,7 @@ import org.malbino.orion.util.Redondeo;
  * @author malbino
  */
 @Entity
-@Table(name = "asistencia", uniqueConstraints = @UniqueConstraint(columnNames = {"ingreso", "salida", "id_inscrito"}))
+@Table(name = "asistencia", uniqueConstraints = @UniqueConstraint(columnNames = {"ingreso", "salida", "id_notaPasantia"}))
 public class Asistencia implements Serializable {
 
     @Id
@@ -35,18 +35,18 @@ public class Asistencia implements Serializable {
     private Date salida;
     private String descripcion;
 
-    @JoinColumn(name = "id_inscrito")
+    @JoinColumn(name = "id_notaPasantia")
     @ManyToOne
-    private Inscrito inscrito;
+    private NotaPasantia notaPasantia;
 
     public Asistencia() {
     }
 
-    public Asistencia(Date ingreso, Date salida, String descripcion, Inscrito inscrito) {
+    public Asistencia(Date ingreso, Date salida, String descripcion, NotaPasantia notaPasantia) {
         this.ingreso = ingreso;
         this.salida = salida;
         this.descripcion = descripcion;
-        this.inscrito = inscrito;
+        this.notaPasantia = notaPasantia;
     }
 
     @Override
@@ -145,16 +145,17 @@ public class Asistencia implements Serializable {
     }
 
     /**
-     * @return the inscrito
+     * @return the notaPasantia
      */
-    public Inscrito getInscrito() {
-        return inscrito;
+    public NotaPasantia getNotaPasantia() {
+        return notaPasantia;
     }
 
     /**
-     * @param inscrito the inscrito to set
+     * @param notaPasantia the notaPasantia to set
      */
-    public void setInscrito(Inscrito inscrito) {
-        this.inscrito = inscrito;
+    public void setNotaPasantia(NotaPasantia notaPasantia) {
+        this.notaPasantia = notaPasantia;
     }
+
 }
