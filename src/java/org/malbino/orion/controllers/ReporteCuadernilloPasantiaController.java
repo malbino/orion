@@ -111,7 +111,7 @@ public class ReporteCuadernilloPasantiaController extends AbstractController imp
     public void toReporteCuadernilloPasantia() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/cuadernilloPasantia/pasantias");
+        this.redireccionarViewId("/reportes/cuadernilloPasantia/reporteCuadernilloPasantia");
     }
 
     /**

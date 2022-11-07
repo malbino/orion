@@ -73,7 +73,6 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
 
     public void generarPDF(HttpServletRequest request, HttpServletResponse response) {
         Integer id_notapasantia = (Integer) request.getSession().getAttribute("id_notapasantia");
-
         if (id_notapasantia != null) {
             NotaPasantia notaPasantia = notaPasantiaFacade.find(id_notapasantia);
             try {
@@ -108,11 +107,11 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
         }
     }
 
-    public PdfPTable titulo(NotaPasantia indicadorPasantiaPasantia) throws BadElementException, IOException {
+    public PdfPTable titulo(NotaPasantia notaPasantia) throws BadElementException, IOException {
         PdfPTable table = new PdfPTable(100);
 
         //cabecera
-        String realPath = getServletContext().getRealPath("/resources/uploads/" + indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getInstituto().getLogo());
+        String realPath = getServletContext().getRealPath("/resources/uploads/" + notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getInstituto().getLogo());
         Image image = Image.getInstance(realPath);
         image.scaleToFit(70f, 70f);
         image.setAlignment(Image.ALIGN_CENTER);
@@ -125,8 +124,8 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(
-                indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getInstituto().getNombreRegulador() + "\n"
-                + indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getCarrera().getNombre(), SUBTITULO));
+                notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getInstituto().getNombreRegulador() + "\n"
+                + notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getNombre(), SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setColspan(80);
@@ -152,7 +151,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
         return table;
     }
 
-    public PdfPTable contenido(NotaPasantia indicadorPasantiaPasantia) throws BadElementException, IOException {
+    public PdfPTable contenido(NotaPasantia notaPasantia) throws BadElementException, IOException {
         PdfPTable table = new PdfPTable(100);
 
         PdfPCell cell = new PdfPCell(new Phrase(" ", NEGRITA));
@@ -164,7 +163,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
 
         Phrase phrase = new Phrase();
         phrase.add(new Chunk("Codigo: ", NEGRITA));
-        phrase.add(new Chunk(String.valueOf(indicadorPasantiaPasantia.getCodigo()), NORMAL));
+        phrase.add(new Chunk(String.valueOf(notaPasantia.getCodigo()), NORMAL));
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -175,7 +174,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
 
         phrase = new Phrase();
         phrase.add(new Chunk("Pasantía: ", NEGRITA));
-        phrase.add(new Chunk(indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getNombre(), NORMAL));
+        phrase.add(new Chunk(notaPasantia.getGrupoPasantia().getPasantia().getNombre(), NORMAL));
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -186,7 +185,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
 
         phrase = new Phrase();
         phrase.add(new Chunk("Pasante: ", NEGRITA));
-        phrase.add(new Chunk(indicadorPasantiaPasantia.getEstudiante().toString(), NORMAL));
+        phrase.add(new Chunk(notaPasantia.getEstudiante().toString(), NORMAL));
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -197,8 +196,8 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
 
         phrase = new Phrase();
         phrase.add(new Chunk("Tutor: ", NEGRITA));
-        if (indicadorPasantiaPasantia.getGrupoPasantia().getEmpleado() != null) {
-            phrase.add(new Chunk(indicadorPasantiaPasantia.getGrupoPasantia().getEmpleado().toString(), NORMAL));
+        if (notaPasantia.getGrupoPasantia().getEmpleado() != null) {
+            phrase.add(new Chunk(notaPasantia.getGrupoPasantia().getEmpleado().toString(), NORMAL));
         }
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -210,8 +209,8 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
 
         phrase = new Phrase();
         phrase.add(new Chunk("Empresa: ", NEGRITA));
-        if (indicadorPasantiaPasantia.getGrupoPasantia().getEmpleado() != null) {
-            phrase.add(new Chunk(indicadorPasantiaPasantia.getEmpresa().toString(), NORMAL));
+        if (notaPasantia.getEmpresa() != null) {
+            phrase.add(new Chunk(notaPasantia.getEmpresa().toString(), NORMAL));
         }
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -259,7 +258,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
         cell.setColspan(13);
         table.addCell(cell);
 
-        List<IndicadorPasantia> listaIndicadoresPasantias = indicadorPasantiaFacade.listaIndicadoresPasantias(indicadorPasantiaPasantia);
+        List<IndicadorPasantia> listaIndicadoresPasantias = indicadorPasantiaFacade.listaIndicadoresPasantias(notaPasantia);
         for (int i = 0; i < listaIndicadoresPasantias.size(); i++) {
             IndicadorPasantia indicadorPasantia = listaIndicadoresPasantias.get(i);
 
@@ -300,16 +299,16 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
         cell.setColspan(87);
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(String.valueOf(indicadorPasantiaPasantia.getNotaEmpresa()), NORMAL));
+        cell = new PdfPCell(new Phrase(String.valueOf(notaPasantia.getNotaEmpresa()), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setColspan(13);
         table.addCell(cell);
 
-        if (indicadorPasantiaPasantia.getContratado()) {
+        if (notaPasantia.getContratado()) {
             phrase = new Phrase();
             phrase.add(new Chunk("Contratado: ", NEGRITA));
-            phrase.add(new Chunk(indicadorPasantiaPasantia.contratadoToString(), NORMAL));
+            phrase.add(new Chunk(notaPasantia.contratadoToString(), NORMAL));
             cell = new PdfPCell(phrase);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -320,7 +319,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
 
         phrase = new Phrase();
         phrase.add(new Chunk("Observaciones:\n", NEGRITA));
-        phrase.add(new Chunk(indicadorPasantiaPasantia.getObservaciones(), NORMAL));
+        phrase.add(new Chunk(notaPasantia.getObservaciones(), NORMAL));
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -331,7 +330,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
         return table;
     }
 
-    public PdfPTable firma(NotaPasantia indicadorPasantiaPasantia) throws BadElementException, IOException {
+    public PdfPTable firma(NotaPasantia notaPasantia) throws BadElementException, IOException {
         PdfPTable table = new PdfPTable(100);
 
         PdfPCell cell = new PdfPCell(new Phrase(" ", NEGRITA));
@@ -342,7 +341,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
         table.addCell(cell);
 
         Phrase phrase = new Phrase();
-        phrase.add(new Chunk(indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getInstituto().getUbicacion() + ", " + Fecha.formatearFecha_ddMMMMyyyy(indicadorPasantiaPasantia.getFecha()), NORMAL));
+        phrase.add(new Chunk(notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getInstituto().getUbicacion() + ", " + Fecha.formatearFecha_ddMMMMyyyy(notaPasantia.getFecha()), NORMAL));
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -387,10 +386,10 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
-        String s = indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getNombre() + ", "
-                + indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getDireccion();
-        if (indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getTelefono() != null) {
-            s += ", " + indicadorPasantiaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getTelefono();
+        String s = notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getNombre() + ", "
+                + notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getDireccion();
+        if (notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getTelefono() != null) {
+            s += ", " + notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getCampus().getTelefono();
         }
         cell = new PdfPCell(new Phrase(s, SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);

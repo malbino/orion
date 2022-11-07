@@ -23,9 +23,9 @@ import org.malbino.orion.facades.NotaPasantiaFacade;
  *
  * @author Tincho
  */
-@Named("ReporteFichaInscripcionController")
+@Named("ReporteFichaEvaluacionEmpresaController")
 @SessionScoped
-public class ReporteFichaInscripcionController extends AbstractController implements Serializable {
+public class ReporteFichaEvaluacionEmpresaController extends AbstractController implements Serializable {
 
     @EJB
     NotaPasantiaFacade notaPasantiaFacade;
@@ -102,16 +102,16 @@ public class ReporteFichaInscripcionController extends AbstractController implem
         }
     }
 
-    public void toFichaInscripcion() throws IOException {
+    public void toFichaEvaluacionEmpresa() throws IOException {
         this.insertarParametro("id_notapasantia", seleccionNotaPasantia.getId_notapasantia());
 
-        this.redireccionarViewId("/reportes/fichaInscripcion/fichaInscripcion");
+        this.redireccionarViewId("/reportes/fichaEvaluacionEmpresa/fichaEvaluacionEmpresa");
     }
 
-    public void toReporteFichaInscripcion() throws IOException {
+    public void toReporteFichaEvaluacionEmpresa() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/fichaInscripcion/reporteFichaInscripcion");
+        this.redireccionarViewId("/reportes/fichaEvaluacionEmpresa/reporteFichaEvaluacionEmpresa");
     }
 
     /**
