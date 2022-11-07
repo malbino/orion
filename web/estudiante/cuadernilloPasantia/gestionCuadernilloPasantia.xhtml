@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Gestión Cuadernillo Pasantia <small>gestión de tu cuadernillo de pasantia</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">        
+                                    <p:messages/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="notaPasantia" value="Pasantía:" style="font-size: small"/>
+                                            <p:selectOneMenu id="notaPasantia" value="#{GestionCuadernilloPasantiaController.seleccionNotaPasantia}" converter="#{NotaPasantiaConverter}" autoWidth="false" required="true" requiredMessage="* Pasantía requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GestionCuadernilloPasantiaController.listaNotaPasantias()}" var="notaPasantia" itemLabel="#{notaPasantia.toString()}" itemValue="#{notaPasantia}"/>
+
+                                                <p:ajax listener="#{GestionCuadernilloPasantiaController.reinit()}" update="form"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-plus" value="Nuevo" actionListener="#{GestionCuadernilloPasantiaController.toNuevaAsistencia()}" update="form"/>
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{GestionCuadernilloPasantiaController.reinit()}" update="form"/>
+
+                                            <p:spacer width="10"/>
+
+                                            <p:commandButton value="Cuadernillo Pasantia" actionListener="#{GestionCuadernilloPasantiaController.toCuadernilloPasantia()}" update="form"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{GestionCuadernilloPasantiaController.filtro()}" update="form" rendered="#{!GestionCuadernilloPasantiaController.filter}"/>
+                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{GestionCuadernilloPasantiaController.filtro()}" update="form" rendered="#{GestionCuadernilloPasantiaController.filter}"/>
+
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="asistencias" fileName="asistencias" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <p:outputPanel id="filtro" rendered="#{GestionCuadernilloPasantiaController.filter}">
+                                        <div class="ui-g ui-fluid">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <div class="ui-inputgroup">
+                                                    <p:inputText value="#{GestionCuadernilloPasantiaController.keyword}" style="height: 100%"/>
+                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GestionCuadernilloPasantiaController.buscar()}" update="asistencias"/>           
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </p:outputPanel>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="asistencias" var="asistencia" value="#{GestionCuadernilloPasantiaController.asistencias}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                 paginator="true" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Ingreso" >  
+                                            <h:outputText value="#{asistencia.ingreso_ddMMyyyyHHmm()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Salida" >  
+                                            <h:outputText value="#{asistencia.salida_ddMMyyyyHHmm()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Descripción" >  
+                                            <h:outputText value="#{asistencia.descripcion}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Horas" style="text-align: center">  
+                                            <h:outputText value="#{asistencia.horas()}"/>
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  
+                                                    <f:setPropertyActionListener value="#{asistencia}" target="#{GestionCuadernilloPasantiaController.seleccionAsistencia}" />
+
+                                                    <f:actionListener binding="#{GestionCuadernilloPasantiaController.toEditarAsistencia()}"/>
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column>
+
+                                        <p:columnGroup type="footer">
+                                            <p:row>
+                                                <p:column colspan="4" style="text-align:right" footerText="Total:"/>
+                                                <p:column>
+                                                    <f:facet name="footer">
+                                                        <h:outputText value="#{GestionCuadernilloPasantiaController.total()}"/>
+                                                    </f:facet>
+                                                </p:column>
+
+                                                <p:column>
+                                                    <f:facet name="footer">
+                                                        <h:outputText value=" "/>
+                                                    </f:facet>
+                                                </p:column>
+                                            </p:row>
+                                        </p:columnGroup>
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

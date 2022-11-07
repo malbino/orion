@@ -87,6 +87,21 @@ public class NotaPasantiaFacade extends AbstractFacade<NotaPasantia> {
         return l;
     }
 
+    public List<NotaPasantia> listaNotaPasantiasEstudiante(int id_persona) {
+        List<NotaPasantia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT np FROM NotaPasantia np JOIN np.estudiante e JOIN np.grupoPasantia gp JOIN gp.gestionAcademica ga JOIN gp.pasantia p JOIN p.carrera c WHERE e.id_persona=:id_persona ORDER BY c.nombre, ga.gestion, ga.periodo");
+            q.setParameter("id_persona", id_persona);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            log.error("listaNotaPasantiasEstudiante\n" + e.getMessage());
+        }
+
+        return l;
+    }
+
     public List<NotaPasantia> buscar(GrupoPasantia grupoPasantia, String keyword) {
         List<NotaPasantia> l = new ArrayList();
 

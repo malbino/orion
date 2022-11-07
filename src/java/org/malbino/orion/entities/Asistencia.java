@@ -8,6 +8,7 @@ package org.malbino.orion.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +34,7 @@ public class Asistencia implements Serializable {
 
     private Date ingreso;
     private Date salida;
+    @Column(length = 4095)
     private String descripcion;
 
     @JoinColumn(name = "id_notaPasantia")
