@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0-beta.1] - 2022-11-08
+### Added
+### Changed
+- Se actualizo el CHANGELOG
+### Removed
+### Fixed
+
+## [2.0.0-beta] - 2022-11-07
+### Added
+- Soporte para la gestion de pasantias
+### Changed
+### Removed
+### Fixed
+
 ## [1.13.0] - 2022-11-03
 ### Added
 - Se agrego el Reporte Lista de Cobros
