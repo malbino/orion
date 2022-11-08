@@ -67,6 +67,10 @@ public class NotaPasantiaController extends AbstractController implements Serial
         filter = false;
         keyword = null;
     }
+    
+    public void update(){
+        this.ejecutar("PF");
+    }
 
     @Override
     public List<Carrera> listaCarreras() {

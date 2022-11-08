@@ -86,18 +86,6 @@ public class FichaEvaluacionTutor extends HttpServlet {
                 document.add(contenido(notaPasantia));
                 document.add(firma(notaPasantia));
 
-                document.newPage();
-
-                document.add(titulo(notaPasantia));
-                document.add(contenido(notaPasantia));
-                document.add(firma(notaPasantia));
-
-                document.newPage();
-
-                document.add(titulo(notaPasantia));
-                document.add(contenido(notaPasantia));
-                document.add(firma(notaPasantia));
-
                 document.close();
             } catch (IOException | DocumentException ex) {
                 Logger.getLogger(FichaEvaluacionTutor.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,7 +196,7 @@ public class FichaEvaluacionTutor extends HttpServlet {
 
         phrase = new Phrase();
         phrase.add(new Chunk("Empresa: ", NEGRITA));
-        if (notaPasantia.getGrupoPasantia().getEmpleado() != null) {
+        if (notaPasantia.getEmpresa() != null) {
             phrase.add(new Chunk(notaPasantia.getEmpresa().toString(), NORMAL));
         }
         cell = new PdfPCell(phrase);

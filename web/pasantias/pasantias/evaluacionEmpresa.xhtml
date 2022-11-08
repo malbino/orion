@@ -15,7 +15,7 @@
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Evaluación <small>evaluación pasantía</small></h2>
+                                <h2>Evaluación Empresa <small>evaluación de la pasantía por parte de la empresa</small></h2>
 
                                 <div class="clearfix"></div>
                             </div>
@@ -23,42 +23,23 @@
                             <div class="x_content">
                                 <h:form id="form">
                                     <p:messages/>
-                                    
-                                    <p:dataTable id="indicadoresPasantia" var="indicadorPasantia" value="#{NotaPasantiaController.indicadoresPasantia}" 
-                                                 editable="true" editMode="cell"
-                                                 rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        <p:column headerText="Categoria" groupRow="true">  
-                                            <h:outputText value="#{indicadorPasantia.indicador.categoria.nombre}"/>
-                                        </p:column>
 
-                                        <p:column headerText="Nº">
-                                            <h:outputText value="#{rowIndex + 1}"/>
-                                        </p:column>
-
-                                        <p:column headerText="Indicador" >  
-                                            <h:outputText value="#{indicadorPasantia.indicador.nombre}"/>
-                                        </p:column>
-
-                                        <p:column headerText="Evaluación">
-                                            <p:cellEditor>
-                                                <f:facet name="output"><h:outputText value="#{indicadorPasantia.evaluacion.notaCualitativa}"/></f:facet>
-                                                <f:facet name="input">
-                                                    <h:selectOneMenu id="evaluacion" value="#{indicadorPasantia.evaluacion}" converter="#{EvaluacionConverter}" style="width:100%">
-                                                        <f:selectItems value="#{NotaPasantiaController.listaEvaluaciones()}" var="evaluacion" itemLabel="#{evaluacion.notaCualitativa}" itemValue="#{evaluacion}" />
-
-                                                        <p:ajax update="indicadoresPasantia"/>
-                                                    </h:selectOneMenu>
-                                                </f:facet>
-                                            </p:cellEditor>
-                                        </p:column>
-                                    </p:dataTable>
+                                    <p:outputLabel for="indicadoresPasantia" value="Indicadores de evaluación:" style="font-size: small"/>
+                                    <p:dataGrid id="indicadoresPasantia" columns="1" rowIndexVar="rowIndex" layout="grid" value="#{NotaPasantiaController.indicadoresPasantia}" var="indicadorPasantia">
+                                        <h:panelGrid columns="1">
+                                            <h:outputText value="#{rowIndex + 1}.- #{indicadorPasantia.indicador.nombre}"/>
+                                            <p:selectOneRadio value="#{indicadorPasantia.evaluacion}" converter="#{EvaluacionConverter}">
+                                                <f:selectItems value="#{NotaPasantiaController.listaEvaluaciones()}" var="evaluacion" itemLabel="#{evaluacion.notaCualitativa}" itemValue="#{evaluacion}" />
+                                            </p:selectOneRadio>
+                                        </h:panelGrid>
+                                    </p:dataGrid>
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="contratado" value="Contratado:" style="font-size: small"/>
                                             <p:selectBooleanButton id="contratado" value="#{NotaPasantiaController.seleccionNotaPasantia.contratado}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
                                         </div>
-                                        
+
                                         <div class="ui-g-12 ui-md-12">
                                             <p:outputLabel for="observaciones" value="Observaciones:" style="font-size: small"/>
                                             <p:inputTextarea id="observaciones" value="#{NotaPasantiaController.seleccionNotaPasantia.observaciones}"/>

@@ -14,20 +14,20 @@
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Ficha Evaluación Tutor <small>descargar/imprimir ficha evaluación tutor</small></h2>
+                                <h2>Ficha Evaluación Empresa <small>descargar/imprimir ficha evaluación empresa</small></h2>
 
                                 <div class="clearfix"></div>
                             </div>
 
                             <div class="x_content">
                                 <h:form>
-                                    <object type="application/pdf" data="#{request.contextPath}/reportes/FichaEvaluacionTutor?pfdrid_c=true" width="100%" height="1250px">
-                                        Su navegador no puede mostrar pdf, <a href="#{request.contextPath}/reportes/FichaEvaluacionTutor">click</a> para descargar el pdf.
+                                    <object type="application/pdf" data="#{request.contextPath}/reportes/FichaEvaluacionEmpresa?pfdrid_c=true" width="100%" height="1250px">
+                                        Su navegador no puede mostrar pdf, <a href="#{request.contextPath}/reportes/FichaEvaluacionEmpresa">click</a> para descargar el pdf.
                                     </object>
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Atrás" icon="fa fa-arrow-left" process="@this" actionListener="#{ReporteFichaEvaluacionTutorController.toReporteFichaEvaluacionTutor()}"/>
+                                            <p:commandButton value="Atrás" icon="fa fa-arrow-left" process="@this" actionListener="#{ReporteFichaEvaluacionEmpresaController.toReporteFichaEvaluacionEmpresa()}"/>
                                         </div>
                                     </div>
                                 </h:form>

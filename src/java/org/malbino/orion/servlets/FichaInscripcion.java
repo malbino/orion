@@ -83,18 +83,6 @@ public class FichaInscripcion extends HttpServlet {
                 document.add(contenido(notaPasantia));
                 document.add(firma(notaPasantia));
 
-                document.newPage();
-
-                document.add(titulo(notaPasantia));
-                document.add(contenido(notaPasantia));
-                document.add(firma(notaPasantia));
-
-                document.newPage();
-
-                document.add(titulo(notaPasantia));
-                document.add(contenido(notaPasantia));
-                document.add(firma(notaPasantia));
-
                 document.close();
             } catch (IOException | DocumentException ex) {
                 Logger.getLogger(FichaInscripcion.class.getName()).log(Level.SEVERE, null, ex);
