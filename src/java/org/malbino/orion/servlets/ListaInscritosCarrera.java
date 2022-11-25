@@ -44,10 +44,10 @@ public class ListaInscritosCarrera extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
 
-    private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
-    private static final Font SUBTITULO = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
-    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.BLACK);
-    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
+    private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
+    private static final Font SUBTITULO = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
+    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, BaseColor.BLACK);
+    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, BaseColor.BLACK);
 
     private static final int MARGEN_IZQUIERDO = -40;
     private static final int MARGEN_DERECHO = -40;
@@ -158,7 +158,7 @@ public class ListaInscritosCarrera extends HttpServlet {
 
         cell = new PdfPCell(new Phrase("Estudiante", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        cell.setColspan(35);
+        cell.setColspan(25);
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
@@ -176,7 +176,13 @@ public class ListaInscritosCarrera extends HttpServlet {
 
         cell = new PdfPCell(new Phrase("Email", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        cell.setColspan(30);
+        cell.setColspan(20);
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        table.addCell(cell);
+        
+        cell = new PdfPCell(new Phrase("Observaciones", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setColspan(20);
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
@@ -199,7 +205,7 @@ public class ListaInscritosCarrera extends HttpServlet {
             cell = new PdfPCell(new Phrase(inscrito.getEstudiante().toString(), NORMAL));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(35);
+            cell.setColspan(25);
             table.addCell(cell);
 
             cell = new PdfPCell(new Phrase(String.valueOf(inscrito.getEstudiante().dniLugar()), NORMAL));
@@ -225,7 +231,13 @@ public class ListaInscritosCarrera extends HttpServlet {
             }
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-            cell.setColspan(30);
+            cell.setColspan(20);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase(inscrito.observaciones(), NORMAL));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+            cell.setColspan(20);
             table.addCell(cell);
         }
 

@@ -6,6 +6,7 @@
 package org.malbino.orion.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Tipo;
 import org.malbino.orion.util.Fecha;
 
@@ -43,7 +45,6 @@ public class Inscrito implements Serializable {
     private Integer numero;
 
     private Boolean becado;
-    private String observaciones;
 
     @JoinColumn(name = "id_persona")
     @ManyToOne
@@ -231,20 +232,6 @@ public class Inscrito implements Serializable {
         this.becado = becado;
     }
 
-    /**
-     * @return the observaciones
-     */
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    /**
-     * @param observaciones the observaciones to set
-     */
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
@@ -273,11 +260,11 @@ public class Inscrito implements Serializable {
     @Override
     public String toString() {
         String s = carrera.toString() + " - " + gestionAcademica.toString();
-       
-        if(becado) {
+
+        if (becado) {
             s += " - BECADO";
         }
-        
+
         return s;
     }
 
@@ -303,4 +290,47 @@ public class Inscrito implements Serializable {
         return s;
     }
 
+    public Boolean conArrastre() {
+        Boolean b = Boolean.FALSE;
+
+        List<Nivel> niveles = new ArrayList<>();
+        for (Nota nota : notas) {
+            Nivel nivel = nota.getMateria().getNivel();
+            if (!niveles.contains(nivel)) {
+                niveles.add(nivel);
+            }
+        }
+
+        if (niveles.size() > 1) {
+            b = Boolean.TRUE;
+        }
+
+        return b;
+    }
+
+    public String observaciones() {
+        String s = "";
+
+        if (!this.getEstudiante().getDiplomaBachiller()) {
+            s += "SIN DIPLOMA DE BACHILLER";
+        }
+
+        if (conArrastre()) {
+            if (s.isEmpty()) {
+                s += "CON ARRASTRE";
+            } else {
+                s += ", CON ARRASTRE";
+            }
+        }
+
+        if (becado) {
+            if (s.isEmpty()) {
+                s += "CON BECA";
+            } else {
+                s += ", CON BECA";
+            }
+        }
+
+        return s;
+    }
 }
