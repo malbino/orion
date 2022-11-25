@@ -163,6 +163,9 @@ public class SeguimientoAcademicoFacade {
                         if (nota.getNotaFinal() != null) {
                             notaSeguimiento.setNotaFinal(nota.getNotaFinal());
                         }
+                        if (nota.getRecuperatorio() != null) {
+                            notaSeguimiento.setRecuperatorio(nota.getRecuperatorio());
+                        }
 
                         notasSeguimiento[j] = notaSeguimiento;
                     } else {

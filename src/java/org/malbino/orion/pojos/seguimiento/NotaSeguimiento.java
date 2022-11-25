@@ -16,6 +16,7 @@ public class NotaSeguimiento {
     private Integer nota3;
     private Integer nota4;
     private Integer notaFinal;
+    private Integer recuperatorio;
 
     public NotaSeguimiento() {
     }
@@ -88,6 +89,20 @@ public class NotaSeguimiento {
      */
     public void setNotaFinal(Integer notaFinal) {
         this.notaFinal = notaFinal;
+    }
+
+    /**
+     * @return the recuperatorio
+     */
+    public Integer getRecuperatorio() {
+        return recuperatorio;
+    }
+
+    /**
+     * @param recuperatorio the recuperatorio to set
+     */
+    public void setRecuperatorio(Integer recuperatorio) {
+        this.recuperatorio = recuperatorio;
     }
 
    

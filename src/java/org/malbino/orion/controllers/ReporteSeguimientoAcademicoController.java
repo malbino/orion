@@ -303,6 +303,16 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             } else {
                                 cell.setCellValue("");
                             }
+                        } else if (cell.getNumericCellValue() == -15) {
+                            if (notasSeguimiento[0] != null) {
+                                if (notasSeguimiento[0].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[0].getRecuperatorio());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
                         } else if (cell.getNumericCellValue() == -21) {
                             if (notasSeguimiento[1] != null) {
                                 if (notasSeguimiento[1].getNota1() != null) {
@@ -347,6 +357,16 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             if (notasSeguimiento[1] != null) {
                                 if (notasSeguimiento[1].getNotaFinal() != null) {
                                     cell.setCellValue(notasSeguimiento[1].getNotaFinal());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -25) {
+                            if (notasSeguimiento[1] != null) {
+                                if (notasSeguimiento[1].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[1].getRecuperatorio());
                                 } else {
                                     cell.setCellValue("");
                                 }
@@ -403,6 +423,16 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             } else {
                                 cell.setCellValue("");
                             }
+                        } else if (cell.getNumericCellValue() == -35) {
+                            if (notasSeguimiento[2] != null) {
+                                if (notasSeguimiento[2].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[2].getRecuperatorio());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
                         } else if (cell.getNumericCellValue() == -41) {
                             if (notasSeguimiento[3] != null) {
                                 if (notasSeguimiento[3].getNota1() != null) {
@@ -447,6 +477,16 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             if (notasSeguimiento[3] != null) {
                                 if (notasSeguimiento[3].getNotaFinal() != null) {
                                     cell.setCellValue(notasSeguimiento[3].getNotaFinal());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -45) {
+                            if (notasSeguimiento[3] != null) {
+                                if (notasSeguimiento[3].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[3].getRecuperatorio());
                                 } else {
                                     cell.setCellValue("");
                                 }
@@ -503,6 +543,16 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             } else {
                                 cell.setCellValue("");
                             }
+                        } else if (cell.getNumericCellValue() == -55) {
+                            if (notasSeguimiento[4] != null) {
+                                if (notasSeguimiento[4].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[4].getRecuperatorio());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
                         } else if (cell.getNumericCellValue() == -61) {
                             if (notasSeguimiento[5] != null) {
                                 if (notasSeguimiento[5].getNota1() != null) {
@@ -547,6 +597,16 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             if (notasSeguimiento[5] != null) {
                                 if (notasSeguimiento[5].getNotaFinal() != null) {
                                     cell.setCellValue(notasSeguimiento[5].getNotaFinal());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -65) {
+                            if (notasSeguimiento[5] != null) {
+                                if (notasSeguimiento[5].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[5].getRecuperatorio());
                                 } else {
                                     cell.setCellValue("");
                                 }
@@ -603,6 +663,16 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             } else {
                                 cell.setCellValue("");
                             }
+                        } else if (cell.getNumericCellValue() == -75) {
+                            if (notasSeguimiento[6] != null) {
+                                if (notasSeguimiento[6].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[6].getRecuperatorio());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
                         } else if (cell.getNumericCellValue() == -81) {
                             if (notasSeguimiento[7] != null) {
                                 if (notasSeguimiento[7].getNota1() != null) {
@@ -647,6 +717,16 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             if (notasSeguimiento[7] != null) {
                                 if (notasSeguimiento[7].getNotaFinal() != null) {
                                     cell.setCellValue(notasSeguimiento[7].getNotaFinal());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -85) {
+                            if (notasSeguimiento[7] != null) {
+                                if (notasSeguimiento[7].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[7].getRecuperatorio());
                                 } else {
                                     cell.setCellValue("");
                                 }
