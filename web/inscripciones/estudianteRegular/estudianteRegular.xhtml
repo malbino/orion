@@ -41,6 +41,11 @@
                                         </div>
                                         
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="becado" value="Becado:" style="font-size: small"/>
+                                            <p:selectBooleanButton id="becado" value="#{EstudianteRegularController.seleccionEstudiante.becado}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="deposito" value="Depósito:" style="font-size: small"/>
                                             <p:inputText id="deposito" value="#{EstudianteRegularController.nuevoComprobante.deposito}" required="false" />
                                         </div>

@@ -52,6 +52,8 @@ public class Estudiante extends Usuario implements Serializable {
 
     @Transient
     private Date fechaInscripcion;
+    @Transient
+    private Boolean becado;
 
     public Estudiante() {
     }
@@ -236,5 +238,19 @@ public class Estudiante extends Usuario implements Serializable {
      */
     public void setEgresoColegio(Integer egresoColegio) {
         this.egresoColegio = egresoColegio;
+    }
+
+    /**
+     * @return the becado
+     */
+    public Boolean getBecado() {
+        return becado;
+    }
+
+    /**
+     * @param becado the becado to set
+     */
+    public void setBecado(Boolean becado) {
+        this.becado = becado;
     }
 }

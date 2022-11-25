@@ -42,6 +42,9 @@ public class Inscrito implements Serializable {
     private Integer codigo;
     private Integer numero;
 
+    private Boolean becado;
+    private String observaciones;
+
     @JoinColumn(name = "id_persona")
     @ManyToOne
     private Estudiante estudiante;
@@ -63,11 +66,12 @@ public class Inscrito implements Serializable {
     public Inscrito() {
     }
 
-    public Inscrito(Date fecha, Tipo tipo, Integer codigo, Integer numero, Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
+    public Inscrito(Date fecha, Tipo tipo, Integer codigo, Integer numero, Boolean becado, Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         this.fecha = fecha;
         this.tipo = tipo;
         this.codigo = codigo;
         this.numero = numero;
+        this.becado = becado;
         this.estudiante = estudiante;
         this.carrera = carrera;
         this.gestionAcademica = gestionAcademica;
@@ -213,6 +217,34 @@ public class Inscrito implements Serializable {
         this.pagos = pagos;
     }
 
+    /**
+     * @return the becado
+     */
+    public Boolean getBecado() {
+        return becado;
+    }
+
+    /**
+     * @param becado the becado to set
+     */
+    public void setBecado(Boolean becado) {
+        this.becado = becado;
+    }
+
+    /**
+     * @return the observaciones
+     */
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    /**
+     * @param observaciones the observaciones to set
+     */
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -240,7 +272,13 @@ public class Inscrito implements Serializable {
 
     @Override
     public String toString() {
-        return carrera.toString() + " - " + gestionAcademica.toString();
+        String s = carrera.toString() + " - " + gestionAcademica.toString();
+       
+        if(becado) {
+            s += " - BECADO";
+        }
+        
+        return s;
     }
 
     public String fecha_ddMMyyyy() {
@@ -254,4 +292,15 @@ public class Inscrito implements Serializable {
 
         return carreraEstudianteId;
     }
+
+    public String becado_siNo() {
+        String s = "";
+        if (becado) {
+            s = "Sí";
+        } else {
+            s = "No";
+        }
+        return s;
+    }
+
 }

@@ -25,6 +25,10 @@
                                     <p:messages/>
 
                                     <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <h4>I. Datos Personales</h4>
+                                        </div>
+                                        
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nombre" value="Nombre:" style="font-size: small"/>
                                             <p:inputText id="nombre" value="#{EstudianteNuevoController.nuevoEstudiante.nombre}" required="true" requiredMessage="* Nombre requerido." />
@@ -98,6 +102,10 @@
                                                 <f:validator validatorId="validators.emailValidator" />
                                             </p:inputText>
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-12">
+                                            <h4>II. Datos de Contacto</h4>
+                                        </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="nombreContacto" value="Nombre de contacto:" style="font-size: small"/>
@@ -131,6 +139,10 @@
                                             <p:outputLabel for="egresoColegio" value="Año de egreso colegio:" style="font-size: small"/>
                                             <p:inputMask id="egresoColegio" value="#{EstudianteNuevoController.nuevoEstudiante.egresoColegio}" mask="9999" autocomplete="false" required="true" requiredMessage="* Año de egreso colegio requerido."/>
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-12">
+                                            <h4>III. Datos de Inscripción</h4>
+                                        </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
@@ -140,6 +152,11 @@
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="diplomaBachiller" value="Diploma bachiller:" style="font-size: small"/>
                                             <p:selectBooleanButton id="diplomaBachiller" value="#{EstudianteNuevoController.nuevoEstudiante.diplomaBachiller}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="becado" value="Becado:" style="font-size: small"/>
+                                            <p:selectBooleanButton id="becado" value="#{EstudianteNuevoController.nuevoEstudiante.becado}" onLabel="Sí" offLabel="No" onIcon="fa fa-check" offIcon="fa fa-ban"/>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">

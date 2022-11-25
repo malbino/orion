@@ -58,7 +58,7 @@ public class ComprobantePagoEstudiante extends HttpServlet {
     private static final int MARGEN_SUPERIOR = 30;
     private static final int MARGEN_INFERIOR = 30;
 
-    private static final int CANTIDAD_MINIMA_DETALLES = 5;
+    private static final int CANTIDAD_MINIMA_DETALLES = 4;
 
     @EJB
     ComprobanteFacade comprobanteFacade;
@@ -275,22 +275,47 @@ public class ComprobantePagoEstudiante extends HttpServlet {
         cell = new PdfPCell(new Phrase("Estudiante:", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(20);
-        cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM);
+        cell.setBorder(Rectangle.LEFT);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(comprobante.getInscrito().getEstudiante().toString(), NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(50);
-        cell.setBorder(Rectangle.BOTTOM);
+        cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Régimen:", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(15);
-        cell.setBorder(Rectangle.BOTTOM);
+        cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(comprobante.getInscrito().getGestionAcademica().getRegimen().getNombre(), NORMAL));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setColspan(15);
+        cell.setBorder(Rectangle.RIGHT);
+        table.addCell(cell);
+        
+        //fila 3
+        cell = new PdfPCell(new Phrase("Becado:", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setColspan(20);
+        cell.setBorder(Rectangle.LEFT | Rectangle.BOTTOM);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(comprobante.getInscrito().becado_siNo(), NORMAL));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setColspan(50);
+        cell.setBorder(Rectangle.BOTTOM);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(" ", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setColspan(15);
+        cell.setBorder(Rectangle.BOTTOM);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(" ", NORMAL));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setColspan(15);
         cell.setBorder(Rectangle.BOTTOM | Rectangle.RIGHT);

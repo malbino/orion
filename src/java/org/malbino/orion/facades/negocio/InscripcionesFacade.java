@@ -104,11 +104,14 @@ public class InscripcionesFacade {
             codigo = maximoCodigo + 1;
             numero = maximoNumero + 1;
         }
-        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, codigo, numero, estudiante, carreraEstudiante.getCarrera(), gestionAcademica);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, codigo, numero, estudiante.getBecado(), estudiante, carreraEstudiante.getCarrera(), gestionAcademica);
         em.persist(inscrito);
 
         if (carreraEstudiante.getCarrera().getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carreraEstudiante.getCarrera().getCampus().getInstituto().getCaracter().equals(Caracter.FISCAL)) {
-            Integer monto = carreraEstudiante.getCarrera().getCreditajeMatricula() * carreraEstudiante.getCarrera().getCampus().getInstituto().getPrecioCredito();
+            Integer monto = 0;
+            if (!estudiante.getBecado()) {
+                monto = carreraEstudiante.getCarrera().getCreditajeMatricula() * carreraEstudiante.getCarrera().getCampus().getInstituto().getPrecioCredito();
+            }
 
             Pago pago = new Pago(Concepto.MATRICULA, monto, true, inscrito);
             em.persist(pago);
@@ -129,7 +132,12 @@ public class InscripcionesFacade {
             em.persist(detalle);
         } else {
             Long creditajeMaterias = creditajeOferta(inscrito);
-            Integer monto = creditajeMaterias.intValue() * carreraEstudiante.getCarrera().getCampus().getInstituto().getPrecioCredito();
+
+            Integer monto = 0;
+            if (!estudiante.getBecado()) {
+                monto = creditajeMaterias.intValue() * carreraEstudiante.getCarrera().getCampus().getInstituto().getPrecioCredito();
+            }
+
             Integer cuotas = carreraEstudiante.getCarrera().getRegimen().getCuotas();
             for (Concepto concepto : Concepto.values(carreraEstudiante.getCarrera().getRegimen())) {
                 Double montoCuotaSinRedondear = monto.doubleValue() / cuotas.doubleValue();
@@ -180,11 +188,14 @@ public class InscripcionesFacade {
             codigo = maximoCodigo + 1;
             numero = maximoNumero + 1;
         }
-        Inscrito inscrito = new Inscrito(fecha, Tipo.REGULAR, codigo, numero, estudiante, carrera, gestionAcademica);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.REGULAR, codigo, numero, estudiante.getBecado(), estudiante, carrera, gestionAcademica);
         em.persist(inscrito);
 
         if (carrera.getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carrera.getCampus().getInstituto().getCaracter().equals(Caracter.FISCAL)) {
-            Integer monto = carrera.getCreditajeMatricula() * carrera.getCampus().getInstituto().getPrecioCredito();
+            Integer monto = 0;
+            if (!estudiante.getBecado()) {
+                monto = carrera.getCreditajeMatricula() * carrera.getCampus().getInstituto().getPrecioCredito();
+            }
 
             Pago pago = new Pago(Concepto.MATRICULA, monto, true, inscrito);
             em.persist(pago);
@@ -205,7 +216,12 @@ public class InscripcionesFacade {
             em.persist(detalle);
         } else {
             Long creditajeMaterias = creditajeOferta(inscrito);
-            Integer monto = creditajeMaterias.intValue() * carrera.getCampus().getInstituto().getPrecioCredito();
+
+            Integer monto = 0;
+            if (!estudiante.getBecado()) {
+                monto = creditajeMaterias.intValue() * carrera.getCampus().getInstituto().getPrecioCredito();
+            }
+
             Integer cuotas = carrera.getRegimen().getCuotas();
             for (Concepto concepto : Concepto.values(carrera.getRegimen())) {
                 Double montoCuotaSinRedondear = monto.doubleValue() / cuotas.doubleValue();
@@ -259,11 +275,14 @@ public class InscripcionesFacade {
             codigo = maximoCodigo + 1;
             numero = maximoNumero + 1;
         }
-        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, codigo, numero, estudiante, carreraEstudiante.getCarrera(), gestionAcademica);
+        Inscrito inscrito = new Inscrito(fecha, Tipo.NUEVO, codigo, numero, estudiante.getBecado(), estudiante, carreraEstudiante.getCarrera(), gestionAcademica);
         em.persist(inscrito);
 
         if (carreraEstudiante.getCarrera().getCampus().getInstituto().getCaracter().equals(Caracter.CONVENIO) || carreraEstudiante.getCarrera().getCampus().getInstituto().getCaracter().equals(Caracter.FISCAL)) {
-            Integer monto = carreraEstudiante.getCarrera().getCreditajeMatricula() * carreraEstudiante.getCarrera().getCampus().getInstituto().getPrecioCredito();
+            Integer monto = 0;
+            if (!estudiante.getBecado()) {
+                monto = carreraEstudiante.getCarrera().getCreditajeMatricula() * carreraEstudiante.getCarrera().getCampus().getInstituto().getPrecioCredito();
+            }
 
             Pago pago = new Pago(Concepto.MATRICULA, monto, true, inscrito);
             em.persist(pago);
@@ -284,7 +303,12 @@ public class InscripcionesFacade {
             em.persist(detalle);
         } else {
             Long creditajeMaterias = creditajeOferta(inscrito);
-            Integer monto = creditajeMaterias.intValue() * carreraEstudiante.getCarrera().getCampus().getInstituto().getPrecioCredito();
+
+            Integer monto = 0;
+            if (!estudiante.getBecado()) {
+                monto = creditajeMaterias.intValue() * carreraEstudiante.getCarrera().getCampus().getInstituto().getPrecioCredito();
+            }
+
             Integer cuotas = carreraEstudiante.getCarrera().getRegimen().getCuotas();
             for (Concepto concepto : Concepto.values(carreraEstudiante.getCarrera().getRegimen())) {
                 Double montoCuotaSinRedondear = monto.doubleValue() / cuotas.doubleValue();
