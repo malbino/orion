@@ -494,4 +494,21 @@ public class InscripcionesFacade {
         return ofertaTomaMaterias;
 
     }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public List<Materia> ofertaBoletinNotas(Inscrito inscrito) {
+        CarreraEstudiante carreraEstudiante = carreraEstudianteFacade.find(inscrito.carreraEstudianteId());
+        List<Materia> ofertaTomaMaterias;
+        if (carreraEstudiante != null) {
+            if (carreraEstudiante.getNivelInicio() != null) {
+                ofertaTomaMaterias = oferta(inscrito, carreraEstudiante.getMencion(), carreraEstudiante.getNivelInicio());
+            } else {
+                ofertaTomaMaterias = oferta(inscrito, carreraEstudiante.getMencion());
+            }
+        } else {
+            ofertaTomaMaterias = oferta(inscrito, null);
+        }
+
+        return ofertaTomaMaterias;
+    }
 }

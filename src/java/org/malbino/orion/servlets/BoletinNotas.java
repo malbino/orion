@@ -29,11 +29,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.CarreraEstudiante.CarreraEstudianteId;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Materia;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.NotaFacade;
+import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Redondeo;
 
@@ -47,17 +49,17 @@ public class BoletinNotas extends HttpServlet {
     private static final String CONTENIDO_PDF = "application/pdf";
 
     private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 16, Font.NORMAL, BaseColor.BLACK);
-    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.BLACK);
-    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
+    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, BaseColor.BLACK);
+    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, BaseColor.BLACK);
     private static final Font ESPACIO = FontFactory.getFont(FontFactory.HELVETICA, 2, Font.NORMAL, BaseColor.BLACK);
-    private static final Font NORMAL_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.ITALIC, BaseColor.BLACK);
-    private static final Font NEGRITA_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, BaseColor.BLACK);
-    private static final Font NEGRITA_PLOMO = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.LIGHT_GRAY);
+    private static final Font NORMAL_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.ITALIC, BaseColor.BLACK);
+    private static final Font NEGRITA_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLDITALIC, BaseColor.BLACK);
+    private static final Font NEGRITA_PLOMO = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, BaseColor.LIGHT_GRAY);
 
-    private static final int MARGEN_IZQUIERDO = -30;
-    private static final int MARGEN_DERECHO = -30;
-    private static final int MARGEN_SUPERIOR = 30;
-    private static final int MARGEN_INFERIOR = 30;
+    private static final int MARGEN_IZQUIERDO = -20;
+    private static final int MARGEN_DERECHO = -20;
+    private static final int MARGEN_SUPERIOR = 20;
+    private static final int MARGEN_INFERIOR = 20;
 
     @EJB
     InscritoFacade inscritoFacade;
@@ -65,6 +67,8 @@ public class BoletinNotas extends HttpServlet {
     CarreraEstudianteFacade carreraEstudianteFacade;
     @EJB
     NotaFacade notaFacade;
+    @EJB
+    InscripcionesFacade inscripcionesFacade;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -85,7 +89,7 @@ public class BoletinNotas extends HttpServlet {
             try {
                 response.setContentType(CONTENIDO_PDF);
 
-                Document document = new Document(PageSize.HALFLETTER.rotate(), MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
+                Document document = new Document(PageSize.HALFLETTER, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
                 PdfWriter.getInstance(document, response.getOutputStream());
 
                 document.open();
@@ -99,6 +103,7 @@ public class BoletinNotas extends HttpServlet {
                     document.add(cuerpoAnual(inscrito));
                 }
 
+                document.add(oferta(inscrito));
                 document.add(pie(inscrito));
 
                 document.close();
@@ -237,6 +242,14 @@ public class BoletinNotas extends HttpServlet {
         table.addCell(cell);
 
         //notas
+        cell = new PdfPCell(new Phrase("NOTAS", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(100);
+        cell.setPaddingTop(8);
+        table.addCell(cell);
+
         cell = new PdfPCell(new Phrase("Codigo", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -591,6 +604,14 @@ public class BoletinNotas extends HttpServlet {
         table.addCell(cell);
 
         //notas
+        cell = new PdfPCell(new Phrase("NOTAS", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(100);
+        cell.setPaddingTop(8);
+        table.addCell(cell);
+
         cell = new PdfPCell(new Phrase("Codigo", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -886,6 +907,128 @@ public class BoletinNotas extends HttpServlet {
         return table;
     }
 
+    public PdfPTable oferta(Inscrito inscrito) throws BadElementException, IOException {
+        PdfPTable table = new PdfPTable(100);
+
+        //notas
+        PdfPCell cell = new PdfPCell(new Phrase("OFERTA DE MATERIAS", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(100);
+        cell.setPaddingTop(8);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("Codigo", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(10);
+        cell.setBackgroundColor(BaseColor.GRAY);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("Materia", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(50);
+        cell.setBackgroundColor(BaseColor.GRAY);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("Nivel", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(20);
+        cell.setBackgroundColor(BaseColor.GRAY);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("Prerequisito", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(20);
+        cell.setBackgroundColor(BaseColor.GRAY);
+        table.addCell(cell);
+
+        List<Materia> oferta = inscripcionesFacade.ofertaBoletinNotas(inscrito);
+        for (int i = 0; i < oferta.size(); i++) {
+            Materia materia = oferta.get(i);
+
+            if (i % 2 == 0) {
+                cell = new PdfPCell(new Phrase(materia.getCodigo(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setColspan(10);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(materia.getNombre(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setColspan(50);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(materia.getNivel().getNombre(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setColspan(20);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(materia.prerequisitosToString(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setColspan(20);
+                table.addCell(cell);
+            } else {
+                cell = new PdfPCell(new Phrase(materia.getCodigo(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setColspan(10);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(materia.getNombre(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setColspan(50);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(materia.getNivel().getNombre(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setColspan(20);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(materia.prerequisitosToString(), NORMAL));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setColspan(20);
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                table.addCell(cell);
+            }
+        }
+
+        cell = new PdfPCell(new Phrase(" ", NEGRITA));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setColspan(100);
+        cell.setBackgroundColor(BaseColor.GRAY);
+        table.addCell(cell);
+
+        return table;
+    }
+
     public PdfPTable pie(Inscrito inscrito) throws BadElementException, IOException {
         PdfPTable table = new PdfPTable(100);
 
@@ -894,6 +1037,7 @@ public class BoletinNotas extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setFixedHeight(60f);
+        cell.setPaddingTop(8);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(" ", NORMAL));
