@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2022-12-04
+### Added
+- Se agrego el soporte para becados
+### Changed
+- Se agrego observaciones en los reporte de inscritos
+- Se agrego la oferta de materias en el boletin de notas
+- Se agrego la nota de recuperacion al seguimiento academico
+### Removed
+### Fixed
+
 ## [2.0.0-beta.1] - 2022-11-08
 ### Added
 ### Changed
