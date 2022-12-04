@@ -8,7 +8,7 @@
 
     <body>
 
-        <ui:composition template="./../WEB-INF/systemTemplate.xhtml">
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
 
             <ui:define name="content">
                 <div class="row">
@@ -70,7 +70,11 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton icon="fa fa-download" value="Bajar Planilla" ajax="false" actionListener="#{ReportePlanillaSeguimientoController.bajarPlanilla()}" update="messages">
+                                            <p:commandButton icon="fa fa-file-pdf-o" value="Planilla PDF" ajax="false" actionListener="#{ReportePlanillaSeguimientoController.generarPDF()}" update="messages"/>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton icon="fa fa-file-excel-o" value="Planilla Excel" ajax="false" actionListener="#{ReportePlanillaSeguimientoController.generarXLSX()}" update="messages">
                                                 <p:fileDownload value="#{ReportePlanillaSeguimientoController.download}"/>
                                             </p:commandButton>
                                         </div>

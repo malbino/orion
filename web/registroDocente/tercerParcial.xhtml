@@ -77,9 +77,7 @@
                                              
                                             <p:spacer width="10"/>
                                             
-                                            <p:commandButton icon="fa fa-download" value="Bajar Planilla" ajax="false" actionListener="#{TercerParcialController.bajarPlanilla()}">
-                                                <p:fileDownload value="#{TercerParcialController.download}"/>
-                                            </p:commandButton>
+                                            <p:commandButton icon="fa fa-file-pdf-o" value="Planilla PDF" ajax="false" actionListener="#{TercerParcialController.generarPDF()}"/>
                                         </f:facet>
 
                                         <f:facet name="right">

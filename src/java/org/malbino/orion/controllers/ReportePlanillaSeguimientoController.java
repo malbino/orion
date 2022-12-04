@@ -131,7 +131,7 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
         }
     }
 
-    public void bajarPlanilla() {
+    public void generarXLSX() {
         XSSFWorkbook workbook = null;
 
         if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
@@ -154,7 +154,7 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
 
                     if (cell.getCellTypeEnum() == CellType.STRING) {
                         if (cell.getStringCellValue().contains("<<MATERIA>>")) {
-                            cell.setCellValue(cell.getStringCellValue().replace("<<MATERIA>>", seleccionGrupo.getMateria().toString()));
+                            cell.setCellValue(cell.getStringCellValue().replace("<<MATERIA>>", seleccionGrupo.getMateria().getNombre()));
                         } else if (cell.getStringCellValue().contains("<<CARRERA>>")) {
                             cell.setCellValue(cell.getStringCellValue().replace("<<CARRERA>>", seleccionGrupo.getMateria().getCarrera().toString()));
                         } else if (cell.getStringCellValue().contains("<<NIVEL>>")) {
@@ -327,6 +327,22 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
         }
 
         descargarArchivo(workbook, seleccionGrupo);
+    }
+    
+    public void generarPDF() throws IOException {
+        this.insertarParametro("id_grupo", seleccionGrupo.getId_grupo());
+        
+        toPlanillaSeguimiento();
+    }
+    
+    public void toReportePlanillaSeguimiento() throws IOException {
+        reinit();
+        
+        this.redireccionarViewId("/reportes/planillaSeguimiento/reportePlanillaSeguimiento");
+    }
+
+    public void toPlanillaSeguimiento() throws IOException {
+        this.redireccionarViewId("/reportes/planillaSeguimiento/planillaSeguimiento");
     }
 
     /**
