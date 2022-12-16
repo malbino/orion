@@ -18,6 +18,7 @@ import org.malbino.orion.facades.RecursoFacade;
 import org.malbino.orion.facades.UsuarioFacade;
 import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
+import org.malbino.orion.util.PasswordValidator;
 
 /**
  *
@@ -26,72 +27,96 @@ import org.malbino.orion.util.Fecha;
 @Named("LoginController")
 @SessionScoped
 public class LoginController extends AbstractController {
-
+    
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
     RecursoFacade recursoFacade;
     @EJB
     ActividadFacade actividadFacade;
-
+    
     private String usuario;
     private String contrasena;
-
+    
     private Usuario usr;
-
+    
     private List<Recurso> listaRecursos;
     private List<Actividad> listaActividadesProximas;
     private List<Actividad> listaActividadesVigentes;
-
+    
+    private String contrasenaActual;
+    private String nuevaContrasena;
+    private String repitaNuevaContrasena;
+    
     public void login() throws IOException {
         usr = usuarioFacade.buscarPorUsuario(usuario);
         if (usr != null && usr.getContrasena() != null && Encriptador.comparar(contrasena, usr.getContrasena())) {
             listaRecursos = recursoFacade.buscarPorPersonaNombre(usr.getId_persona());
             listaActividadesProximas = actividadFacade.listaActividadesProximas(Fecha.getInicioDia(Fecha.getDate()));
             listaActividadesVigentes = actividadFacade.listaActividadesVigentes();
-
+            
             toHome();
         } else {
             limpiar();
-
+            
             mensajeDeError("Autenticación fallida.");
         }
     }
-
+    
     public String display(String nombre) {
         String s = "none";
-
+        
         if (usr != null) {
             List<Recurso> l = listaRecursos.stream().filter(r -> r.getNombre().equals(nombre)).collect(Collectors.toList());
             if (!l.isEmpty()) {
                 s = "anything";
             }
         }
-
+        
         return s;
     }
-
+    
     public void limpiar() {
         usuario = null;
         contrasena = null;
         usr = null;
     }
-
+    
     public void logout() throws IOException {
         usr = null;
         invalidateSession();
-
+        
         toLogin();
     }
-
+    
+    public void cambiarContrasena() throws IOException {
+        if (Encriptador.comparar(contrasenaActual, usr.getContrasena())) {
+            if (nuevaContrasena.equals(repitaNuevaContrasena)) {
+                if (PasswordValidator.isValid(nuevaContrasena)) {
+                    usr.setContrasena(Encriptador.encriptar(nuevaContrasena));
+                    
+                    if (usuarioFacade.edit(usr)) {
+                        this.toHome();
+                    }
+                } else {
+                    this.mensajeDeError("La contraseña debe tener entre 8-20 caracteres. Por lo menos una mayuscula, una minuscula y un dígito.");
+                }
+            } else {
+                this.mensajeDeError("Las nuevas contraseñas no coinciden.");
+            }
+        } else {
+            this.mensajeDeError("Contraseña actual incorrecta.");
+        }
+    }
+    
     public void toOpciones() throws IOException {
         this.redireccionarViewId("/restore/Opciones");
     }
-
+    
     public void toHome() throws IOException {
         this.redireccionarViewId("/home");
     }
-
+    
     public void toLogin() throws IOException {
         this.redireccionarViewId("/login");
     }
@@ -178,5 +203,47 @@ public class LoginController extends AbstractController {
      */
     public void setListaActividadesVigentes(List<Actividad> listaActividadesVigentes) {
         this.listaActividadesVigentes = listaActividadesVigentes;
+    }
+
+    /**
+     * @return the contrasenaActual
+     */
+    public String getContrasenaActual() {
+        return contrasenaActual;
+    }
+
+    /**
+     * @param contrasenaActual the contrasenaActual to set
+     */
+    public void setContrasenaActual(String contrasenaActual) {
+        this.contrasenaActual = contrasenaActual;
+    }
+
+    /**
+     * @return the nuevaContrasena
+     */
+    public String getNuevaContrasena() {
+        return nuevaContrasena;
+    }
+
+    /**
+     * @param nuevaContrasena the nuevaContrasena to set
+     */
+    public void setNuevaContrasena(String nuevaContrasena) {
+        this.nuevaContrasena = nuevaContrasena;
+    }
+
+    /**
+     * @return the repitaNuevaContrasena
+     */
+    public String getRepitaNuevaContrasena() {
+        return repitaNuevaContrasena;
+    }
+
+    /**
+     * @param repitaNuevaContrasena the repitaNuevaContrasena to set
+     */
+    public void setRepitaNuevaContrasena(String repitaNuevaContrasena) {
+        this.repitaNuevaContrasena = repitaNuevaContrasena;
     }
 }
