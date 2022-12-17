@@ -100,6 +100,12 @@
 
                                                     <f:actionListener binding="#{UsuarioController.toEditarUsuario()}"/>
                                                 </p:commandButton>
+                                                
+                                                <p:commandButton id="cambiarContrasena" process="@this" icon="fa fa-key" title="Cambiar contraseña">  
+                                                    <f:setPropertyActionListener value="#{usuario}" target="#{UsuarioController.seleccionUsuario}" />
+
+                                                    <f:actionListener binding="#{UsuarioController.toCambiarContrasena()}"/>
+                                                </p:commandButton>
                                             </h:panelGroup>
                                         </p:column> 
                                     </p:dataTable>

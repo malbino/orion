@@ -22,6 +22,7 @@ import org.malbino.orion.facades.UsuarioFacade;
 import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Generador;
 import org.malbino.orion.util.JavaMail;
+import org.malbino.orion.util.PasswordValidator;
 
 /**
  *
@@ -43,6 +44,9 @@ public class UsuarioController extends AbstractController implements Serializabl
     private Boolean filter;
     private Rol seleccionRol;
     private String keyword;
+
+    private String nuevaContrasena;
+    private String repitaNuevaContrasena;
 
     @PostConstruct
     public void init() {
@@ -80,7 +84,7 @@ public class UsuarioController extends AbstractController implements Serializabl
     }
 
     public void buscar() {
-        if(seleccionRol == null) {
+        if (seleccionRol == null) {
             usuarios = usuarioFacade.buscar(keyword);
         } else {
             usuarios = usuarioFacade.buscar(keyword, seleccionRol.getId_rol());
@@ -144,13 +148,33 @@ public class UsuarioController extends AbstractController implements Serializabl
         }
     }
 
+    public void cambiarContrasena() throws IOException {
+        if (nuevaContrasena.equals(repitaNuevaContrasena)) {
+            if (PasswordValidator.isValid(nuevaContrasena)) {
+                seleccionUsuario.setContrasena(Encriptador.encriptar(nuevaContrasena));
+
+                if (usuarioFacade.edit(seleccionUsuario)) {
+                    this.toUsuarios();
+                }
+            } else {
+                this.mensajeDeError("La contraseña debe tener entre 8-20 caracteres. Por lo menos una mayuscula, una minuscula y un dígito.");
+            }
+        } else {
+            this.mensajeDeError("Las nuevas contraseñas no coinciden.");
+        }
+    }
+
     public void toEditarUsuario() throws IOException {
         this.redireccionarViewId("/administrador/usuario/editarUsuario");
     }
 
+    public void toCambiarContrasena() throws IOException {
+        this.redireccionarViewId("/administrador/usuario/cambiarContrasena");
+    }
+
     public void toUsuarios() throws IOException {
         reinit();
-        
+
         this.redireccionarViewId("/administrador/usuario/usuarios");
     }
 
@@ -236,5 +260,33 @@ public class UsuarioController extends AbstractController implements Serializabl
      */
     public void setSeleccionRol(Rol seleccionRol) {
         this.seleccionRol = seleccionRol;
+    }
+
+    /**
+     * @return the nuevaContrasena
+     */
+    public String getNuevaContrasena() {
+        return nuevaContrasena;
+    }
+
+    /**
+     * @param nuevaContrasena the nuevaContrasena to set
+     */
+    public void setNuevaContrasena(String nuevaContrasena) {
+        this.nuevaContrasena = nuevaContrasena;
+    }
+
+    /**
+     * @return the repitaNuevaContrasena
+     */
+    public String getRepitaNuevaContrasena() {
+        return repitaNuevaContrasena;
+    }
+
+    /**
+     * @param repitaNuevaContrasena the repitaNuevaContrasena to set
+     */
+    public void setRepitaNuevaContrasena(String repitaNuevaContrasena) {
+        this.repitaNuevaContrasena = repitaNuevaContrasena;
     }
 }
