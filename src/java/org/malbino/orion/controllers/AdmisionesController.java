@@ -36,7 +36,6 @@ public class AdmisionesController extends AbstractController implements Serializ
     private List<Postulante> postulantes;
     private Postulante seleccionPostulante;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -47,7 +46,6 @@ public class AdmisionesController extends AbstractController implements Serializ
         postulantes = new ArrayList<>();
         seleccionPostulante = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -59,7 +57,6 @@ public class AdmisionesController extends AbstractController implements Serializ
         }
         seleccionPostulante = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -70,22 +67,6 @@ public class AdmisionesController extends AbstractController implements Serializ
             l = carreraFacade.listaCarreras(seleccionGestionAcademica.getRegimen());
         }
         return l;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionGestionAcademica != null && seleccionCarrera == null) {
-                postulantes = postulanteFacade.listaPostulantes(seleccionGestionAcademica.getId_gestionacademica());
-            } else if (seleccionGestionAcademica != null && seleccionCarrera != null) {
-                postulantes = postulanteFacade.listaPostulantes(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -184,20 +165,6 @@ public class AdmisionesController extends AbstractController implements Serializ
      */
     public void setSeleccionPostulante(Postulante seleccionPostulante) {
         this.seleccionPostulante = seleccionPostulante;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

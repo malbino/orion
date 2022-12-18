@@ -23,7 +23,7 @@
 
                                 <div class="x_content">
                                     <p:messages/>
-                                    
+
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="gestionAcademica" value="Gestión academica: " style="font-size: small"/>
@@ -39,17 +39,14 @@
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-plus" value="Nuevo" actionListener="#{CalendarioAcademicoController.toNuevaActividad()}" update="form"/>
-                                            
+
                                             <p:spacer width="10"/>
-                                            
+
                                             <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{CalendarioAcademicoController.reinit()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{CalendarioAcademicoController.filtro()}" update="form" rendered="#{!CalendarioAcademicoController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{CalendarioAcademicoController.filtro()}" update="form" rendered="#{CalendarioAcademicoController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="calendarioAcademico" fileName="calendarioAcademico" />
                                                 </p:menuitem>
@@ -59,23 +56,21 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{CalendarioAcademicoController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{CalendarioAcademicoController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{CalendarioAcademicoController.buscar()}" update="calendarioAcademico"/>           
-                                                </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{CalendarioAcademicoController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{CalendarioAcademicoController.buscar()}" update="calendarioAcademico"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="calendarioAcademico" var="actividad" value="#{CalendarioAcademicoController.actividades}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
                                         <p:column headerText="Nº">
                                             <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Inicio" >  
                                             <h:outputText value="#{actividad.inicio_ddMMyyyyHHmm()}"/>
                                         </p:column>
@@ -95,7 +90,7 @@
                                         <p:column headerText="Funcionalidad" >  
                                             <h:outputText value="#{actividad.funcionalidad.toString()}"/> 
                                         </p:column>
-                                        
+
                                         <p:column exportable="false"> 
                                             <h:panelGroup id="group" >
                                                 <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  

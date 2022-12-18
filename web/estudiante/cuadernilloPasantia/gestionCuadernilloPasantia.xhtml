@@ -47,9 +47,6 @@
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{GestionCuadernilloPasantiaController.filtro()}" update="form" rendered="#{!GestionCuadernilloPasantiaController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{GestionCuadernilloPasantiaController.filtro()}" update="form" rendered="#{GestionCuadernilloPasantiaController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="asistencias" fileName="asistencias" />
                                                 </p:menuitem>
@@ -59,16 +56,14 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{GestionCuadernilloPasantiaController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{GestionCuadernilloPasantiaController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GestionCuadernilloPasantiaController.buscar()}" update="asistencias"/>           
-                                                </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{GestionCuadernilloPasantiaController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GestionCuadernilloPasantiaController.buscar()}" update="asistencias"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="asistencias" var="asistencia" value="#{GestionCuadernilloPasantiaController.asistencias}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"

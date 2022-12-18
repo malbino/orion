@@ -35,7 +35,6 @@ public class CampusController extends AbstractController implements Serializable
     private Campus seleccionCampus;
     private Instituto instituto;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -45,7 +44,6 @@ public class CampusController extends AbstractController implements Serializable
         seleccionCampus = null;
         instituto = institutoFacade.buscarPorId(Constantes.ID_INSTITUTO);
 
-        filter = false;
         keyword = null;
     }
 
@@ -54,20 +52,7 @@ public class CampusController extends AbstractController implements Serializable
         nuevoCampus = new Campus();
         seleccionCampus = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            campus = campusFacade.listaCampus();
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -105,7 +90,7 @@ public class CampusController extends AbstractController implements Serializable
 
     public void toCampus() throws IOException {
         reinit();
-        
+
         this.redireccionarViewId("/planesEstudio/campus/campus");
     }
 
@@ -149,20 +134,6 @@ public class CampusController extends AbstractController implements Serializable
      */
     public void setSeleccionCampus(Campus seleccionCampus) {
         this.seleccionCampus = seleccionCampus;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

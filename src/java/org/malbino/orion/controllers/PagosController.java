@@ -41,7 +41,6 @@ public class PagosController extends AbstractController implements Serializable 
     private List<Comprobante> comprobantes;
     private Comprobante seleccionComprobante;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -49,7 +48,6 @@ public class PagosController extends AbstractController implements Serializable 
         comprobantes = new ArrayList<>();
         seleccionComprobante = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -58,34 +56,21 @@ public class PagosController extends AbstractController implements Serializable 
             comprobantes = comprobanteFacade.listaComprobantes(desde, hasta);
         } else if (desde != null && hasta != null && seleccionUsuario != null) {
             comprobantes = comprobanteFacade.listaComprobantes(desde, hasta, seleccionUsuario.getId_persona());
+        } else {
+            comprobantes = comprobanteFacade.listaComprobantes();
         }
         seleccionComprobante = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (desde != null && hasta != null && seleccionUsuario == null) {
-                comprobantes = comprobanteFacade.listaComprobantes(desde, hasta);
-            } else if (desde != null && hasta != null && seleccionUsuario != null) {
-                comprobantes = comprobanteFacade.listaComprobantes(desde, hasta, seleccionUsuario.getId_persona());
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
         if (desde != null && hasta != null && seleccionUsuario == null) {
             comprobantes = comprobanteFacade.buscar(desde, hasta, keyword);
         } else if (desde != null && hasta != null && seleccionUsuario != null) {
-            comprobantes = comprobanteFacade.buscar(desde, hasta, keyword);
+            comprobantes = comprobanteFacade.buscar(desde, hasta, seleccionUsuario.getId_persona(), keyword);
+        } else {
+            comprobantes = comprobanteFacade.buscar(keyword);
         }
     }
 
@@ -178,20 +163,6 @@ public class PagosController extends AbstractController implements Serializable 
      */
     public void setSeleccionComprobante(Comprobante seleccionComprobante) {
         this.seleccionComprobante = seleccionComprobante;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

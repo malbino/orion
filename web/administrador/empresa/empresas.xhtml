@@ -34,9 +34,6 @@
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{EmpresaController.filtro()}" update="form" rendered="#{!EmpresaController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{EmpresaController.filtro()}" update="form" rendered="#{EmpresaController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="empresas" fileName="empresas" />
                                                 </p:menuitem>
@@ -46,16 +43,14 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{EmpresaController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{EmpresaController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EmpresaController.buscar()}" update="empresas"/>           
-                                                </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{EmpresaController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EmpresaController.buscar()}" update="empresas"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="empresas" var="empresa" value="#{EmpresaController.empresas}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
@@ -66,7 +61,7 @@
                                         <p:column headerText="Nº">
                                             <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Logo">
                                             <p:graphicImage id="logo" title="Logo empresa" value="/resources/uploads/empresas/#{empresa.logo}" height="80"/>
                                         </p:column>
@@ -86,11 +81,11 @@
                                         <p:column headerText="Teléfono" >  
                                             <h:outputText value="#{empresa.telefonoEmpresa}"/> 
                                         </p:column>
-                                        
+
                                         <p:column headerText="Nombre Contacto" >  
                                             <h:outputText value="#{empresa.nombreContacto()}"/> 
                                         </p:column>
-                                        
+
                                         <p:column headerText="Celular Contacto" >  
                                             <h:outputText value="#{empresa.celular}"/> 
                                         </p:column>

@@ -32,7 +32,6 @@ public class GestionAcademicaController extends AbstractController implements Se
     private GestionAcademica seleccionGestionAcademica;
     private Regimen seleccionRegimen;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -41,7 +40,6 @@ public class GestionAcademicaController extends AbstractController implements Se
         nuevaGestionAcademica = new GestionAcademica();
         seleccionGestionAcademica = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -52,22 +50,7 @@ public class GestionAcademicaController extends AbstractController implements Se
         nuevaGestionAcademica = new GestionAcademica();
         seleccionGestionAcademica = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionRegimen != null) {
-                gestionesAcademicas = gestionAcademicaFacade.listaGestionAcademica(seleccionRegimen);
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -165,20 +148,6 @@ public class GestionAcademicaController extends AbstractController implements Se
      */
     public void setSeleccionRegimen(Regimen seleccionRegimen) {
         this.seleccionRegimen = seleccionRegimen;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

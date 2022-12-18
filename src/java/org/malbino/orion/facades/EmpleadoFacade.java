@@ -83,19 +83,18 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
 
         try {
             Query q = em.createQuery("SELECT e FROM Empleado e WHERE "
-                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword) OR "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword OR "
                     + "LOWER(e.dni) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.direccion) LIKE LOWER(:keyword) OR "
                     + "LOWER(CAST(e.telefono AS CHAR)) LIKE LOWER(:keyword) OR "
                     + "LOWER(CAST(e.celular AS CHAR)) LIKE LOWER(:keyword) OR "
                     + "LOWER(e.email) LIKE LOWER(:keyword) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
-            q.setParameter("keyword", "%" + keyword + "%");
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
 
             l = q.getResultList();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return l;

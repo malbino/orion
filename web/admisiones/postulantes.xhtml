@@ -22,7 +22,7 @@
                             <div class="x_content">
                                 <h:form id="form">
                                     <p:messages/>
-                                    
+
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-3">
                                             <p:outputLabel for="gestionAcademica" value="Gestion academica: " style="font-size: small"/>
@@ -46,17 +46,14 @@
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-search" value="Buscar" actionListener="#{AdmisionesController.reinit()}" update="form"/>
-                                            
+
                                             <p:spacer width="10"/>
-                                            
+
                                             <p:commandButton icon="fa fa-cloud-upload" value="Copiar Postulantes" actionListener="#{AdmisionesController.copiarPostulantes()}" update="form"/> 
                                         </f:facet>
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{AdmisionesController.filtro()}" update="form" rendered="#{!AdmisionesController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{AdmisionesController.filtro()}" update="form" rendered="#{AdmisionesController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="postulantes" fileName="postulantes" />
                                                 </p:menuitem>
@@ -69,16 +66,14 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{AdmisionesController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{AdmisionesController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{AdmisionesController.buscar()}" update="postulantes"/>           
-                                                </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{AdmisionesController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{AdmisionesController.buscar()}" update="postulantes"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="postulantes" var="postulante" value="#{AdmisionesController.postulantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
@@ -221,7 +216,7 @@
                                         <p:column headerText="Egreso Colegio" >  
                                             <h:outputText value="#{postulante.egresoColegio}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Deposito" >  
                                             <h:outputText value="#{postulante.deposito}"/>
                                         </p:column>

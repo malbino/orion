@@ -43,7 +43,6 @@ public class InscritosController extends AbstractController implements Serializa
     private List<Inscrito> inscritos;
     private Inscrito seleccionInscrito;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -57,7 +56,6 @@ public class InscritosController extends AbstractController implements Serializa
         inscritos = new ArrayList<>();
         seleccionInscrito = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -77,7 +75,6 @@ public class InscritosController extends AbstractController implements Serializa
         }
         seleccionInscrito = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -113,30 +110,6 @@ public class InscritosController extends AbstractController implements Serializa
             paralelos = grupoFacade.listaParalelos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel, seleccionTurno);
         }
         return paralelos;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionGestionAcademica != null && seleccionCarrera == null && seleccionNivel == null && seleccionTurno == null && seleccionParalelo == null) {
-                inscritos = inscritoFacade.listaInscritos(seleccionGestionAcademica.getId_gestionacademica());
-            } else if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel == null && seleccionTurno == null && seleccionParalelo == null) {
-                inscritos = inscritoFacade.listaInscritos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
-            } else if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null && seleccionTurno == null && seleccionParalelo == null) {
-                inscritos = inscritoFacade.listaInscritos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel);
-            } else if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null && seleccionTurno != null && seleccionParalelo == null) {
-                inscritos = inscritoFacade.listaInscritos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel, seleccionTurno);
-            } else if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null && seleccionTurno != null && seleccionParalelo != null) {
-                inscritos = inscritoFacade.listaInscritos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel, seleccionTurno, seleccionParalelo);
-            } else {
-                inscritos = new ArrayList<>();
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -255,20 +228,6 @@ public class InscritosController extends AbstractController implements Serializa
      */
     public void setSeleccionInscrito(Inscrito seleccionInscrito) {
         this.seleccionInscrito = seleccionInscrito;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

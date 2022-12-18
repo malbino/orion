@@ -42,7 +42,6 @@ public class GestionCuadernilloPasantiaController extends AbstractController imp
     private Asistencia nuevoAsistencia;
     private Asistencia seleccionAsistencia;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -52,7 +51,6 @@ public class GestionCuadernilloPasantiaController extends AbstractController imp
         nuevoAsistencia = new Asistencia();
         seleccionAsistencia = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -61,20 +59,7 @@ public class GestionCuadernilloPasantiaController extends AbstractController imp
         nuevoAsistencia = new Asistencia();
         seleccionAsistencia = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            asistencias = asistenciaFacade.listaAsistencias(seleccionNotaPasantia);
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -194,20 +179,6 @@ public class GestionCuadernilloPasantiaController extends AbstractController imp
      */
     public void setSeleccionAsistencia(Asistencia seleccionAsistencia) {
         this.seleccionAsistencia = seleccionAsistencia;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

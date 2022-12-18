@@ -43,7 +43,6 @@ public class EstudianteController extends AbstractController implements Serializ
     private Estudiante nuevoEstudiante;
     private Estudiante seleccionEstudiante;
 
-    private Boolean filter;
     private Carrera seleccionCarrera;
     private String keyword;
 
@@ -56,7 +55,6 @@ public class EstudianteController extends AbstractController implements Serializ
         nuevoEstudiante = new Estudiante();
         seleccionEstudiante = null;
 
-        filter = false;
         seleccionCarrera = null;
         keyword = null;
 
@@ -69,26 +67,11 @@ public class EstudianteController extends AbstractController implements Serializ
         nuevoEstudiante = new Estudiante();
         seleccionEstudiante = null;
 
-        filter = false;
         seleccionCarrera = null;
         keyword = null;
 
         carrerasEstudiante = new ArrayList<>();
         seleccionCarrerasEstudiante = new ArrayList<>();
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            seleccionCarrera = null;
-            keyword = null;
-
-            estudiantes = estudianteFacade.listaEstudiantes();
-        } else {
-            filter = true;
-            seleccionCarrera = null;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -329,20 +312,6 @@ public class EstudianteController extends AbstractController implements Serializ
      */
     public void setSeleccionEstudiante(Estudiante seleccionEstudiante) {
         this.seleccionEstudiante = seleccionEstudiante;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

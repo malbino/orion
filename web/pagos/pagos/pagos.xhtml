@@ -47,9 +47,6 @@
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{PagosController.filtro()}" update="form" rendered="#{!PagosController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{PagosController.filtro()}" update="form" rendered="#{PagosController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="comprobantes" fileName="comprobantes" />
                                                 </p:menuitem>
@@ -62,16 +59,14 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{PagosController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{PagosController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{PagosController.buscar()}" update="comprobantes"/>           
-                                                </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{PagosController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{PagosController.buscar()}" update="comprobantes"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="comprobantes" var="comprobante" value="#{PagosController.comprobantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"

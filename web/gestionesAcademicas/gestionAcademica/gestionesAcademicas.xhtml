@@ -23,7 +23,7 @@
 
                                 <div class="x_content">
                                     <p:messages/>
-                                    
+
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="regimen" value="Regimen: " style="font-size: small"/>
@@ -39,17 +39,14 @@
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-plus" value="Nuevo" actionListener="#{GestionAcademicaController.toNuevaGestionAcademica()}" update="form"/>
-                                            
+
                                             <p:spacer width="10"/>
-                                            
+
                                             <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{GestionAcademicaController.reinit()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{GestionAcademicaController.filtro()}" update="form" rendered="#{!GestionAcademicaController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{GestionAcademicaController.filtro()}" update="form" rendered="#{GestionAcademicaController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="gestionesAcademicas" fileName="gestionesAcademicas" />
                                                 </p:menuitem>
@@ -59,23 +56,21 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{GestionAcademicaController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{GestionAcademicaController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GestionAcademicaController.buscar()}" update="gestionesAcademicas"/>           
-                                                </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{GestionAcademicaController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GestionAcademicaController.buscar()}" update="gestionesAcademicas"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="gestionesAcademicas" var="gestionAcademica" value="#{GestionAcademicaController.gestionesAcademicas}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
                                         <p:column headerText="Nº">
                                             <h:outputText value="#{rowIndex + 1}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Codigo" >  
                                             <h:outputText value="#{gestionAcademica.toString()}"/>
                                         </p:column>

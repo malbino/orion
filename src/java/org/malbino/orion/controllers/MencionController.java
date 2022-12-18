@@ -32,7 +32,6 @@ public class MencionController extends AbstractController implements Serializabl
     private Mencion seleccionMencion;
     private Carrera seleccionCarrera;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -41,7 +40,6 @@ public class MencionController extends AbstractController implements Serializabl
         nuevaMencion = new Mencion();
         seleccionMencion = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -52,22 +50,7 @@ public class MencionController extends AbstractController implements Serializabl
         nuevaMencion = new Mencion();
         seleccionMencion = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionCarrera != null) {
-                menciones = mencionFacade.listaMenciones(seleccionCarrera.getId_carrera());
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -169,20 +152,6 @@ public class MencionController extends AbstractController implements Serializabl
      */
     public void setSeleccionCarrera(Carrera seleccionCarrera) {
         this.seleccionCarrera = seleccionCarrera;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

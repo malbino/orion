@@ -108,12 +108,10 @@ public class NotaPasantiaFacade extends AbstractFacade<NotaPasantia> {
         try {
             Query q = em.createQuery("SELECT np FROM NotaPasantia np JOIN np.estudiante e WHERE np.grupoPasantia=:grupoPasantia AND "
                     + "(CAST(np.codigo AS CHAR) LIKE :keyword OR "
-                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword)) "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("grupoPasantia", grupoPasantia);
-            q.setParameter("keyword", "%" + keyword + "%");
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
 
             l = q.getResultList();
         } catch (Exception e) {

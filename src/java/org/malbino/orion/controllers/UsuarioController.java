@@ -41,7 +41,6 @@ public class UsuarioController extends AbstractController implements Serializabl
     private Usuario seleccionUsuario;
     private boolean restaurarContrasena;
 
-    private Boolean filter;
     private Rol seleccionRol;
     private String keyword;
 
@@ -54,7 +53,6 @@ public class UsuarioController extends AbstractController implements Serializabl
         seleccionUsuario = null;
         restaurarContrasena = false;
 
-        filter = false;
         seleccionRol = null;
         keyword = null;
     }
@@ -64,23 +62,8 @@ public class UsuarioController extends AbstractController implements Serializabl
         seleccionUsuario = null;
         restaurarContrasena = false;
 
-        filter = false;
         seleccionRol = null;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            seleccionRol = null;
-            keyword = null;
-
-            usuarios = usuarioFacade.listaUsuarios();
-        } else {
-            filter = true;
-            seleccionRol = null;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -218,20 +201,6 @@ public class UsuarioController extends AbstractController implements Serializabl
      */
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

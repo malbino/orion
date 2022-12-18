@@ -32,9 +32,6 @@
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{EmpleadoController.filtro()}" update="form" rendered="#{!EmpleadoController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{EmpleadoController.filtro()}" update="form" rendered="#{EmpleadoController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="empleados" fileName="empleados" />
                                                 </p:menuitem>
@@ -44,16 +41,14 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{EmpleadoController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{EmpleadoController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EmpleadoController.buscar()}" update="empleados"/>           
-                                                </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{EmpleadoController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EmpleadoController.buscar()}" update="empleados"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>    
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="empleados" var="empleado" value="#{EmpleadoController.empleados}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"

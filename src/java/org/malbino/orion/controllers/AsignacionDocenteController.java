@@ -42,7 +42,6 @@ public class AsignacionDocenteController extends AbstractController implements S
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -53,7 +52,6 @@ public class AsignacionDocenteController extends AbstractController implements S
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -63,7 +61,6 @@ public class AsignacionDocenteController extends AbstractController implements S
         }
         seleccionGrupo = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -78,20 +75,6 @@ public class AsignacionDocenteController extends AbstractController implements S
 
     public Nivel[] listaNiveles() {
         return Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionGestionAcademica != null && seleccionCarrera.getId_carrera() != null) {
-                grupos = grupoFacade.listaGrupos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -191,20 +174,6 @@ public class AsignacionDocenteController extends AbstractController implements S
      */
     public void setSeleccionCarrera(Carrera seleccionCarrera) {
         this.seleccionCarrera = seleccionCarrera;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

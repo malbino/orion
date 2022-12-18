@@ -145,7 +145,7 @@ public class MateriaFacade extends AbstractFacade<Materia> {
             Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND "
                     + "(LOWER(m.codigo) LIKE LOWER(:keyword) OR "
                     + "LOWER(m.nombre) LIKE LOWER(:keyword)) "
-                    + "ORDER BY m.numero");
+                    + "ORDER BY m.nivel, m.mencion, m.numero");
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("keyword", "%" + keyword + "%");
 

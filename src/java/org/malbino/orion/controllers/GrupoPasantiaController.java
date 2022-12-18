@@ -48,7 +48,6 @@ public class GrupoPasantiaController extends AbstractController implements Seria
     private Turno seleccionTurno;
     private Integer capacidad;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -63,7 +62,6 @@ public class GrupoPasantiaController extends AbstractController implements Seria
         seleccionTurno = null;
         capacidad = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -78,7 +76,6 @@ public class GrupoPasantiaController extends AbstractController implements Seria
         seleccionTurno = null;
         capacidad = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -97,20 +94,6 @@ public class GrupoPasantiaController extends AbstractController implements Seria
 
     public List<Mencion> listaMenciones() {
         return mencionFacade.listaMenciones(seleccionCarrera.getId_carrera());
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionGestionAcademica != null && seleccionCarrera.getId_carrera() != null) {
-                gruposPasantias = grupoPasantiaFacade.listaGrupoPasantias(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -256,20 +239,6 @@ public class GrupoPasantiaController extends AbstractController implements Seria
      */
     public void setCapacidad(Integer capacidad) {
         this.capacidad = capacidad;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

@@ -29,7 +29,6 @@ public class EmpleadoController extends AbstractController implements Serializab
     private Empleado nuevoEmpleado;
     private Empleado seleccionEmpleado;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -38,7 +37,6 @@ public class EmpleadoController extends AbstractController implements Serializab
         nuevoEmpleado = new Empleado();
         seleccionEmpleado = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -47,20 +45,7 @@ public class EmpleadoController extends AbstractController implements Serializab
         nuevoEmpleado = new Empleado();
         seleccionEmpleado = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            empleados = empleadoFacade.listaEmpleados();
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -141,20 +126,6 @@ public class EmpleadoController extends AbstractController implements Serializab
      */
     public void setSeleccionEmpleado(Empleado seleccionEmpleado) {
         this.seleccionEmpleado = seleccionEmpleado;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

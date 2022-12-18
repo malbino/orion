@@ -38,7 +38,6 @@ public class ReporteFichaInscripcionController extends AbstractController implem
     private List<NotaPasantia> notasPasantias;
     private NotaPasantia seleccionNotaPasantia;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -47,7 +46,6 @@ public class ReporteFichaInscripcionController extends AbstractController implem
         notasPasantias = new ArrayList<>();
         seleccionNotaPasantia = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -55,7 +53,6 @@ public class ReporteFichaInscripcionController extends AbstractController implem
         notasPasantias = notaPasantiaFacade.listaNotasPasantias(seleccionGrupoPasantia.getId_grupopasantia());
         seleccionNotaPasantia = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -82,18 +79,6 @@ public class ReporteFichaInscripcionController extends AbstractController implem
             l = grupoPasantiaFacade.listaGrupoPasantiasAbiertos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
         }
         return l;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            notasPasantias = notaPasantiaFacade.listaNotasPasantias(seleccionGrupoPasantia.getId_grupopasantia());
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -154,20 +139,6 @@ public class ReporteFichaInscripcionController extends AbstractController implem
      */
     public void setSeleccionNotaPasantia(NotaPasantia seleccionNotaPasantia) {
         this.seleccionNotaPasantia = seleccionNotaPasantia;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

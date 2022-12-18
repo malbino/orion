@@ -74,23 +74,96 @@ public class ComprobanteFacade extends AbstractFacade<Comprobante> {
                     + "SELECT c.id_comprobante FROM Comprobante c JOIN c.postulante p WHERE c.fecha BETWEEN :desde AND :hasta AND "
                     + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
                     + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
-                    + "LOWER(p.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(p.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(p.nombre) LIKE LOWER(:keyword))"
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(p.primerApellido, p.segundoApellido, p.nombre), ' ', '')) LIKE :keyword)"
                     + ") OR c.id_comprobante "
                     + "IN ("
                     + "SELECT c.id_comprobante FROM Comprobante c JOIN c.inscrito i JOIN i.estudiante e WHERE c.fecha BETWEEN :desde AND :hasta AND "
                     + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
                     + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword))"
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword)"
+                    + ") OR c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.estudiante e WHERE c.fecha BETWEEN :desde AND :hasta AND "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword)"
                     + ") "
                     + "ORDER BY c.fecha DESC");
             q.setParameter("desde", Fecha.getInicioDia(desde));
             q.setParameter("hasta", Fecha.getFinDia(hasta));
-            q.setParameter("keyword", "%" + keyword + "%");
-            
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        return l;
+    }
+
+    public List<Comprobante> buscar(Date desde, Date hasta, int id_persona, String keyword) {
+        List<Comprobante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Comprobante c WHERE c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.postulante p JOIN c.usuario u WHERE c.fecha BETWEEN :desde AND :hasta AND u.id_persona=:id_persona AND "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(p.primerApellido, p.segundoApellido, p.nombre), ' ', '')) LIKE :keyword)"
+                    + ") OR c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.inscrito i JOIN i.estudiante e JOIN c.usuario u WHERE c.fecha BETWEEN :desde AND :hasta AND u.id_persona=:id_persona AND "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword)"
+                    + ") OR c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.estudiante e JOIN c.usuario u WHERE c.fecha BETWEEN :desde AND :hasta AND u.id_persona=:id_persona AND "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword)"
+                    + ") "
+                    + "ORDER BY c.fecha DESC");
+            q.setParameter("desde", Fecha.getInicioDia(desde));
+            q.setParameter("hasta", Fecha.getFinDia(hasta));
+            q.setParameter("id_persona", id_persona);
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        return l;
+    }
+
+    public List<Comprobante> buscar(String keyword) {
+        List<Comprobante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT c FROM Comprobante c WHERE c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.postulante p WHERE "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(p.primerApellido, p.segundoApellido, p.nombre), ' ', '')) LIKE :keyword)"
+                    + ") OR c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.inscrito i JOIN i.estudiante e WHERE "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword)"
+                    + ") OR c.id_comprobante "
+                    + "IN ("
+                    + "SELECT c.id_comprobante FROM Comprobante c JOIN c.estudiante e WHERE "
+                    + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.deposito) LIKE LOWER(:keyword) OR "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword)"
+                    + ") "
+                    + "ORDER BY c.fecha DESC");
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
+
             l = q.getResultList();
         } catch (Exception e) {
             System.out.println(e.toString());

@@ -38,7 +38,6 @@ public class EmpresaController extends AbstractController implements Serializabl
     private Empresa nuevaEmpresa;
     private Empresa seleccionEmpresa;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -47,7 +46,6 @@ public class EmpresaController extends AbstractController implements Serializabl
         nuevaEmpresa = new Empresa();
         seleccionEmpresa = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -56,20 +54,7 @@ public class EmpresaController extends AbstractController implements Serializabl
         nuevaEmpresa = new Empresa();
         seleccionEmpresa = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            empresas = empresaFacade.listaEmpresas();
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -178,20 +163,6 @@ public class EmpresaController extends AbstractController implements Serializabl
      */
     public void setSeleccionEmpresa(Empresa seleccionEmpresa) {
         this.seleccionEmpresa = seleccionEmpresa;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

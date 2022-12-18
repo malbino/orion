@@ -33,7 +33,6 @@ public class CalendarioAcademicoController extends AbstractController implements
     private Actividad nuevaActividad;
     private Actividad seleccionActividad;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -42,7 +41,6 @@ public class CalendarioAcademicoController extends AbstractController implements
         nuevaActividad = new Actividad();
         seleccionActividad = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -53,22 +51,7 @@ public class CalendarioAcademicoController extends AbstractController implements
         nuevaActividad = new Actividad();
         seleccionActividad = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionGestionAcademica != null) {
-                actividades = actividadFacade.listaActividad(seleccionGestionAcademica.getId_gestionacademica());
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -158,20 +141,6 @@ public class CalendarioAcademicoController extends AbstractController implements
      */
     public void setSeleccionActividad(Actividad seleccionActividad) {
         this.seleccionActividad = seleccionActividad;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

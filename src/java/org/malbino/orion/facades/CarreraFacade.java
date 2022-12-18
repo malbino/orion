@@ -116,12 +116,15 @@ public class CarreraFacade extends AbstractFacade<Carrera> {
             Query q = em.createQuery("SELECT c FROM Carrera c WHERE "
                     + "LOWER(c.codigo) LIKE LOWER(:keyword) OR "
                     + "LOWER(c.nombre) LIKE LOWER(:keyword) OR "
-                    + "LOWER(c.resolucionMinisterial) LIKE LOWER(:keyword) "
+                    + "LOWER(c.resolucionMinisterial1) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.resolucionMinisterial2) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.resolucionMinisterial3) LIKE LOWER(:keyword) "
                     + "ORDER BY c.nombre");
             q.setParameter("keyword", "%" + keyword + "%");
 
             l = q.getResultList();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return l;
@@ -134,7 +137,9 @@ public class CarreraFacade extends AbstractFacade<Carrera> {
             Query q = em.createQuery("SELECT c FROM Carrera c JOIN c.campus a WHERE a.id_campus=:id_campus AND "
                     + "(LOWER(c.codigo) LIKE LOWER(:keyword) OR "
                     + "LOWER(c.nombre) LIKE LOWER(:keyword) OR "
-                    + "LOWER(c.resolucionMinisterial) LIKE LOWER(:keyword)) "
+                    + "LOWER(c.resolucionMinisterial1) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.resolucionMinisterial2) LIKE LOWER(:keyword) OR "
+                    + "LOWER(c.resolucionMinisterial3) LIKE LOWER(:keyword)) "
                     + "ORDER BY c.nombre");
             q.setParameter("id_campus", id_campus);
             q.setParameter("keyword", "%" + keyword + "%");

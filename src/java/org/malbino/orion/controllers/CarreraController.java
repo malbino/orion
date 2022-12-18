@@ -31,7 +31,6 @@ public class CarreraController extends AbstractController implements Serializabl
     private Carrera seleccionCarrera;
     private Campus seleccionCampus;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -40,7 +39,6 @@ public class CarreraController extends AbstractController implements Serializabl
         nuevaCarrera = new Carrera();
         seleccionCarrera = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -53,24 +51,7 @@ public class CarreraController extends AbstractController implements Serializabl
         nuevaCarrera = new Carrera();
         seleccionCarrera = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionCampus == null) {
-                carreras = carreraFacade.listaCarreras();
-            } else {
-                carreras = carreraFacade.listaCarreras(seleccionCampus.getId_campus());
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -155,20 +136,6 @@ public class CarreraController extends AbstractController implements Serializabl
      */
     public void setSeleccionCarrera(Carrera seleccionCarrera) {
         this.seleccionCarrera = seleccionCarrera;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

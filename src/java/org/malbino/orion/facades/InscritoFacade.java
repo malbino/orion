@@ -88,7 +88,7 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
 
         return l;
     }
-    
+
     public List<Inscrito> listaInscritosPruebaRecuperacion(GestionAcademica gestionAcademica, Carrera carrera) {
         List<Inscrito> l = new ArrayList();
 
@@ -401,12 +401,10 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         try {
             Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.estudiante e JOIN i.gestionAcademica ga WHERE ga.id_gestionacademica=:id_gestionacademica AND "
                     + "(CAST(i.codigo AS CHAR) LIKE :keyword OR "
-                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword)) "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("id_gestionacademica", id_gestionacademica);
-            q.setParameter("keyword", "%" + keyword + "%");
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -421,13 +419,11 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         try {
             Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.estudiante e JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND "
                     + "(CAST(i.codigo AS CHAR) LIKE :keyword OR "
-                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword)) "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("id_gestionacademica", id_gestionacademica);
             q.setParameter("id_carrera", id_carrera);
-            q.setParameter("keyword", "%" + keyword + "%");
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -442,14 +438,12 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         try {
             Query q = em.createQuery("SELECT DISTINCT i FROM Inscrito i JOIN i.estudiante e JOIN i.gestionAcademica ga JOIN i.carrera c JOIN i.notas n JOIN n.grupo g JOIN g.materia m  WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND "
                     + "(CAST(i.codigo AS CHAR) LIKE :keyword OR "
-                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword)) "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("id_gestionacademica", id_gestionacademica);
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("nivel", nivel);
-            q.setParameter("keyword", "%" + keyword + "%");
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -464,15 +458,13 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         try {
             Query q = em.createQuery("SELECT DISTINCT i FROM Inscrito i JOIN i.estudiante e JOIN i.gestionAcademica ga JOIN i.carrera c JOIN i.notas n JOIN n.grupo g JOIN g.materia m  WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND g.turno=:turno AND "
                     + "(CAST(i.codigo AS CHAR) LIKE :keyword OR "
-                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword)) "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("id_gestionacademica", id_gestionacademica);
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("nivel", nivel);
             q.setParameter("turno", turno);
-            q.setParameter("keyword", "%" + keyword + "%");
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -487,16 +479,14 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         try {
             Query q = em.createQuery("SELECT DISTINCT i FROM Inscrito i JOIN i.estudiante e JOIN i.gestionAcademica ga JOIN i.carrera c JOIN i.notas n JOIN n.grupo g JOIN g.materia m  WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND g.turno=:turno AND g.codigo=:paralelo AND "
                     + "(CAST(i.codigo AS CHAR) LIKE :keyword OR "
-                    + "LOWER(e.primerApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.segundoApellido) LIKE LOWER(:keyword) OR "
-                    + "LOWER(e.nombre) LIKE LOWER(:keyword)) "
+                    + "LOWER(FUNCTION('REPLACE', CONCAT(e.primerApellido, e.segundoApellido, e.nombre), ' ', '')) LIKE :keyword) "
                     + "ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("id_gestionacademica", id_gestionacademica);
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("nivel", nivel);
             q.setParameter("turno", turno);
             q.setParameter("paralelo", paralelo);
-            q.setParameter("keyword", "%" + keyword + "%");
+            q.setParameter("keyword", "%" + keyword.replace(" ", "").toLowerCase() + "%");
 
             l = q.getResultList();
         } catch (Exception e) {

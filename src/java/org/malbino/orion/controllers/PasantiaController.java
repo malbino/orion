@@ -37,7 +37,6 @@ public class PasantiaController extends AbstractController implements Serializab
     private Pasantia seleccionPasantia;
     private Carrera seleccionCarrera;
 
-    private Boolean filter;
     private String keyword;
 
     @PostConstruct
@@ -46,7 +45,6 @@ public class PasantiaController extends AbstractController implements Serializab
         nuevaPasantia = new Pasantia();
         seleccionPasantia = null;
 
-        filter = false;
         keyword = null;
     }
 
@@ -57,22 +55,7 @@ public class PasantiaController extends AbstractController implements Serializab
         nuevaPasantia = new Pasantia();
         seleccionPasantia = null;
 
-        filter = false;
         keyword = null;
-    }
-
-    public void filtro() {
-        if (filter) {
-            filter = false;
-            keyword = null;
-
-            if (seleccionCarrera != null) {
-                pasantias = pasantiaFacade.listaPasantias(seleccionCarrera);
-            }
-        } else {
-            filter = true;
-            keyword = null;
-        }
     }
 
     public void buscar() {
@@ -186,20 +169,6 @@ public class PasantiaController extends AbstractController implements Serializab
      */
     public void setSeleccionCarrera(Carrera seleccionCarrera) {
         this.seleccionCarrera = seleccionCarrera;
-    }
-
-    /**
-     * @return the filter
-     */
-    public Boolean getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Boolean filter) {
-        this.filter = filter;
     }
 
     /**

@@ -49,17 +49,14 @@
                                     <p:toolbar>
                                         <f:facet name="left">
                                             <p:commandButton icon="fa fa-group" value="Programar Grupos" actionListener="#{GrupoController.toProgramarGrupos()}" update="form"/>
-                                            
+
                                             <p:spacer width="10"/>
-                                            
+
                                             <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{GrupoController.reinit()}" update="form"/>
                                         </f:facet>
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{GrupoController.filtro()}" update="form" rendered="#{!GrupoController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{GrupoController.filtro()}" update="form" rendered="#{GrupoController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="grupos" fileName="grupos" />
                                                 </p:menuitem>
@@ -69,23 +66,21 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{GrupoController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{GrupoController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GrupoController.buscar()}" update="grupos"/>           
-                                                </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{GrupoController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{GrupoController.buscar()}" update="grupos"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="grupos" var="grupo" value="#{GrupoController.grupos}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
                                         <p:column headerText="Nivel" groupRow="true">  
                                             <h:outputText value="#{grupo.materia.nivel.toString()}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Mención" groupRow="true">  
                                             <h:outputText value="#{grupo.materia.mencion.toString()}"/>
                                         </p:column>
@@ -105,7 +100,7 @@
                                         <p:column headerText="Materia" >  
                                             <h:outputText value="#{grupo.materia}"/>
                                         </p:column>
-                                        
+
                                         <p:column headerText="Capacidad" >  
                                             <h:outputText value="#{grupo.capacidad}"/>
                                         </p:column>
@@ -125,7 +120,7 @@
 
                                                     <f:actionListener binding="#{GrupoController.toEditarGrupo()}"/>
                                                 </p:commandButton>
-                                                
+
                                                 <p:commandButton id="eliminar" process="@this" icon="fa fa-remove" title="Eliminar" update="form">  
                                                     <f:setPropertyActionListener value="#{grupo}" target="#{GrupoController.seleccionGrupo}" />
 
@@ -135,7 +130,7 @@
                                             </h:panelGroup>
                                         </p:column> 
                                     </p:dataTable>
-                                    
+
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                         <f:facet name="message">
                                             Esta seguro?

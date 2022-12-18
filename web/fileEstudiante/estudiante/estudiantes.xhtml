@@ -34,9 +34,6 @@
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Añadir filtro" icon="fa fa-filter" actionListener="#{EstudianteController.filtro()}" update="form" rendered="#{!EstudianteController.filter}"/>
-                                                <p:menuitem value="Quitar filtro" icon="fa fa-filter" actionListener="#{EstudianteController.filtro()}" update="form" rendered="#{EstudianteController.filter}"/>
-
                                                 <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
                                                     <p:dataExporter type="xls" target="estudiantes" fileName="estudiantes" />
                                                 </p:menuitem>
@@ -49,24 +46,22 @@
 
                                     <p:spacer/>
 
-                                    <p:outputPanel id="filtro" rendered="#{EstudianteController.filter}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
-                                                <p:selectOneMenu id="carrera" value="#{EstudianteController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false"> 
-                                                    <f:selectItem itemLabel="TODAS LAS CARRERAS" itemValue="" />
-                                                    <f:selectItems value="#{EstudianteController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/> 
-                                                </p:selectOneMenu>
-                                            </div>
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                            <p:selectOneMenu id="carrera" value="#{EstudianteController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false"> 
+                                                <f:selectItem itemLabel="TODAS LAS CARRERAS" itemValue="" />
+                                                <f:selectItems value="#{EstudianteController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/> 
+                                            </p:selectOneMenu>
+                                        </div>
 
-                                            <div class="ui-g-12 ui-md-12">
-                                                <div class="ui-inputgroup">
-                                                    <p:inputText value="#{EstudianteController.keyword}" style="height: 100%"/>
-                                                    <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EstudianteController.buscar()}" update="estudiantes"/>           
-                                                </div>
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{EstudianteController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EstudianteController.buscar()}" update="estudiantes"/>           
                                             </div>
-                                        </div>    
-                                    </p:outputPanel>
+                                        </div>
+                                    </div>
                                     <p:defaultCommand target="buscar"/>
 
                                     <p:dataTable id="estudiantes" var="estudiante" value="#{EstudianteController.estudiantes}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
@@ -200,8 +195,8 @@
                                         <p:column headerText="Email" >  
                                             <h:outputText value="#{estudiante.email}"/>
                                         </p:column>
-                                        
-                                         <p:column headerText="Nombre Contacto" >  
+
+                                        <p:column headerText="Nombre Contacto" >  
                                             <h:outputText value="#{estudiante.nombreContacto}"/>
                                         </p:column>
 
