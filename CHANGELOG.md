@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2022-12-19
+### Added
+### Changed
+- Se agrego el cambio de contraseña para el usuario
+- Se agrego el cambio de contraseña para cualquier usuario por parte del administrador
+- Se mejoro las busquedas en todo el sistema
+### Removed
+### Fixed
+
 ## [2.0.0] - 2022-12-04
 ### Added
 - Se agrego el soporte para becados
