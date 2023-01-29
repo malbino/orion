@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Tipo;
 import org.malbino.orion.util.Fecha;
@@ -332,5 +334,34 @@ public class Inscrito implements Serializable {
         }
 
         return s;
+    }
+    
+    public Nivel nivel() {
+        Nivel nivel = null;
+
+        if (!notas.isEmpty()) {
+            Nota nota = notas.stream()
+                    .collect(Collectors.maxBy((x, y) -> x.getMateria().getNivel().getNivel() - y.getMateria().getNivel().getNivel()))
+                    .get();
+            nivel = nota.getMateria().getNivel();
+        }
+
+        return nivel;
+    }
+
+    public Condicion condicion() {
+        Condicion condicion;
+
+        List<Nota> notasAbandono = notas.stream().filter(n -> n.getCondicion().equals(Condicion.ABANDONO)).collect(Collectors.toList());
+        List<Nota> notasAprobadas = notas.stream().filter(n -> n.getCondicion().equals(Condicion.APROBADO)).collect(Collectors.toList());
+        if (notasAbandono.size() == notas.size()) {
+            condicion = Condicion.ABANDONO;
+        } else if (notasAprobadas.size() == notas.size()) {
+            condicion = Condicion.APROBADO;
+        } else {
+            condicion = Condicion.REPROBADO;
+        }
+
+        return condicion;
     }
 }

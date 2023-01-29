@@ -46,11 +46,11 @@ public class ComprobantePago extends HttpServlet {
     private static final String CONTENIDO_PDF = "application/pdf";
 
     private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA_BLANCO = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.WHITE);
-    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.NORMAL, BaseColor.BLACK);
-    private static final Font BOLDITALIC = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLDITALIC, BaseColor.BLACK);
-    private static final Font ITALIC = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.ITALIC, BaseColor.BLACK);
+    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.BLACK);
+    private static final Font NEGRITA_BLANCO = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.WHITE);
+    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
+    private static final Font BOLDITALIC = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLDITALIC, BaseColor.BLACK);
+    private static final Font ITALIC = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.ITALIC, BaseColor.BLACK);
 
     private static final int MARGEN_IZQUIERDO = 0;
     private static final int MARGEN_DERECHO = -40;
@@ -83,7 +83,7 @@ public class ComprobantePago extends HttpServlet {
             try {
                 response.setContentType(CONTENIDO_PDF);
 
-                Document document = new Document(PageSize.LETTER, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
+                Document document = new Document(PageSize.HALFLETTER.rotate(), MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
                 PdfWriter.getInstance(document, response.getOutputStream());
 
                 document.open();
@@ -382,7 +382,7 @@ public class ComprobantePago extends HttpServlet {
             }
         }
 
-        cell = new PdfPCell(new Phrase("Total:", NEGRITA));
+        cell = new PdfPCell(new Phrase("Total (Bs.):", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         cell.setColspan(80);
         cell.setBorder(Rectangle.LEFT | Rectangle.TOP | Rectangle.BOTTOM);

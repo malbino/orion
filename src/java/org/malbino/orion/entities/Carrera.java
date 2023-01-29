@@ -283,7 +283,7 @@ public class Carrera implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + " [" + codigo + "]";
+        return nombre + " [" + resolucionMinisterial1 + "]";
     }
 
     public String mencionesToString() {

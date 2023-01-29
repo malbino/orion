@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -11,6 +12,41 @@
 
             <ui:define name="content">
                 <h:form id="form">
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Dashboard <small>tablero del sistema</small></h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:outputLabel for="gestionAcademica" value="Gestion academica: " style="font-size: small"/>
+                                            <p:selectOneMenu id="gestionAcademica" value="#{DashboardController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{DashboardController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>
+                                            </p:selectOneMenu>   
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton id="generar" value="Generar" icon="fa fa-gear" actionListener="#{DashboardController.toDashboard()}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p:blockUI block="form" trigger="generar" widgetVar="buiForm">
+                                    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+                                </p:blockUI>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row" style="display: inline-block;" >
                         <div class="tile_count">
                             <div class="col-md-1 col-sm-2  tile_stats_count">
@@ -54,15 +90,6 @@
                                 <div class="count" style="font-size: xx-large">#{DashboardController.reprobados}</div>
                                 <span class="count_bottom"><i class="green">#{DashboardController.porcentajeReprobados}% </i> Del total de inscritos</span>
                             </div>
-                            
-                            <div class="col-md-2 col-sm-4  tile_stats_count">
-                                <span class="count_top"> </span>
-                                <div class="count">
-                                    <p:commandButton value="Actualizar" icon="fa fa-refresh" actionListener="#{DashboardController.toDashboard()}"/>
-                                </div>
-                                <span class="count_bottom"> </span>
-                            </div>
-
                         </div>
                     </div>
 
@@ -158,10 +185,7 @@
                                         </div>
                                     </div>
 
-                                    <p:dataTable id="nivelesCuadroEstadistico" var="nivelCuadroEstadistico" value="#{DashboardController.nivelesCuadroEstadistico}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
-                                        <p:column headerText="Nº">
-                                            <h:outputText value="#{rowIndex + 1}"/>
-                                        </p:column>
+                                    <p:dataTable id="nivelesCuadroEstadistico" var="nivelCuadroEstadistico" value="#{DashboardController.nivelesCuadroEstadistico}" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
 
                                         <p:column headerText="Codigo" >  
                                             <h:outputText value="#{nivelCuadroEstadistico.codigo}"/>
@@ -175,35 +199,67 @@
                                             <h:outputText value="#{nivelCuadroEstadistico.nivel.nombre}"/>
                                         </p:column>
 
-                                        <p:column headerText="Numero Paralelos" >  
-                                            <h:outputText value="#{nivelCuadroEstadistico.numeroParalelos}"/>
+                                        <p:column headerText="Paralelo" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.paralelo}"/>
                                         </p:column>
 
-                                        <p:column headerText="Total Inscritos" >  
-                                            <h:outputText value="#{nivelCuadroEstadistico.totalInscritos}"/>
+                                        <p:column headerText="V" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.inscritosVarones}"/>
                                         </p:column>
 
-                                        <p:column headerText="Varones" >  
-                                            <h:outputText value="#{nivelCuadroEstadistico.varones}"/>
+                                        <p:column headerText="M" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.inscritosMujeres}"/>
                                         </p:column>
 
-                                        <p:column headerText="Mujeres" >  
-                                            <h:outputText value="#{nivelCuadroEstadistico.mujeres}"/>
+                                        <p:column headerText="Ins" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.inscritos}"/>
                                         </p:column>
 
-                                        <p:column headerText="Efectivos" >  
+                                        <p:column headerText="V" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.efectivosVarones}"/>
+                                        </p:column>
+
+                                        <p:column headerText="M" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.efectivosMujeres}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Efe" >  
                                             <h:outputText value="#{nivelCuadroEstadistico.efectivos}"/>
                                         </p:column>
 
-                                        <p:column headerText="Retirados" >  
+                                        <p:column headerText="V" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.retiradosVarones}"/>
+                                        </p:column>
+
+                                        <p:column headerText="M" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.retiradosMujeres}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Ret" >  
                                             <h:outputText value="#{nivelCuadroEstadistico.retirados}"/>
                                         </p:column>
 
-                                        <p:column headerText="Aprobados" >  
+                                        <p:column headerText="V" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.aprobadosVarones}"/>
+                                        </p:column>
+
+                                        <p:column headerText="M" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.aprobadosMujeres}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Apr" >  
                                             <h:outputText value="#{nivelCuadroEstadistico.aprobados}"/>
                                         </p:column>
 
-                                        <p:column headerText="Reprobados" >  
+                                        <p:column headerText="V" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.reprobadosVarones}"/>
+                                        </p:column>
+
+                                        <p:column headerText="M" >  
+                                            <h:outputText value="#{nivelCuadroEstadistico.reprobadosMujeres}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Rep" >  
                                             <h:outputText value="#{nivelCuadroEstadistico.reprobados}"/>
                                         </p:column>
                                     </p:dataTable>
@@ -211,6 +267,7 @@
                             </div>
                         </div>
                     </div>
+
                 </h:form>
             </ui:define>
 

@@ -380,6 +380,7 @@ public class HistorialAcademico extends HttpServlet {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
+            /*
             PdfPCell cellNotaFinal;
             if (nota.getNotaFinal() != null) {
                 cellNotaFinal = new PdfPCell(new Phrase(String.valueOf(nota.getNotaFinal()), NORMAL));
@@ -400,6 +401,49 @@ public class HistorialAcademico extends HttpServlet {
 
             table.addCell(cellNotaFinal);
             table.addCell(cellNotaIns);
+             */
+            
+            if (nota.getRecuperatorio() == null) {
+                PdfPCell cellNotaFinal;
+                if (nota.getNotaFinal() != null) {
+                    cellNotaFinal = new PdfPCell(new Phrase(String.valueOf(nota.getNotaFinal()), NORMAL));
+                } else {
+                    cellNotaFinal = new PdfPCell(new Phrase(" ", NORMAL));
+                }
+                cellNotaFinal.setColspan(4);
+                cellNotaFinal.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                table.addCell(cellNotaFinal);
+
+                PdfPCell cellNotaIns;
+                if (nota.getRecuperatorio() != null) {
+                    cellNotaIns = new PdfPCell(new Phrase(String.valueOf(nota.getRecuperatorio()), NORMAL));
+                } else {
+                    cellNotaIns = new PdfPCell(new Phrase(" ", NORMAL));
+                }
+                cellNotaIns.setColspan(5);
+                cellNotaIns.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                table.addCell(cellNotaIns);
+            } else {
+                PdfPCell cellNotaFinal;
+                if (nota.getNotaFinal() != null) {
+                    cellNotaFinal = new PdfPCell(new Phrase(String.valueOf(nota.getRecuperatorio()), NORMAL));
+                } else {
+                    cellNotaFinal = new PdfPCell(new Phrase(" ", NORMAL));
+                }
+                cellNotaFinal.setColspan(4);
+                cellNotaFinal.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                table.addCell(cellNotaFinal);
+
+                PdfPCell cellNotaIns;
+                if (nota.getRecuperatorio() != null) {
+                    cellNotaIns = new PdfPCell(new Phrase(String.valueOf(nota.getNotaFinal()), NORMAL));
+                } else {
+                    cellNotaIns = new PdfPCell(new Phrase(" ", NORMAL));
+                }
+                cellNotaIns.setColspan(5);
+                cellNotaIns.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                table.addCell(cellNotaIns);
+            }
 
             cell = new PdfPCell(new Phrase(nota.getCondicion().toString(), NORMAL));
             cell.setColspan(6);

@@ -13,20 +13,31 @@ import org.malbino.orion.enums.Nivel;
  * @author Tincho
  */
 public class NivelCuadroEstadistico implements Serializable {
+
     private String codigo;
     private String nombre;
     private Nivel nivel;
-    private Long numeroParalelos;
-    private Long totalInscritos;
-    
-    private Long varones;
-    private Long mujeres;
-    
-    private Long efectivos;
-    private Long retirados;
-    
-    private Long aprobados;
-    private Long reprobados;
+    private String paralelo;
+
+    private Integer inscritosVarones;
+    private Integer inscritosMujeres;
+    private Integer inscritos;
+
+    private Integer efectivosVarones;
+    private Integer efectivosMujeres;
+    private Integer efectivos;
+
+    private Integer retiradosVarones;
+    private Integer retiradosMujeres;
+    private Integer retirados;
+
+    private Integer aprobadosVarones;
+    private Integer aprobadosMujeres;
+    private Integer aprobados;
+
+    private Integer reprobadosVarones;
+    private Integer reprobadosMujeres;
+    private Integer reprobados;
 
     public NivelCuadroEstadistico() {
     }
@@ -74,114 +85,226 @@ public class NivelCuadroEstadistico implements Serializable {
     }
 
     /**
-     * @return the numeroParalelos
+     * @return the inscritosVarones
      */
-    public Long getNumeroParalelos() {
-        return numeroParalelos;
+    public Integer getInscritosVarones() {
+        return inscritosVarones;
     }
 
     /**
-     * @param numeroParalelos the numeroParalelos to set
+     * @param inscritosVarones the inscritosVarones to set
      */
-    public void setNumeroParalelos(Long numeroParalelos) {
-        this.numeroParalelos = numeroParalelos;
+    public void setInscritosVarones(Integer inscritosVarones) {
+        this.inscritosVarones = inscritosVarones;
     }
 
     /**
-     * @return the totalInscritos
+     * @return the inscritosMujeres
      */
-    public Long getTotalInscritos() {
-        return totalInscritos;
+    public Integer getInscritosMujeres() {
+        return inscritosMujeres;
     }
 
     /**
-     * @param totalInscritos the totalInscritos to set
+     * @param inscritosMujeres the inscritosMujeres to set
      */
-    public void setTotalInscritos(Long totalInscritos) {
-        this.totalInscritos = totalInscritos;
+    public void setInscritosMujeres(Integer inscritosMujeres) {
+        this.inscritosMujeres = inscritosMujeres;
     }
 
     /**
-     * @return the varones
+     * @return the inscritos
      */
-    public Long getVarones() {
-        return varones;
+    public Integer getInscritos() {
+        return inscritos;
     }
 
     /**
-     * @param varones the varones to set
+     * @param inscritos the inscritos to set
      */
-    public void setVarones(Long varones) {
-        this.varones = varones;
+    public void setInscritos(Integer inscritos) {
+        this.inscritos = inscritos;
     }
 
     /**
-     * @return the mujeres
+     * @return the efectivosVarones
      */
-    public Long getMujeres() {
-        return mujeres;
+    public Integer getEfectivosVarones() {
+        return efectivosVarones;
     }
 
     /**
-     * @param mujeres the mujeres to set
+     * @param efectivosVarones the efectivosVarones to set
      */
-    public void setMujeres(Long mujeres) {
-        this.mujeres = mujeres;
+    public void setEfectivosVarones(Integer efectivosVarones) {
+        this.efectivosVarones = efectivosVarones;
+    }
+
+    /**
+     * @return the efectivosMujeres
+     */
+    public Integer getEfectivosMujeres() {
+        return efectivosMujeres;
+    }
+
+    /**
+     * @param efectivosMujeres the efectivosMujeres to set
+     */
+    public void setEfectivosMujeres(Integer efectivosMujeres) {
+        this.efectivosMujeres = efectivosMujeres;
     }
 
     /**
      * @return the efectivos
      */
-    public Long getEfectivos() {
+    public Integer getEfectivos() {
         return efectivos;
     }
 
     /**
      * @param efectivos the efectivos to set
      */
-    public void setEfectivos(Long efectivos) {
+    public void setEfectivos(Integer efectivos) {
         this.efectivos = efectivos;
+    }
+
+    /**
+     * @return the retiradosVarones
+     */
+    public Integer getRetiradosVarones() {
+        return retiradosVarones;
+    }
+
+    /**
+     * @param retiradosVarones the retiradosVarones to set
+     */
+    public void setRetiradosVarones(Integer retiradosVarones) {
+        this.retiradosVarones = retiradosVarones;
+    }
+
+    /**
+     * @return the retiradosMujeres
+     */
+    public Integer getRetiradosMujeres() {
+        return retiradosMujeres;
+    }
+
+    /**
+     * @param retiradosMujeres the retiradosMujeres to set
+     */
+    public void setRetiradosMujeres(Integer retiradosMujeres) {
+        this.retiradosMujeres = retiradosMujeres;
     }
 
     /**
      * @return the retirados
      */
-    public Long getRetirados() {
+    public Integer getRetirados() {
         return retirados;
     }
 
     /**
      * @param retirados the retirados to set
      */
-    public void setRetirados(Long retirados) {
+    public void setRetirados(Integer retirados) {
         this.retirados = retirados;
+    }
+
+    /**
+     * @return the aprobadosVarones
+     */
+    public Integer getAprobadosVarones() {
+        return aprobadosVarones;
+    }
+
+    /**
+     * @param aprobadosVarones the aprobadosVarones to set
+     */
+    public void setAprobadosVarones(Integer aprobadosVarones) {
+        this.aprobadosVarones = aprobadosVarones;
+    }
+
+    /**
+     * @return the aprobadosMujeres
+     */
+    public Integer getAprobadosMujeres() {
+        return aprobadosMujeres;
+    }
+
+    /**
+     * @param aprobadosMujeres the aprobadosMujeres to set
+     */
+    public void setAprobadosMujeres(Integer aprobadosMujeres) {
+        this.aprobadosMujeres = aprobadosMujeres;
     }
 
     /**
      * @return the aprobados
      */
-    public Long getAprobados() {
+    public Integer getAprobados() {
         return aprobados;
     }
 
     /**
      * @param aprobados the aprobados to set
      */
-    public void setAprobados(Long aprobados) {
+    public void setAprobados(Integer aprobados) {
         this.aprobados = aprobados;
+    }
+
+    /**
+     * @return the reprobadosVarones
+     */
+    public Integer getReprobadosVarones() {
+        return reprobadosVarones;
+    }
+
+    /**
+     * @param reprobadosVarones the reprobadosVarones to set
+     */
+    public void setReprobadosVarones(Integer reprobadosVarones) {
+        this.reprobadosVarones = reprobadosVarones;
+    }
+
+    /**
+     * @return the reprobadosMujeres
+     */
+    public Integer getReprobadosMujeres() {
+        return reprobadosMujeres;
+    }
+
+    /**
+     * @param reprobadosMujeres the reprobadosMujeres to set
+     */
+    public void setReprobadosMujeres(Integer reprobadosMujeres) {
+        this.reprobadosMujeres = reprobadosMujeres;
     }
 
     /**
      * @return the reprobados
      */
-    public Long getReprobados() {
+    public Integer getReprobados() {
         return reprobados;
     }
 
     /**
      * @param reprobados the reprobados to set
      */
-    public void setReprobados(Long reprobados) {
+    public void setReprobados(Integer reprobados) {
         this.reprobados = reprobados;
+    }
+
+    /**
+     * @return the paralelo
+     */
+    public String getParalelo() {
+        return paralelo;
+    }
+
+    /**
+     * @param paralelo the paralelo to set
+     */
+    public void setParalelo(String paralelo) {
+        this.paralelo = paralelo;
     }
 }

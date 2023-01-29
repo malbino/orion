@@ -121,7 +121,7 @@ public class CarreraEstudiante implements Serializable {
 
     @Override
     public String toString() {
-        String s = carrera.getNombre();
+        String s = carrera.toString();
         if (mencion != null) {
             s += " [" + mencion.getNombre() + "]";
         }

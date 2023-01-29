@@ -251,6 +251,7 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
                     Cell cell = cellIterator.next();
 
                     if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+                        /*
                         if (cell.getNumericCellValue() == -3) {
                             cell.setCellValue(i + 1);
                         } else if (cell.getNumericCellValue() == -50) {
@@ -264,6 +265,41 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
                                 cell.setCellValue(nota.getRecuperatorio());
                             } else {
                                 cell.setCellValue("");
+                            }
+                        }
+                         */
+
+                        if (nota.getRecuperatorio() == null) {
+                            if (cell.getNumericCellValue() == -3) {
+                                cell.setCellValue(i + 1);
+                            } else if (cell.getNumericCellValue() == -50) {
+                                if (nota.getNotaFinal() != null) {
+                                    cell.setCellValue(nota.getNotaFinal());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else if (cell.getNumericCellValue() == -51) {
+                                if (nota.getRecuperatorio() != null) {
+                                    cell.setCellValue(nota.getRecuperatorio());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            }
+                        } else {
+                            if (cell.getNumericCellValue() == -3) {
+                                cell.setCellValue(i + 1);
+                            } else if (cell.getNumericCellValue() == -50) {
+                                if (nota.getNotaFinal() != null) {
+                                    cell.setCellValue(nota.getRecuperatorio());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else if (cell.getNumericCellValue() == -51) {
+                                if (nota.getRecuperatorio() != null) {
+                                    cell.setCellValue(nota.getNotaFinal());
+                                } else {
+                                    cell.setCellValue("");
+                                }
                             }
                         }
                     } else if (cell.getCellTypeEnum() == CellType.STRING) {

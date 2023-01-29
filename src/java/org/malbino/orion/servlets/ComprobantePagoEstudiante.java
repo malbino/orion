@@ -47,11 +47,11 @@ public class ComprobantePagoEstudiante extends HttpServlet {
     private static final String CONTENIDO_PDF = "application/pdf";
 
     private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA_BLANCO = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.WHITE);
-    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.NORMAL, BaseColor.BLACK);
-    private static final Font BOLDITALIC = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLDITALIC, BaseColor.BLACK);
-    private static final Font ITALIC = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.ITALIC, BaseColor.BLACK);
+    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.BLACK);
+    private static final Font NEGRITA_BLANCO = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.WHITE);
+    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
+    private static final Font BOLDITALIC = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLDITALIC, BaseColor.BLACK);
+    private static final Font ITALIC = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.ITALIC, BaseColor.BLACK);
 
     private static final int MARGEN_IZQUIERDO = 0;
     private static final int MARGEN_DERECHO = -40;
@@ -84,7 +84,7 @@ public class ComprobantePagoEstudiante extends HttpServlet {
             try {
                 response.setContentType(CONTENIDO_PDF);
 
-                Document document = new Document(PageSize.LETTER, MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
+                Document document = new Document(PageSize.HALFLETTER.rotate(), MARGEN_IZQUIERDO, MARGEN_DERECHO, MARGEN_SUPERIOR, MARGEN_INFERIOR);
                 PdfWriter.getInstance(document, response.getOutputStream());
 
                 document.open();
@@ -94,6 +94,9 @@ public class ComprobantePagoEstudiante extends HttpServlet {
                 document.newPage();
 
                 document.add(comprobante(comprobante, estudiante));
+                
+                document.newPage();
+                
                 document.add(cuenta(request, estudiante));
 
                 document.close();
@@ -409,7 +412,7 @@ public class ComprobantePagoEstudiante extends HttpServlet {
             }
         }
 
-        cell = new PdfPCell(new Phrase("Total:", NEGRITA));
+        cell = new PdfPCell(new Phrase("Total (Bs.):", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         cell.setColspan(80);
         cell.setBorder(Rectangle.LEFT | Rectangle.TOP | Rectangle.BOTTOM);
@@ -477,16 +480,9 @@ public class ComprobantePagoEstudiante extends HttpServlet {
     public PdfPTable cuenta(HttpServletRequest request, Estudiante estudiante) throws BadElementException, IOException {
         PdfPTable table = new PdfPTable(100);
 
-        PdfPCell cell = new PdfPCell(new Phrase(" ", NEGRITA));
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setColspan(100);
-        cell.setBorder(Rectangle.NO_BORDER);
-        cell.setFixedHeight(180f);
-        table.addCell(cell);
-
         Phrase phrase = new Phrase();
         phrase.add(new Chunk("INSTRUCCIONES DE USO", BOLDITALIC));
-        cell = new PdfPCell(phrase);
+        PdfPCell cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setColspan(100);
@@ -517,7 +513,7 @@ public class ComprobantePagoEstudiante extends HttpServlet {
         phrase.add(new Chunk("3) Utiliza el menu para acceder a las opciones del sistema\n\n", ITALIC));
         phrase.add(new Chunk(
                 "En el sistema pordras realizar tu Inscripción por Internet, revisar tu Historial Académico, "
-                + "revisar tu Historial Económico y actualizar tus datos personales.",
+                + "revisar tu Historial Económico, llenar tu cuadernillo de pasantía y actualizar tus datos personales.",
                 BOLDITALIC));
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

@@ -314,78 +314,13 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         return l;
     }
 
-    public Long cantidadInscritos(int id_carrera) {
+    public Long cantidadInscritos(int id_gestionacademica, int id_carrera) {
         Long l = 0l;
 
         try {
-            Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera");
+            Query q = em.createQuery("SELECT COUNT(i) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
             q.setParameter("id_carrera", id_carrera);
-
-            l = (Long) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
-    public Long cantidadInscritos(int id_carrera, Nivel nivel) {
-        Long l = 0l;
-
-        try {
-            Query q = em.createQuery("SELECT COUNT(DISTINCT(e)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("nivel", nivel);
-
-            l = (Long) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
-    public Long cantidadInscritos(int id_carrera, Nivel nivel, Sexo sexo) {
-        Long l = 0l;
-
-        try {
-            Query q = em.createQuery("SELECT COUNT(DISTINCT(e)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND e.sexo=:sexo");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("nivel", nivel);
-            q.setParameter("sexo", sexo);
-
-            l = (Long) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
-    public Long cantidadInscritosEfectivos(int id_carrera, Nivel nivel) {
-        Long l = 0l;
-
-        try {
-            Query q = em.createQuery("SELECT COUNT(DISTINCT(e)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND n.notaFinal!=0");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("nivel", nivel);
-
-            l = (Long) q.getSingleResult();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
-    public Long cantidadInscritosReprobados(int id_carrera, Nivel nivel) {
-        Long l = 0l;
-
-        try {
-            Query q = em.createQuery("SELECT COUNT(DISTINCT(e)) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND n.condicion=:condicion");
-            q.setParameter("id_carrera", id_carrera);
-            q.setParameter("nivel", nivel);
-            q.setParameter("condicion", Condicion.REPROBADO);
 
             l = (Long) q.getSingleResult();
         } catch (Exception e) {
@@ -505,6 +440,54 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
             l = q.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        return l;
+    }
+
+    public List<Inscrito> listaInscritos() {
+        List<Inscrito> l = new ArrayList<>();
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.gestionAcademica ga WHERE ga.vigente=TRUE");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Inscrito> listaInscritos(int id_carrera, Nivel nivel) {
+        List<Inscrito> l = new ArrayList<>();
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT(i) FROM Nota n JOIN n.inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c JOIN n.materia m JOIN i.estudiante e WHERE ga.vigente=TRUE AND c.id_carrera=:id_carrera AND m.nivel=:nivel");
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Inscrito> listaInscritos(int id_gestionacademica, int id_carrera, Nivel nivel, String paralelo) {
+        List<Inscrito> l = new ArrayList<>();
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT i FROM Nota n JOIN n.grupo g JOIN g.materia m JOIN m.carrera c JOIN g.gestionAcademica ga JOIN n.inscrito i JOIN i.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND g.codigo=:paralelo ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+            q.setParameter("paralelo", paralelo);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
         }
 
         return l;

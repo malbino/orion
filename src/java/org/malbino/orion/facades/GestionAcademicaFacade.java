@@ -131,4 +131,18 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         return l;
     }
+    
+    public List<GestionAcademica> listaGestionAcademicaDashboard() {
+        List<GestionAcademica> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga ORDER BY ga.gestion, ga.periodo");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }
