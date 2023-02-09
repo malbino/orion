@@ -205,7 +205,7 @@ public class HistorialAcademico extends HttpServlet {
         phrase.add(new Chunk("FECHA DE ADMISIÓN: ", NEGRITA));
         GestionAcademica inicioFormacion = notaFacade.inicioFormacion(carrera, mencion, estudiante);
         if (inicioFormacion != null) {
-            phrase.add(new Chunk(Fecha.formatearFecha_ddMMyyyy(inicioFormacion.getInicio()), NORMAL));
+            phrase.add(new Chunk(Fecha.formatearFecha_MMyyyy(inicioFormacion.getInicio()), NORMAL));
         } else {
             phrase.add(new Chunk(" ", NORMAL));
         }
@@ -228,7 +228,7 @@ public class HistorialAcademico extends HttpServlet {
         phrase = new Phrase();
         phrase.add(new Chunk("FECHA DE CONCLUSIÓN: ", NEGRITA));
         if (finFormacion != null) {
-            phrase.add(new Chunk(Fecha.formatearFecha_ddMMyyyy(finFormacion.getFin()), NORMAL));
+            phrase.add(new Chunk(Fecha.formatearFecha_MMyyyy(finFormacion.getFin()), NORMAL));
         } else {
             phrase.add(new Chunk(" ", NORMAL));
         }

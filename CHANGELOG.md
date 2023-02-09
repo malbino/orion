@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.3] - 2023-02-09
+### Added
+### Changed
+### Removed
+### Fixed
+- Se corrigio la fecha de admision y conclucion del Historial Academico
+- Se corrigio la busqueda de usuarios por rol
+
 ## [2.0.2] - 2023-01-29
 ### Added
 ### Changed

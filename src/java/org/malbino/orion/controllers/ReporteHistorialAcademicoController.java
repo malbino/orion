@@ -153,7 +153,7 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
                         } else if (cell.getStringCellValue().contains("<<ADMICION>>")) {
                             GestionAcademica inicioFormacion = notaFacade.inicioFormacion(carrera, seleccionCarreraEstudiante.getMencion(), seleccionEstudiante);
                             if (inicioFormacion != null) {
-                                cell.setCellValue(cell.getStringCellValue().replace("<<ADMICION>>", Fecha.formatearFecha_ddMMyyyy(inicioFormacion.getInicio())));
+                                cell.setCellValue(cell.getStringCellValue().replace("<<ADMICION>>", Fecha.formatearFecha_MMyyyy(inicioFormacion.getInicio())));
                             } else {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<ADMICION>>", " "));
                             }
@@ -162,7 +162,7 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
                         } else if (cell.getStringCellValue().contains("<<CONCLUSION>>")) {
                             GestionAcademica finFormacion = notaFacade.finFormacion(carrera, seleccionCarreraEstudiante.getMencion(), seleccionEstudiante);
                             if (finFormacion != null) {
-                                cell.setCellValue(cell.getStringCellValue().replace("<<CONCLUSION>>", Fecha.formatearFecha_ddMMyyyy(finFormacion.getInicio())));
+                                cell.setCellValue(cell.getStringCellValue().replace("<<CONCLUSION>>", Fecha.formatearFecha_MMyyyy(finFormacion.getInicio())));
                             } else {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<CONCLUSION>>", " "));
                             }

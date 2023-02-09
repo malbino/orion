@@ -269,4 +269,10 @@ public class Fecha {
 
         return c.get(Calendar.YEAR);
     }
+    
+    public static String formatearFecha_MMyyyy(Date fecha) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+
+        return sdf.format(fecha);
+    }
 }

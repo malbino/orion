@@ -101,7 +101,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
         try {
             Query q = em.createQuery("SELECT u FROM Usuario u JOIN u.roles r WHERE r.id_rol=:id_rol AND "
-                    + "LOWER(FUNCTION('REPLACE', CONCAT(u.primerApellido, u.segundoApellido, u.nombre), ' ', '')) LIKE :keyword OR "
+                    + "(LOWER(FUNCTION('REPLACE', CONCAT(u.primerApellido, u.segundoApellido, u.nombre), ' ', '')) LIKE :keyword OR "
                     + "LOWER(u.email) LIKE LOWER(:keyword) OR "
                     + "LOWER(u.usuario) LIKE LOWER(:keyword)) "
                     + "ORDER BY u.primerApellido, u.segundoApellido, u.nombre");
