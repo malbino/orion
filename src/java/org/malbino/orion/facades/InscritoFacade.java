@@ -240,20 +240,20 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
         return i;
     }
 
-    public Integer maximoCodigo(int id_gestioncademica, int id_carrera) {
-        Integer i = null;
+    public Long maximoCodigo(int id_gestioncademica, int id_carrera) {
+        Long l = null;
 
         try {
             Query q = em.createQuery("SELECT MAX(i.codigo) FROM Inscrito i JOIN i.gestionAcademica ga JOIN i.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera");
             q.setParameter("id_gestionacademica", id_gestioncademica);
             q.setParameter("id_carrera", id_carrera);
 
-            i = (Integer) q.getSingleResult();
+            l = (Long) q.getSingleResult();
         } catch (Exception e) {
 
         }
 
-        return i;
+        return l;
     }
 
     public Long cantidadInscritos() {

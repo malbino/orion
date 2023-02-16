@@ -43,7 +43,7 @@ public class Inscrito implements Serializable {
     private Date fecha;
     private Tipo tipo;
 
-    private Integer codigo;
+    private Long codigo;
     private Integer numero;
 
     private Boolean becado;
@@ -69,7 +69,7 @@ public class Inscrito implements Serializable {
     public Inscrito() {
     }
 
-    public Inscrito(Date fecha, Tipo tipo, Integer codigo, Integer numero, Boolean becado, Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
+    public Inscrito(Date fecha, Tipo tipo, Long codigo, Integer numero, Boolean becado, Estudiante estudiante, Carrera carrera, GestionAcademica gestionAcademica) {
         this.fecha = fecha;
         this.tipo = tipo;
         this.codigo = codigo;
@@ -125,14 +125,14 @@ public class Inscrito implements Serializable {
     /**
      * @return the codigo
      */
-    public Integer getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
 
     /**
      * @param codigo the codigo to set
      */
-    public void setCodigo(Integer codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
 
@@ -335,7 +335,7 @@ public class Inscrito implements Serializable {
 
         return s;
     }
-    
+
     public Nivel nivel() {
         Nivel nivel = null;
 
