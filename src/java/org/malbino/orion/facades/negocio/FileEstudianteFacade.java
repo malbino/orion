@@ -268,8 +268,9 @@ public class FileEstudianteFacade {
         carreraEstudianteId.setId_carrera(carrera.getId_carrera());
         carreraEstudianteId.setId_persona(estudiante.getId_persona());
         CarreraEstudiante carreraEstudiante = carreraEstudianteFacade.find(carreraEstudianteId);
-        List<Materia> listaMateriasCarrera;
         if (carreraEstudiante != null) {
+            // materias carrera
+            List<Materia> listaMateriasCarrera;
             if (carreraEstudiante.getNivelInicio() != null) {
                 List<Materia> listaMaterias = materiaFacade.listaMaterias(carrera, carreraEstudiante.getMencion());
 
@@ -282,14 +283,12 @@ public class FileEstudianteFacade {
             } else {
                 listaMateriasCarrera = materiaFacade.listaMaterias(carrera, carreraEstudiante.getMencion());
             }
-        } else {
-            listaMateriasCarrera = materiaFacade.listaMaterias(carrera, null);
-        }
 
-        List<Materia> listaMateriaAprobadas = materiaFacade.listaMateriaAprobadas(estudiante.getId_persona(), carrera.getId_carrera());
-        listaMateriasCarrera.removeAll(listaMateriaAprobadas);
+            // quitando materias aprobadas
+            List<Materia> listaMateriaAprobadas = materiaFacade.listaMateriaAprobadas(estudiante.getId_persona(), carrera.getId_carrera());
+            listaMateriasCarrera.removeAll(listaMateriaAprobadas);
 
-        if (carreraEstudiante != null) {
+            // control de prerequisitos
             if (carreraEstudiante.getNivelInicio() != null) {
                 for (Materia materia : listaMateriasCarrera) {
                     List<Materia> prerequisitos = materia.getPrerequisitos();
@@ -305,12 +304,12 @@ public class FileEstudianteFacade {
                         oferta.add(materia);
                     }
                 }
-            }
-        } else {
-            for (Materia materia : listaMateriasCarrera) {
-                List<Materia> prerequisitos = materia.getPrerequisitos();
-                if (listaMateriaAprobadas.containsAll(prerequisitos)) {
-                    oferta.add(materia);
+            } else {
+                for (Materia materia : listaMateriasCarrera) {
+                    List<Materia> prerequisitos = materia.getPrerequisitos();
+                    if (listaMateriaAprobadas.containsAll(prerequisitos)) {
+                        oferta.add(materia);
+                    }
                 }
             }
         }
