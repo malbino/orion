@@ -362,4 +362,17 @@ public class FileEstudianteFacade {
 
         return true;
     }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public boolean eliminarEstudiante(Estudiante estudiante) {
+        List<CarreraEstudiante> carrerasEstudiante = carreraEstudianteFacade.listaCarrerasEstudiante(estudiante.getId_persona());
+        for (CarreraEstudiante carreraEstudiante : carrerasEstudiante) {
+            carreraEstudianteFacade.remove(carreraEstudiante);
+            carreraEstudianteFacade.getEntityManager().flush();
+        }
+
+        estudianteFacade.remove(estudiante);
+
+        return true;
+    }
 }

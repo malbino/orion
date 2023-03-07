@@ -247,7 +247,7 @@ public class EstudianteController extends AbstractController implements Serializ
     }
 
     public void eliminarEstudiante() throws IOException {
-        if (estudianteFacade.remove(seleccionEstudiante)) {
+        if (fileEstudianteFacade.eliminarEstudiante(seleccionEstudiante)) {
             this.toEstudiantes();
         }
     }
