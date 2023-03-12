@@ -20,7 +20,7 @@
                                 <div class="x_title">
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
-                                            <h2>Reporte Libro de Inscripciones <small>generar libro de inscripciones</small></h2>
+                                            <h2>Reporte Libro de Inscripciones Carrera <small>generar libro de inscripciones por carrera</small></h2>
                                         </div>
                                     </div>   
 
@@ -30,25 +30,27 @@
                                 <div class="x_content">                  
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="gestion" value="Gestion: " style="font-size: small"/>
-                                            <p:selectOneMenu id="gestion" value="#{ReporteLibroInscripcionesController.seleccionGestion}" autoWidth="false" required="true" requiredMessage="* Gestion requerida."> 
+                                            <p:outputLabel for="gestionAcademica" value="Gestion academica: " style="font-size: small"/>
+                                            <p:selectOneMenu id="gestionAcademica" value="#{ReporteLibroInscripcionesCarreraController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{ReporteLibroInscripcionesController.listaGestiones()}"/>
+                                                <f:selectItems value="#{ReporteLibroInscripcionesCarreraController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+
+                                                <p:ajax  update="carrera"/>
                                             </p:selectOneMenu>
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="periodo" value="Periodo:" style="font-size: small"/>
-                                            <p:selectOneMenu id="periodo" value="#{ReporteLibroInscripcionesController.seleccionPeriodo}" converter="#{PeriodoConverter}" autoWidth="false" required="true" requiredMessage="* Periodo requerido."> 
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                            <p:selectOneMenu id="carrera" value="#{ReporteLibroInscripcionesCarreraController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{ReporteLibroInscripcionesController.listaPeriodos()}" var="periodo" itemLabel="#{periodo.toString()}" itemValue="#{periodo}"/>  
+                                                <f:selectItems value="#{ReporteLibroInscripcionesCarreraController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
                                             </p:selectOneMenu>
                                         </div>
                                     </div>
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-2">
-                                            <p:commandButton value="Generar" icon="fa fa-gear" actionListener="#{ReporteLibroInscripcionesController.generarReporte()}" update="messages"/>
+                                            <p:commandButton value="Generar" icon="fa fa-gear" actionListener="#{ReporteLibroInscripcionesCarreraController.generarReporte()}" update="messages"/>
                                         </div>
                                     </div>
                                 </div>

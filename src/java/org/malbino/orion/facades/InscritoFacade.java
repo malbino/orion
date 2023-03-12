@@ -16,6 +16,7 @@ import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Nivel;
+import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Sexo;
 import org.malbino.orion.enums.Turno;
 
@@ -484,6 +485,22 @@ public class InscritoFacade extends AbstractFacade<Inscrito> {
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("nivel", nivel);
             q.setParameter("paralelo", paralelo);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Inscrito> listaInscritos(Integer gestion, Periodo periodo) {
+        List<Inscrito> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT i FROM Inscrito i JOIN i.gestionAcademica ga WHERE ga.gestion=:gestion AND ga.periodo=:periodo ORDER BY i.id_inscrito");
+            q.setParameter("gestion", gestion);
+            q.setParameter("periodo", periodo);
 
             l = q.getResultList();
         } catch (Exception e) {

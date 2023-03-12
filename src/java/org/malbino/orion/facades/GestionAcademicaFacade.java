@@ -84,7 +84,7 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         return l;
     }
-    
+
     public List<GestionAcademica> listaGestionAcademica(Regimen regimen, boolean vigente) {
         List<GestionAcademica> l = new ArrayList();
 
@@ -131,12 +131,26 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         return l;
     }
-    
+
     public List<GestionAcademica> listaGestionAcademicaDashboard() {
         List<GestionAcademica> l = new ArrayList();
 
         try {
             Query q = em.createQuery("SELECT ga FROM GestionAcademica ga ORDER BY ga.gestion, ga.periodo");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Integer> listaGestiones() {
+        List<Integer> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT ga.gestion FROM GestionAcademica ga ORDER BY ga.gestion, ga.periodo");
 
             l = q.getResultList();
         } catch (Exception e) {

@@ -35,7 +35,7 @@
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{ReporteSeguimientoAcademicoController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
 
-                                                <p:ajax  update="carrera nivel turno paralelo"/>
+                                                <p:ajax  update="carrera mencion nivel turno paralelo"/>
                                             </p:selectOneMenu>
                                         </div>
 
@@ -44,6 +44,16 @@
                                             <p:selectOneMenu id="carrera" value="#{ReporteSeguimientoAcademicoController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{ReporteSeguimientoAcademicoController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
+
+                                                <p:ajax update="mencion nivel turno paralelo"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="mencion" value="Mención: " style="font-size: small"/>
+                                            <p:selectOneMenu id="mencion" value="#{ReporteSeguimientoAcademicoController.seleccionMencion}" converter="#{MencionConverter}" autoWidth="false">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{ReporteSeguimientoAcademicoController.listaMenciones()}" var="mencion" itemLabel="#{mencion.toString()}" itemValue="#{mencion}"/>
 
                                                 <p:ajax update="nivel turno paralelo"/>
                                             </p:selectOneMenu>

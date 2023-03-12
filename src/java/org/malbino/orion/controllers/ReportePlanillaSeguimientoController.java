@@ -29,10 +29,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Nivel;
+import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
+import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.util.NumberToLetterConverter;
 import org.primefaces.model.DefaultStreamedContent;
@@ -53,10 +56,14 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
     GrupoFacade grupoFacade;
     @EJB
     NotaFacade notaFacade;
+    @EJB
+    MencionFacade mencionFacade;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
+    private Mencion seleccionMencion;
     private Nivel seleccionNivel;
+    private Turno seleccionTurno;
     private Grupo seleccionGrupo;
 
     private StreamedContent download;
@@ -65,14 +72,18 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
     public void init() {
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
+        seleccionMencion = null;
         seleccionNivel = null;
+        seleccionTurno = null;
         seleccionGrupo = null;
     }
 
     public void reinit() {
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
+        seleccionMencion = null;
         seleccionNivel = null;
+        seleccionTurno = null;
         seleccionGrupo = null;
     }
 
@@ -85,6 +96,14 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
         return l;
     }
 
+    public List<Mencion> listaMenciones() {
+        List<Mencion> l = new ArrayList<>();
+        if (seleccionCarrera != null) {
+            l = mencionFacade.listaMenciones(seleccionCarrera.getId_carrera());
+        }
+        return l;
+    }
+
     public Nivel[] listaNiveles() {
         Nivel[] niveles = new Nivel[0];
         if (seleccionCarrera != null) {
@@ -93,10 +112,19 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
         return niveles;
     }
 
+    @Override
+    public Turno[] listaTurnos() {
+        Turno[] turnos = new Turno[0];
+        if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null) {
+            turnos = Turno.values();
+        }
+        return turnos;
+    }
+
     public List<Grupo> listaGrupos() {
         List<Grupo> grupos = new ArrayList<>();
         if (seleccionNivel != null) {
-            grupos = grupoFacade.listaGrupos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel);
+            grupos = grupoFacade.listaGrupos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionMencion, seleccionNivel, seleccionTurno);
         }
         return grupos;
     }
@@ -172,7 +200,7 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
                         } else if (cell.getStringCellValue().contains("<<NIVEL>>")) {
                             cell.setCellValue(cell.getStringCellValue().replace("<<NIVEL>>", seleccionGrupo.getMateria().getNivel().getNombre()));
                         } else if (cell.getStringCellValue().contains("<<GRUPO>>")) {
-                            cell.setCellValue(cell.getStringCellValue().replace("<<GRUPO>>", seleccionGrupo.getCodigo()));
+                            cell.setCellValue(cell.getStringCellValue().replace("<<GRUPO>>", seleccionGrupo.toString()));
                         } else if (cell.getStringCellValue().contains("<<NA>>")) {
                             cell.setCellValue(cell.getStringCellValue().replace("<<NA>>", seleccionGrupo.getMateria().getCarrera().getNivelAcademico().toString()));
                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
@@ -328,16 +356,16 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
 
         descargarArchivo(workbook, seleccionGrupo);
     }
-    
+
     public void generarPDF() throws IOException {
         this.insertarParametro("id_grupo", seleccionGrupo.getId_grupo());
-        
+
         toPlanillaSeguimiento();
     }
-    
+
     public void toReportePlanillaSeguimiento() throws IOException {
         reinit();
-        
+
         this.redireccionarViewId("/reportes/planillaSeguimiento/reportePlanillaSeguimiento");
     }
 
@@ -406,5 +434,33 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
      */
     public StreamedContent getDownload() {
         return download;
+    }
+
+    /**
+     * @return the seleccionMencion
+     */
+    public Mencion getSeleccionMencion() {
+        return seleccionMencion;
+    }
+
+    /**
+     * @param seleccionMencion the seleccionMencion to set
+     */
+    public void setSeleccionMencion(Mencion seleccionMencion) {
+        this.seleccionMencion = seleccionMencion;
+    }
+
+    /**
+     * @return the seleccionTurno
+     */
+    public Turno getSeleccionTurno() {
+        return seleccionTurno;
+    }
+
+    /**
+     * @param seleccionTurno the seleccionTurno to set
+     */
+    public void setSeleccionTurno(Turno seleccionTurno) {
+        this.seleccionTurno = seleccionTurno;
     }
 }

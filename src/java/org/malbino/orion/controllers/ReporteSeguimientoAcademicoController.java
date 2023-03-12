@@ -28,9 +28,11 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
+import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.negocio.SeguimientoAcademicoFacade;
 import org.malbino.orion.pojos.seguimiento.EstudianteSeguimiento;
 import org.malbino.orion.pojos.seguimiento.NotaSeguimiento;
@@ -53,9 +55,12 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
     GrupoFacade grupoFacade;
     @EJB
     SeguimientoAcademicoFacade seguimientoAcademicoFacade;
+    @EJB
+    MencionFacade mencionFacade;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
+    private Mencion seleccionMencion;
     private Nivel seleccionNivel;
     private Turno seleccionTurno;
     private String seleccionParalelo;
@@ -66,14 +71,18 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
     public void init() {
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
+        seleccionMencion = null;
         seleccionNivel = null;
+        seleccionTurno = null;
         seleccionParalelo = null;
     }
 
     public void reinit() {
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
+        seleccionMencion = null;
         seleccionNivel = null;
+        seleccionTurno = null;
         seleccionParalelo = null;
     }
 
@@ -82,6 +91,14 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
         List<Carrera> l = new ArrayList();
         if (seleccionGestionAcademica != null) {
             l = carreraFacade.listaCarreras(seleccionGestionAcademica.getRegimen());
+        }
+        return l;
+    }
+
+    public List<Mencion> listaMenciones() {
+        List<Mencion> l = new ArrayList<>();
+        if (seleccionCarrera != null) {
+            l = mencionFacade.listaMenciones(seleccionCarrera.getId_carrera());
         }
         return l;
     }
@@ -106,7 +123,7 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
     public List<String> listaParalelos() {
         List<String> paralelos = new ArrayList<>();
         if (seleccionGestionAcademica != null && seleccionCarrera != null && seleccionNivel != null && seleccionTurno != null) {
-            paralelos = grupoFacade.listaParalelos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel, seleccionTurno);
+            paralelos = grupoFacade.listaParalelos(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionMencion, seleccionNivel, seleccionTurno);
         }
         return paralelos;
     }
@@ -142,7 +159,7 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
     }
 
     public void bajarSeguimiento() {
-        Seguimiento seguimiento = seguimientoAcademicoFacade.seguimientoAcademico(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionTurno, seleccionParalelo);
+        Seguimiento seguimiento = seguimientoAcademicoFacade.seguimientoAcademico(seleccionGestionAcademica, seleccionCarrera, seleccionMencion, seleccionNivel, seleccionTurno, seleccionParalelo);
 
         XSSFWorkbook workbook = null;
         if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
@@ -830,5 +847,19 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
      */
     public void setDownload(StreamedContent download) {
         this.download = download;
+    }
+
+    /**
+     * @return the seleccionMencion
+     */
+    public Mencion getSeleccionMencion() {
+        return seleccionMencion;
+    }
+
+    /**
+     * @param seleccionMencion the seleccionMencion to set
+     */
+    public void setSeleccionMencion(Mencion seleccionMencion) {
+        this.seleccionMencion = seleccionMencion;
     }
 }

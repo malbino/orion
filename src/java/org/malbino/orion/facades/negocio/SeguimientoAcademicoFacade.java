@@ -18,6 +18,7 @@ import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Materia;
+import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Modalidad;
 import org.malbino.orion.enums.Nivel;
@@ -40,13 +41,14 @@ public class SeguimientoAcademicoFacade {
     private EntityManager em;
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public List<Estudiante> listaEstudiantes(int id_gestioncademica, int id_carrera, Nivel nivel, Turno turno, String paralelo) {
+    public List<Estudiante> listaEstudiantes(int id_gestioncademica, int id_carrera, Mencion mencion, Nivel nivel, Turno turno, String paralelo) {
         List<Estudiante> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT DISTINCT e FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.grupo g JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND g.turno=:turno AND g.codigo=:paralelo AND m.curricular=:curricular AND n.modalidad=:modalidad ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            Query q = em.createQuery("SELECT DISTINCT e FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.grupo g JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.nivel=:nivel AND g.turno=:turno AND g.codigo=:paralelo AND m.curricular=:curricular AND n.modalidad=:modalidad ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             q.setParameter("id_gestionacademica", id_gestioncademica);
             q.setParameter("id_carrera", id_carrera);
+            q.setParameter("mencion", mencion);
             q.setParameter("nivel", nivel);
             q.setParameter("turno", turno);
             q.setParameter("paralelo", paralelo);
@@ -63,12 +65,13 @@ public class SeguimientoAcademicoFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public List<Materia> listaMaterias(int id_carrera, Nivel nivel) {
+    public List<Materia> listaMaterias(int id_carrera, Mencion mencion, Nivel nivel) {
         List<Materia> l = new ArrayList();
 
         try {
-            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND m.nivel=:nivel AND m.curricular=:curricular ORDER BY m.numero");
+            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.carrera c WHERE c.id_carrera=:id_carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.nivel=:nivel AND m.curricular=:curricular ORDER BY m.numero");
             q.setParameter("id_carrera", id_carrera);
+            q.setParameter("mencion", mencion);
             q.setParameter("nivel", nivel);
             //condiciones centralizador
             q.setParameter("curricular", true);
@@ -105,7 +108,7 @@ public class SeguimientoAcademicoFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Seguimiento seguimientoAcademico(GestionAcademica seleccionGestionAcademica, Carrera seleccionCarrera, Nivel seleccionNivel, Turno seleccionTurno, String seleccionParalelo) {
+    public Seguimiento seguimientoAcademico(GestionAcademica seleccionGestionAcademica, Carrera seleccionCarrera, Mencion seleccionMencion, Nivel seleccionNivel, Turno seleccionTurno, String seleccionParalelo) {
         Seguimiento seguimiento = new Seguimiento();
         seguimiento.setInstituto(seleccionCarrera.getCampus().getInstituto().getNombreRegulador());
         seguimiento.setGestion(seleccionGestionAcademica.toString());
@@ -114,7 +117,7 @@ public class SeguimientoAcademicoFacade {
         seguimiento.setTurno(seleccionTurno.toString());
         seguimiento.setParalelo(seleccionParalelo);
 
-        List<Materia> listaMaterias = listaMaterias(seleccionCarrera.getId_carrera(), seleccionNivel);
+        List<Materia> listaMaterias = listaMaterias(seleccionCarrera.getId_carrera(), seleccionMencion, seleccionNivel);
         String[] materiasSeguimiento = new String[CAN_MAX_MAT];
         for (int i = 0; i < materiasSeguimiento.length; i++) {
             if (i < listaMaterias.size()) {
@@ -126,7 +129,7 @@ public class SeguimientoAcademicoFacade {
         }
         seguimiento.setMateriasSeguimiento(materiasSeguimiento);
 
-        List<Estudiante> listaEstudiantes = listaEstudiantes(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel, seleccionTurno, seleccionParalelo);
+        List<Estudiante> listaEstudiantes = listaEstudiantes(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionMencion, seleccionNivel, seleccionTurno, seleccionParalelo);
         List<Nota> listaNotas = listaNotas(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera(), seleccionNivel, seleccionTurno, seleccionParalelo);
         EstudianteSeguimiento[] estudiantesSeguimiento = new EstudianteSeguimiento[listaEstudiantes.size()];
         for (int i = 0; i < listaEstudiantes.size(); i++) {
@@ -141,7 +144,7 @@ public class SeguimientoAcademicoFacade {
             for (int j = 0; j < notasSeguimiento.length; j++) {
                 if (j < listaMaterias.size()) {
                     Materia materia = listaMaterias.get(j);
-                    
+
                     List<Nota> collect = listaNotas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getMateria().equals(materia)).collect(Collectors.toList());
                     Iterator<Nota> iteratorCollect = collect.iterator();
                     if (iteratorCollect.hasNext()) {
@@ -180,7 +183,7 @@ public class SeguimientoAcademicoFacade {
                 }
             }
             estudianteSeguimiento.setNotasSeguimiento(notasSeguimiento);
-            
+
             estudiantesSeguimiento[i] = estudianteSeguimiento;
         }
         seguimiento.setEstudiantesSeguimiento(estudiantesSeguimiento);

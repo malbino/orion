@@ -6,13 +6,13 @@ package org.malbino.orion.controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import org.malbino.orion.entities.Carrera;
-import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.enums.Periodo;
+import org.malbino.orion.facades.GestionAcademicaFacade;
 
 /**
  *
@@ -22,33 +22,31 @@ import org.malbino.orion.entities.GestionAcademica;
 @SessionScoped
 public class ReporteLibroInscripcionesController extends AbstractController implements Serializable {
 
-    private GestionAcademica seleccionGestionAcademica;
-    private Carrera seleccionCarrera;
+    @EJB
+    GestionAcademicaFacade gestionAcademicaFacade;
+
+    private Integer seleccionGestion;
+    private Periodo seleccionPeriodo;
 
     @PostConstruct
     public void init() {
-        seleccionGestionAcademica = null;
-        seleccionCarrera = null;
+        seleccionGestion = null;
+        seleccionPeriodo = null;
     }
 
     public void reinit() {
-        seleccionGestionAcademica = null;
-        seleccionCarrera = null;
+        seleccionGestion = null;
+        seleccionPeriodo = null;
     }
 
-    @Override
-    public List<Carrera> listaCarreras() {
-        List<Carrera> l = new ArrayList();
-        if (seleccionGestionAcademica != null) {
-            l = carreraFacade.listaCarreras(seleccionGestionAcademica.getRegimen());
-        }
-        return l;
+    public List<Integer> listaGestiones() {
+        return gestionAcademicaFacade.listaGestiones();
     }
 
     public void generarReporte() throws IOException {
-        if (seleccionGestionAcademica != null && seleccionCarrera != null) {
-            this.insertarParametro("id_gestionacademica", seleccionGestionAcademica.getId_gestionacademica());
-            this.insertarParametro("id_carrera", seleccionCarrera.getId_carrera());
+        if (seleccionGestion != null && seleccionPeriodo != null) {
+            this.insertarParametro("gestion", seleccionGestion);
+            this.insertarParametro("periodo", seleccionPeriodo);
 
             toLibroInscripciones();
         }
@@ -56,7 +54,7 @@ public class ReporteLibroInscripcionesController extends AbstractController impl
 
     public void toReporteLibroInscripciones() throws IOException {
         reinit();
-        
+
         this.redireccionarViewId("/reportes/libroInscripciones/reporteLibroInscripciones");
     }
 
@@ -65,31 +63,30 @@ public class ReporteLibroInscripcionesController extends AbstractController impl
     }
 
     /**
-     * @return the seleccionGestionAcademica
+     * @return the seleccionGestion
      */
-    public GestionAcademica getSeleccionGestionAcademica() {
-        return seleccionGestionAcademica;
+    public Integer getSeleccionGestion() {
+        return seleccionGestion;
     }
 
     /**
-     * @param seleccionGestionAcademica the seleccionGestionAcademica to set
+     * @param seleccionGestion the seleccionGestion to set
      */
-    public void setSeleccionGestionAcademica(GestionAcademica seleccionGestionAcademica) {
-        this.seleccionGestionAcademica = seleccionGestionAcademica;
+    public void setSeleccionGestion(Integer seleccionGestion) {
+        this.seleccionGestion = seleccionGestion;
     }
 
     /**
-     * @return the seleccionCarrera
+     * @return the seleccionPeriodo
      */
-    public Carrera getSeleccionCarrera() {
-        return seleccionCarrera;
+    public Periodo getSeleccionPeriodo() {
+        return seleccionPeriodo;
     }
 
     /**
-     * @param seleccionCarrera the seleccionCarrera to set
+     * @param seleccionPeriodo the seleccionPeriodo to set
      */
-    public void setSeleccionCarrera(Carrera seleccionCarrera) {
-        this.seleccionCarrera = seleccionCarrera;
+    public void setSeleccionPeriodo(Periodo seleccionPeriodo) {
+        this.seleccionPeriodo = seleccionPeriodo;
     }
-
 }
