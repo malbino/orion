@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.Rol;
+import org.malbino.orion.util.Constantes;
 
 /**
  *
@@ -20,7 +21,7 @@ import org.malbino.orion.entities.Rol;
 @Stateless
 @LocalBean
 public class RolFacade extends AbstractFacade<Rol> {
-    
+
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;
 

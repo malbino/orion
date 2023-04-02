@@ -63,5 +63,19 @@ public class RecursoFacade extends AbstractFacade<Recurso> {
 
         return l;
     }
+    
+    public List<Recurso> listaRecursos() {
+        List<Recurso> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT r FROM Recurso r ORDER BY r.nombre");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 
 }

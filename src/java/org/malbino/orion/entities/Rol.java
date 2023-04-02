@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -37,12 +38,25 @@ public class Rol implements Serializable {
         @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")}, inverseJoinColumns = {
         @JoinColumn(name = "id_recurso", referencedColumnName = "id_recurso")})
     @ManyToMany
+    @OrderBy(value = "nombre")
     private List<Recurso> recursos;
 
     @ManyToMany(mappedBy = "roles")
     private List<Usuario> usuarios;
 
     public Rol() {
+    }
+
+    public String recursosToString() {
+        String s = " ";
+        for (Recurso r : recursos) {
+            if (s.compareTo(" ") == 0) {
+                s = r.getNombre();
+            } else {
+                s += ", " + r.getNombre();
+            }
+        }
+        return s;
     }
 
     /**
