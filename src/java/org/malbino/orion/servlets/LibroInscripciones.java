@@ -40,7 +40,7 @@ import org.malbino.orion.util.Constantes;
  *
  * @author tincho
  */
-@WebServlet(name = "LibroInscripciones", urlPatterns = {"/reportes/LibroInscripciones"})
+@WebServlet(name = "LibroInscripciones", urlPatterns = {"/reportes/inscripciones/libroInscripciones/LibroInscripciones"})
 public class LibroInscripciones extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

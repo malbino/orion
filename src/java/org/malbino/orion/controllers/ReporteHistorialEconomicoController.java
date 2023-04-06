@@ -61,11 +61,11 @@ public class ReporteHistorialEconomicoController extends AbstractController impl
     public void toReporteHistorialEconomico() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/historialEconomico/reporteHistorialEconomico");
+        this.redireccionarViewId("/reportes/pagos/historialEconomico/reporteHistorialEconomico");
     }
 
     public void toHistorialEconomico() throws IOException {
-        this.redireccionarViewId("/reportes/historialEconomico/historialEconomico");
+        this.redireccionarViewId("/reportes/pagos/historialEconomico/historialEconomico");
     }
 
     /**

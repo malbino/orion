@@ -90,13 +90,13 @@ public class ReporteFichaInscripcionController extends AbstractController implem
     public void toFichaInscripcion() throws IOException {
         this.insertarParametro("id_notapasantia", seleccionNotaPasantia.getId_notapasantia());
 
-        this.redireccionarViewId("/reportes/fichaInscripcion/fichaInscripcion");
+        this.redireccionarViewId("/reportes/pasantias/fichaInscripcion/fichaInscripcion");
     }
 
     public void toReporteFichaInscripcion() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/fichaInscripcion/reporteFichaInscripcion");
+        this.redireccionarViewId("/reportes/pasantias/fichaInscripcion/reporteFichaInscripcion");
     }
 
     /**

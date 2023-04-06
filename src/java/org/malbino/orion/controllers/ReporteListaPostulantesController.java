@@ -62,11 +62,11 @@ public class ReporteListaPostulantesController extends AbstractController implem
     public void toReporteListaInscritosAdmision() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/listaPostulantes/reporteListaPostulantes");
+        this.redireccionarViewId("/reportes/inscripciones/listaPostulantes/reporteListaPostulantes");
     }
 
     public void toListaInscritosAdmision() throws IOException {
-        this.redireccionarViewId("/reportes/listaPostulantes/listaPostulantes");
+        this.redireccionarViewId("/reportes/inscripciones/listaPostulantes/listaPostulantes");
     }
 
     /**

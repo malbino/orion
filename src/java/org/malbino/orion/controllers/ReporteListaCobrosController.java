@@ -71,11 +71,11 @@ public class ReporteListaCobrosController extends AbstractController implements 
     public void toReporteListaCobros() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/listaCobros/reporteListaCobros");
+        this.redireccionarViewId("/reportes/pagos/listaCobros/reporteListaCobros");
     }
 
     public void toListaCobros() throws IOException {
-        this.redireccionarViewId("/reportes/listaCobros/listaCobros");
+        this.redireccionarViewId("/reportes/pagos/listaCobros/listaCobros");
     }
 
     /**

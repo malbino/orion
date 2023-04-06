@@ -47,7 +47,7 @@ import org.malbino.orion.util.Redondeo;
  *
  * @author tincho
  */
-@WebServlet(name = "BoletinNotasCarrera", urlPatterns = {"/reportes/BoletinNotasCarrera"})
+@WebServlet(name = "BoletinNotasCarrera", urlPatterns = {"/reportes/notas/boletinNotasCarrera/BoletinNotasCarrera"})
 public class BoletinNotasCarrera extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

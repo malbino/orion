@@ -57,11 +57,11 @@ public class ReporteHabilitadosRecuperatorioController extends AbstractControlle
     public void toReporteHabilitadosRecuperatorio() throws IOException {
         reinit();
         
-        this.redireccionarViewId("/reportes/habilitadosRecuperatorio/reporteHabilitadosRecuperatorio");
+        this.redireccionarViewId("/reportes/notas/habilitadosRecuperatorio/reporteHabilitadosRecuperatorio");
     }
 
     public void toHabilitadosRecuperatorio() throws IOException {
-        this.redireccionarViewId("/reportes/habilitadosRecuperatorio/habilitadosRecuperatorio");
+        this.redireccionarViewId("/reportes/notas/habilitadosRecuperatorio/habilitadosRecuperatorio");
     }
 
     /**

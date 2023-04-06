@@ -39,7 +39,7 @@ import org.malbino.orion.facades.MateriaFacade;
  *
  * @author tincho
  */
-@WebServlet(name = "MallaCurricular", urlPatterns = {"/reportes/MallaCurricular"})
+@WebServlet(name = "MallaCurricular", urlPatterns = {"/reportes/mallaCurricular/MallaCurricular"})
 public class MallaCurricular extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
@@ -177,7 +177,7 @@ public class MallaCurricular extends HttpServlet {
                     cell = new PdfPCell(new Phrase(materia.getNombre(), NORMAL));
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
-                    cell.setFixedHeight(30);
+                    cell.setFixedHeight(25);
                     subtable.addCell(cell);
 
                     cell = new PdfPCell(new Phrase(materia.prerequisitosToString(), NEGRITA));
@@ -193,7 +193,7 @@ public class MallaCurricular extends HttpServlet {
                     cell = new PdfPCell(new Phrase(" ", NORMAL));
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
-                    cell.setFixedHeight(30);
+                    cell.setFixedHeight(25);
                     subtable.addCell(cell);
 
                     cell = new PdfPCell(new Phrase(" ", NEGRITA));

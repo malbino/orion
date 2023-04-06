@@ -19,7 +19,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
-import org.malbino.orion.entities.Inscrito;
 import org.malbino.orion.entities.Postulante;
 import org.malbino.orion.facades.CarreraFacade;
 import org.malbino.orion.facades.GestionAcademicaFacade;
@@ -41,7 +39,7 @@ import org.malbino.orion.facades.PostulanteFacade;
  *
  * @author tincho
  */
-@WebServlet(name = "ListaPostulantes", urlPatterns = {"/reportes/ListaPostulantes"})
+@WebServlet(name = "ListaPostulantes", urlPatterns = {"/reportes/inscripciones/listaPostulantes/ListaPostulantes"})
 public class ListaPostulantes extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

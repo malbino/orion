@@ -41,7 +41,7 @@ import org.malbino.orion.facades.InscritoFacade;
  *
  * @author tincho
  */
-@WebServlet(name = "ListaInscritosParalelo", urlPatterns = {"/reportes/ListaInscritosParalelo"})
+@WebServlet(name = "ListaInscritosParalelo", urlPatterns = {"/reportes/inscripciones/listaInscritosParalelo/ListaInscritosParalelo"})
 public class ListaInscritosParalelo extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

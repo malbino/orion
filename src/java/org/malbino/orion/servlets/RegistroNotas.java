@@ -43,7 +43,7 @@ import org.malbino.orion.facades.NotaFacade;
  *
  * @author tincho
  */
-@WebServlet(name = "RegistroNotas", urlPatterns = {"/reportes/RegistroNotas"})
+@WebServlet(name = "RegistroNotas", urlPatterns = {"/reportes/notas/registroNotas/RegistroNotas"})
 public class RegistroNotas extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

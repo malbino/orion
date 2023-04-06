@@ -100,11 +100,11 @@ public class ReporteListaInscritosParaleloController extends AbstractController 
     public void toReporteListaInscritosParalelo() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/listaInscritosParalelo/reporteListaInscritosParalelo");
+        this.redireccionarViewId("/reportes/inscripciones/listaInscritosParalelo/reporteListaInscritosParalelo");
     }
 
     public void toListaInscritosParalelo() throws IOException {
-        this.redireccionarViewId("/reportes/listaInscritosParalelo/listaInscritosParalelo");
+        this.redireccionarViewId("/reportes/inscripciones/listaInscritosParalelo/listaInscritosParalelo");
     }
 
     /**

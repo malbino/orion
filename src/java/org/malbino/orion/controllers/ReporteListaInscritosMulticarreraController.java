@@ -58,11 +58,11 @@ public class ReporteListaInscritosMulticarreraController extends AbstractControl
     public void toReporteListaInscritosMulticarrera() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/listaInscritosMulticarrera/reporteListaInscritosMulticarrera");
+        this.redireccionarViewId("/reportes/inscripciones/listaInscritosMulticarrera/reporteListaInscritosMulticarrera");
     }
 
     public void toListaInscritosMulticarrera() throws IOException {
-        this.redireccionarViewId("/reportes/listaInscritosMulticarrera/listaInscritosMulticarrera");
+        this.redireccionarViewId("/reportes/inscripciones/listaInscritosMulticarrera/listaInscritosMulticarrera");
     }
 
     /**

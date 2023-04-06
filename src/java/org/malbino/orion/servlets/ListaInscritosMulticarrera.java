@@ -41,7 +41,7 @@ import org.malbino.orion.util.Constantes;
  *
  * @author tincho
  */
-@WebServlet(name = "ListaInscritosMulticarrera", urlPatterns = {"/reportes/ListaInscritosMulticarrera"})
+@WebServlet(name = "ListaInscritosMulticarrera", urlPatterns = {"/reportes/inscripciones/listaInscritosMulticarrera/ListaInscritosMulticarrera"})
 public class ListaInscritosMulticarrera extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

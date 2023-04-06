@@ -57,11 +57,11 @@ public class ReporteNotasFaltantesController extends AbstractController implemen
     public void toReporteNotasFaltantes() throws IOException {
         reinit();
         
-        this.redireccionarViewId("/reportes/notasFaltantes/reporteNotasFaltantes");
+        this.redireccionarViewId("/reportes/notas/notasFaltantes/reporteNotasFaltantes");
     }
 
     public void toNotasFaltantes() throws IOException {
-        this.redireccionarViewId("/reportes/notasFaltantes/notasFaltantes");
+        this.redireccionarViewId("/reportes/notas/notasFaltantes/notasFaltantes");
     }
 
     /**

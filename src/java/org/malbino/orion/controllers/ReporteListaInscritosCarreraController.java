@@ -62,11 +62,11 @@ public class ReporteListaInscritosCarreraController extends AbstractController i
     public void toReporteListaInscritosCarrera() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/listaInscritosCarrera/reporteListaInscritosCarrera");
+        this.redireccionarViewId("/reportes/inscripciones/listaInscritosCarrera/reporteListaInscritosCarrera");
     }
 
     public void toListaInscritosCarrera() throws IOException {
-        this.redireccionarViewId("/reportes/listaInscritosCarrera/listaInscritosCarrera");
+        this.redireccionarViewId("/reportes/inscripciones/listaInscritosCarrera/listaInscritosCarrera");
     }
 
     /**

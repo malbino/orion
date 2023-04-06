@@ -70,11 +70,11 @@ public class ReporteRegistroNotasController extends AbstractController implement
     public void toReporteRegistroNotas() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/registroNotas/reporteRegistroNotas");
+        this.redireccionarViewId("/reportes/notas/registroNotas/reporteRegistroNotas");
     }
 
     public void toRegistroNotas() throws IOException {
-        this.redireccionarViewId("/reportes/registroNotas/registroNotas");
+        this.redireccionarViewId("/reportes/notas/registroNotas/registroNotas");
     }
 
     /**

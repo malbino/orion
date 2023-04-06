@@ -41,7 +41,7 @@ import org.malbino.orion.facades.PagoFacade;
  *
  * @author tincho
  */
-@WebServlet(name = "HistorialEconomico", urlPatterns = {"/reportes/HistorialEconomico"})
+@WebServlet(name = "HistorialEconomico", urlPatterns = {"/reportes/pagos/historialEconomico/HistorialEconomico"})
 public class HistorialEconomico extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

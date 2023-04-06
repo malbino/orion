@@ -86,11 +86,11 @@ public class ReporteListaInscritosGrupoController extends AbstractController imp
     public void toReporteListaInscritosGrupo() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/listaInscritosGrupo/reporteListaInscritosGrupo");
+        this.redireccionarViewId("/reportes/inscripciones/listaInscritosGrupo/reporteListaInscritosGrupo");
     }
 
     public void toListaInscritosGrupo() throws IOException {
-        this.redireccionarViewId("/reportes/listaInscritosGrupo/listaInscritosGrupo");
+        this.redireccionarViewId("/reportes/inscripciones/listaInscritosGrupo/listaInscritosGrupo");
     }
 
     /**

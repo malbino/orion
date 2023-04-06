@@ -366,11 +366,11 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
     public void toReportePlanillaSeguimiento() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/planillaSeguimiento/reportePlanillaSeguimiento");
+        this.redireccionarViewId("/reportes/notas/planillaSeguimiento/reportePlanillaSeguimiento");
     }
 
     public void toPlanillaSeguimiento() throws IOException {
-        this.redireccionarViewId("/reportes/planillaSeguimiento/planillaSeguimiento");
+        this.redireccionarViewId("/reportes/notas/planillaSeguimiento/planillaSeguimiento");
     }
 
     /**

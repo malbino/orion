@@ -60,11 +60,11 @@ public class ReporteBoletinNotasController extends AbstractController implements
     public void toReporteBoletinNotas() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/boletinNotas/reporteBoletinNotas");
+        this.redireccionarViewId("/reportes/notas/boletinNotas/reporteBoletinNotas");
     }
 
     public void toBoletinNotas() throws IOException {
-        this.redireccionarViewId("/reportes/boletinNotas/boletinNotas");
+        this.redireccionarViewId("/reportes/notas/boletinNotas/boletinNotas");
     }
 
     /**

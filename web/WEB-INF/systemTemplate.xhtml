@@ -60,160 +60,160 @@
                                 <div class="menu_section">
                                     <h3>Contenido</h3>
                                     <ul class="nav side-menu">
-                                        <li style="display: #{LoginController.display('Administrador')}"><a><i class="fa fa-linux"></i> Administrador <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/administrador/')}"><a><i class="fa fa-linux"></i> Administrador <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/administrador/instituto.xhtml">Instituto</a></li>
-                                                <li><a href="#{request.contextPath}/administrador/empleado/empleados.xhtml">Empleados</a></li>
-                                                <li><a href="#{request.contextPath}/administrador/empresa/empresas.xhtml">Empresas</a></li>
-                                                <li><a href="#{request.contextPath}/administrador/rol/roles.xhtml">Roles</a></li>
-                                                <li><a href="#{request.contextPath}/administrador/usuario/usuarios.xhtml">Usuarios</a></li>
+                                                <li style="display: #{LoginController.display('/administrador/instituto.xhtml')}"><a href="#{request.contextPath}/administrador/instituto.xhtml">Instituto</a></li>
+                                                <li style="display: #{LoginController.display('/administrador/empleado/')}"><a href="#{request.contextPath}/administrador/empleado/empleados.xhtml">Empleados</a></li>
+                                                <li style="display: #{LoginController.display('/administrador/empresa/')}"><a href="#{request.contextPath}/administrador/empresa/empresas.xhtml">Empresas</a></li>
+                                                <li style="display: #{LoginController.display('/administrador/rol/')}"><a href="#{request.contextPath}/administrador/rol/roles.xhtml">Roles</a></li>
+                                                <li style="display: #{LoginController.display('/administrador/usuario/')}"><a href="#{request.contextPath}/administrador/usuario/usuarios.xhtml">Usuarios</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Planes de Estudio')}"><a><i class="fa fa-share-alt"></i> Planes de Estudio <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/planesEstudio/')}"><a><i class="fa fa-share-alt"></i> Planes de Estudio <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/planesEstudio/campus/campus.xhtml">Campus</a></li>
-                                                <li><a href="#{request.contextPath}/planesEstudio/carrera/carreras.xhtml">Carreras</a></li>
-                                                <li><a href="#{request.contextPath}/planesEstudio/mencion/menciones.xhtml">Menciones</a></li>
-                                                <li><a href="#{request.contextPath}/planesEstudio/materia/materias.xhtml">Materias</a></li>
-                                                <li><a href="#{request.contextPath}/planesEstudio/pasantia/pasantias.xhtml">Pasantias</a></li>
+                                                <li style="display: #{LoginController.display('/planesEstudio/campus/')}"><a href="#{request.contextPath}/planesEstudio/campus/campus.xhtml">Campus</a></li>
+                                                <li style="display: #{LoginController.display('/planesEstudio/carrera/')}"><a href="#{request.contextPath}/planesEstudio/carrera/carreras.xhtml">Carreras</a></li>
+                                                <li style="display: #{LoginController.display('/planesEstudio/mencion/')}"><a href="#{request.contextPath}/planesEstudio/mencion/menciones.xhtml">Menciones</a></li>
+                                                <li style="display: #{LoginController.display('/planesEstudio/materia/')}"><a href="#{request.contextPath}/planesEstudio/materia/materias.xhtml">Materias</a></li>
+                                                <li style="display: #{LoginController.display('/planesEstudio/pasantia/')}"><a href="#{request.contextPath}/planesEstudio/pasantia/pasantias.xhtml">Pasantias</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Gestiones Académicas')}"><a><i class="fa fa-calendar"></i> Gestiónes Académicas <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/gestionesAcademicas/')}"><a><i class="fa fa-calendar"></i> Gestiónes Académicas <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/gestionesAcademicas/calendarioAcademico/calendarioAcademico.xhtml">Calendario academico</a></li>
-                                                <li><a href="#{request.contextPath}/gestionesAcademicas/gestionAcademica/gestionesAcademicas.xhtml">Gestiones Académicas</a></li>
-                                                <li><a href="#{request.contextPath}/gestionesAcademicas/grupo/grupos.xhtml">Grupos</a></li>
-                                                <li><a href="#{request.contextPath}/gestionesAcademicas/grupoPasantia/gruposPasantias.xhtml">Grupos Pasantia</a></li>
+                                                <li style="display: #{LoginController.display('/gestionesAcademicas/calendarioAcademico/')}"><a href="#{request.contextPath}/gestionesAcademicas/calendarioAcademico/calendarioAcademico.xhtml">Calendario Académico</a></li>
+                                                <li style="display: #{LoginController.display('/gestionesAcademicas/gestionAcademica/')}"><a href="#{request.contextPath}/gestionesAcademicas/gestionAcademica/gestionesAcademicas.xhtml">Gestiones Académicas</a></li>
+                                                <li style="display: #{LoginController.display('/gestionesAcademicas/grupo/')}"><a href="#{request.contextPath}/gestionesAcademicas/grupo/grupos.xhtml">Grupos</a></li>
+                                                <li style="display: #{LoginController.display('/gestionesAcademicas/grupoPasantia/')}"><a href="#{request.contextPath}/gestionesAcademicas/grupoPasantia/gruposPasantias.xhtml">Grupos Pasantia</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Horarios')}"><a><i class="fa fa-clock-o"></i> Horarios <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/horarios/')}"><a><i class="fa fa-clock-o"></i> Horarios <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/horarios/asignacionDocente/asignacionDocente.xhtml">Asignación Docente</a></li>
+                                                <li style="display: #{LoginController.display('/horarios/asignacionDocente/')}"><a href="#{request.contextPath}/horarios/asignacionDocente/asignacionDocente.xhtml">Asignación Docente</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Admisiones')}"><a><i class="fa fa-filter"></i> Admisiones <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/admisiones/')}"><a><i class="fa fa-filter"></i> Admisiones <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/admisiones/postulantes.xhtml">Postulantes</a></li>
+                                                <li style="display: #{LoginController.display('/admisiones/')}"><a href="#{request.contextPath}/admisiones/postulantes.xhtml">Postulantes</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Inscripciones')}"><a><i class="fa fa-user-plus"></i> Inscripciones <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/inscripciones/')}"><a><i class="fa fa-user-plus"></i> Inscripciones <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/inscripciones/estudianteNuevo/estudianteNuevo.xhtml">Estudiante Nuevo</a></li>
-                                                <li><a href="#{request.contextPath}/inscripciones/estudianteNuevoPostulacion/estudianteNuevoPostulacion.xhtml">Estudiante Nuevo Postulación</a></li>
-                                                <li><a href="#{request.contextPath}/inscripciones/estudianteRegular/estudianteRegular.xhtml">Estudiante Regular</a></li>
-                                                <li><a href="#{request.contextPath}/inscripciones/cambioCarrera/cambioCarrera.xhtml">Cambio de Carrera</a></li>
-                                                <li><a href="#{request.contextPath}/inscripciones/inscripcionManual/estadoInscripcion.xhtml">Inscripción Manual</a></li>
-                                                <li><a href="#{request.contextPath}/inscripciones/inscritos.xhtml">Inscritos</a></li>
+                                                <li style="display: #{LoginController.display('/inscripciones/estudianteNuevo/')}"><a href="#{request.contextPath}/inscripciones/estudianteNuevo/estudianteNuevo.xhtml">Estudiante Nuevo</a></li>
+                                                <li style="display: #{LoginController.display('/inscripciones/estudianteNuevoPostulacion/')}"><a href="#{request.contextPath}/inscripciones/estudianteNuevoPostulacion/estudianteNuevoPostulacion.xhtml">Estudiante Nuevo Postulación</a></li>
+                                                <li style="display: #{LoginController.display('/inscripciones/estudianteRegular/')}"><a href="#{request.contextPath}/inscripciones/estudianteRegular/estudianteRegular.xhtml">Estudiante Regular</a></li>
+                                                <li style="display: #{LoginController.display('/inscripciones/cambioCarrera/')}"><a href="#{request.contextPath}/inscripciones/cambioCarrera/cambioCarrera.xhtml">Cambio de Carrera</a></li>
+                                                <li style="display: #{LoginController.display('/inscripciones/inscripcionManual/')}"><a href="#{request.contextPath}/inscripciones/inscripcionManual/estadoInscripcion.xhtml">Inscripción Manual</a></li>
+                                                <li style="display: #{LoginController.display('/inscripciones/inscritos.xhtml')}"><a href="#{request.contextPath}/inscripciones/inscritos.xhtml">Inscritos</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Pasantias')}"><a><i class="fa fa-child"></i> Pasantias <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/pasantias/')}"><a><i class="fa fa-child"></i> Pasantias <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/pasantias/inscripcionPasantia/inscripcionPasantia.xhtml">Inscripción Pasantia</a></li>
-                                                <li><a href="#{request.contextPath}/pasantias/pasantias/pasantias.xhtml">Pasantias</a></li>
+                                                <li style="display: #{LoginController.display('/pasantias/inscripcionPasantia/')}"><a href="#{request.contextPath}/pasantias/inscripcionPasantia/inscripcionPasantia.xhtml">Inscripción Pasantia</a></li>
+                                                <li style="display: #{LoginController.display('/pasantias/pasantias/')}"><a href="#{request.contextPath}/pasantias/pasantias/pasantias.xhtml">Pasantias</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Pagos')}"><a><i class="fa fa-dollar"></i> Pagos <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/pagos/')}"><a><i class="fa fa-dollar"></i> Pagos <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/pagos/nuevoPagoEstudiante/nuevoPagoEstudiante.xhtml">Nuevo Pago Estudiante</a></li>
-                                                <li><a href="#{request.contextPath}/pagos/nuevoPagoPostulante/nuevoPagoPostulante.xhtml">Nuevo Pago Postulante</a></li>
-                                                <li><a href="#{request.contextPath}/pagos/nuevoPago/nuevoPago.xhtml">Nuevo Pago</a></li>
-                                                <li><a href="#{request.contextPath}/pagos/pagos/pagos.xhtml">Pagos</a></li>
+                                                <li style="display: #{LoginController.display('/pagos/nuevoPagoEstudiante/')}"><a href="#{request.contextPath}/pagos/nuevoPagoEstudiante/nuevoPagoEstudiante.xhtml">Nuevo Pago Estudiante</a></li>
+                                                <li style="display: #{LoginController.display('/pagos/nuevoPagoPostulante/')}"><a href="#{request.contextPath}/pagos/nuevoPagoPostulante/nuevoPagoPostulante.xhtml">Nuevo Pago Postulante</a></li>
+                                                <li style="display: #{LoginController.display('/pagos/nuevoPago/')}"><a href="#{request.contextPath}/pagos/nuevoPago/nuevoPago.xhtml">Nuevo Pago</a></li>
+                                                <li style="display: #{LoginController.display('/pagos/pagos/')}"><a href="#{request.contextPath}/pagos/pagos/pagos.xhtml">Pagos</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Estudiante')}"><a><i class="fa fa-user"></i> Estudiante <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/estudiante/')}"><a><i class="fa fa-user"></i> Estudiante <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/estudiante/estadoInscripcion.xhtml">Estado de Inscripción</a></li>
-                                                <li><a href="#{request.contextPath}/estudiante/inscripcionInternet/estadoInscripcion.xhtml">Inscripción por Internet</a></li>
-                                                <li><a href="#{request.contextPath}/estudiante/historialAcademico.xhtml">Historial Academico</a></li>
-                                                <li><a href="#{request.contextPath}/estudiante/historialEconomico.xhtml">Historial Economico</a></li>
-                                                <li><a href="#{request.contextPath}/estudiante/fileEstudiante.xhtml">File Estudiante</a></li>
-                                                <li><a href="#{request.contextPath}/estudiante/cuadernilloPasantia/gestionCuadernilloPasantia.xhtml">Cuadernillo Pasantia</a></li>
+                                                <li style="display: #{LoginController.display('/estudiante/')}"><a href="#{request.contextPath}/estudiante/estadoInscripcion.xhtml">Estado de Inscripción</a></li>
+                                                <li style="display: #{LoginController.display('/estudiante/')}"><a href="#{request.contextPath}/estudiante/inscripcionInternet/estadoInscripcion.xhtml">Inscripción por Internet</a></li>
+                                                <li style="display: #{LoginController.display('/estudiante/')}"><a href="#{request.contextPath}/estudiante/historialAcademico.xhtml">Historial Academico</a></li>
+                                                <li style="display: #{LoginController.display('/estudiante/')}"><a href="#{request.contextPath}/estudiante/historialEconomico.xhtml">Historial Economico</a></li>
+                                                <li style="display: #{LoginController.display('/estudiante/')}"><a href="#{request.contextPath}/estudiante/fileEstudiante.xhtml">File Estudiante</a></li>
+                                                <li style="display: #{LoginController.display('/estudiante/')}"><a href="#{request.contextPath}/estudiante/cuadernilloPasantia/gestionCuadernilloPasantia.xhtml">Cuadernillo Pasantia</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Registro Docente')}"><a><i class="fa fa-folder"></i> Registro Docente <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/registroDocente/')}"><a><i class="fa fa-folder"></i> Registro Docente <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/registroDocente/primerParcial.xhtml">Primer Parcial</a></li>
-                                                <li><a href="#{request.contextPath}/registroDocente/segundoParcial.xhtml">Segundo Parcial</a></li>
-                                                <li><a href="#{request.contextPath}/registroDocente/tercerParcial.xhtml">Tercer Parcial</a></li>
-                                                <li><a href="#{request.contextPath}/registroDocente/cuartoParcial.xhtml">Cuarto Parcial</a></li>
-                                                <li><a href="#{request.contextPath}/registroDocente/pruebaRecuperacion.xhtml">Prueba de Recuperacion</a></li>
+                                                <li style="display: #{LoginController.display('/registroDocente/')}"><a href="#{request.contextPath}/registroDocente/primerParcial.xhtml">Primer Parcial</a></li>
+                                                <li style="display: #{LoginController.display('/registroDocente/')}"><a href="#{request.contextPath}/registroDocente/segundoParcial.xhtml">Segundo Parcial</a></li>
+                                                <li style="display: #{LoginController.display('/registroDocente/')}"><a href="#{request.contextPath}/registroDocente/tercerParcial.xhtml">Tercer Parcial</a></li>
+                                                <li style="display: #{LoginController.display('/registroDocente/')}"><a href="#{request.contextPath}/registroDocente/cuartoParcial.xhtml">Cuarto Parcial</a></li>
+                                                <li style="display: #{LoginController.display('/registroDocente/')}"><a href="#{request.contextPath}/registroDocente/pruebaRecuperacion.xhtml">Prueba de Recuperacion</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('File Estudiante')}"><a><i class="fa fa-folder-o"></i> File Estudiante <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/fileEstudiante/')}"><a><i class="fa fa-folder-o"></i> File Estudiante <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/fileEstudiante/historialAcademico/historialAcademico.xhtml">Historial Academico</a></li>
-                                                <li><a href="#{request.contextPath}/fileEstudiante/historialEconomico/historialEconomico.xhtml">Historial Economico</a></li>
-                                                <li><a href="#{request.contextPath}/fileEstudiante/estudiante/estudiantes.xhtml">Estudiantes</a></li>
+                                                <li style="display: #{LoginController.display('/fileEstudiante/historialAcademico/')}"><a href="#{request.contextPath}/fileEstudiante/historialAcademico/historialAcademico.xhtml">Historial Academico</a></li>
+                                                <li style="display: #{LoginController.display('/fileEstudiante/historialEconomico/')}"><a href="#{request.contextPath}/fileEstudiante/historialEconomico/historialEconomico.xhtml">Historial Economico</a></li>
+                                                <li style="display: #{LoginController.display('/fileEstudiante/estudiante/')}"><a href="#{request.contextPath}/fileEstudiante/estudiante/estudiantes.xhtml">Estudiantes</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Registro Notas')}"><a><i class="fa fa-edit"></i> Registro Notas <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/registroNotas/')}"><a><i class="fa fa-edit"></i> Registro Notas <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/registroNotas/primerParcial.xhtml">Primer Parcial</a></li>
-                                                <li><a href="#{request.contextPath}/registroNotas/segundoParcial.xhtml">Segundo Parcial</a></li>
-                                                <li><a href="#{request.contextPath}/registroNotas/tercerParcial.xhtml">Tercer Parcial</a></li>
-                                                <li><a href="#{request.contextPath}/registroNotas/cuartoParcial.xhtml">Cuarto Parcial</a></li>
-                                                <li><a href="#{request.contextPath}/registroNotas/pruebaRecuperacion.xhtml">Prueba de Recuperacion</a></li>
+                                                <li style="display: #{LoginController.display('/registroNotas/')}"><a href="#{request.contextPath}/registroNotas/primerParcial.xhtml">Primer Parcial</a></li>
+                                                <li style="display: #{LoginController.display('/registroNotas/')}"><a href="#{request.contextPath}/registroNotas/segundoParcial.xhtml">Segundo Parcial</a></li>
+                                                <li style="display: #{LoginController.display('/registroNotas/')}"><a href="#{request.contextPath}/registroNotas/tercerParcial.xhtml">Tercer Parcial</a></li>
+                                                <li style="display: #{LoginController.display('/registroNotas/')}"><a href="#{request.contextPath}/registroNotas/cuartoParcial.xhtml">Cuarto Parcial</a></li>
+                                                <li style="display: #{LoginController.display('/registroNotas/')}"><a href="#{request.contextPath}/registroNotas/pruebaRecuperacion.xhtml">Prueba de Recuperación</a></li>
                                             </ul>
                                         </li>
 
-                                        <li style="display: #{LoginController.display('Reportes')}"><a><i class="fa fa-bar-chart"></i> Reportes <span class="fa fa-chevron-down"></span></a>
+                                        <li style="display: #{LoginController.displayMenu('/reportes/')}"><a><i class="fa fa-bar-chart"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li><a href="#{request.contextPath}/reportes/dashboard.xhtml">Dashboard</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/mallaCurricular/reporteMallaCurricular.xhtml">Malla Curricular</a></li>
+                                                <li style="display: #{LoginController.display('/reportes/dashboard.xhtml')}"><a href="#{request.contextPath}/reportes/dashboard.xhtml">Dashboard</a></li>
+                                                <li style="display: #{LoginController.display('/reportes/mallaCurricular/')}"><a href="#{request.contextPath}/reportes/mallaCurricular/reporteMallaCurricular.xhtml">Malla Curricular</a></li>
 
-                                                <li><a>Inscripciones<span class="fa fa-chevron-down"></span></a>
+                                                <li style="display: #{LoginController.displayMenu('/reportes/inscripciones/')}"><a>Inscripciones<span class="fa fa-chevron-down"></span></a>
                                                     <ul class="nav child_menu">
-                                                        <li><a href="#{request.contextPath}/reportes/listaPostulantes/reporteListaPostulantes.xhtml">Lista Postulantes</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/listaInscritosCarrera/reporteListaInscritosCarrera.xhtml">Lista Inscritos Carrera</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/listaInscritosParalelo/reporteListaInscritosParalelo.xhtml">Lista Inscritos Paralelo</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/listaInscritosGrupo/reporteListaInscritosGrupo.xhtml">Lista Inscritos Grupo</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/libroInscripcionesCarrera/reporteLibroInscripcionesCarrera.xhtml">Libro de Inscripciones Carrera</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/listaInscritosMulticarrera/reporteListaInscritosMulticarrera.xhtml">Lista Inscritos Multicarrera</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/inscripciones/listaPostulantes/')}"><a href="#{request.contextPath}/reportes/inscripciones/listaPostulantes/reporteListaPostulantes.xhtml">Lista Postulantes</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/inscripciones/listaInscritosCarrera/')}"><a href="#{request.contextPath}/reportes/inscripciones/listaInscritosCarrera/reporteListaInscritosCarrera.xhtml">Lista Inscritos Carrera</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/inscripciones/listaInscritosParalelo/')}"><a href="#{request.contextPath}/reportes/inscripciones/listaInscritosParalelo/reporteListaInscritosParalelo.xhtml">Lista Inscritos Paralelo</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/inscripciones/listaInscritosGrupo/')}"><a href="#{request.contextPath}/reportes/inscripciones/listaInscritosGrupo/reporteListaInscritosGrupo.xhtml">Lista Inscritos Grupo</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/inscripciones/libroInscripciones/')}"><a href="#{request.contextPath}/reportes/inscripciones/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/inscripciones/libroInscripcionesCarrera/')}"><a href="#{request.contextPath}/reportes/inscripciones/libroInscripcionesCarrera/reporteLibroInscripcionesCarrera.xhtml">Libro de Inscripciones Carrera</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/inscripciones/listaInscritosMulticarrera/')}"><a href="#{request.contextPath}/reportes/inscripciones/listaInscritosMulticarrera/reporteListaInscritosMulticarrera.xhtml">Lista Inscritos Multicarrera</a></li>
                                                     </ul>
                                                 </li>
 
-                                                <li><a>Pasantias<span class="fa fa-chevron-down"></span></a>
+                                                <li style="display: #{LoginController.displayMenu('/reportes/pasantias/')}"><a>Pasantias<span class="fa fa-chevron-down"></span></a>
                                                     <ul class="nav child_menu">
-                                                        <li><a href="#{request.contextPath}/reportes/fichaInscripcion/reporteFichaInscripcion.xhtml">Ficha de Inscripción</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/cuadernilloPasantia/reporteCuadernilloPasantia.xhtml">Cuadernillo Pasantia</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/fichaEvaluacionEmpresa/reporteFichaEvaluacionEmpresa.xhtml">Ficha de Evaluación Empresa</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/fichaEvaluacionTutor/reporteFichaEvaluacionTutor.xhtml">Ficha de Evaluación Tutor</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/pasantias/fichaInscripcion/')}"><a href="#{request.contextPath}/reportes/pasantias/fichaInscripcion/reporteFichaInscripcion.xhtml">Ficha de Inscripción</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/pasantias/cuadernilloPasantia/')}"><a href="#{request.contextPath}/reportes/pasantias/cuadernilloPasantia/reporteCuadernilloPasantia.xhtml">Cuadernillo Pasantia</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/pasantias/fichaEvaluacionEmpresa/')}"><a href="#{request.contextPath}/reportes/pasantias/fichaEvaluacionEmpresa/reporteFichaEvaluacionEmpresa.xhtml">Ficha de Evaluación Empresa</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/pasantias/fichaEvaluacionTutor/')}"><a href="#{request.contextPath}/reportes/pasantias/fichaEvaluacionTutor/reporteFichaEvaluacionTutor.xhtml">Ficha de Evaluación Tutor</a></li>
                                                     </ul>
                                                 </li>
 
-                                                <li><a>Pagos<span class="fa fa-chevron-down"></span></a>
+                                                <li style="display: #{LoginController.displayMenu('/reportes/pagos/')}"><a>Pagos<span class="fa fa-chevron-down"></span></a>
                                                     <ul class="nav child_menu">
-                                                        <li><a href="#{request.contextPath}/reportes/historialEconomico/reporteHistorialEconomico.xhtml">Historial Economico</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/listaCobros/reporteListaCobros.xhtml">Lista de Cobros</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/pagos/historialEconomico/')}"><a href="#{request.contextPath}/reportes/pagos/historialEconomico/reporteHistorialEconomico.xhtml">Historial Economico</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/pagos/listaCobros/')}"><a href="#{request.contextPath}/reportes/pagos/listaCobros/reporteListaCobros.xhtml">Lista de Cobros</a></li>
                                                     </ul>
                                                 </li>
 
-                                                <li><a>Notas<span class="fa fa-chevron-down"></span></a>
+                                                <li style="display: #{LoginController.displayMenu('/reportes/notas/')}"><a>Notas<span class="fa fa-chevron-down"></span></a>
                                                     <ul class="nav child_menu">
-                                                        <li><a href="#{request.contextPath}/reportes/boletinNotas/reporteBoletinNotas.xhtml">Boletín Notas</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/boletinNotasCarrera/reporteBoletinNotasCarrera.xhtml">Boletín Notas Carrera</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/planillaSeguimiento/reportePlanillaSeguimiento.xhtml">Planilla Seguimiento</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/reporteSeguimientoAcademico.xhtml">Seguimiento Académico</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/registroNotas/reporteRegistroNotas.xhtml">Registro Notas</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/habilitadosRecuperatorio/reporteHabilitadosRecuperatorio.xhtml">Habilitados Recuperatorio</a></li>
-                                                        <li><a href="#{request.contextPath}/reportes/notasFaltantes/reporteNotasFaltantes.xhtml">Notas Faltantes</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/notas/boletinNotas/')}"><a href="#{request.contextPath}/reportes/notas/boletinNotas/reporteBoletinNotas.xhtml">Boletín Notas</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/notas/boletinNotasCarrera/')}"><a href="#{request.contextPath}/reportes/notas/boletinNotasCarrera/reporteBoletinNotasCarrera.xhtml">Boletín Notas Carrera</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/notas/planillaSeguimiento/')}"><a href="#{request.contextPath}/reportes/notas/planillaSeguimiento/reportePlanillaSeguimiento.xhtml">Planilla Seguimiento</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/notas/reporteSeguimientoAcademico.xhtml')}"><a href="#{request.contextPath}/reportes/notas/reporteSeguimientoAcademico.xhtml">Seguimiento Académico</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/notas/registroNotas/')}"><a href="#{request.contextPath}/reportes/notas/registroNotas/reporteRegistroNotas.xhtml">Registro Notas</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/notas/habilitadosRecuperatorio/')}"><a href="#{request.contextPath}/reportes/notas/habilitadosRecuperatorio/reporteHabilitadosRecuperatorio.xhtml">Habilitados Recuperatorio</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/notas/notasFaltantes/')}"><a href="#{request.contextPath}/reportes/notas/notasFaltantes/reporteNotasFaltantes.xhtml">Notas Faltantes</a></li>
                                                     </ul>
                                                 </li>
 
-                                                <li><a href="#{request.contextPath}/reportes/historialAcademico/reporteHistorialAcademico.xhtml">Historial Academico</a></li>
-                                                <li><a href="#{request.contextPath}/reportes/centralizadorCalificaciones/reporteCentralizadorCalificaciones.xhtml">Centralizador Calificaciones</a></li>
+                                                <li style="display: #{LoginController.display('/reportes/historialAcademico/')}"><a href="#{request.contextPath}/reportes/historialAcademico/reporteHistorialAcademico.xhtml">Historial Academico</a></li>
+                                                <li style="display: #{LoginController.display('/reportes/centralizadorCalificaciones/')}"><a href="#{request.contextPath}/reportes/centralizadorCalificaciones/reporteCentralizadorCalificaciones.xhtml">Centralizador Calificaciones</a></li>
                                             </ul>
                                         </li>
 
@@ -275,7 +275,7 @@
                                             <a class="dropdown-item" href="#{request.contextPath}/home.xhtml">Inicio</a>
                                             <a class="dropdown-item" href="https://proyectoorion.com/" target="_blank">Soporte técnico</a>
                                             <a class="dropdown-item" href="mailto:maacrazy@gmail.com?subject=Incidencia Orion">Reportar incidencia</a>
-                                            <a class="dropdown-item" href="#{request.contextPath}/cambiarContrasena.xhtml">Cambiar contraseña</a>
+                                            <a style="display: #{LoginController.display('/cambiarContrasena.xhtml')}" class="dropdown-item" href="#{request.contextPath}/cambiarContrasena.xhtml">Cambiar contraseña</a>
                                             <p:commandLink action="#{LoginController.logout()}" value="Cerrar Sesión" styleClass="dropdown-item">
                                                 <i class="fa fa-sign-out pull-right"></i>
                                             </p:commandLink>
@@ -305,7 +305,7 @@
                                                 </li>
                                             </ui:repeat>
 
-                                            <li class="nav-item">
+                                            <li style="display: #{LoginController.display('/calendarioAcademico.xhtml')}" class="nav-item">
                                                 <div class="text-center">
                                                     <a class="dropdown-item" href="#{request.contextPath}/calendarioAcademico.xhtml">
                                                         <strong>Ver todas las alertas</strong>

@@ -62,11 +62,11 @@ public class ReporteBoletinNotasCarreraController extends AbstractController imp
     public void toReporteBoletinNotasCarrera() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/boletinNotasCarrera/reporteBoletinNotasCarrera");
+        this.redireccionarViewId("/reportes/notas/boletinNotasCarrera/reporteBoletinNotasCarrera");
     }
 
     public void toBoletinNotasCarrera() throws IOException {
-        this.redireccionarViewId("/reportes/boletinNotasCarrera/boletinNotasCarrera");
+        this.redireccionarViewId("/reportes/notas/boletinNotasCarrera/boletinNotasCarrera");
     }
 
     /**

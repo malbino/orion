@@ -26,9 +26,9 @@
                                             <p:commandButton value="Volver" icon="fa fa-arrow-left" process="@this" actionListener="#{PostulantesController.toHome()}"/>
                                         </div>
                                     </div>
-                                    
-                                    <object type="application/pdf" data="#{request.contextPath}/admisiones/FormularioPostulante?pfdrid_c=true" width="100%" height="700px">
-                                        Su navegador no puede mostrar pdf, <a href="#{request.contextPath}/admisiones/FormularioPostulante">click</a> para descargar el pdf.
+
+                                    <object type="application/pdf" data="#{request.contextPath}/postulantes/imprimir/FormularioPostulante?pfdrid_c=true" width="100%" height="700px">
+                                        Su navegador no puede mostrar pdf, <a href="#{request.contextPath}/postulantes/imprimir/FormularioPostulante">click</a> para descargar el pdf.
                                     </object>
                                 </h:form>
                             </div>

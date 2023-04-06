@@ -63,11 +63,24 @@ public class LoginController extends AbstractController {
         }
     }
     
-    public String display(String nombre) {
+    public String displayMenu(String path) {
         String s = "none";
         
         if (usr != null) {
-            List<Recurso> l = listaRecursos.stream().filter(r -> r.getNombre().equals(nombre)).collect(Collectors.toList());
+            List<Recurso> l = listaRecursos.stream().filter(r -> r.getUrlPattern().contains(path)).collect(Collectors.toList());
+            if (!l.isEmpty()) {
+                s = "anything";
+            }
+        }
+        
+        return s;
+    }
+    
+    public String display(String path) {
+        String s = "none";
+        
+        if (usr != null) {
+            List<Recurso> l = listaRecursos.stream().filter(r -> r.getUrlPattern().equals(path)).collect(Collectors.toList());
             if (!l.isEmpty()) {
                 s = "anything";
             }

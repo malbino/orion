@@ -38,7 +38,7 @@ import org.malbino.orion.util.NumberToLetterConverter;
  *
  * @author tincho
  */
-@WebServlet(name = "PlanillaSeguimiento", urlPatterns = {"/registroDocente/PlanillaSeguimiento", "/reportes/PlanillaSeguimiento"})
+@WebServlet(name = "PlanillaSeguimiento", urlPatterns = {"/registroDocente/PlanillaSeguimiento", "/reportes/notas/planillaSeguimiento/PlanillaSeguimiento"})
 public class PlanillaSeguimiento extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

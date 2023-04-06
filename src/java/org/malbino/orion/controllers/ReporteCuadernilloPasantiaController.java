@@ -90,13 +90,13 @@ public class ReporteCuadernilloPasantiaController extends AbstractController imp
     public void toCuadernilloPasantias() throws IOException {
         this.insertarParametro("id_notapasantia", seleccionNotaPasantia.getId_notapasantia());
 
-        this.redireccionarViewId("/reportes/cuadernilloPasantia/cuadernilloPasantia");
+        this.redireccionarViewId("/reportes/pasantias/cuadernilloPasantia/cuadernilloPasantia");
     }
 
     public void toReporteCuadernilloPasantia() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/cuadernilloPasantia/reporteCuadernilloPasantia");
+        this.redireccionarViewId("/reportes/pasantias/cuadernilloPasantia/reporteCuadernilloPasantia");
     }
 
     /**

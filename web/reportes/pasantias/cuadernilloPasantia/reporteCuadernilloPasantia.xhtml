@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="#{root}/WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Reporte Cuadernillo Pasantia <small> generar cuadernillo pasantia</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">        
+                                    <p:messages/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="gestionAcademica" value="Gestion academica:" style="font-size: small"/> 
+                                            <p:selectOneMenu id="gestionAcademica" value="#{ReporteCuadernilloPasantiaController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{ReporteCuadernilloPasantiaController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+
+                                                <p:ajax update="carrera grupoPasantia"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                            <p:selectOneMenu id="carrera" value="#{ReporteCuadernilloPasantiaController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{ReporteCuadernilloPasantiaController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
+
+                                                <p:ajax update="grupoPasantia"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="grupoPasantia" value="Grupo Pasantia: " style="font-size: small"/>
+                                            <p:selectOneMenu id="grupoPasantia" value="#{ReporteCuadernilloPasantiaController.seleccionGrupoPasantia}" converter="#{GrupoPasantiaConverter}" autoWidth="false" required="true" requiredMessage="* Grupo Pasantia requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{ReporteCuadernilloPasantiaController.listaGruposPasantias()}" var="grupoPasantia" itemLabel="#{grupoPasantia.toString()}" itemValue="#{grupoPasantia}"/>  
+
+                                                <p:ajax listener="#{ReporteCuadernilloPasantiaController.reinit()}" update="notasPasantias"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{ReporteCuadernilloPasantiaController.reinit()}" update="form"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="notasPasantias" fileName="notasPasantias" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{ReporteCuadernilloPasantiaController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{ReporteCuadernilloPasantiaController.buscar()}" update="notasPasantias"/>           
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="notasPasantias" var="notaPasantia" value="#{ReporteCuadernilloPasantiaController.notasPasantias}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                 paginator="true" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Codigo">
+                                            <h:outputText value="#{notaPasantia.codigo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Pasantía">
+                                            <h:outputText value="#{notaPasantia.grupoPasantia.pasantia.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Pasante">
+                                            <h:outputText value="#{notaPasantia.estudiante.toString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Empresa">
+                                            <h:outputText value="#{notaPasantia.empresa.toString()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nota Empresa" style="text-align: center">
+                                            <h:outputText value="#{notaPasantia.notaEmpresa}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nota Tutor" style="text-align: center">
+                                            <h:outputText value="#{notaPasantia.notaTutor}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nota Final" style="text-align: center">
+                                            <h:outputText value="#{notaPasantia.notaFinal}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Condición">
+                                            <h:outputText value="#{notaPasantia.condicion}"/>
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="cuadernilloPasantia" process="@this" icon="fa fa-print" title="Cuadernillo Pasantia">  
+                                                    <f:setPropertyActionListener value="#{notaPasantia}" target="#{ReporteCuadernilloPasantiaController.seleccionNotaPasantia}" />
+
+                                                    <f:actionListener binding="#{ReporteCuadernilloPasantiaController.toCuadernilloPasantias()}"/>
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

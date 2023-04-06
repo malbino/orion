@@ -40,7 +40,7 @@ import org.malbino.orion.facades.GestionAcademicaFacade;
  *
  * @author tincho
  */
-@WebServlet(name = "ListaCobros", urlPatterns = {"/reportes/ListaCobros"})
+@WebServlet(name = "ListaCobros", urlPatterns = {"/reportes/pagos/listaCobros/ListaCobros"})
 public class ListaCobros extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
