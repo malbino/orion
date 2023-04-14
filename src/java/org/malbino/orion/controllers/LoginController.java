@@ -67,7 +67,7 @@ public class LoginController extends AbstractController {
         String s = "none";
         
         if (usr != null) {
-            List<Recurso> l = listaRecursos.stream().filter(r -> r.getUrlPattern().contains(path)).collect(Collectors.toList());
+            List<Recurso> l = listaRecursos.stream().filter(r -> r.getUrlPattern().startsWith(path)).collect(Collectors.toList());
             if (!l.isEmpty()) {
                 s = "anything";
             }
