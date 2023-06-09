@@ -17,11 +17,15 @@ import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Pago;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -88,6 +92,9 @@ public class HistorialEconomicoController extends AbstractController implements 
 
     public void editarPago() throws IOException {
         if (fileEstudianteFacade.editarPago(seleccionPago)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.PAGO, seleccionPago.getId_pago(), "Actualización pago por historial económico", loginController.getUsr().toString()));
+            
             toHistorialEconomico();
         }
     }

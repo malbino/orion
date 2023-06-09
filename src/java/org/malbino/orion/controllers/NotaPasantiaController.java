@@ -12,15 +12,20 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.GrupoPasantia;
 import org.malbino.orion.entities.IndicadorPasantia;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.NotaPasantia;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.GrupoPasantiaFacade;
 import org.malbino.orion.facades.IndicadorPasantiaFacade;
 import org.malbino.orion.facades.NotaPasantiaFacade;
 import org.malbino.orion.facades.negocio.EvaluacionPasantiaFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -38,6 +43,8 @@ public class NotaPasantiaController extends AbstractController implements Serial
     IndicadorPasantiaFacade indicadorPasantiaFacade;
     @EJB
     EvaluacionPasantiaFacade evaluacionPasantiaFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -63,10 +70,6 @@ public class NotaPasantiaController extends AbstractController implements Serial
         seleccionNotaPasantia = null;
 
         keyword = null;
-    }
-
-    public void update() {
-        this.ejecutar("PF");
     }
 
     @Override
@@ -108,18 +111,27 @@ public class NotaPasantiaController extends AbstractController implements Serial
 
     public void evaluacionEmpresa() throws IOException {
         if (evaluacionPasantiaFacade.evaluacionEmpresa(seleccionNotaPasantia, indicadoresPasantia)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA_PASANTIA, seleccionNotaPasantia.getId_notapasantia(), "Actualización nota pasantía por evaluación de la empresa", loginController.getUsr().toString()));
+            
             toPasantias();
         }
     }
 
     public void evaluacionTutor() throws IOException {
         if (evaluacionPasantiaFacade.evaluacionTutor(seleccionNotaPasantia)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA_PASANTIA, seleccionNotaPasantia.getId_notapasantia(), "Actualización nota pasantía por evaluación del tutor", loginController.getUsr().toString()));
+            
             toPasantias();
         }
     }
 
     public void editarPasantia() throws IOException {
         if (notaPasantiaFacade.edit(seleccionNotaPasantia)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA_PASANTIA, seleccionNotaPasantia.getId_notapasantia(), "Actualización pasantía", loginController.getUsr().toString()));
+
             toPasantias();
         }
     }

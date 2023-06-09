@@ -11,10 +11,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -24,11 +28,13 @@ import org.malbino.orion.facades.CarreraEstudianteFacade;
 @SessionScoped
 public class ReporteHistorialEconomicoController extends AbstractController implements Serializable {
 
-    private Estudiante seleccionEstudiante;
-    private CarreraEstudiante seleccionCarreraEstudiante;
-
     @EJB
     CarreraEstudianteFacade carreraEstudianteFacade;
+    @Inject
+    LoginController loginController;
+    
+    private Estudiante seleccionEstudiante;
+    private CarreraEstudiante seleccionCarreraEstudiante;
 
     @PostConstruct
     public void init() {
@@ -55,6 +61,9 @@ public class ReporteHistorialEconomicoController extends AbstractController impl
             this.insertarParametro("id_carrera", seleccionCarreraEstudiante.getCarrera().getId_carrera());
 
             toHistorialEconomico();
+            
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte historial económico", loginController.getUsr().toString()));
         }
     }
 

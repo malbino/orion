@@ -13,13 +13,17 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.NamingException;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Rol;
 import org.malbino.orion.entities.Usuario;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.RolFacade;
-import org.malbino.orion.facades.UsuarioFacade;
 import org.malbino.orion.util.Encriptador;
+import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Generador;
 import org.malbino.orion.util.JavaMail;
 import org.malbino.orion.util.PasswordValidator;
@@ -33,9 +37,9 @@ import org.malbino.orion.util.PasswordValidator;
 public class UsuarioController extends AbstractController implements Serializable {
 
     @EJB
-    UsuarioFacade usuarioFacade;
-    @EJB
     RolFacade rolFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Usuario> usuarios;
     private Usuario seleccionUsuario;
@@ -89,6 +93,9 @@ public class UsuarioController extends AbstractController implements Serializabl
                     if (usuarioFacade.edit(seleccionUsuario)) {
                         enviarCorreo(seleccionUsuario);
 
+                        //log
+                        logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.USUARIO, seleccionUsuario.getId_persona(), "Actualización por restauración de contraseña por parte del administrador", loginController.getUsr().toString()));
+
                         this.toUsuarios();
                     }
                 } else {
@@ -96,6 +103,9 @@ public class UsuarioController extends AbstractController implements Serializabl
                 }
             } else {
                 if (usuarioFacade.edit(seleccionUsuario)) {
+                    //log
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.USUARIO, seleccionUsuario.getId_persona(), "Actualización usuario", loginController.getUsr().toString()));
+
                     this.toUsuarios();
                 }
             }
@@ -137,6 +147,9 @@ public class UsuarioController extends AbstractController implements Serializabl
                 seleccionUsuario.setContrasena(Encriptador.encriptar(nuevaContrasena));
 
                 if (usuarioFacade.edit(seleccionUsuario)) {
+                    //log
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.USUARIO, seleccionUsuario.getId_persona(), "Actualización por cambio de contraseña por parte del administrador", loginController.getUsr().toString()));
+
                     this.toUsuarios();
                 }
             } else {

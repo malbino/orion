@@ -13,8 +13,11 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.negocio.RegistroDocenteFacade;
@@ -76,6 +79,11 @@ public class PruebaRecuperacionController extends AbstractController implements 
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_PRUEBA_RECUPERACION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (registroDocenteFacade.editarNotas(notas)) {
                 actualizarNotas();
+                
+                //log
+                for (Nota nota : notas) {
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, nota.getId_nota(), "Actualización prueba de recuperación", loginController.getUsr().toString()));
+                }
 
                 this.mensajeDeInformacion("Guardado.");
             }

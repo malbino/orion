@@ -18,6 +18,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellCopyPolicy;
@@ -31,7 +32,9 @@ import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.MateriaFacade;
@@ -59,6 +62,8 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
     MateriaFacade materiaFacade;
     @EJB
     CarreraEstudianteFacade carreraEstudianteFacade;
+    @Inject
+    LoginController loginController;
 
     private Estudiante seleccionEstudiante;
     private CarreraEstudiante seleccionCarreraEstudiante;
@@ -93,6 +98,9 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
             this.insertarParametro("fecha", fecha);
 
             toHistorialAcademico();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte historial académico en formato PDF", loginController.getUsr().toString()));
         }
     }
 
@@ -324,6 +332,9 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
 
         String name = seleccionEstudiante.toString() + " - " + carrera.getNombre();
         descargarArchivo(workbook, name);
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte historial académico en formato XLSX", loginController.getUsr().toString()));
     }
 
     public void toReporteHistorialAcademico() throws IOException {

@@ -11,10 +11,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.GrupoFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -24,10 +28,12 @@ import org.malbino.orion.facades.GrupoFacade;
 @SessionScoped
 public class ReporteListaInscritosMulticarreraController extends AbstractController implements Serializable {
 
-    private GestionAcademica seleccionGestionAcademica;
-
     @EJB
     GrupoFacade grupoFacade;
+    @Inject
+    LoginController loginController;
+    
+    private GestionAcademica seleccionGestionAcademica;
 
     @PostConstruct
     public void init() {
@@ -52,6 +58,9 @@ public class ReporteListaInscritosMulticarreraController extends AbstractControl
             this.insertarParametro("id_gestionacademica", seleccionGestionAcademica.getId_gestionacademica());
 
             toListaInscritosMulticarrera();
+            
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte lista inscritos multicarrera", loginController.getUsr().toString()));
         }
     }
 

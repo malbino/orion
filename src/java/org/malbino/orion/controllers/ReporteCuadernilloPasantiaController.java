@@ -12,12 +12,16 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.GrupoPasantia;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.NotaPasantia;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.GrupoPasantiaFacade;
 import org.malbino.orion.facades.NotaPasantiaFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -31,6 +35,8 @@ public class ReporteCuadernilloPasantiaController extends AbstractController imp
     NotaPasantiaFacade notaPasantiaFacade;
     @EJB
     GrupoPasantiaFacade grupoPasantiaFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -91,6 +97,9 @@ public class ReporteCuadernilloPasantiaController extends AbstractController imp
         this.insertarParametro("id_notapasantia", seleccionNotaPasantia.getId_notapasantia());
 
         this.redireccionarViewId("/reportes/pasantias/cuadernilloPasantia/cuadernilloPasantia");
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte cuadernillo de pasantia", loginController.getUsr().toString()));
     }
 
     public void toReporteCuadernilloPasantia() throws IOException {

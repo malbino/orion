@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.InputStream;
@@ -18,9 +17,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.inject.Inject;
 import org.apache.commons.io.FilenameUtils;
 import org.malbino.orion.entities.Empresa;
-import org.malbino.orion.facades.EmpresaFacade;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
+import org.malbino.orion.util.Fecha;
 import org.primefaces.event.FileUploadEvent;
 
 /**
@@ -31,8 +34,8 @@ import org.primefaces.event.FileUploadEvent;
 @SessionScoped
 public class EmpresaController extends AbstractController implements Serializable {
 
-    @EJB
-    EmpresaFacade empresaFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Empresa> empresas;
     private Empresa nuevaEmpresa;
@@ -92,6 +95,9 @@ public class EmpresaController extends AbstractController implements Serializabl
     public void crearEmpresa() throws IOException {
         if (empresaFacade.buscarPorDni(nuevaEmpresa.getDni()) == null) {
             if (empresaFacade.create(nuevaEmpresa)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.EMPRESA, nuevaEmpresa.getId_persona(), "Creación empresa", loginController.getUsr().toString()));
+
                 this.toEmpresas();
             }
         } else {
@@ -102,6 +108,9 @@ public class EmpresaController extends AbstractController implements Serializabl
     public void editarEmpresa() throws IOException {
         if (empresaFacade.buscarPorDni(seleccionEmpresa.getDni(), seleccionEmpresa.getId_persona()) == null) {
             if (empresaFacade.edit(seleccionEmpresa)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.EMPRESA, seleccionEmpresa.getId_persona(), "Actualización empresa", loginController.getUsr().toString()));
+
                 this.toEmpresas();
             }
         } else {

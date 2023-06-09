@@ -12,16 +12,21 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.negocio.ProgramacionGruposFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -37,6 +42,8 @@ public class GrupoController extends AbstractController implements Serializable 
     MencionFacade mencionFacade;
     @EJB
     ProgramacionGruposFacade programacionGruposFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Grupo> grupos;
     private Grupo seleccionGrupo;
@@ -107,7 +114,13 @@ public class GrupoController extends AbstractController implements Serializable 
     }
 
     public void programarGrupos() throws IOException {
-        if (programacionGruposFacade.programarGrupos(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionMencion, seleccionTurno, capacidad)) {
+        List<Grupo> grupos = programacionGruposFacade.programarGrupos(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionMencion, seleccionTurno, capacidad);
+        if (!grupos.isEmpty()) {
+            //log
+            for (Grupo grupo : grupos) {
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.GRUPO, grupo.getId_grupo(), "Creación grupo por programación de grupos", loginController.getUsr().toString()));
+            }
+
             toGrupos();
         }
     }
@@ -115,6 +128,9 @@ public class GrupoController extends AbstractController implements Serializable 
     public void editarGrupo() throws IOException {
         if (grupoFacade.edit(seleccionGrupo)) {
             this.toGrupos();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Actualización grupo", loginController.getUsr().toString()));
         }
     }
 
@@ -122,6 +138,9 @@ public class GrupoController extends AbstractController implements Serializable 
         long cantidadNotasGrupo = grupoFacade.cantidadNotasGrupo(seleccionGrupo.getId_grupo());
         if (cantidadNotasGrupo == 0) {
             if (grupoFacade.remove(seleccionGrupo)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.DELETE, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Borrado grupo", loginController.getUsr().toString()));
+
                 this.toGrupos();
             }
         } else {

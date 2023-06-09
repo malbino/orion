@@ -18,6 +18,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellCopyPolicy;
@@ -29,14 +30,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.NotaFacade;
+import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.NumberToLetterConverter;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -58,6 +62,8 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
     NotaFacade notaFacade;
     @EJB
     MencionFacade mencionFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -355,12 +361,18 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
         }
 
         descargarArchivo(workbook, seleccionGrupo);
+        
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte planilla de seguimiento en formato XLSX", loginController.getUsr().toString()));
     }
 
     public void generarPDF() throws IOException {
         this.insertarParametro("id_grupo", seleccionGrupo.getId_grupo());
 
         toPlanillaSeguimiento();
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte planilla de seguimiento en formato PDF", loginController.getUsr().toString()));
     }
 
     public void toReportePlanillaSeguimiento() throws IOException {

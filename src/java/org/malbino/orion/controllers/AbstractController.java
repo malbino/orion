@@ -28,7 +28,9 @@ import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.Concepto;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Departamento;
+import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.Evaluacion;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.enums.LugarExpedicion;
 import org.malbino.orion.enums.Modalidad;
@@ -44,6 +46,7 @@ import org.malbino.orion.facades.EmpleadoFacade;
 import org.malbino.orion.facades.EmpresaFacade;
 import org.malbino.orion.facades.EstudianteFacade;
 import org.malbino.orion.facades.GestionAcademicaFacade;
+import org.malbino.orion.facades.LogFacade;
 import org.malbino.orion.facades.PostulanteFacade;
 import org.malbino.orion.facades.UsuarioFacade;
 import org.malbino.orion.util.Redondeo;
@@ -71,6 +74,9 @@ public abstract class AbstractController implements Serializable {
     UsuarioFacade usuarioFacade;
     @EJB
     EmpresaFacade empresaFacade;
+
+    @EJB
+    LogFacade logFacade;
 
     protected void mensajeDeError(String mensaje) {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -252,9 +258,17 @@ public abstract class AbstractController implements Serializable {
     public List<Empresa> listaEmpresas() {
         return empresaFacade.listaEmpresas();
     }
-    
+
     public Evaluacion[] listaEvaluaciones() {
         return Evaluacion.values();
+    }
+
+    public EventoLog[] listaEventosLog() {
+        return EventoLog.values();
+    }
+
+    public EntidadLog[] listaEntidadesLog() {
+        return EntidadLog.values();
     }
 
     public void editarNota(Nota nota) {

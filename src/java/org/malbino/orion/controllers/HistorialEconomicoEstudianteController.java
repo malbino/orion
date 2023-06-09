@@ -14,10 +14,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
+import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Pago;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.PagoFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -27,14 +32,14 @@ import org.malbino.orion.facades.PagoFacade;
 @SessionScoped
 public class HistorialEconomicoEstudianteController extends AbstractController implements Serializable {
 
-    @Inject
-    LoginController loginController;
     @EJB
     PagoFacade pagoFacade;
     @EJB
     ComprobanteFacade comprobanteFacade;
     @EJB
     CarreraEstudianteFacade carreraEstudianteFacade;
+    @Inject
+    LoginController loginController;
 
     private CarreraEstudiante seleccionCarreraEstudiante;
     private List<Pago> historialEconomico;
@@ -46,7 +51,13 @@ public class HistorialEconomicoEstudianteController extends AbstractController i
 
     public void reinit() {
         if (seleccionCarreraEstudiante != null) {
-            historialEconomico = pagoFacade.kardexEconomico(loginController.getUsr().getId_persona(), seleccionCarreraEstudiante.getCarrera().getId_carrera());
+            Estudiante estudiante = estudianteFacade.find(loginController.getUsr().getId_persona());
+            if (estudiante != null) {
+                historialEconomico = pagoFacade.kardexEconomico(estudiante.getId_persona(), seleccionCarreraEstudiante.getCarrera().getId_carrera());
+
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.ESTUDIANTE, estudiante.getId_persona(), "Visualización Historial Económico", loginController.getUsr().toString()));
+            }
         }
     }
 

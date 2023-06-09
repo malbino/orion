@@ -18,6 +18,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellCopyPolicy;
@@ -28,7 +29,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
@@ -37,6 +40,7 @@ import org.malbino.orion.facades.negocio.SeguimientoAcademicoFacade;
 import org.malbino.orion.pojos.seguimiento.EstudianteSeguimiento;
 import org.malbino.orion.pojos.seguimiento.NotaSeguimiento;
 import org.malbino.orion.pojos.seguimiento.Seguimiento;
+import org.malbino.orion.util.Fecha;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -57,6 +61,8 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
     SeguimientoAcademicoFacade seguimientoAcademicoFacade;
     @EJB
     MencionFacade mencionFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -763,6 +769,9 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
 
         String name = seleccionGestionAcademica.toString() + " - " + seleccionCarrera.getNombre() + " - " + seleccionNivel.toString() + " - " + seleccionTurno.toString() + " - " + seleccionParalelo;
         descargarArchivo(workbook, name);
+        
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte seguimiento académico", loginController.getUsr().toString()));
     }
 
     /**

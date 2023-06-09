@@ -21,10 +21,13 @@ import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Materia;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.entities.Pago;
 import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.enums.Modalidad;
 import org.malbino.orion.facades.ActividadFacade;
@@ -178,6 +181,9 @@ public class InscripcionManualController extends AbstractController implements S
 
         CopiarInscrito copiarInscrito = new CopiarInscrito(login, webservice, username, password, serviceName, estudiante, notas);
         new Thread(copiarInscrito).start();
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.ESTUDIANTE, estudiante.getId_persona(), "Copia de inscrito a Moodle", loginController.getUsr().toString()));
     }
 
     public void tomarMaterias() throws IOException {
@@ -195,6 +201,12 @@ public class InscripcionManualController extends AbstractController implements S
                         try {
                             if (inscripcionesFacade.tomarMaterias(aux)) {
                                 copiarInscrito(seleccionInscrito.getEstudiante(), aux);
+
+                                //log
+                                for (Nota nota : aux) {
+                                    //log
+                                    logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.NOTA, nota.getId_nota(), "Creación de nota por inscripción manual", loginController.getUsr().toString()));
+                                }
 
                                 toEstadoInscripcion();
                             }

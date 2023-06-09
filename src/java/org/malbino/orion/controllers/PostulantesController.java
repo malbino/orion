@@ -17,15 +17,18 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.io.FilenameUtils;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Postulante;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.PagoFacade;
-import org.malbino.orion.facades.PostulanteFacade;
 import org.malbino.orion.facades.negocio.AdmisionesFacade;
 import org.malbino.orion.util.Fecha;
 import org.primefaces.event.FileUploadEvent;
@@ -41,11 +44,11 @@ public class PostulantesController extends AbstractController implements Seriali
     @EJB
     ActividadFacade actividadFacade;
     @EJB
-    PostulanteFacade postulanteFacade;
-    @EJB
     AdmisionesFacade admisionesFacade;
     @EJB
     PagoFacade pagoFacade;
+    @Inject
+    LoginController loginController;
 
     private Postulante nuevoPostulante;
     private Postulante seleccionPostulante;
@@ -133,6 +136,9 @@ public class PostulantesController extends AbstractController implements Seriali
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.ADMISION, nuevoPostulante.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
             if (postulanteFacade.buscarPostulante(nuevoPostulante.getCi(), nuevoPostulante.getGestionAcademica().getId_gestionacademica(), nuevoPostulante.getCarrera().getId_carrera()) == null) {
                 if (admisionesFacade.registrarPostulante(nuevoPostulante)) {
+                    //log
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.POSTULANTE, nuevoPostulante.getId_postulante(), "Creación por registro de formulario de postulación", loginController.getUsr().toString()));
+
                     this.insertarParametro("id_postulante", nuevoPostulante.getId_postulante());
 
                     toFormularioPostulante();
@@ -169,6 +175,9 @@ public class PostulantesController extends AbstractController implements Seriali
             seleccionPostulante = postulanteFacade.buscarPostulante(ci, fechaNacimiento, gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
             if (seleccionPostulante != null) {
                 if (!pagoFacade.listaPagosAdeudadosPostulante(seleccionPostulante.getId_postulante()).isEmpty()) {
+                    //log
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.POSTULANTE, seleccionPostulante.getId_postulante(), "Impresión formulario de postulación", loginController.getUsr().toString()));
+
                     this.insertarParametro("id_postulante", seleccionPostulante.getId_postulante());
 
                     toFormularioPostulante();
@@ -187,6 +196,9 @@ public class PostulantesController extends AbstractController implements Seriali
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.ADMISION, seleccionPostulante.getGestionAcademica().getId_gestionacademica()).isEmpty()) {
             if (postulanteFacade.buscarPostulante(seleccionPostulante.getCi(), seleccionPostulante.getGestionAcademica().getId_gestionacademica(), seleccionPostulante.getCarrera().getId_carrera(), seleccionPostulante.getId_postulante()) == null) {
                 if (postulanteFacade.edit(seleccionPostulante)) {
+                    //log
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.POSTULANTE, seleccionPostulante.getId_postulante(), "Creación por actualización de formulario de postulación", loginController.getUsr().toString()));
+
                     toHome();
                 } else {
                     this.mensajeDeError("No se pudo modificar al postulante.");

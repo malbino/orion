@@ -14,10 +14,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.NotaFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -73,6 +77,9 @@ public class EstadoInscripcionController extends AbstractController implements S
     public void actualizarEstadoInscripcion() {
         if (seleccionInscrito != null) {
             estadoInscripcion = notaFacade.listaNotas(seleccionInscrito.getId_inscrito());
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.INSCRITO, seleccionInscrito.getId_inscrito(), "Visualización estado de inscripción", loginController.getUsr().toString()));
         }
     }
 

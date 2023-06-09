@@ -12,16 +12,20 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Sexo;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.pojos.NivelCuadroEstadistico;
+import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Redondeo;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -48,6 +52,8 @@ public class DashboardController extends AbstractController implements Serializa
     InscritoFacade inscritoFacade;
     @EJB
     GrupoFacade grupoFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
 
@@ -169,6 +175,9 @@ public class DashboardController extends AbstractController implements Serializa
 
                 crearCuadroEstadistico();
             }
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación de reportes estadisticos", loginController.getUsr().toString()));
         }
     }
 
@@ -495,7 +504,7 @@ public class DashboardController extends AbstractController implements Serializa
                     nivelesCuadroEstadistico.add(nivelCuadroEstadistico);
                 }
             }
-            
+
             //totales
             if (totalInscritos > 0) {
                 nivelCuadroEstadistico = new NivelCuadroEstadistico();

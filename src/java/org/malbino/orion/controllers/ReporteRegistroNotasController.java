@@ -10,10 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.TipoNota;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -23,6 +27,9 @@ import org.malbino.orion.enums.TipoNota;
 @SessionScoped
 public class ReporteRegistroNotasController extends AbstractController implements Serializable {
 
+    @Inject
+    LoginController loginController;
+    
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
     private TipoNota seleccionTipoNota;
@@ -64,6 +71,9 @@ public class ReporteRegistroNotasController extends AbstractController implement
             this.insertarParametro("tipoNota", seleccionTipoNota);
 
             toRegistroNotas();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte registro notas", loginController.getUsr().toString()));
         }
     }
 

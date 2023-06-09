@@ -11,10 +11,15 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Actividad;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.ActividadFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -26,6 +31,8 @@ public class CalendarioAcademicoController extends AbstractController implements
 
     @EJB
     ActividadFacade actividadFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
 
@@ -63,12 +70,18 @@ public class CalendarioAcademicoController extends AbstractController implements
     public void crearActividad() throws IOException {
         nuevaActividad.setGestionAcademica(seleccionGestionAcademica);
         if (actividadFacade.create(nuevaActividad)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.ACTIVIDAD, nuevaActividad.getId_actividad(), "Creación actividad", loginController.getUsr().toString()));
+
             this.toCalendarioAcademico();
         }
     }
 
     public void editarActividad() throws IOException {
         if (actividadFacade.edit(seleccionActividad)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.ACTIVIDAD, seleccionActividad.getId_actividad(), "Actualización actividad", loginController.getUsr().toString()));
+
             this.toCalendarioAcademico();
         }
     }

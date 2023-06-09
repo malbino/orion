@@ -10,6 +10,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -39,6 +43,9 @@ public class FileEstudianteController extends AbstractController implements Seri
 
     public void editarFileEstudiante() {
         if (estudianteFacade.edit(estudiante)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.ESTUDIANTE, estudiante.getId_persona(), "Actualización datos de contacto estudiante", loginController.getUsr().toString()));
+            
             this.mensajeDeInformacion("Guardado.");
         }
     }

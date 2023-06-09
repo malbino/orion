@@ -8,12 +8,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Campus;
 import org.malbino.orion.entities.Carrera;
-import org.malbino.orion.facades.CarreraFacade;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -23,8 +26,8 @@ import org.malbino.orion.facades.CarreraFacade;
 @SessionScoped
 public class CarreraController extends AbstractController implements Serializable {
 
-    @EJB
-    CarreraFacade carreraFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Carrera> carreras;
     private Carrera nuevaCarrera;
@@ -65,6 +68,9 @@ public class CarreraController extends AbstractController implements Serializabl
     public void crearCarrera() throws IOException {
         if (carreraFacade.buscarPorCodigo(nuevaCarrera.getCodigo()) == null) {
             if (carreraFacade.create(nuevaCarrera)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.CARRERA, nuevaCarrera.getId_carrera(), "Creación carrera", loginController.getUsr().toString()));
+
                 this.toCarreras();
             }
         } else {
@@ -75,6 +81,9 @@ public class CarreraController extends AbstractController implements Serializabl
     public void editarCarrera() throws IOException {
         if (carreraFacade.buscarPorCodigo(seleccionCarrera.getCodigo(), seleccionCarrera.getId_carrera()) == null) {
             if (carreraFacade.edit(seleccionCarrera)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.CARRERA, seleccionCarrera.getId_carrera(), "Actualización carrera", loginController.getUsr().toString()));
+
                 this.toCarreras();
             }
         } else {

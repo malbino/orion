@@ -12,14 +12,19 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.InscritoFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -33,6 +38,8 @@ public class InscritosController extends AbstractController implements Serializa
     GrupoFacade grupoFacade;
     @EJB
     InscritoFacade inscritoFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -128,6 +135,9 @@ public class InscritosController extends AbstractController implements Serializa
 
     public void eliminarInscrito() throws IOException {
         if (inscritoFacade.remove(seleccionInscrito)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.DELETE, EntidadLog.INSCRITO, seleccionInscrito.getId_inscrito(), "Borrado inscrito", loginController.getUsr().toString()));
+
             this.reinit();
         }
     }

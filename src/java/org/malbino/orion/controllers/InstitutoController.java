@@ -20,10 +20,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.io.FilenameUtils;
 import org.malbino.orion.entities.Instituto;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.InstitutoFacade;
 import org.malbino.orion.util.Constantes;
+import org.malbino.orion.util.Fecha;
 import org.primefaces.event.FileUploadEvent;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -32,8 +35,6 @@ import org.slf4j.LoggerFactory;
 @Named("InstitutoController")
 @SessionScoped
 public class InstitutoController extends AbstractController implements Serializable {
-
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(InstitutoController.class);
 
     @EJB
     InstitutoFacade insitutoFacade;
@@ -67,11 +68,12 @@ public class InstitutoController extends AbstractController implements Serializa
 
     public void editarInstituto() {
         if (insitutoFacade.edit(instituto)) {
+             //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.INSTITUTO, instituto.getId_instituto(), "Actualización instituto", loginController.getUsr().toString()));
+            
             reinit();
 
             this.mensajeDeInformacion("Guardado.");
-
-            log.info("Instituto editado [Instituto: " + instituto + ", User: " + loginController.getUsuario() + "]");
         }
     }
 

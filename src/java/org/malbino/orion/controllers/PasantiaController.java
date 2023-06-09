@@ -11,13 +11,18 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Pasantia;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.PasantiaFacade;
 import org.malbino.orion.facades.MencionFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -31,6 +36,8 @@ public class PasantiaController extends AbstractController implements Serializab
     PasantiaFacade pasantiaFacade;
     @EJB
     MencionFacade mencionFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Pasantia> pasantias;
     private Pasantia nuevaPasantia;
@@ -84,6 +91,9 @@ public class PasantiaController extends AbstractController implements Serializab
         nuevaPasantia.setCarrera(seleccionCarrera);
         if (pasantiaFacade.buscarPorCodigo(nuevaPasantia.getCodigo(), nuevaPasantia.getCarrera(), nuevaPasantia.getMencion()).isEmpty()) {
             if (pasantiaFacade.create(nuevaPasantia)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.PASANTIA, nuevaPasantia.getId_pasantia(), "Creación pasantía", loginController.getUsr().toString()));
+
                 this.toPasantias();
             }
         } else {
@@ -94,6 +104,9 @@ public class PasantiaController extends AbstractController implements Serializab
     public void editarPasantia() throws IOException {
         if (pasantiaFacade.buscarPorCodigo(seleccionPasantia.getCodigo(), seleccionPasantia.getId_pasantia(), seleccionPasantia.getCarrera(), seleccionPasantia.getMencion()).isEmpty()) {
             if (pasantiaFacade.edit(seleccionPasantia)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.PASANTIA, seleccionPasantia.getId_pasantia(), "Actualización pasantía", loginController.getUsr().toString()));
+                
                 this.toPasantias();
             }
         } else {

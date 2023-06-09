@@ -28,9 +28,6 @@ import org.malbino.orion.facades.RecursoFacade;
  * @author malbino
  */
 @WebFilter(urlPatterns = {
-    "/home.xhtml",
-    "/calendarioAcademico.xhtml",
-    "/cambiarContrasena.xhtml",
     "/administrador/*",
     "/admisiones/*",
     "/estudiante/*",
@@ -43,7 +40,10 @@ import org.malbino.orion.facades.RecursoFacade;
     "/planesEstudio/*",
     "/registroDocente/*",
     "/registroNotas/*",
-    "/reportes/*"
+    "/reportes/*",
+    "/calendarioAcademico.xhtml",
+    "/cambiarContrasena.xhtml",
+    "/home.xhtml"
 })
 public class SecurityFilter implements Filter {
 

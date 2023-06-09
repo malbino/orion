@@ -11,10 +11,15 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.MencionFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -26,6 +31,8 @@ public class MencionController extends AbstractController implements Serializabl
 
     @EJB
     MencionFacade mencionFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Mencion> menciones;
     private Mencion nuevaMencion;
@@ -67,6 +74,9 @@ public class MencionController extends AbstractController implements Serializabl
         nuevaMencion.setCarrera(seleccionCarrera);
         if (mencionFacade.buscarPorCodigo(nuevaMencion.getCodigo(), nuevaMencion.getCarrera().getId_carrera()) == null) {
             if (mencionFacade.create(nuevaMencion)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.MENCION, nuevaMencion.getId_mencion(), "Creación mención", loginController.getUsr().toString()));
+
                 this.toMenciones();
             }
         } else {
@@ -77,6 +87,9 @@ public class MencionController extends AbstractController implements Serializabl
     public void editarMencion() throws IOException {
         if (mencionFacade.buscarPorCodigo(seleccionMencion.getCodigo(), seleccionMencion.getId_mencion(), seleccionMencion.getCarrera().getId_carrera()) == null) {
             if (mencionFacade.edit(seleccionMencion)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.MENCION, seleccionMencion.getId_mencion(), "Actualización mención", loginController.getUsr().toString()));
+
                 this.toMenciones();
             }
         } else {

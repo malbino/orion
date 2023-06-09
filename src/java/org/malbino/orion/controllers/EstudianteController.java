@@ -11,16 +11,21 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -38,6 +43,8 @@ public class EstudianteController extends AbstractController implements Serializ
     MencionFacade mencionFacade;
     @EJB
     CarreraEstudianteFacade carreraEstudianteFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Estudiante> estudiantes;
     private Estudiante nuevoEstudiante;
@@ -229,6 +236,9 @@ public class EstudianteController extends AbstractController implements Serializ
     public void crearEstudiante() throws IOException {
         if (estudianteFacade.buscarPorDni(nuevoEstudiante.getDni()) == null) {
             if (fileEstudianteFacade.registrarEstudiante(nuevoEstudiante, seleccionCarrerasEstudiante)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.ESTUDIANTE, nuevoEstudiante.getId_persona(), "Creación estudiante", loginController.getUsr().toString()));
+                
                 this.toEstudiantes();
             }
         } else {
@@ -239,6 +249,9 @@ public class EstudianteController extends AbstractController implements Serializ
     public void editarEstudiante() throws IOException {
         if (estudianteFacade.buscarPorDni(seleccionEstudiante.getDni(), seleccionEstudiante.getId_persona()) == null) {
             if (fileEstudianteFacade.editarEstudiante(seleccionEstudiante, seleccionCarrerasEstudiante)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.ESTUDIANTE, seleccionEstudiante.getId_persona(), "Actualización estudiante", loginController.getUsr().toString()));
+                
                 this.toEstudiantes();
             }
         } else {
@@ -248,6 +261,9 @@ public class EstudianteController extends AbstractController implements Serializ
 
     public void eliminarEstudiante() throws IOException {
         if (fileEstudianteFacade.eliminarEstudiante(seleccionEstudiante)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.DELETE, EntidadLog.ESTUDIANTE, seleccionEstudiante.getId_persona(), "Borrado estudiante", loginController.getUsr().toString()));
+            
             this.toEstudiantes();
         }
     }

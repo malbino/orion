@@ -17,6 +17,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellCopyPolicy;
@@ -28,7 +29,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.negocio.CentralizadorCalificacionesFacade;
@@ -37,6 +40,7 @@ import org.malbino.orion.pojos.centralizador.EstudianteCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaEstadisticas;
 import org.malbino.orion.pojos.centralizador.PaginaNotas;
+import org.malbino.orion.util.Fecha;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -54,6 +58,8 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
     CentralizadorCalificacionesFacade centralizadorCalificacionesFacade;
     @EJB
     NotaFacade notaFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -101,6 +107,9 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                 this.insertarParametro("centralizador", centralizador);
 
                 toCentralizadorCalificaciones();
+
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte centralizador de calificaciones en formato PDF", loginController.getUsr().toString()));
             } else {
                 this.mensajeDeError("¡Error al generar el centralizador!");
                 this.mensajeDeError("Notas faltantes: " + notasFaltantes.size());
@@ -486,6 +495,9 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
 
             String name = seleccionGestionAcademica.toString() + " - " + seleccionCarrera.getNombre();
             descargarArchivo(workbook, name);
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte centralizador de calificaciones en formato XLSX", loginController.getUsr().toString()));
         } else {
             this.mensajeDeError("¡Error al generar el centralizador!");
             this.mensajeDeError("Notas faltantes: " + notasFaltantes.size());

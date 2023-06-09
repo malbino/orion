@@ -17,6 +17,9 @@ import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
@@ -96,6 +99,9 @@ public class EstudianteRegularController extends AbstractController implements S
                     seleccionEstudiante.setContrasenaSinEncriptar(contrasena);
 
                     if (inscripcionesFacade.registrarEstudianteRegular(seleccionEstudiante, seleccionCarreraEstudiante.getCarrera(), seleccionGestionAcademica, nuevoComprobante)) {
+                        //log
+                        logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.ESTUDIANTE, seleccionEstudiante.getId_persona(), "Inscripción estudiante regular", loginController.getUsr().toString()));
+                        
                         this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                         this.insertarParametro("est", seleccionEstudiante);
 

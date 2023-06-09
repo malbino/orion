@@ -14,10 +14,13 @@ import javax.inject.Named;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import org.malbino.orion.entities.Asistencia;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.NotaPasantia;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.AsistenciaFacade;
 import org.malbino.orion.facades.NotaPasantiaFacade;
-import org.malbino.orion.facades.UsuarioFacade;
+import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Redondeo;
 
 /**
@@ -30,8 +33,6 @@ public class GestionCuadernilloPasantiaController extends AbstractController imp
 
     @EJB
     AsistenciaFacade asistenciaFacade;
-    @EJB
-    UsuarioFacade usuarioFacade;
     @EJB
     NotaPasantiaFacade notaPasantiaFacade;
     @Inject
@@ -88,6 +89,9 @@ public class GestionCuadernilloPasantiaController extends AbstractController imp
         if (asistenciaFacade.buscarAsistencia(nuevoAsistencia.getIngreso(), nuevoAsistencia.getSalida(), seleccionNotaPasantia) == null) {
             nuevoAsistencia.setNotaPasantia(seleccionNotaPasantia);
             if (asistenciaFacade.create(nuevoAsistencia)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.ASISTENCIA, nuevoAsistencia.getId_asistencia(), "Creación asistencia", loginController.getUsr().toString()));
+
                 this.toGestionCuadernilloPasantia();
             }
         } else {
@@ -98,6 +102,9 @@ public class GestionCuadernilloPasantiaController extends AbstractController imp
     public void editarAsistencia() throws IOException {
         if (asistenciaFacade.buscarAsistencia(seleccionAsistencia.getIngreso(), seleccionAsistencia.getSalida(), seleccionNotaPasantia, seleccionAsistencia.getId_asistencia()) == null) {
             if (asistenciaFacade.edit(seleccionAsistencia)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.ASISTENCIA, seleccionAsistencia.getId_asistencia(), "Actualización asistencia", loginController.getUsr().toString()));
+
                 this.toGestionCuadernilloPasantia();
             }
         } else {

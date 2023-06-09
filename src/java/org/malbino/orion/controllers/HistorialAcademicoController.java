@@ -16,12 +16,16 @@ import javax.inject.Named;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Materia;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Modalidad;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -142,6 +146,9 @@ public class HistorialAcademicoController extends AbstractController implements 
 
     public void editarParcial() throws IOException {
         if (fileEstudianteFacade.editarParcial(seleccionNota)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, seleccionNota.getId_nota(), "Actualización nota parcial", loginController.getUsr().toString()));
+
             toHistorialAcademico();
         }
     }
@@ -153,6 +160,9 @@ public class HistorialAcademicoController extends AbstractController implements 
                     && seleccionNota.getNotaFinal() >= seleccionNota.getMateria().getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion()
                     && seleccionNota.getNotaFinal() < seleccionNota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
                 if (fileEstudianteFacade.editarRecuperatorio(seleccionNota)) {
+                    //log
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, seleccionNota.getId_nota(), "Actualización nota recuperatorio", loginController.getUsr().toString()));
+
                     toHistorialAcademico();
                 }
             } else {
@@ -168,6 +178,9 @@ public class HistorialAcademicoController extends AbstractController implements 
         if (listaNotasMateria.isEmpty()) {
             nuevaNota.setEstudiante(seleccionEstudiante);
             if (fileEstudianteFacade.crearNota(nuevaNota)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.NOTA, nuevaNota.getId_nota(), "Creación nota por historial académico",loginController.getUsr().toString()));
+
                 toHistorialAcademico();
             }
         } else {
@@ -177,12 +190,18 @@ public class HistorialAcademicoController extends AbstractController implements 
 
     public void editarNota() throws IOException {
         if (fileEstudianteFacade.editarNota(seleccionNota)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, seleccionNota.getId_nota(), "Actualización nota por historial académico", loginController.getUsr().toString()));
+
             toHistorialAcademico();
         }
     }
 
     public void eliminarNota() throws IOException {
         if (notaFacade.remove(seleccionNota)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.DELETE, EntidadLog.NOTA, seleccionNota.getId_nota(), "Borrado nota por historial académico", loginController.getUsr().toString()));
+
             toHistorialAcademico();
         }
     }

@@ -69,7 +69,7 @@ public class PasantiaEstudianteFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public boolean registrarPasantia(Date fecha, Estudiante estudiante, GrupoPasantia grupoPasantia, CarreraEstudiante carreraEstudiante, Empresa empresa) {
+    public NotaPasantia registrarPasantia(Date fecha, Estudiante estudiante, GrupoPasantia grupoPasantia, CarreraEstudiante carreraEstudiante, Empresa empresa) {
         em.merge(estudiante);
 
         Long maximoCodigo = notaPasantiaFacade.maximoCodigo(grupoPasantia.getGestionAcademica().getId_gestionacademica(), carreraEstudiante.getCarrera().getId_carrera());
@@ -89,6 +89,6 @@ public class PasantiaEstudianteFacade {
             indicadorPasantiaFacade.create(indicadorPasantia);
         }
 
-        return true;
+        return notaPasantia;
     }
 }

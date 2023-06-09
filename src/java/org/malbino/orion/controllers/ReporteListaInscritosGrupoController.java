@@ -12,12 +12,16 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.GrupoFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -27,13 +31,15 @@ import org.malbino.orion.facades.GrupoFacade;
 @SessionScoped
 public class ReporteListaInscritosGrupoController extends AbstractController implements Serializable {
 
+    @EJB
+    GrupoFacade grupoFacade;
+    @Inject
+    LoginController loginController;
+    
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
     private Nivel seleccionNivel;
     private Grupo seleccionGrupo;
-
-    @EJB
-    GrupoFacade grupoFacade;
 
     @PostConstruct
     public void init() {
@@ -80,6 +86,9 @@ public class ReporteListaInscritosGrupoController extends AbstractController imp
             this.insertarParametro("id_grupo", seleccionGrupo.getId_grupo());
 
             toListaInscritosGrupo();
+            
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte lista inscritos por grupo", loginController.getUsr().toString()));
         }
     }
 

@@ -18,6 +18,9 @@ import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Detalle;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.PagosFacade;
@@ -72,7 +75,7 @@ public class NuevoPagoController extends AbstractController implements Serializa
         }
         return l;
     }
-    
+
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
         List<GestionAcademica> l = new ArrayList();
@@ -102,6 +105,9 @@ public class NuevoPagoController extends AbstractController implements Serializa
         nuevoComprobante.setUsuario(loginController.getUsr());
         if (!detalles.isEmpty()) {
             if (pagosFacade.nuevoComprobante(nuevoComprobante, detalles)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.COMPROBANTE, nuevoComprobante.getId_comprobante(), "Creación comprobante por nuevo pago",loginController.getUsr().toString()));
+                
                 this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                 this.insertarParametro("est", null);
 

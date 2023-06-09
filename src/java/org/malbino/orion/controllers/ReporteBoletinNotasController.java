@@ -11,10 +11,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.InscritoFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -26,6 +30,8 @@ public class ReporteBoletinNotasController extends AbstractController implements
 
     @EJB
     InscritoFacade inscritoFacade;
+    @Inject
+    LoginController loginController;
 
     private Estudiante seleccionEstudiante;
     private Inscrito seleccionInscrito;
@@ -54,6 +60,9 @@ public class ReporteBoletinNotasController extends AbstractController implements
             this.insertarParametro("id_inscrito", seleccionInscrito.getId_inscrito());
 
             toBoletinNotas();
+            
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte boletín de notas", loginController.getUsr().toString()));
         }
     }
 

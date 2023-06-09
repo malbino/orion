@@ -16,7 +16,10 @@ import javax.inject.Named;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.Inscrito;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Pago;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.InscritoFacade;
 import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.PagosFacade;
@@ -46,7 +49,7 @@ public class NuevoPagoEstudianteController extends AbstractController implements
     private Inscrito seleccionInscrito;
     private List<Pago> pagos;
     private List<Pago> seleccionPagos;
-    
+
     @PostConstruct
     public void init() {
         nuevoComprobante = new Comprobante();
@@ -98,6 +101,9 @@ public class NuevoPagoEstudianteController extends AbstractController implements
 
             if (!seleccionPagos.isEmpty()) {
                 if (pagosFacade.nuevoPago(nuevoComprobante, seleccionPagos, seleccionEstudiante)) {
+                    //log
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.COMPROBANTE, nuevoComprobante.getId_comprobante(), "Creación comprobante por nuevo pago estudiante", loginController.getUsr().toString()));
+                    
                     this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                     this.insertarParametro("est", seleccionEstudiante);
 

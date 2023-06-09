@@ -12,13 +12,18 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Comprobante;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Usuario;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.ComprobanteFacade;
 import org.malbino.orion.facades.negocio.PagosFacade;
 import org.malbino.orion.util.Encriptador;
+import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Generador;
 
 /**
@@ -33,6 +38,8 @@ public class PagosController extends AbstractController implements Serializable 
     ComprobanteFacade comprobanteFacade;
     @EJB
     PagosFacade pagosFacade;
+    @Inject
+    LoginController loginController;
 
     private Date desde;
     private Date hasta;
@@ -115,6 +122,9 @@ public class PagosController extends AbstractController implements Serializable 
 
     public void anularPago() {
         if (pagosFacade.anularPago(seleccionComprobante)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.COMPROBANTE, seleccionComprobante.getId_comprobante(), "Actualización comprobante por anulación de pago", loginController.getUsr().toString()));
+
             reinit();
         } else {
             this.mensajeDeError("No se pudo eliminar el pago.");

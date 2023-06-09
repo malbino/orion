@@ -11,10 +11,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.InscritoFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -26,6 +30,8 @@ public class ReporteBoletinNotasCarreraController extends AbstractController imp
 
     @EJB
     InscritoFacade inscritoFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -56,6 +62,9 @@ public class ReporteBoletinNotasCarreraController extends AbstractController imp
             this.insertarParametro("id_carrera", seleccionCarrera.getId_carrera());
 
             toBoletinNotasCarrera();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte boletín de notas por carrera", loginController.getUsr().toString()));
         }
     }
 

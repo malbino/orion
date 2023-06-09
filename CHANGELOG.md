@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2023-06-08
+### Added
+- Logs de sistema
+### Changed
+### Removed
+### Fixed
+
 ## [2.2.0] - 2023-04-06
 ### Added
 - Gestion de roles

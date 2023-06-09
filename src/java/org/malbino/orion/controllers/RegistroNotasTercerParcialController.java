@@ -17,6 +17,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellCopyPolicy;
@@ -29,13 +30,17 @@ import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Empleado;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
 import org.malbino.orion.facades.negocio.RegistroDocenteFacade;
+import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.NumberToLetterConverter;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -66,6 +71,8 @@ public class RegistroNotasTercerParcialController extends AbstractController imp
     ActividadFacade actividadFacade;
     @EJB
     FileEstudianteFacade fileEstudianteFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -228,6 +235,9 @@ public class RegistroNotasTercerParcialController extends AbstractController imp
         }
 
         descargarArchivo(workbook, seleccionGrupo);
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Descarga de Registro Pedagógico", loginController.getUsr().toString()));
     }
 
     public void subirRegistro(FileUploadEvent event) throws IOException {
@@ -499,6 +509,9 @@ public class RegistroNotasTercerParcialController extends AbstractController imp
         }
 
         descargarArchivo(workbook, seleccionGrupo);
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Descarga de Planilla de Seguimiento", loginController.getUsr().toString()));
     }
 
     /**

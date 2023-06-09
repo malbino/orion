@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EventoLog;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -22,6 +26,9 @@ import org.malbino.orion.entities.GestionAcademica;
 @SessionScoped
 public class ReporteHabilitadosRecuperatorioController extends AbstractController implements Serializable {
 
+    @Inject
+    LoginController loginController;
+    
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
 
@@ -51,12 +58,15 @@ public class ReporteHabilitadosRecuperatorioController extends AbstractControlle
             this.insertarParametro("id_carrera", seleccionCarrera.getId_carrera());
 
             toHabilitadosRecuperatorio();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte estudiantes habilitados recuperatorio", loginController.getUsr().toString()));
         }
     }
 
     public void toReporteHabilitadosRecuperatorio() throws IOException {
         reinit();
-        
+
         this.redireccionarViewId("/reportes/notas/habilitadosRecuperatorio/reporteHabilitadosRecuperatorio");
     }
 

@@ -47,18 +47,6 @@ public class Rol implements Serializable {
     public Rol() {
     }
 
-    public String recursosToString() {
-        String s = " ";
-        for (Recurso r : recursos) {
-            if (s.compareTo(" ") == 0) {
-                s = r.getNombre();
-            } else {
-                s += ", " + r.getNombre();
-            }
-        }
-        return s;
-    }
-
     /**
      * @return the id_rol
      */

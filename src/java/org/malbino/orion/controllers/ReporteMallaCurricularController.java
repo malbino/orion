@@ -11,10 +11,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.MencionFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -26,6 +30,8 @@ public class ReporteMallaCurricularController extends AbstractController impleme
 
     @EJB
     MencionFacade mencionFacade;
+    @Inject
+    LoginController loginController;
 
     private Carrera seleccionCarrera;
     private Mencion seleccionMencion;
@@ -55,6 +61,9 @@ public class ReporteMallaCurricularController extends AbstractController impleme
             this.insertarParametro("mencion", seleccionMencion);
 
             toMallaCurricular();
+            
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte malla curricular", loginController.getUsr().toString()));
         }
     }
 

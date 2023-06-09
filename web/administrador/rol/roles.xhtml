@@ -65,7 +65,9 @@
                                         </p:column>
 
                                         <p:column headerText="Recursos" >  
-                                            <h:outputText value="#{rol.recursosToString()}"/>
+                                            <p:dataScroller value="#{rol.recursos}" var="recurso" mode="inline" scrollHeight="150">
+                                                #{recurso.nombre}
+                                            </p:dataScroller>
                                         </p:column>
 
                                         <p:column exportable="false"> 

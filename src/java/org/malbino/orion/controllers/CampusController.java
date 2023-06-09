@@ -10,12 +10,16 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Campus;
 import org.malbino.orion.entities.Instituto;
-import org.malbino.orion.facades.CampusFacade;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.InstitutoFacade;
 import org.malbino.orion.util.Constantes;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -26,9 +30,9 @@ import org.malbino.orion.util.Constantes;
 public class CampusController extends AbstractController implements Serializable {
 
     @EJB
-    CampusFacade campusFacade;
-    @EJB
     InstitutoFacade institutoFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Campus> campus;
     private Campus nuevoCampus;
@@ -63,6 +67,9 @@ public class CampusController extends AbstractController implements Serializable
         nuevoCampus.setInstituto(instituto);
         if (campusFacade.buscarPorSucursal(nuevoCampus.getSucursal()) == null) {
             if (campusFacade.create(nuevoCampus)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.CAMPUS, nuevoCampus.getId_campus(), "Creación campus", loginController.getUsr().toString()));
+
                 this.toCampus();
             }
         } else {
@@ -73,6 +80,9 @@ public class CampusController extends AbstractController implements Serializable
     public void editarCampus() throws IOException {
         if (campusFacade.buscarPorSucursal(seleccionCampus.getSucursal(), seleccionCampus.getId_campus()) == null) {
             if (campusFacade.edit(seleccionCampus)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.CAMPUS, seleccionCampus.getId_campus(), "Actualización campus", loginController.getUsr().toString()));
+
                 this.toCampus();
             }
         } else {

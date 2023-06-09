@@ -30,9 +30,11 @@ import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Empleado;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
-import org.malbino.orion.enums.Funcionalidad;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.NotaFacade;
@@ -69,6 +71,8 @@ public class RegistroNotasPrimerParcialController extends AbstractController imp
     ActividadFacade actividadFacade;
     @EJB
     FileEstudianteFacade fileEstudianteFacade;
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -122,6 +126,11 @@ public class RegistroNotasPrimerParcialController extends AbstractController imp
     public void guardar() {
         if (registroDocenteFacade.editarNotas(notas)) {
             actualizarNotas();
+
+            //log
+            for (Nota nota : notas) {
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, nota.getId_nota(), "Actualización del primer parcial", loginController.getUsr().toString()));
+            }
 
             this.mensajeDeInformacion("Guardado.");
         }
@@ -231,6 +240,9 @@ public class RegistroNotasPrimerParcialController extends AbstractController imp
         }
 
         descargarArchivo(workbook, seleccionGrupo);
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Descarga de Registro Pedagógico", loginController.getUsr().toString()));
     }
 
     public void subirRegistro(FileUploadEvent event) throws IOException {
@@ -289,6 +301,9 @@ public class RegistroNotasPrimerParcialController extends AbstractController imp
                                                     nota.setPractica1(practicaCellValue.intValue());
 
                                                     fileEstudianteFacade.editarParcial(nota);
+
+                                                    //log
+                                                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, nota.getId_nota(), "Actualización del primer parcial", loginController.getUsr().toString()));
                                                 }
                                             }
                                         }
@@ -502,6 +517,9 @@ public class RegistroNotasPrimerParcialController extends AbstractController imp
         }
 
         descargarArchivo(workbook, seleccionGrupo);
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Descarga de Planilla de Seguimiento", loginController.getUsr().toString()));
     }
 
     /**

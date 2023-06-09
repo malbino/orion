@@ -4,6 +4,7 @@
  */
 package org.malbino.orion.facades.negocio;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -39,7 +40,9 @@ public class ProgramacionGruposPasantiasFacade {
     GrupoPasantiaFacade grupoPasantiaFacade;
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public boolean programarGruposPasantias(GestionAcademica gestionAcademica, Carrera carrera, Nivel nivel, Mencion mencion, Turno turno, Integer capacidad) {
+    public List<GrupoPasantia> programarGruposPasantias(GestionAcademica gestionAcademica, Carrera carrera, Nivel nivel, Mencion mencion, Turno turno, Integer capacidad) {
+        List<GrupoPasantia> gruposPasantia = new ArrayList<>();
+
         List<Pasantia> pasantias = pasantiaFacade.listaPasantias(carrera, mencion, nivel);
         for (Pasantia pasantia : pasantias) {
             Integer c1 = grupoPasantiaFacade.cantidadGruposPasantias(gestionAcademica.getId_gestionacademica(), pasantia.getId_pasantia(), turno).intValue();
@@ -47,8 +50,11 @@ public class ProgramacionGruposPasantiasFacade {
 
             GrupoPasantia grupoPasantia = new GrupoPasantia(codigo, capacidad, turno, true, gestionAcademica, pasantia);
             em.persist(grupoPasantia);
+
+            gruposPasantia.add(grupoPasantia);
         }
-        return true;
+
+        return gruposPasantia;
     }
 
 }

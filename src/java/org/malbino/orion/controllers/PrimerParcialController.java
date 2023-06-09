@@ -29,8 +29,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
-import org.malbino.orion.enums.Condicion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
@@ -38,7 +40,6 @@ import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.negocio.FileEstudianteFacade;
 import org.malbino.orion.facades.negocio.RegistroDocenteFacade;
 import org.malbino.orion.util.Fecha;
-import org.malbino.orion.util.NumberToLetterConverter;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -121,6 +122,11 @@ public class PrimerParcialController extends AbstractController implements Seria
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_PRIMER_PARCIAL, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (registroDocenteFacade.editarNotas(notas)) {
                 actualizarNotas();
+                
+                //log
+                for (Nota nota : notas) {
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, nota.getId_nota(), "Actualización del primer parcial", loginController.getUsr().toString()));
+                }
 
                 this.mensajeDeInformacion("Guardado.");
             }
@@ -235,6 +241,9 @@ public class PrimerParcialController extends AbstractController implements Seria
         }
 
         descargarArchivo(workbook, seleccionGrupo);
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Descarga de Registro Pedagógico", loginController.getUsr().toString()));
     }
 
     public void subirRegistro(FileUploadEvent event) throws IOException {
@@ -294,6 +303,9 @@ public class PrimerParcialController extends AbstractController implements Seria
                                                         nota.setPractica1(practicaCellValue.intValue());
 
                                                         fileEstudianteFacade.editarParcial(nota);
+                                                        
+                                                        //log
+                                                        logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, nota.getId_nota(), "Actualización del primer parcial", loginController.getUsr().toString()));
                                                     }
                                                 }
                                             }
@@ -320,6 +332,9 @@ public class PrimerParcialController extends AbstractController implements Seria
         this.insertarParametro("id_grupo", seleccionGrupo.getId_grupo());
 
         this.redireccionarViewId("/registroDocente/planillaSeguimiento");
+        
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Descarga Planilla de Seguimiento", loginController.getUsr().toString()));
     }
 
     /**

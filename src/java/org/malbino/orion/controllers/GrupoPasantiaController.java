@@ -12,16 +12,21 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.GrupoPasantia;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.GrupoPasantiaFacade;
 import org.malbino.orion.facades.MencionFacade;
 import org.malbino.orion.facades.negocio.ProgramacionGruposPasantiasFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -37,6 +42,8 @@ public class GrupoPasantiaController extends AbstractController implements Seria
     MencionFacade mencionFacade;
     @EJB
     ProgramacionGruposPasantiasFacade programacionGruposPasantiasFacade;
+    @Inject
+    LoginController loginController;
 
     private List<GrupoPasantia> gruposPasantias;
     private GrupoPasantia seleccionGrupoPasantia;
@@ -107,7 +114,13 @@ public class GrupoPasantiaController extends AbstractController implements Seria
     }
 
     public void programarGrupoPasantias() throws IOException {
-        if (programacionGruposPasantiasFacade.programarGruposPasantias(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionMencion, seleccionTurno, capacidad)) {
+        List<GrupoPasantia> gruposPasantia = programacionGruposPasantiasFacade.programarGruposPasantias(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionMencion, seleccionTurno, capacidad);
+        if (!gruposPasantia.isEmpty()) {
+            //log
+            for (GrupoPasantia grupoPasantia : gruposPasantia) {
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.GRUPO_PASANTIA, grupoPasantia.getId_grupopasantia(), "Creación grupo pasantía por programación de grupos pasantía", loginController.getUsr().toString()));
+            }
+            
             toGruposPasantias();
         }
     }

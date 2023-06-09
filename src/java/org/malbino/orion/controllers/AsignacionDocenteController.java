@@ -12,15 +12,20 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.moodle.webservices.CopiarGrupo;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.NotaFacade;
+import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Moodle;
 
 /**
@@ -35,6 +40,8 @@ public class AsignacionDocenteController extends AbstractController implements S
     GrupoFacade grupoFacade;
     @EJB
     NotaFacade notaFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Grupo> grupos;
     private Grupo seleccionGrupo;
@@ -89,6 +96,9 @@ public class AsignacionDocenteController extends AbstractController implements S
 
     public void cambiarDocente() throws IOException {
         if (grupoFacade.edit(seleccionGrupo)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Cambio de docente", loginController.getUsr().toString()));
+
             this.toAsignacionDocente();
         }
     }
@@ -108,6 +118,9 @@ public class AsignacionDocenteController extends AbstractController implements S
 
         CopiarGrupo copiarGrupo = new CopiarGrupo(login, webservice, username, password, serviceName, grupo, notas);
         new Thread(copiarGrupo).start();
+
+        //log
+        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Copia grupo a Moodle", loginController.getUsr().toString()));
     }
 
     public void toCambiarDocente() throws IOException {

@@ -11,13 +11,18 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Materia;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.MateriaFacade;
 import org.malbino.orion.facades.MencionFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -31,6 +36,8 @@ public class MateriaController extends AbstractController implements Serializabl
     MateriaFacade materiaFacade;
     @EJB
     MencionFacade mencionFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Materia> materias;
     private Materia nuevaMateria;
@@ -84,6 +91,9 @@ public class MateriaController extends AbstractController implements Serializabl
         nuevaMateria.setCarrera(seleccionCarrera);
         if (materiaFacade.buscarPorCodigo(nuevaMateria.getCodigo(), nuevaMateria.getCarrera(), nuevaMateria.getMencion()).isEmpty()) {
             if (materiaFacade.create(nuevaMateria)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.MATERIA, nuevaMateria.getId_materia(), "Creación materia", loginController.getUsr().toString()));
+
                 this.toMaterias();
             }
         } else {
@@ -94,6 +104,9 @@ public class MateriaController extends AbstractController implements Serializabl
     public void editarMateria() throws IOException {
         if (materiaFacade.buscarPorCodigo(seleccionMateria.getCodigo(), seleccionMateria.getId_materia(), seleccionMateria.getCarrera(), seleccionMateria.getMencion()).isEmpty()) {
             if (materiaFacade.edit(seleccionMateria)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.MATERIA, seleccionMateria.getId_materia(), "Actualización materia", loginController.getUsr().toString()));
+
                 this.toMaterias();
             }
         } else {

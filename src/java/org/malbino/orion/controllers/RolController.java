@@ -10,11 +10,16 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Recurso;
 import org.malbino.orion.entities.Rol;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.RecursoFacade;
 import org.malbino.orion.facades.RolFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -28,6 +33,8 @@ public class RolController extends AbstractController implements Serializable {
     RolFacade rolFacade;
     @EJB
     RecursoFacade resursoFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Rol> roles;
     private Rol nuevoRol;
@@ -67,16 +74,24 @@ public class RolController extends AbstractController implements Serializable {
     public void nuevoRol() throws IOException {
         if (rolFacade.buscarRol(nuevoRol.getNombre()) == null) {
             if (rolFacade.create(nuevoRol)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.ROL, nuevoRol.getId_rol(), "Creación rol", loginController.getUsr().toString()));
+
                 this.toRoles();
             }
         } else {
             this.mensajeDeError("Rol repetido.");
         }
-    };
+    }
+
+    ;
 
     public void editarRol() throws IOException {
         if (rolFacade.buscarRol(seleccionRol.getNombre(), seleccionRol.getId_rol()) == null) {
             if (rolFacade.edit(seleccionRol)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.ROL, seleccionRol.getId_rol(), "Actualización rol", loginController.getUsr().toString()));
+
                 this.toRoles();
             }
         } else {

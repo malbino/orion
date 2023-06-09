@@ -12,19 +12,23 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Empresa;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.GrupoPasantia;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.NotaPasantia;
 import org.malbino.orion.entities.Pasantia;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
-import org.malbino.orion.facades.EmpresaFacade;
 import org.malbino.orion.facades.GrupoPasantiaFacade;
 import org.malbino.orion.facades.NotaPasantiaFacade;
 import org.malbino.orion.facades.negocio.PasantiaEstudianteFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -39,11 +43,11 @@ public class InscripcionPasantiaController extends AbstractController implements
     @EJB
     GrupoPasantiaFacade grupoPasantiaFacade;
     @EJB
-    EmpresaFacade empresaFacade;
-    @EJB
     PasantiaEstudianteFacade pasantiaEstudianteFacade;
     @EJB
     NotaPasantiaFacade notaPasantiaFacade;
+    @Inject
+    LoginController loginController;
 
     private Date seleccionFecha;
     private Estudiante seleccionEstudiante;
@@ -127,11 +131,12 @@ public class InscripcionPasantiaController extends AbstractController implements
     public void registrarPasantia() throws IOException {
         if (notaPasantiaFacade.buscarNotaPasantia(seleccionEstudiante, seleccionGrupoPasantia, seleccionEmpresa) == null) {
             if (seleccionEstudiante.getDiplomaBachiller()) {
-                if (pasantiaEstudianteFacade.registrarPasantia(seleccionFecha, seleccionEstudiante, seleccionGrupoPasantia, seleccionCarreraEstudiante, seleccionEmpresa)) {
-                    NotaPasantia notaPasantia = notaPasantiaFacade.buscarNotaPasantia(seleccionEstudiante, seleccionGrupoPasantia, seleccionEmpresa);
-                    if (notaPasantia != null) {
-                        this.insertarParametro("id_notapasantia", notaPasantia.getId_notapasantia());
-                    }
+                NotaPasantia notaPasantia = pasantiaEstudianteFacade.registrarPasantia(seleccionFecha, seleccionEstudiante, seleccionGrupoPasantia, seleccionCarreraEstudiante, seleccionEmpresa);
+                if (notaPasantia != null) {
+                    //log
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.NOTA_PASANTIA, notaPasantia.getId_notapasantia(), "Creación nota pasantía por inscripción a pasantía", loginController.getUsr().toString()));
+
+                    this.insertarParametro("id_notapasantia", notaPasantia.getId_notapasantia());
 
                     reinit();
 

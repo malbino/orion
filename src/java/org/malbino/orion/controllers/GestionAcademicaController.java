@@ -9,12 +9,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Regimen;
-import org.malbino.orion.facades.GestionAcademicaFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -24,8 +27,8 @@ import org.malbino.orion.facades.GestionAcademicaFacade;
 @SessionScoped
 public class GestionAcademicaController extends AbstractController implements Serializable {
 
-    @EJB
-    GestionAcademicaFacade gestionAcademicaFacade;
+    @Inject
+    LoginController loginController;
 
     private List<GestionAcademica> gestionesAcademicas;
     private GestionAcademica nuevaGestionAcademica;
@@ -63,6 +66,9 @@ public class GestionAcademicaController extends AbstractController implements Se
         nuevaGestionAcademica.setRegimen(seleccionRegimen);
         if (gestionAcademicaFacade.buscarPorCodigoRegimen(nuevaGestionAcademica.getGestion(), nuevaGestionAcademica.getPeriodo(), seleccionRegimen) == null) {
             if (gestionAcademicaFacade.create(nuevaGestionAcademica)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.GESTION_ACADEMICA, nuevaGestionAcademica.getId_gestionacademica(), "Creación gestión académica", loginController.getUsr().toString()));
+
                 this.toGestionesAcademicas();
             }
         } else {
@@ -73,6 +79,9 @@ public class GestionAcademicaController extends AbstractController implements Se
     public void editarGestionAcademica() throws IOException {
         if (gestionAcademicaFacade.buscarPorCodigoRegimen(seleccionGestionAcademica.getGestion(), seleccionGestionAcademica.getPeriodo(), seleccionRegimen, seleccionGestionAcademica.getId_gestionacademica()) == null) {
             if (gestionAcademicaFacade.edit(seleccionGestionAcademica)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.GESTION_ACADEMICA, seleccionGestionAcademica.getId_gestionacademica(), "Actualización gestión académica", loginController.getUsr().toString()));
+
                 this.toGestionesAcademicas();
             }
         } else {

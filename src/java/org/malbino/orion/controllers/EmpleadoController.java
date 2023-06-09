@@ -8,11 +8,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Empleado;
-import org.malbino.orion.facades.EmpleadoFacade;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -22,8 +25,8 @@ import org.malbino.orion.facades.EmpleadoFacade;
 @SessionScoped
 public class EmpleadoController extends AbstractController implements Serializable {
 
-    @EJB
-    EmpleadoFacade empleadoFacade;
+    @Inject
+    LoginController loginController;
 
     private List<Empleado> empleados;
     private Empleado nuevoEmpleado;
@@ -55,6 +58,9 @@ public class EmpleadoController extends AbstractController implements Serializab
     public void crearEmpleado() throws IOException {
         if (empleadoFacade.buscarPorDni(nuevoEmpleado.getDni()) == null) {
             if (empleadoFacade.create(nuevoEmpleado)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.EMPLEADO, nuevoEmpleado.getId_persona(), "Creación empleado", loginController.getUsr().toString()));
+
                 this.toEmpleados();
             }
         } else {
@@ -65,6 +71,9 @@ public class EmpleadoController extends AbstractController implements Serializab
     public void editarEmpleado() throws IOException {
         if (empleadoFacade.buscarPorDni(seleccionEmpleado.getDni(), seleccionEmpleado.getId_persona()) == null) {
             if (empleadoFacade.edit(seleccionEmpleado)) {
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.EMPLEADO, seleccionEmpleado.getId_persona(), "Actualización empleado", loginController.getUsr().toString()));
+
                 this.toEmpleados();
             }
         } else {
@@ -82,7 +91,7 @@ public class EmpleadoController extends AbstractController implements Serializab
 
     public void toEmpleados() throws IOException {
         reinit();
-        
+
         this.redireccionarViewId("/administrador/empleado/empleados");
     }
 

@@ -14,9 +14,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.CarreraEstudiante;
 import org.malbino.orion.entities.Estudiante;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.facades.CarreraEstudianteFacade;
 import org.malbino.orion.facades.NotaFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -26,12 +30,12 @@ import org.malbino.orion.facades.NotaFacade;
 @SessionScoped
 public class HistorialAcademicoEstudianteController extends AbstractController implements Serializable {
 
-    @Inject
-    LoginController loginController;
     @EJB
     NotaFacade notaFacade;
     @EJB
     CarreraEstudianteFacade carreraEstudianteFacade;
+    @Inject
+    LoginController loginController;
 
     private CarreraEstudiante seleccionCarreraEstudiante;
     private List<Nota> historialAcademico;
@@ -46,6 +50,9 @@ public class HistorialAcademicoEstudianteController extends AbstractController i
             Estudiante estudiante = estudianteFacade.find(loginController.getUsr().getId_persona());
             if (estudiante != null) {
                 historialAcademico = notaFacade.historialAcademico(estudiante, seleccionCarreraEstudiante.getCarrera(), seleccionCarreraEstudiante.getMencion());
+
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.ESTUDIANTE, estudiante.getId_persona(), "Visualización Historial Académico", loginController.getUsr().toString()));
             }
         }
     }

@@ -9,14 +9,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.moodle.webservices.CopiarPostulantes;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Postulante;
-import org.malbino.orion.facades.PostulanteFacade;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
+import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Moodle;
 
 /**
@@ -27,9 +30,9 @@ import org.malbino.orion.util.Moodle;
 @SessionScoped
 public class AdmisionesController extends AbstractController implements Serializable {
 
-    @EJB
-    PostulanteFacade postulanteFacade;
-
+    @Inject
+    LoginController loginController;
+    
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
 
@@ -79,6 +82,9 @@ public class AdmisionesController extends AbstractController implements Serializ
 
     public void imprimirFormularioPostulante() throws IOException {
         if (seleccionPostulante != null) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.POSTULANTE, seleccionPostulante.getId_postulante(), "Impresión formulario postulante", loginController.getUsr().toString()));
+            
             this.insertarParametro("id_postulante", seleccionPostulante.getId_postulante());
 
             toFormularioPostulante();
@@ -98,6 +104,9 @@ public class AdmisionesController extends AbstractController implements Serializ
 
             CopiarPostulantes copiarGrupo = new CopiarPostulantes(login, webservice, username, password, serviceName, postulantes);
             new Thread(copiarGrupo).start();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Copia de postulantes a Moodle", loginController.getUsr().toString()));
         } else {
             this.mensajeDeError("Ningun postulante para copiar.");
         }

@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import org.malbino.orion.entities.Log;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Periodo;
-import org.malbino.orion.facades.GestionAcademicaFacade;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
@@ -22,8 +24,8 @@ import org.malbino.orion.facades.GestionAcademicaFacade;
 @SessionScoped
 public class ReporteLibroInscripcionesController extends AbstractController implements Serializable {
 
-    @EJB
-    GestionAcademicaFacade gestionAcademicaFacade;
+    @Inject
+    LoginController loginController;
 
     private Integer seleccionGestion;
     private Periodo seleccionPeriodo;
@@ -49,6 +51,9 @@ public class ReporteLibroInscripcionesController extends AbstractController impl
             this.insertarParametro("periodo", seleccionPeriodo);
 
             toLibroInscripciones();
+            
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte libro de inscripciones", loginController.getUsr().toString()));
         }
     }
 
