@@ -20,7 +20,7 @@ import org.malbino.orion.entities.Postulante;
 import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.util.Fecha;
-import org.malbino.orion.util.Moodle;
+import org.malbino.orion.util.Propiedades;
 
 /**
  *
@@ -32,7 +32,7 @@ public class AdmisionesController extends AbstractController implements Serializ
 
     @Inject
     LoginController loginController;
-    
+
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
 
@@ -84,7 +84,7 @@ public class AdmisionesController extends AbstractController implements Serializ
         if (seleccionPostulante != null) {
             //log
             logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.POSTULANTE, seleccionPostulante.getId_postulante(), "Impresión formulario postulante", loginController.getUsr().toString()));
-            
+
             this.insertarParametro("id_postulante", seleccionPostulante.getId_postulante());
 
             toFormularioPostulante();
@@ -94,7 +94,7 @@ public class AdmisionesController extends AbstractController implements Serializ
     //moolde
     public void copiarPostulantes() {
         if (!postulantes.isEmpty()) {
-            String[] properties = Moodle.getProperties();
+            String[] properties = Propiedades.moodleProperties();
 
             String webservice = properties[0];
             String login = properties[1];
@@ -102,11 +102,13 @@ public class AdmisionesController extends AbstractController implements Serializ
             String password = properties[3];
             String serviceName = properties[4];
 
-            CopiarPostulantes copiarGrupo = new CopiarPostulantes(login, webservice, username, password, serviceName, postulantes);
-            new Thread(copiarGrupo).start();
+            if (!webservice.isEmpty() && !login.isEmpty() && !username.isEmpty() && !password.isEmpty() && !serviceName.isEmpty()) {
+                CopiarPostulantes copiarGrupo = new CopiarPostulantes(login, webservice, username, password, serviceName, postulantes);
+                new Thread(copiarGrupo).start();
 
-            //log
-            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Copia de postulantes a Moodle", loginController.getUsr().toString()));
+                //log
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Copia de postulantes a Moodle", loginController.getUsr().toString()));
+            }
         } else {
             this.mensajeDeError("Ningun postulante para copiar.");
         }

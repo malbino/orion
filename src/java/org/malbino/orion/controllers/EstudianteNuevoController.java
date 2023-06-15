@@ -20,6 +20,7 @@ import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.entities.Usuario;
 import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
@@ -30,6 +31,8 @@ import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Generador;
+import org.malbino.orion.util.Propiedades;
+import org.malbino.pfsense.webservices.CopiarUsuario;
 
 /**
  *
@@ -143,6 +146,22 @@ public class EstudianteNuevoController extends AbstractController implements Ser
         return l;
     }
 
+    public void copiarUsuario(Usuario usuario) {
+        String[] properties = Propiedades.pfsenseProperties();
+
+        String webservice = properties[0];
+        String user = properties[1];
+        String password = properties[2];
+
+        if (!webservice.isEmpty() && !user.isEmpty() && !password.isEmpty()) {
+            CopiarUsuario copiarUsuario = new CopiarUsuario(webservice, user, password, usuario);
+            new Thread(copiarUsuario).start();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.USUARIO, usuario.getId_persona(), "Copia de usuario a pfSense", loginController.getUsr().toString()));
+        }
+    }
+
     public void registrarEstudiante() throws IOException {
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.INSCRIPCION, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (estudianteFacade.buscarPorDni(nuevoEstudiante.getDni()) == null) {
@@ -155,9 +174,11 @@ public class EstudianteNuevoController extends AbstractController implements Ser
                 nuevoEstudiante.setContrasenaSinEncriptar(contrasena);
 
                 if (inscripcionesFacade.registrarEstudianteNuevo(nuevoEstudiante, seleccionCarreraEstudiante, seleccionGestionAcademica, nuevoComprobante)) {
-                    //log
-                    logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.ESTUDIANTE, nuevoEstudiante.getId_persona(), "Inscripción estudiante nuevo",loginController.getUsr().toString()));
-                    
+                    copiarUsuario(nuevoEstudiante);
+
+                    //logF
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.ESTUDIANTE, nuevoEstudiante.getId_persona(), "Inscripción estudiante nuevo", loginController.getUsr().toString()));
+
                     this.insertarParametro("id_comprobante", nuevoComprobante.getId_comprobante());
                     this.insertarParametro("est", nuevoEstudiante);
 

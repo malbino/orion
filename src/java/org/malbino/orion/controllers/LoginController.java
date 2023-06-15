@@ -21,6 +21,8 @@ import org.malbino.orion.facades.RecursoFacade;
 import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.PasswordValidator;
+import org.malbino.orion.util.Propiedades;
+import org.malbino.pfsense.webservices.CopiarUsuario;
 
 /**
  *
@@ -107,14 +109,33 @@ public class LoginController extends AbstractController {
 
         toLogin();
     }
+    
+    public void copiarUsuario(Usuario usuario) {
+        String[] properties = Propiedades.pfsenseProperties();
+
+        String webservice = properties[0];
+        String user = properties[1];
+        String password = properties[2];
+
+        if (!webservice.isEmpty() && !user.isEmpty() && !password.isEmpty()) {
+            CopiarUsuario copiarUsuario = new CopiarUsuario(webservice, user, password, usuario);
+            new Thread(copiarUsuario).start();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.USUARIO, usuario.getId_persona(), "Copia de usuario a pfSense", usr.toString()));
+        }
+    }
 
     public void cambiarContrasena() throws IOException {
         if (Encriptador.comparar(contrasenaActual, usr.getContrasena())) {
             if (nuevaContrasena.equals(repitaNuevaContrasena)) {
                 if (PasswordValidator.isValid(nuevaContrasena)) {
+                    usr.setContrasenaSinEncriptar(nuevaContrasena);
                     usr.setContrasena(Encriptador.encriptar(nuevaContrasena));
 
                     if (usuarioFacade.edit(usr)) {
+                        copiarUsuario(usr);
+                        
                         //log
                         logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.USUARIO, usr.getId_persona(), "Actualización por cambio de contraseña por parte del usuario", usr.toString()));
 

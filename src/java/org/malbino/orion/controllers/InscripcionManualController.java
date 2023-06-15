@@ -40,7 +40,7 @@ import org.malbino.orion.facades.PagoFacade;
 import org.malbino.orion.facades.negocio.InscripcionesFacade;
 import org.malbino.orion.util.Constantes;
 import org.malbino.orion.util.Fecha;
-import org.malbino.orion.util.Moodle;
+import org.malbino.orion.util.Propiedades;
 
 /**
  *
@@ -171,7 +171,7 @@ public class InscripcionManualController extends AbstractController implements S
     }
 
     public void copiarInscrito(Estudiante estudiante, List<Nota> notas) {
-        String[] properties = Moodle.getProperties();
+        String[] properties = Propiedades.moodleProperties();
 
         String webservice = properties[0];
         String login = properties[1];
@@ -179,11 +179,13 @@ public class InscripcionManualController extends AbstractController implements S
         String password = properties[3];
         String serviceName = properties[4];
 
-        CopiarInscrito copiarInscrito = new CopiarInscrito(login, webservice, username, password, serviceName, estudiante, notas);
-        new Thread(copiarInscrito).start();
+        if (!webservice.isEmpty() && !login.isEmpty() && !username.isEmpty() && !password.isEmpty() && !serviceName.isEmpty()) {
+            CopiarInscrito copiarInscrito = new CopiarInscrito(login, webservice, username, password, serviceName, estudiante, notas);
+            new Thread(copiarInscrito).start();
 
-        //log
-        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.ESTUDIANTE, estudiante.getId_persona(), "Copia de inscrito a Moodle", loginController.getUsr().toString()));
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.ESTUDIANTE, estudiante.getId_persona(), "Copia de inscrito a Moodle", loginController.getUsr().toString()));
+        }
     }
 
     public void tomarMaterias() throws IOException {

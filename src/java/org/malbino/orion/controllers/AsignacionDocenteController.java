@@ -26,7 +26,7 @@ import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.util.Fecha;
-import org.malbino.orion.util.Moodle;
+import org.malbino.orion.util.Propiedades;
 
 /**
  *
@@ -105,7 +105,7 @@ public class AsignacionDocenteController extends AbstractController implements S
 
     //moolde
     public void copiarGrupo() {
-        String[] properties = Moodle.getProperties();
+        String[] properties = Propiedades.moodleProperties();
 
         String webservice = properties[0];
         String login = properties[1];
@@ -113,14 +113,16 @@ public class AsignacionDocenteController extends AbstractController implements S
         String password = properties[3];
         String serviceName = properties[4];
 
-        Grupo grupo = grupoFacade.find(seleccionGrupo.getId_grupo());
-        List<Nota> notas = notaFacade.listaNotasGrupo(grupo.getId_grupo());
+        if (!webservice.isEmpty() && !login.isEmpty() && !username.isEmpty() && !password.isEmpty() && !serviceName.isEmpty()) {
+            Grupo grupo = grupoFacade.find(seleccionGrupo.getId_grupo());
+            List<Nota> notas = notaFacade.listaNotasGrupo(grupo.getId_grupo());
 
-        CopiarGrupo copiarGrupo = new CopiarGrupo(login, webservice, username, password, serviceName, grupo, notas);
-        new Thread(copiarGrupo).start();
+            CopiarGrupo copiarGrupo = new CopiarGrupo(login, webservice, username, password, serviceName, grupo, notas);
+            new Thread(copiarGrupo).start();
 
-        //log
-        logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Copia grupo a Moodle", loginController.getUsr().toString()));
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Copia grupo a Moodle", loginController.getUsr().toString()));
+        }
     }
 
     public void toCambiarDocente() throws IOException {

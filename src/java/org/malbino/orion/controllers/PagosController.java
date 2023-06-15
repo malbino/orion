@@ -25,6 +25,8 @@ import org.malbino.orion.facades.negocio.PagosFacade;
 import org.malbino.orion.util.Encriptador;
 import org.malbino.orion.util.Fecha;
 import org.malbino.orion.util.Generador;
+import org.malbino.orion.util.Propiedades;
+import org.malbino.pfsense.webservices.CopiarUsuario;
 
 /**
  *
@@ -81,6 +83,22 @@ public class PagosController extends AbstractController implements Serializable 
         }
     }
 
+    public void copiarUsuario(Usuario usuario) {
+        String[] properties = Propiedades.pfsenseProperties();
+
+        String webservice = properties[0];
+        String user = properties[1];
+        String password = properties[2];
+
+        if (!webservice.isEmpty() && !user.isEmpty() && !password.isEmpty()) {
+            CopiarUsuario copiarUsuario = new CopiarUsuario(webservice, user, password, usuario);
+            new Thread(copiarUsuario).start();
+
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.USUARIO, usuario.getId_persona(), "Copia de usuario a pfSense", loginController.getUsr().toString()));
+        }
+    }
+
     public void imprimirComprobante() throws IOException {
         if (seleccionComprobante.getInscrito() != null && seleccionComprobante.getPostulante() == null
                 && seleccionComprobante.getEstudiante() == null && seleccionComprobante.getCarrera() == null
@@ -92,6 +110,8 @@ public class PagosController extends AbstractController implements Serializable 
             estudiante.setContrasenaSinEncriptar(contrasena);
 
             if (estudianteFacade.edit(estudiante)) {
+                copiarUsuario(estudiante);
+
                 this.insertarParametro("id_comprobante", seleccionComprobante.getId_comprobante());
                 this.insertarParametro("est", estudiante);
 

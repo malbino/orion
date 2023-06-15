@@ -13,16 +13,16 @@ import org.slf4j.LoggerFactory;
  *
  * @author Tincho
  */
-public class Moodle {
+public class Propiedades {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Moodle.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Propiedades.class);
 
-    public static String[] getProperties() {
+    public static String[] moodleProperties() {
         String[] properties = new String[5];
 
         try {
             Properties prop = new Properties();
-            prop.load(Moodle.class.getClassLoader().getResourceAsStream("moodle.properties"));
+            prop.load(Propiedades.class.getClassLoader().getResourceAsStream("moodle.properties"));
 
             properties[0] = prop.getProperty("webservice");
             properties[1] = prop.getProperty("login");
@@ -33,6 +33,25 @@ public class Moodle {
             return properties;
         } catch (IOException ex) {
             log.error("Error en el archivo de propiedades de Moodle: " + ex.getMessage());
+        }
+
+        return properties;
+    }
+
+    public static String[] pfsenseProperties() {
+        String[] properties = new String[3];
+
+        try {
+            Properties prop = new Properties();
+            prop.load(Propiedades.class.getClassLoader().getResourceAsStream("pfsense.properties"));
+
+            properties[0] = prop.getProperty("webservice");
+            properties[1] = prop.getProperty("user");
+            properties[2] = prop.getProperty("password");
+
+            return properties;
+        } catch (IOException ex) {
+            log.error("Error en el archivo de propiedades de pfSense: " + ex.getMessage());
         }
 
         return properties;
