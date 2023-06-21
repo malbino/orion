@@ -40,7 +40,7 @@ import org.malbino.orion.util.Redondeo;
  *
  * @author tincho
  */
-@WebServlet(name = "ComprobantePago", urlPatterns = {"/pagos/ComprobantePago"})
+@WebServlet(name = "ComprobantePago", urlPatterns = {"/pagos/nuevoPago/ComprobantePago", "/pagos/pagos/ComprobantePago"})
 public class ComprobantePago extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.4.1] - 2023-06-21
 ### Added
 ### Changed
+- Se agrego Log Nota en el Historial Academico
 ### Removed
 ### Fixed
 - Cantidad maxima de materias Seguimiento Academico

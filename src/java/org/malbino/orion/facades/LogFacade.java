@@ -11,6 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -62,7 +63,7 @@ public class LogFacade extends AbstractFacade<Log> {
         if (eventoLog != null) {
             predicates.add(cb.and(cb.equal(log.get("eventoLog"), eventoLog)));
         }
-        
+
         if (entidadLog != null) {
             predicates.add(cb.and(cb.equal(log.get("entidadLog"), entidadLog)));
         }
@@ -82,6 +83,22 @@ public class LogFacade extends AbstractFacade<Log> {
         TypedQuery<Log> tq = em.createQuery(cq);
 
         return tq.getResultList();
+    }
+
+    public List<Log> listaLogNota(int id_nota) {
+        List<Log> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT l FROM Log l WHERE l.entidadLog=:entidadLog AND l.idEntidad=:id_nota ORDER BY l.fecha DESC");
+            q.setParameter("entidadLog", EntidadLog.NOTA);
+            q.setParameter("id_nota", id_nota);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
     }
 
 }

@@ -51,6 +51,8 @@ public class HistorialAcademicoController extends AbstractController implements 
     private Nota nuevaNota;
     private Nota seleccionNota;
 
+    private List<Log> logs;
+
     @PostConstruct
     public void init() {
         seleccionEstudiante = null;
@@ -59,6 +61,8 @@ public class HistorialAcademicoController extends AbstractController implements 
 
         nuevaNota = new Nota();
         seleccionNota = null;
+
+        logs = new ArrayList<>();
     }
 
     public void reinit() {
@@ -68,6 +72,8 @@ public class HistorialAcademicoController extends AbstractController implements 
 
         nuevaNota = new Nota();
         seleccionNota = null;
+
+        logs = new ArrayList<>();
     }
 
     public void sumaNota1() {
@@ -144,6 +150,10 @@ public class HistorialAcademicoController extends AbstractController implements 
         return Modalidad.values(Boolean.FALSE);
     }
 
+    public void logNota() {
+        logs = logFacade.listaLogNota(seleccionNota.getId_nota());
+    }
+
     public void editarParcial() throws IOException {
         if (fileEstudianteFacade.editarParcial(seleccionNota)) {
             //log
@@ -179,7 +189,7 @@ public class HistorialAcademicoController extends AbstractController implements 
             nuevaNota.setEstudiante(seleccionEstudiante);
             if (fileEstudianteFacade.crearNota(nuevaNota)) {
                 //log
-                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.NOTA, nuevaNota.getId_nota(), "Creación nota por historial académico",loginController.getUsr().toString()));
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.NOTA, nuevaNota.getId_nota(), "Creación nota por historial académico", loginController.getUsr().toString()));
 
                 toHistorialAcademico();
             }
@@ -226,6 +236,12 @@ public class HistorialAcademicoController extends AbstractController implements 
 
     public void toEditarNota() throws IOException {
         this.redireccionarViewId("/fileEstudiante/historialAcademico/editarNota");
+    }
+
+    public void toLogNota() throws IOException {
+        this.logNota();
+        
+        this.redireccionarViewId("/fileEstudiante/historialAcademico/logNota");
     }
 
     /**
@@ -296,6 +312,20 @@ public class HistorialAcademicoController extends AbstractController implements 
      */
     public void setSeleccionNota(Nota seleccionNota) {
         this.seleccionNota = seleccionNota;
+    }
+
+    /**
+     * @return the logs
+     */
+    public List<Log> getLogs() {
+        return logs;
+    }
+
+    /**
+     * @param logs the logs to set
+     */
+    public void setLogs(List<Log> logs) {
+        this.logs = logs;
     }
 
 }
