@@ -35,7 +35,7 @@ import org.malbino.orion.pojos.seguimiento.Seguimiento;
 @LocalBean
 public class SeguimientoAcademicoFacade {
 
-    private static final int CAN_MAX_MAT = 8;
+    private static final int CAN_MAX_MAT = 10;
 
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;

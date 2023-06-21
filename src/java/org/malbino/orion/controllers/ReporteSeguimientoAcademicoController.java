@@ -247,6 +247,18 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             } else {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<M8>>", ""));
                             }
+                        } else if (cell.getStringCellValue().contains("<<M9>>")) {
+                            if (seguimiento.getMateriasSeguimiento()[8] != null) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<M9>>", seguimiento.getMateriasSeguimiento()[8]));
+                            } else {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<M9>>", ""));
+                            }
+                        } else if (cell.getStringCellValue().contains("<<M10>>")) {
+                            if (seguimiento.getMateriasSeguimiento()[9] != null) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<M10>>", seguimiento.getMateriasSeguimiento()[9]));
+                            } else {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<M10>>", ""));
+                            }
                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                             rowNum = row.getRowNum();
                         }
@@ -756,6 +768,126 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
                             } else {
                                 cell.setCellValue("");
                             }
+                        } else if (cell.getNumericCellValue() == -91) {
+                            if (notasSeguimiento[8] != null) {
+                                if (notasSeguimiento[8].getNota1() != null) {
+                                    cell.setCellValue(notasSeguimiento[8].getNota1());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -92) {
+                            if (notasSeguimiento[8] != null) {
+                                if (notasSeguimiento[8].getNota2() != null) {
+                                    cell.setCellValue(notasSeguimiento[8].getNota2());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -93) {
+                            if (notasSeguimiento[8] != null) {
+                                if (notasSeguimiento[8].getNota3() != null) {
+                                    cell.setCellValue(notasSeguimiento[8].getNota3());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -94) {
+                            if (notasSeguimiento[8] != null) {
+                                if (notasSeguimiento[8].getNota4() != null) {
+                                    cell.setCellValue(notasSeguimiento[8].getNota4());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -90) {
+                            if (notasSeguimiento[8] != null) {
+                                if (notasSeguimiento[8].getNotaFinal() != null) {
+                                    cell.setCellValue(notasSeguimiento[8].getNotaFinal());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -95) {
+                            if (notasSeguimiento[8] != null) {
+                                if (notasSeguimiento[8].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[8].getRecuperatorio());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -101) {
+                            if (notasSeguimiento[9] != null) {
+                                if (notasSeguimiento[9].getNota1() != null) {
+                                    cell.setCellValue(notasSeguimiento[9].getNota1());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -102) {
+                            if (notasSeguimiento[9] != null) {
+                                if (notasSeguimiento[9].getNota2() != null) {
+                                    cell.setCellValue(notasSeguimiento[9].getNota2());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -103) {
+                            if (notasSeguimiento[9] != null) {
+                                if (notasSeguimiento[9].getNota3() != null) {
+                                    cell.setCellValue(notasSeguimiento[9].getNota3());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -104) {
+                            if (notasSeguimiento[9] != null) {
+                                if (notasSeguimiento[9].getNota4() != null) {
+                                    cell.setCellValue(notasSeguimiento[9].getNota4());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -100) {
+                            if (notasSeguimiento[9] != null) {
+                                if (notasSeguimiento[9].getNotaFinal() != null) {
+                                    cell.setCellValue(notasSeguimiento[9].getNotaFinal());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
+                        } else if (cell.getNumericCellValue() == -105) {
+                            if (notasSeguimiento[9] != null) {
+                                if (notasSeguimiento[9].getRecuperatorio() != null) {
+                                    cell.setCellValue(notasSeguimiento[9].getRecuperatorio());
+                                } else {
+                                    cell.setCellValue("");
+                                }
+                            } else {
+                                cell.setCellValue("");
+                            }
                         }
                     } else if (cell.getCellTypeEnum() == CellType.STRING) {
                         if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
@@ -769,7 +901,7 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
 
         String name = seleccionGestionAcademica.toString() + " - " + seleccionCarrera.getNombre() + " - " + seleccionNivel.toString() + " - " + seleccionTurno.toString() + " - " + seleccionParalelo;
         descargarArchivo(workbook, name);
-        
+
         //log
         logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte seguimiento académico", loginController.getUsr().toString()));
     }
