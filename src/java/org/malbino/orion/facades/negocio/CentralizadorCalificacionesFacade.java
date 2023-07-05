@@ -211,8 +211,8 @@ public class CentralizadorCalificacionesFacade {
                         Integer porcentajeAprobados = 0;
                         Integer cantidadReprobados = 0;
                         Integer porcentajeReprobados = 0;
-                        Integer cantidadAbandonos = 0;
-                        Integer porcentajeAbandonos = 0;
+                        Integer cantidadNoSePresento = 0;
+                        Integer porcentajeNoSePresento = 0;
 
                         List<Estudiante> estudiantes = listaEstudiantes(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel, turno, paralelo);
                         Iterator<Estudiante> iteratorEstudiantes = estudiantes.iterator();
@@ -287,18 +287,34 @@ public class CentralizadorCalificacionesFacade {
                                         List<Nota> notasCero = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getNotaFinal() != null && n.getNotaFinal() == 0).collect(Collectors.toList());
                                         List<Nota> notasAprobadas = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getCondicion().equals(Condicion.APROBADO)).collect(Collectors.toList());
                                         String observacion = "";
-                                        if (notasCero.size() == notasEstudiante.size()) {
-                                            observacion = Condicion.ABANDONO.toString();
+                                        if (materias.size() == notasEstudiante.size()) {
+                                            if (notasCero.size() == notasEstudiante.size()) {
+                                                observacion = Condicion.NO_SE_PRESENTO.toString();
 
-                                            cantidadAbandonos++;
-                                        } else if (notasAprobadas.size() == notasEstudiante.size()) {
-                                            observacion = Condicion.APROBADO.toString();
+                                                cantidadNoSePresento++;
+                                            } else if (notasAprobadas.size() == notasEstudiante.size()) {
+                                                observacion = Condicion.APROBADO.toString();
 
-                                            cantidadAprobados++;
+                                                cantidadAprobados++;
+                                            } else {
+                                                observacion = Condicion.REPROBADO.toString();
+
+                                                cantidadReprobados++;
+                                            }
                                         } else {
-                                            observacion = Condicion.REPROBADO.toString();
+                                            if (notasCero.size() == notasEstudiante.size()) {
+                                                observacion = Condicion.NO_SE_PRESENTO.toString();
 
-                                            cantidadReprobados++;
+                                                cantidadNoSePresento++;
+                                            } else if (notasAprobadas.size() == notasEstudiante.size()) {
+                                                observacion = Condicion.APROBADO_CON_ARRASTRE.toString();
+
+                                                cantidadAprobados++;
+                                            } else {
+                                                observacion = Condicion.REPROBADO_CON_ARRASTRE.toString();
+
+                                                cantidadReprobados++;
+                                            }
                                         }
 
                                         estudianteCentralizador = new EstudianteCentralizador(
@@ -358,7 +374,7 @@ public class CentralizadorCalificacionesFacade {
                             porcentajeInscritos = 100;
                             porcentajeAprobados = Redondeo.redondear_HALFUP(((cantidadAprobados.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
                             porcentajeReprobados = Redondeo.redondear_HALFUP(((cantidadReprobados.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
-                            porcentajeAbandonos = Redondeo.redondear_HALFUP(((cantidadAbandonos.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
+                            porcentajeNoSePresento = Redondeo.redondear_HALFUP(((cantidadNoSePresento.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
 
                             PaginaEstadisticas paginaEstadisticas = new PaginaEstadisticas(
                                     cantidadInscritos,
@@ -367,8 +383,8 @@ public class CentralizadorCalificacionesFacade {
                                     porcentajeAprobados,
                                     cantidadReprobados,
                                     porcentajeReprobados,
-                                    cantidadAbandonos,
-                                    porcentajeAbandonos
+                                    cantidadNoSePresento,
+                                    porcentajeNoSePresento
                             );
 
                             paginasCentralizador.add(paginaEstadisticas);

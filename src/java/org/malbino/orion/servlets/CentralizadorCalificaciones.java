@@ -266,7 +266,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     cell.setBorder(Rectangle.BOTTOM | Rectangle.LEFT | Rectangle.TOP);
                     table.addCell(cell);
-                    
+
                     cell = new PdfPCell(new Phrase(paginaNotas.getRegimen(), NORMAL));
                     cell.setColspan(18);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -278,7 +278,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     cell.setBorder(Rectangle.BOTTOM | Rectangle.LEFT | Rectangle.TOP);
                     table.addCell(cell);
-                    
+
                     cell = new PdfPCell(new Phrase(paginaNotas.getCurso(), NORMAL));
                     cell.setColspan(18);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -458,7 +458,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setColspan(5);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     table.addCell(cell);
-                    ;
+
                     cell = new PdfPCell(new Phrase(((PaginaEstadisticas) paginaCentralizador).getPorcentajeAprobados() + " %", NORMAL));
                     cell.setColspan(5);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -480,18 +480,18 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     table.addCell(cell);
 
-                    //abandonos
-                    cell = new PdfPCell(new Phrase("ABANDONO", NORMAL));
+                    //no se presentaron
+                    cell = new PdfPCell(new Phrase("NO SE PRESENTARON", NORMAL));
                     cell.setColspan(10);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
-                    cell = new PdfPCell(new Phrase(String.valueOf(paginaEstadisticas.getCantidadAbandonos()), NORMAL));
+                    cell = new PdfPCell(new Phrase(String.valueOf(paginaEstadisticas.getCantidadNoSePresento()), NORMAL));
                     cell.setColspan(5);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     table.addCell(cell);
 
-                    cell = new PdfPCell(new Phrase(paginaEstadisticas.getPorcentajeAbandonos() + " %", NORMAL));
+                    cell = new PdfPCell(new Phrase(paginaEstadisticas.getPorcentajeNoSePresento() + " %", NORMAL));
                     cell.setColspan(5);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     table.addCell(cell);

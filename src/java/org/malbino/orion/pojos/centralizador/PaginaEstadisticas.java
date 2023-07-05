@@ -17,18 +17,18 @@ public class PaginaEstadisticas extends PaginaCentralizador{
     private int porcentajeAprobados;
     private int cantidadReprobados;
     private int porcentajeReprobados;
-    private int cantidadAbandonos;
-    private int porcentajeAbandonos;
+    private int cantidadNoSePresento;
+    private int porcentajeNoSePresento;
 
-    public PaginaEstadisticas(int cantidadInscritos, int porcentajeInscritos, int cantidadAprobados, int porcentajeAprobados, int cantidadReprobados, int porcentajeReprobados, int cantidadAbandonos, int porcentajeAbandonos) {
+    public PaginaEstadisticas(int cantidadInscritos, int porcentajeInscritos, int cantidadAprobados, int porcentajeAprobados, int cantidadReprobados, int porcentajeReprobados, int cantidadNoSePresento, int porcentajeNoSePresento) {
         this.cantidadInscritos = cantidadInscritos;
         this.porcentajeInscritos = porcentajeInscritos;
         this.cantidadAprobados = cantidadAprobados;
         this.porcentajeAprobados = porcentajeAprobados;
         this.cantidadReprobados = cantidadReprobados;
         this.porcentajeReprobados = porcentajeReprobados;
-        this.cantidadAbandonos = cantidadAbandonos;
-        this.porcentajeAbandonos = porcentajeAbandonos;
+        this.cantidadNoSePresento = cantidadNoSePresento;
+        this.porcentajeNoSePresento = porcentajeNoSePresento;
     }
 
     /**
@@ -116,31 +116,31 @@ public class PaginaEstadisticas extends PaginaCentralizador{
     }
 
     /**
-     * @return the cantidadAbandonos
+     * @return the cantidadNoSePresento
      */
-    public int getCantidadAbandonos() {
-        return cantidadAbandonos;
+    public int getCantidadNoSePresento() {
+        return cantidadNoSePresento;
     }
 
     /**
-     * @param cantidadAbandonos the cantidadAbandonos to set
+     * @param cantidadNoSePresento the cantidadNoSePresento to set
      */
-    public void setCantidadAbandonos(int cantidadAbandonos) {
-        this.cantidadAbandonos = cantidadAbandonos;
+    public void setCantidadNoSePresento(int cantidadNoSePresento) {
+        this.cantidadNoSePresento = cantidadNoSePresento;
     }
 
     /**
-     * @return the porcentajeAbandonos
+     * @return the porcentajeNoSePresento
      */
-    public int getPorcentajeAbandonos() {
-        return porcentajeAbandonos;
+    public int getPorcentajeNoSePresento() {
+        return porcentajeNoSePresento;
     }
 
     /**
-     * @param porcentajeAbandonos the porcentajeAbandonos to set
+     * @param porcentajeNoSePresento the porcentajeNoSePresento to set
      */
-    public void setPorcentajeAbandonos(int porcentajeAbandonos) {
-        this.porcentajeAbandonos = porcentajeAbandonos;
+    public void setPorcentajeNoSePresento(int porcentajeNoSePresento) {
+        this.porcentajeNoSePresento = porcentajeNoSePresento;
     }
     
     

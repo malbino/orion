@@ -14,7 +14,10 @@ public enum Condicion {
     APROBADO("APROBADO", "AP"),
     REPROBADO("REPROBADO", "RE"),
     ABANDONO("ABANDONO", "AB"),
-    RECUPERACION("RECUPERACIÓN", "RC");
+    RECUPERACION("RECUPERACIÓN", "RC"),
+    APROBADO_CON_ARRASTRE("APROBADO C/A", "AP"),
+    REPROBADO_CON_ARRASTRE("REPROBADO C/A", "RE"),
+    NO_SE_PRESENTO("NO SE PRESENTÓ", "NSP");
 
     private String nombre;
     private String abreviatura;

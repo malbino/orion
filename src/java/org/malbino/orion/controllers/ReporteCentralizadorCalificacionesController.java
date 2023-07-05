@@ -478,9 +478,9 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                                         } else if (cell.getNumericCellValue() == -0.6) {
                                             cell.setCellValue(paginaEstadisticas.getPorcentajeReprobados() / 100.0);
                                         } else if (cell.getNumericCellValue() == -70) {
-                                            cell.setCellValue(paginaEstadisticas.getCantidadAbandonos());
+                                            cell.setCellValue(paginaEstadisticas.getCantidadNoSePresento());
                                         } else if (cell.getNumericCellValue() == -0.8) {
-                                            cell.setCellValue(paginaEstadisticas.getPorcentajeAbandonos() / 100.0);
+                                            cell.setCellValue(paginaEstadisticas.getPorcentajeNoSePresento() / 100.0);
                                         }
                                     }
                                 }
