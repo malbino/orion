@@ -15,8 +15,9 @@ public enum Modalidad {
     REGULAR("REGULAR", "R", true),
     CONVALIDACION("CONVALIDACIÓN", "C", false),
     TRASPASO("TRASPASO", "T", false),
-    MIGRACION("MIGRACIÓN", "M", false);
-    
+    MIGRACION("MIGRACIÓN", "M", false),
+    PRUEBA_RECUPERATORIA_ADICIONAL_EXCEPCIONAL("PRUEBA RECUPERATORIA ADICIONAL EXCEPCIONAL", "PRAE", false );
+
     private String nombre;
     private String abreviatura;
     private Boolean regular;
@@ -26,7 +27,7 @@ public enum Modalidad {
         this.abreviatura = abreviatura;
         this.regular = regular;
     }
-    
+
     /**
      * @return the nombre
      */
@@ -54,7 +55,7 @@ public enum Modalidad {
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
     }
-    
+
     /**
      * @return the regular
      */
@@ -73,8 +74,8 @@ public enum Modalidad {
     public String toString() {
         return nombre;
     }
-    
-    public static Modalidad[] values(Boolean regular){
+
+    public static Modalidad[] values(Boolean regular) {
         return Arrays.stream(Modalidad.values()).filter(modalidad -> !modalidad.regular).toArray(Modalidad[]::new);
     }
 }

@@ -32,9 +32,8 @@ import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.EventoLog;
-import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.facades.NotaFacade;
-import org.malbino.orion.facades.negocio.CentralizadorCalificacionesFacade;
+import org.malbino.orion.facades.negocio.CentralizadorCalificacionesPRAEFacade;
 import org.malbino.orion.pojos.centralizador.Centralizador;
 import org.malbino.orion.pojos.centralizador.EstudianteCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaCentralizador;
@@ -48,14 +47,14 @@ import org.primefaces.model.StreamedContent;
  *
  * @author Tincho
  */
-@Named("ReporteCentralizadorCalificacionesController")
+@Named("ReporteCentralizadorCalificacionesPRAEController")
 @SessionScoped
-public class ReporteCentralizadorCalificacionesController extends AbstractController implements Serializable {
+public class ReporteCentralizadorCalificacionesPRAEController extends AbstractController implements Serializable {
 
     private static final String PATHNAME = File.separator + "resources" + File.separator + "uploads" + File.separator + "centralizador.xlsx";
 
     @EJB
-    CentralizadorCalificacionesFacade centralizadorCalificacionesFacade;
+    CentralizadorCalificacionesPRAEFacade centralizadorCalificacionesPRAEFacade;
     @EJB
     NotaFacade notaFacade;
     @Inject
@@ -95,20 +94,13 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
     public void generarPDF() throws IOException {
         if (seleccionGestionAcademica != null && seleccionCarrera != null && numeroLibro != null && numeroFolio != null) {
 
-            List<Nota> notasFaltantes = new ArrayList<>();
-            if (seleccionCarrera.getRegimen().equals(Regimen.SEMESTRAL)) {
-                notasFaltantes = notaFacade.listaNotasFaltantesSemestral(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
-            }
-            if (seleccionCarrera.getRegimen().equals(Regimen.ANUAL)) {
-                notasFaltantes = notaFacade.listaNotasFaltantesAnual(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
-            }
-
+            List<Nota> notasFaltantes = notaFacade.listaNotasFaltantesPRAE(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
             if (notasFaltantes.isEmpty()) {
                 //generamos el centralizador
-                Centralizador centralizador = centralizadorCalificacionesFacade.centralizadorCalificaciones(seleccionGestionAcademica, seleccionCarrera, numeroLibro, numeroFolio);
+                Centralizador centralizador = centralizadorCalificacionesPRAEFacade.centralizadorCalificacionesPRAE(seleccionGestionAcademica, seleccionCarrera, numeroLibro, numeroFolio);
                 this.insertarParametro("centralizador", centralizador);
 
-                toCentralizadorCalificaciones();
+                toCentralizadorCalificacionesPRAE();
 
                 //log
                 logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte centralizador de calificaciones en formato PDF", loginController.getUsr().toString()));
@@ -151,19 +143,13 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
     }
 
     public void generarXLSX() {
-        List<Nota> notasFaltantes = new ArrayList<>();
-        if (seleccionCarrera.getRegimen().equals(Regimen.SEMESTRAL)) {
-            notasFaltantes = notaFacade.listaNotasFaltantesSemestral(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
-        }
-        if (seleccionCarrera.getRegimen().equals(Regimen.ANUAL)) {
-            notasFaltantes = notaFacade.listaNotasFaltantesAnual(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
-        }
+        List<Nota> notasFaltantes = notasFaltantes = notaFacade.listaNotasFaltantesPRAE(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
 
         if (notasFaltantes.isEmpty()) {
             XSSFWorkbook workbook = leerArchivo(PATHNAME);
 
             //generamos el centralizador
-            Centralizador centralizador = centralizadorCalificacionesFacade.centralizadorCalificaciones(seleccionGestionAcademica, seleccionCarrera, numeroLibro, numeroFolio);
+            Centralizador centralizador = centralizadorCalificacionesPRAEFacade.centralizadorCalificacionesPRAE(seleccionGestionAcademica, seleccionCarrera, numeroLibro, numeroFolio);
 
             if (centralizador.getPaginasCentralizador().size() > 0) {
                 String sheetName = "";
@@ -506,14 +492,14 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
         }
     }
 
-    public void toReporteCentralizadorCalificaciones() throws IOException {
+    public void toReporteCentralizadorCalificacionesPRAE() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/centralizadorCalificaciones/reporteCentralizadorCalificaciones");
+        this.redireccionarViewId("/reportes/centralizadorCalificacionesPRAE/reporteCentralizadorCalificacionesPRAE");
     }
 
-    public void toCentralizadorCalificaciones() throws IOException {
-        this.redireccionarViewId("/reportes/centralizadorCalificaciones/centralizadorCalificaciones");
+    public void toCentralizadorCalificacionesPRAE() throws IOException {
+        this.redireccionarViewId("/reportes/centralizadorCalificacionesPRAE/centralizadorCalificacionesPRAE");
     }
 
     /**

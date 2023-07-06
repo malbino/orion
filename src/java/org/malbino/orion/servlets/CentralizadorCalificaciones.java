@@ -36,7 +36,7 @@ import org.malbino.orion.pojos.centralizador.PaginaNotas;
  *
  * @author tincho
  */
-@WebServlet(name = "CentralizadorCalificaciones", urlPatterns = {"/reportes/centralizadorCalificaciones/CentralizadorCalificaciones"})
+@WebServlet(name = "CentralizadorCalificaciones", urlPatterns = {"/reportes/centralizadorCalificaciones/CentralizadorCalificaciones", "/reportes/centralizadorCalificacionesPRAE/CentralizadorCalificaciones"})
 public class CentralizadorCalificaciones extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
