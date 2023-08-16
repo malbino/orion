@@ -211,8 +211,8 @@ public class CentralizadorCalificacionesFacade {
                         Integer porcentajeAprobados = 0;
                         Integer cantidadReprobados = 0;
                         Integer porcentajeReprobados = 0;
-                        Integer cantidadNoSePresento = 0;
-                        Integer porcentajeNoSePresento = 0;
+                        Integer cantidadAbandonos = 0;
+                        Integer porcentajeAbandonos = 0;
 
                         List<Estudiante> estudiantes = listaEstudiantes(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel, turno, paralelo);
                         Iterator<Estudiante> iteratorEstudiantes = estudiantes.iterator();
@@ -286,35 +286,20 @@ public class CentralizadorCalificacionesFacade {
                                         List<Nota> notasEstudiante = notas.stream().filter(n -> n.getEstudiante().equals(estudiante)).collect(Collectors.toList());
                                         List<Nota> notasCero = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getNotaFinal() != null && n.getNotaFinal() == 0).collect(Collectors.toList());
                                         List<Nota> notasAprobadas = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getCondicion().equals(Condicion.APROBADO)).collect(Collectors.toList());
+                                        List<Nota> notasReprobadas = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getCondicion().equals(Condicion.REPROBADO) && n.getNotaFinal() > 0).collect(Collectors.toList());
                                         String observacion = "";
-                                        if (materias.size() == notasEstudiante.size()) {
-                                            if (notasCero.size() == notasEstudiante.size()) {
-                                                observacion = Condicion.NO_SE_PRESENTO.toString();
+                                        if (notasCero.size() == notasEstudiante.size()) {
+                                            observacion = Condicion.ABANDONO.toString();
 
-                                                cantidadNoSePresento++;
-                                            } else if (notasAprobadas.size() == notasEstudiante.size()) {
-                                                observacion = Condicion.APROBADO.toString();
+                                            cantidadAbandonos++;
+                                        } else if (notasAprobadas.size() > 0 && notasReprobadas.size() < gestionAcademica.getRegimen().getCantidadMaximaReprobaciones()) {
+                                            observacion = Condicion.APROBADO.toString();
 
-                                                cantidadAprobados++;
-                                            } else {
-                                                observacion = Condicion.REPROBADO.toString();
-
-                                                cantidadReprobados++;
-                                            }
+                                            cantidadAprobados++;
                                         } else {
-                                            if (notasCero.size() == notasEstudiante.size()) {
-                                                observacion = Condicion.NO_SE_PRESENTO.toString();
+                                            observacion = Condicion.REPROBADO.toString();
 
-                                                cantidadNoSePresento++;
-                                            } else if (notasAprobadas.size() == notasEstudiante.size()) {
-                                                observacion = Condicion.APROBADO_CON_ARRASTRE.toString();
-
-                                                cantidadAprobados++;
-                                            } else {
-                                                observacion = Condicion.REPROBADO_CON_ARRASTRE.toString();
-
-                                                cantidadReprobados++;
-                                            }
+                                            cantidadReprobados++;
                                         }
 
                                         estudianteCentralizador = new EstudianteCentralizador(
@@ -338,10 +323,16 @@ public class CentralizadorCalificacionesFacade {
                                                     if (nota.getRecuperatorio() != null) {
                                                         notasEstudianteCentralizador[j] = nota.getRecuperatorio().toString();
                                                     } else if (nota.getNotaFinal() != null) {
-                                                        notasEstudianteCentralizador[j] = nota.getNotaFinal().toString();
+                                                        if (nota.getNotaFinal() == 0 && !estudianteCentralizador.getObservaciones().equals(Condicion.ABANDONO.toString())) {
+                                                            notasEstudianteCentralizador[j] = "N/P";
+                                                        } else {
+                                                            notasEstudianteCentralizador[j] = nota.getNotaFinal().toString();
+                                                        }
                                                     } else {
                                                         notasEstudianteCentralizador[j] = "";
                                                     }
+                                                } else {
+                                                    notasEstudianteCentralizador[j] = "-";
                                                 }
                                             } else {
                                                 notasEstudianteCentralizador[j] = " ";
@@ -374,7 +365,7 @@ public class CentralizadorCalificacionesFacade {
                             porcentajeInscritos = 100;
                             porcentajeAprobados = Redondeo.redondear_HALFUP(((cantidadAprobados.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
                             porcentajeReprobados = Redondeo.redondear_HALFUP(((cantidadReprobados.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
-                            porcentajeNoSePresento = Redondeo.redondear_HALFUP(((cantidadNoSePresento.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
+                            porcentajeAbandonos = Redondeo.redondear_HALFUP(((cantidadAbandonos.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
 
                             PaginaEstadisticas paginaEstadisticas = new PaginaEstadisticas(
                                     cantidadInscritos,
@@ -383,8 +374,8 @@ public class CentralizadorCalificacionesFacade {
                                     porcentajeAprobados,
                                     cantidadReprobados,
                                     porcentajeReprobados,
-                                    cantidadNoSePresento,
-                                    porcentajeNoSePresento
+                                    cantidadAbandonos,
+                                    porcentajeAbandonos
                             );
 
                             paginasCentralizador.add(paginaEstadisticas);

@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.1] - 2023-08-15
+### Added
+### Changed
+- Adecuacion Centralizador Calificaciones RM 0189/2023
+### Removed
+### Fixed
+
 ## [2.5.0] - 2023-07-06
 ### Added
 - Centralizador Calificaciones PRAE

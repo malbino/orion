@@ -54,6 +54,8 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
 
     private static final String PATHNAME = File.separator + "resources" + File.separator + "uploads" + File.separator + "centralizador.xlsx";
 
+    private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
+
     @EJB
     CentralizadorCalificacionesFacade centralizadorCalificacionesFacade;
     @EJB
@@ -337,6 +339,12 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                                             }
                                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                                             rowNum = row.getRowNum();
+                                        } else if (cell.getStringCellValue().contains("<<*>>")) {
+                                            if (paginaNotas.getTitulo().equals(TITULO_CC)) {
+                                                cell.setCellValue(cell.getStringCellValue().replace("<<*>>", "* N/P = No se Presento\nCuando el estudiante no se hubiera presentado a la asignatura"));
+                                            } else {
+                                                cell.setCellValue(cell.getStringCellValue().replace("<<*>>", ""));
+                                            }
                                         }
                                     } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                         if (cell.getNumericCellValue() == -1) {
@@ -375,61 +383,61 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                                                 cell.setCellValue(estudianteCentralizador.getNumero());
                                             }
                                         } else if (cell.getNumericCellValue() == -10) {
-                                            if (notas[0] != null && !notas[0].isEmpty() && !notas[0].equals(" ")) {
+                                            if (notas[0] != null && !notas[0].isEmpty() && !notas[0].equals(" ") && !notas[0].equals("N/P") && !notas[0].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[0]));
                                             } else {
                                                 cell.setCellValue(notas[0]);
                                             }
                                         } else if (cell.getNumericCellValue() == -20) {
-                                            if (notas[1] != null && !notas[1].isEmpty() && !notas[1].equals(" ")) {
+                                            if (notas[1] != null && !notas[1].isEmpty() && !notas[1].equals(" ") && !notas[1].equals("N/P") && !notas[1].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[1]));
                                             } else {
                                                 cell.setCellValue(notas[1]);
                                             }
                                         } else if (cell.getNumericCellValue() == -30) {
-                                            if (notas[2] != null && !notas[2].isEmpty() && !notas[2].equals(" ")) {
+                                            if (notas[2] != null && !notas[2].isEmpty() && !notas[2].equals(" ") && !notas[2].equals("N/P") && !notas[2].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[2]));
                                             } else {
                                                 cell.setCellValue(notas[2]);
                                             }
                                         } else if (cell.getNumericCellValue() == -40) {
-                                            if (notas[3] != null && !notas[3].isEmpty() && !notas[3].equals(" ")) {
+                                            if (notas[3] != null && !notas[3].isEmpty() && !notas[3].equals(" ") && !notas[3].equals("N/P") && !notas[3].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[3]));
                                             } else {
                                                 cell.setCellValue(notas[3]);
                                             }
                                         } else if (cell.getNumericCellValue() == -50) {
-                                            if (notas[4] != null && !notas[4].isEmpty() && !notas[4].equals(" ")) {
+                                            if (notas[4] != null && !notas[4].isEmpty() && !notas[4].equals(" ") && !notas[4].equals("N/P") && !notas[4].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[4]));
                                             } else {
                                                 cell.setCellValue(notas[4]);
                                             }
                                         } else if (cell.getNumericCellValue() == -60) {
-                                            if (notas[5] != null && !notas[5].isEmpty() && !notas[5].equals(" ")) {
+                                            if (notas[5] != null && !notas[5].isEmpty() && !notas[5].equals(" ") && !notas[5].equals("N/P") && !notas[5].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[5]));
                                             } else {
                                                 cell.setCellValue(notas[5]);
                                             }
                                         } else if (cell.getNumericCellValue() == -70) {
-                                            if (notas[6] != null && !notas[6].isEmpty() && !notas[6].equals(" ")) {
+                                            if (notas[6] != null && !notas[6].isEmpty() && !notas[6].equals(" ") && !notas[6].equals("N/P") && !notas[6].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[6]));
                                             } else {
                                                 cell.setCellValue(notas[6]);
                                             }
                                         } else if (cell.getNumericCellValue() == -80) {
-                                            if (notas[7] != null && !notas[7].isEmpty() && !notas[7].equals(" ")) {
+                                            if (notas[7] != null && !notas[7].isEmpty() && !notas[7].equals(" ") && !notas[7].equals("N/P") && !notas[7].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[7]));
                                             } else {
                                                 cell.setCellValue(notas[7]);
                                             }
                                         } else if (cell.getNumericCellValue() == -90) {
-                                            if (notas[8] != null && !notas[8].isEmpty() && !notas[8].equals(" ")) {
+                                            if (notas[8] != null && !notas[8].isEmpty() && !notas[8].equals(" ") && !notas[8].equals("N/P") && !notas[8].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[8]));
                                             } else {
                                                 cell.setCellValue(notas[8]);
                                             }
                                         } else if (cell.getNumericCellValue() == -100) {
-                                            if (notas[9] != null && !notas[9].isEmpty() && !notas[9].equals(" ")) {
+                                            if (notas[9] != null && !notas[9].isEmpty() && !notas[9].equals(" ") && !notas[9].equals("N/P") && !notas[9].equals("-")) {
                                                 cell.setCellValue(Integer.parseInt(notas[9]));
                                             } else {
                                                 cell.setCellValue(notas[9]);

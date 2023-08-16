@@ -54,6 +54,8 @@ public class CentralizadorCalificaciones extends HttpServlet {
     private static final int MARGEN_SUPERIOR = 30;
     private static final int MARGEN_INFERIOR = 30;
 
+    private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.generarPDF(request, response);
@@ -102,9 +104,8 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell);
 
-                    String realPath = getServletContext().getRealPath("/resources/images/logoMinisterio.png");
+                    String realPath = getServletContext().getRealPath("/resources/images/nuevoLogoMinisterio.png");
                     Image image = Image.getInstance(realPath);
-                    image.scalePercent(40);
                     image.setAlignment(Image.ALIGN_CENTER);
                     cell = new PdfPCell();
                     cell.addElement(image);
@@ -325,6 +326,14 @@ public class CentralizadorCalificaciones extends HttpServlet {
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getObservaciones(), NORMAL));
                         cell.setColspan(8);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        table.addCell(cell);
+                    }
+
+                    if (paginaNotas.getTitulo().equals(TITULO_CC)) {
+                        cell = new PdfPCell(new Phrase("* N/P = No se Presento\nCuando el estudiante no se hubiera presentado a la asignatura", NEGRITA_PEQUENA));
+                        cell.setColspan(90);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setBorder(PdfPCell.NO_BORDER);
                         table.addCell(cell);
                     }
 

@@ -323,6 +323,8 @@ public class ReporteCentralizadorCalificacionesPRAEController extends AbstractCo
                                             }
                                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                                             rowNum = row.getRowNum();
+                                        } else if (cell.getStringCellValue().contains("<<*>>")) {
+                                            cell.setCellValue(cell.getStringCellValue().replace("<<*>>", ""));
                                         }
                                     } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                         if (cell.getNumericCellValue() == -1) {
