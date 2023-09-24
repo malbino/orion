@@ -12,22 +12,25 @@ import java.util.Arrays;
  * @author Martin
  */
 public enum TipoNota {
-    PRIMER_PARCIAL_SEMESTRAL("PRIMER PARCIAL", Regimen.SEMESTRAL),
-    SEGUNDO_PARCIAL_SEMESTRAL("SEGUNDO PARCIAL", Regimen.SEMESTRAL),
-    TERCER_PARCIAL_SEMESTRAL("TERCER PARCIAL", Regimen.SEMESTRAL),
-    RECUPERATORIO_SEMESTRAL("RECUPERATORIO", Regimen.SEMESTRAL),
-    PRIMER_PARCIAL_ANUAL("PRIMER PARCIAL", Regimen.ANUAL),
-    SEGUNDO_PARCIAL_ANUAL("SEGUNDO PARCIAL", Regimen.ANUAL),
-    TERCER_PARCIAL_ANUAL("TERCER PARCIAL", Regimen.ANUAL),
-    CUARTO_PARCIAL_ANUAL("CUARTO PARCIAL", Regimen.ANUAL),
-    RECUPERATORIO_ANUAL("RECUPERATORIO", Regimen.ANUAL);
+    PRIMER_PARCIAL_SEMESTRAL_2P("PRIMER PARCIAL", ModalidadEvaluacion.SEMESTRAL_2P),
+    SEGUNDO_PARCIAL_SEMESTRAL_2P("SEGUNDO PARCIAL", ModalidadEvaluacion.SEMESTRAL_2P),
+    RECUPERATORIO_SEMESTRAL_2P("RECUPERATORIO", ModalidadEvaluacion.SEMESTRAL_2P),
+    PRIMER_PARCIAL_SEMESTRAL_3P("PRIMER PARCIAL", ModalidadEvaluacion.SEMESTRAL_3P),
+    SEGUNDO_PARCIAL_SEMESTRAL_3P("SEGUNDO PARCIAL", ModalidadEvaluacion.SEMESTRAL_3P),
+    TERCER_PARCIAL_SEMESTRAL_3P("TERCER PARCIAL", ModalidadEvaluacion.SEMESTRAL_3P),
+    RECUPERATORIO_SEMESTRAL_3P("RECUPERATORIO", ModalidadEvaluacion.SEMESTRAL_3P),
+    PRIMER_PARCIAL_ANUAL_4P("PRIMER PARCIAL", ModalidadEvaluacion.ANUAL_4P),
+    SEGUNDO_PARCIAL_ANUAL_4P("SEGUNDO PARCIAL", ModalidadEvaluacion.ANUAL_4P),
+    TERCER_PARCIAL_ANUAL_4P("TERCER PARCIAL", ModalidadEvaluacion.ANUAL_4P),
+    CUARTO_PARCIAL_ANUAL_4P("CUARTO PARCIAL", ModalidadEvaluacion.ANUAL_4P),
+    RECUPERATORIO_ANUAL_4P("RECUPERATORIO", ModalidadEvaluacion.ANUAL_4P);
 
     private String nombre;
-    private Regimen regimen;
+    private ModalidadEvaluacion modalidadEvaluacion;
 
-    private TipoNota(String nombre, Regimen regimen) {
+    private TipoNota(String nombre, ModalidadEvaluacion modalidadEvaluacion) {
         this.nombre = nombre;
-        this.regimen = regimen;
+        this.modalidadEvaluacion = modalidadEvaluacion;
     }
 
     @Override
@@ -50,20 +53,20 @@ public enum TipoNota {
     }
 
     /**
-     * @return the regimen
+     * @return the modalidadEvaluacion
      */
-    public Regimen getRegimen() {
-        return regimen;
+    public ModalidadEvaluacion getModalidadEvaluacion() {
+        return modalidadEvaluacion;
     }
 
     /**
-     * @param regimen the regimen to set
+     * @param modalidadEvaluacion the modalidadEvaluacion to set
      */
-    public void setRegimen(Regimen regimen) {
-        this.regimen = regimen;
+    public void setModalidadEvaluacion(ModalidadEvaluacion modalidadEvaluacion) {
+        this.modalidadEvaluacion = modalidadEvaluacion;
     }
-    
-    public static TipoNota[] values(Regimen regimen) {
-        return Arrays.stream(TipoNota.values()).filter(tipoNota -> tipoNota.getRegimen() != null && tipoNota.getRegimen().equals(regimen)).toArray(TipoNota[]::new);
+
+    public static TipoNota[] values(ModalidadEvaluacion modalidadEvaluacion) {
+        return Arrays.stream(TipoNota.values()).filter(tipoNota -> tipoNota.getModalidadEvaluacion() != null && tipoNota.getModalidadEvaluacion().equals(modalidadEvaluacion)).toArray(TipoNota[]::new);
     }
 }

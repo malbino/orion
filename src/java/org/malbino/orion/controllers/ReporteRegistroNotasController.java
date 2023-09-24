@@ -59,7 +59,7 @@ public class ReporteRegistroNotasController extends AbstractController implement
     public TipoNota[] listaTiposNota() {
         TipoNota[] a = new TipoNota[0];
         if (seleccionGestionAcademica != null) {
-            a = TipoNota.values(seleccionGestionAcademica.getRegimen());
+            a = TipoNota.values(seleccionGestionAcademica.getModalidadEvaluacion());
         }
         return a;
     }

@@ -387,16 +387,40 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
+    public List<Nota> listaRegistroNotasSemestral2P(int id_gestionacademica, int id_carrera, TipoNota tipoNota) {
+        List<Nota> l = new ArrayList();
+        try {
+            Query q = null;
+
+            if (tipoNota.equals(TipoNota.PRIMER_PARCIAL_SEMESTRAL_2P)) {
+                q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota1 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            } else if (tipoNota.equals(TipoNota.SEGUNDO_PARCIAL_SEMESTRAL_2P)) {
+                q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota2 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            }
+
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("curricular", Boolean.TRUE);
+            q.setParameter("modalidad", Modalidad.REGULAR);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
     public List<Nota> listaRegistroNotasSemestral(int id_gestionacademica, int id_carrera, TipoNota tipoNota) {
         List<Nota> l = new ArrayList();
         try {
             Query q = null;
 
-            if (tipoNota.equals(TipoNota.PRIMER_PARCIAL_SEMESTRAL)) {
+            if (tipoNota.equals(TipoNota.PRIMER_PARCIAL_SEMESTRAL_3P)) {
                 q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota1 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
-            } else if (tipoNota.equals(TipoNota.SEGUNDO_PARCIAL_SEMESTRAL)) {
+            } else if (tipoNota.equals(TipoNota.SEGUNDO_PARCIAL_SEMESTRAL_3P)) {
                 q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota2 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
-            } else if (tipoNota.equals(TipoNota.TERCER_PARCIAL_SEMESTRAL)) {
+            } else if (tipoNota.equals(TipoNota.TERCER_PARCIAL_SEMESTRAL_3P)) {
                 q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota3 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             }
 
@@ -418,13 +442,13 @@ public class NotaFacade extends AbstractFacade<Nota> {
         try {
             Query q = null;
 
-            if (tipoNota.equals(TipoNota.PRIMER_PARCIAL_ANUAL)) {
+            if (tipoNota.equals(TipoNota.PRIMER_PARCIAL_ANUAL_4P)) {
                 q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota1 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
-            } else if (tipoNota.equals(TipoNota.SEGUNDO_PARCIAL_ANUAL)) {
+            } else if (tipoNota.equals(TipoNota.SEGUNDO_PARCIAL_ANUAL_4P)) {
                 q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota2 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
-            } else if (tipoNota.equals(TipoNota.TERCER_PARCIAL_ANUAL)) {
+            } else if (tipoNota.equals(TipoNota.TERCER_PARCIAL_ANUAL_4P)) {
                 q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota3 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
-            } else if (tipoNota.equals(TipoNota.CUARTO_PARCIAL_ANUAL)) {
+            } else if (tipoNota.equals(TipoNota.CUARTO_PARCIAL_ANUAL_4P)) {
                 q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND n.nota4 IS NULL ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
             }
 
