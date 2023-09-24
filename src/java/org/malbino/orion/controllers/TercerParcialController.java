@@ -34,6 +34,7 @@ import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
+import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.NotaFacade;
@@ -96,6 +97,11 @@ public class TercerParcialController extends AbstractController implements Seria
     }
 
     @Override
+    public List<GestionAcademica> listaGestionesAcademicas() {
+        return gestionAcademicaFacade.listaGestionAcademica(Regimen.ANUAL, Regimen.SEMESTRAL, true);
+    }
+
+    @Override
     public List<Carrera> listaCarreras() {
         List<Carrera> l = new ArrayList();
         if (seleccionGestionAcademica != null) {
@@ -122,7 +128,7 @@ public class TercerParcialController extends AbstractController implements Seria
         if (!actividadFacade.listaActividades(Fecha.getDate(), Funcionalidad.REGISTRO_NOTAS_TERCER_PARCIAL, seleccionGestionAcademica.getId_gestionacademica()).isEmpty()) {
             if (registroDocenteFacade.editarNotas(notas)) {
                 actualizarNotas();
-                
+
                 //log
                 for (Nota nota : notas) {
                     logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, nota.getId_nota(), "Actualización del tercer parcial", loginController.getUsr().toString()));
@@ -241,7 +247,7 @@ public class TercerParcialController extends AbstractController implements Seria
         }
 
         descargarArchivo(workbook, seleccionGrupo);
-        
+
         //log
         logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Descarga de Registro Pedagógico", loginController.getUsr().toString()));
     }
@@ -303,7 +309,7 @@ public class TercerParcialController extends AbstractController implements Seria
                                                         nota.setPractica3(practicaCellValue.intValue());
 
                                                         fileEstudianteFacade.editarParcial(nota);
-                                                        
+
                                                         //log
                                                         logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, nota.getId_nota(), "Actualización del tercer parcial", loginController.getUsr().toString()));
                                                     }
@@ -332,7 +338,7 @@ public class TercerParcialController extends AbstractController implements Seria
         this.insertarParametro("id_grupo", seleccionGrupo.getId_grupo());
 
         this.redireccionarViewId("/registroDocente/planillaSeguimiento");
-        
+
         //log
         logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.GRUPO, seleccionGrupo.getId_grupo(), "Descarga Planilla de Seguimiento", loginController.getUsr().toString()));
     }

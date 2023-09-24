@@ -35,6 +35,7 @@ import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.EventoLog;
+import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.NotaFacade;
@@ -98,6 +99,11 @@ public class RegistroNotasTercerParcialController extends AbstractController imp
         seleccionEmpleado = null;
         seleccionGrupo = null;
         notas = new ArrayList();
+    }
+    
+    @Override
+    public List<GestionAcademica> listaGestionesAcademicas() {
+        return gestionAcademicaFacade.listaGestionAcademica(Regimen.ANUAL, Regimen.SEMESTRAL, true);
     }
 
     @Override

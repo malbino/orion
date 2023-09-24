@@ -72,28 +72,26 @@
                                     </div>
 
                                     <p:outputPanel styleClass="ui-g ui-fluid" rendered="#{HistorialAcademicoController.seleccionNota.gestionAcademica.regimen.cantidadParciales >= 3}">
-                                        <div class="ui-g ui-fluid">
-                                            <div class="ui-g-12 ui-md-4">
-                                                <p:outputLabel for="teoria3" value="Teoria 3:" style="font-size: small"/>
-                                                <p:inputNumber id="teoria3" value="#{HistorialAcademicoController.seleccionNota.teoria3}"
-                                                               minValue="0" maxValue="30" decimalPlaces="0">
-                                                    <p:ajax event="keyup" update="nota3" listener="#{HistorialAcademicoController.sumaNota3}" />
-                                                </p:inputNumber>
-                                            </div>
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="teoria3" value="Teoria 3:" style="font-size: small"/>
+                                            <p:inputNumber id="teoria3" value="#{HistorialAcademicoController.seleccionNota.teoria3}"
+                                                           minValue="0" maxValue="30" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota3" listener="#{HistorialAcademicoController.sumaNota3}" />
+                                            </p:inputNumber>
+                                        </div>
 
-                                            <div class="ui-g-12 ui-md-4">
-                                                <p:outputLabel for="practica3" value="Practica 3:" style="font-size: small"/>
-                                                <p:inputNumber id="practica3" value="#{HistorialAcademicoController.seleccionNota.practica3}"
-                                                               minValue="0" maxValue="70" decimalPlaces="0">
-                                                    <p:ajax event="keyup" update="nota3" listener="#{HistorialAcademicoController.sumaNota3}" />
-                                                </p:inputNumber>
-                                            </div>
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="practica3" value="Practica 3:" style="font-size: small"/>
+                                            <p:inputNumber id="practica3" value="#{HistorialAcademicoController.seleccionNota.practica3}"
+                                                           minValue="0" maxValue="70" decimalPlaces="0">
+                                                <p:ajax event="keyup" update="nota3" listener="#{HistorialAcademicoController.sumaNota3}" />
+                                            </p:inputNumber>
+                                        </div>
 
-                                            <div class="ui-g-12 ui-md-4">
-                                                <p:outputLabel for="nota3" value="Nota 3:" style="font-size: small"/>
-                                                <p:inputNumber id="nota3" value="#{HistorialAcademicoController.seleccionNota.nota3}" disabled="true"
-                                                               minValue="0" maxValue="100" decimalPlaces="0"/>
-                                            </div>
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="nota3" value="Nota 3:" style="font-size: small"/>
+                                            <p:inputNumber id="nota3" value="#{HistorialAcademicoController.seleccionNota.nota3}" disabled="true"
+                                                           minValue="0" maxValue="100" decimalPlaces="0"/>
                                         </div>
                                     </p:outputPanel>
 
