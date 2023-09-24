@@ -52,6 +52,7 @@ import org.primefaces.model.StreamedContent;
 @SessionScoped
 public class ReportePlanillaSeguimientoController extends AbstractController implements Serializable {
 
+    private static final String PATHNAME_SEMESTRAL2P = File.separator + "resources" + File.separator + "uploads" + File.separator + "planilla_seguimiento_semestral2p.xlsx";
     private static final String PATHNAME_SEMESTRAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "planilla_seguimiento_semestral.xlsx";
     private static final String PATHNAME_ANUAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "planilla_seguimiento_anual.xlsx";
 
@@ -167,7 +168,9 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
     public void generarXLSX() {
         XSSFWorkbook workbook = null;
 
-        if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 3) {
+        if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 2) {
+            workbook = leerArchivo(PATHNAME_SEMESTRAL2P);
+        } else if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 3) {
             workbook = leerArchivo(PATHNAME_SEMESTRAL);
         } else if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 4) {
             workbook = leerArchivo(PATHNAME_ANUAL);
