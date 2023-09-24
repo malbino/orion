@@ -34,7 +34,7 @@ import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
-import org.malbino.orion.enums.Regimen;
+import org.malbino.orion.enums.ModalidadEvaluacion;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.NotaFacade;
@@ -98,7 +98,7 @@ public class PrimerParcialController extends AbstractController implements Seria
 
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
-        return gestionAcademicaFacade.listaGestionAcademica(Regimen.ANUAL, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, true);
+        return gestionAcademicaFacade.listaGestionAcademica(ModalidadEvaluacion.SEMESTRAL_2P, ModalidadEvaluacion.SEMESTRAL_3P, ModalidadEvaluacion.ANUAL_4P, true);
     }
 
     @Override

@@ -12,31 +12,29 @@ import java.util.Arrays;
  * @author Martin
  */
 public enum Nivel {
-    PRIMER_SEMESTRE(0, "PRIMER SEMESTRE", "1S", 1, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, "PRIMERO"),
-    SEGUNDO_SEMESTRE(1, "SEGUNDO SEMESTRE", "2S", 2, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, "SEGUNDO"),
-    TERCER_SEMESTRE(2, "TERCER SEMESTRE", "3S", 3, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, "TERCERO"),
-    CUARTO_SEMESTRE(3, "CUARTO SEMESTRE", "4S", 4, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, "CUARTO"),
-    QUITO_SEMESTRE(4, "QUINTO SEMESTRE", "5S", 5, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, "QUINTO"),
-    SEXTO_SEMESTRE(5, "SEXTO SEMESTRE", "6S", 6, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, "SEXTO"),
-    PRIMER_AÑO(6, "PRIMER AÑO", "1A", 1, Regimen.ANUAL, null, "PRIMERO"),
-    SEGUNDO_AÑO(7, "SEGUNDO AÑO", "2A", 2, Regimen.ANUAL, null, "SEGUNDO"),
-    TERCER_AÑO(8, "TERCER AÑO", "3A", 3, Regimen.ANUAL, null, "TERCERO");
+    PRIMER_SEMESTRE(0, "PRIMER SEMESTRE", "1S", 1, Regimen.SEMESTRAL, "PRIMERO"),
+    SEGUNDO_SEMESTRE(1, "SEGUNDO SEMESTRE", "2S", 2, Regimen.SEMESTRAL, "SEGUNDO"),
+    TERCER_SEMESTRE(2, "TERCER SEMESTRE", "3S", 3, Regimen.SEMESTRAL, "TERCERO"),
+    CUARTO_SEMESTRE(3, "CUARTO SEMESTRE", "4S", 4, Regimen.SEMESTRAL, "CUARTO"),
+    QUITO_SEMESTRE(4, "QUINTO SEMESTRE", "5S", 5, Regimen.SEMESTRAL, "QUINTO"),
+    SEXTO_SEMESTRE(5, "SEXTO SEMESTRE", "6S", 6, Regimen.SEMESTRAL, "SEXTO"),
+    PRIMER_AÑO(6, "PRIMER AÑO", "1A", 1, Regimen.ANUAL, "PRIMERO"),
+    SEGUNDO_AÑO(7, "SEGUNDO AÑO", "2A", 2, Regimen.ANUAL, "SEGUNDO"),
+    TERCER_AÑO(8, "TERCER AÑO", "3A", 3, Regimen.ANUAL, "TERCERO");
 
     private Integer id;
     private String nombre;
     private String abreviatura;
     private Integer nivel;
-    private Regimen regimen1;
-    private Regimen regimen2;
+    private Regimen regimen;
     private String ordinal;
 
-    private Nivel(Integer id, String nombre, String abreviatura, Integer nivel, Regimen regimen1, Regimen regimen2, String ordinal) {
+    private Nivel(Integer id, String nombre, String abreviatura, Integer nivel, Regimen regimen, String ordinal) {
         this.id = id;
         this.nombre = nombre;
         this.abreviatura = abreviatura;
         this.nivel = nivel;
-        this.regimen1 = regimen1;
-        this.regimen2 = regimen2;
+        this.regimen = regimen;
         this.ordinal = ordinal;
     }
 
@@ -97,31 +95,17 @@ public enum Nivel {
     }
 
     /**
-     * @return the regimen1
+     * @return the regimen
      */
-    public Regimen getRegimen1() {
-        return regimen1;
+    public Regimen getRegimen() {
+        return regimen;
     }
 
     /**
-     * @param regimen1 the regimen1 to set
+     * @param regimen the regimen to set
      */
-    public void setRegimen1(Regimen regimen1) {
-        this.regimen1 = regimen1;
-    }
-
-    /**
-     * @return the regimen2
-     */
-    public Regimen getRegimen2() {
-        return regimen2;
-    }
-
-    /**
-     * @param regimen2 the regimen2 to set
-     */
-    public void setRegimen2(Regimen regimen2) {
-        this.regimen2 = regimen2;
+    public void setRegimen(Regimen regimen) {
+        this.regimen = regimen;
     }
 
     /**
@@ -144,7 +128,7 @@ public enum Nivel {
     }
 
     public static Nivel[] values(Regimen regimen) {
-        return Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen1().equals(regimen) || (nivel.getRegimen2() != null && nivel.getRegimen2().equals(regimen))).toArray(Nivel[]::new);
+        return Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(regimen)).toArray(Nivel[]::new);
     }
 
     public static Nivel getById(Integer id) {

@@ -402,7 +402,6 @@ public class HistorialAcademico extends HttpServlet {
             table.addCell(cellNotaFinal);
             table.addCell(cellNotaIns);
              */
-            
             if (nota.getRecuperatorio() == null) {
                 PdfPCell cellNotaFinal;
                 if (nota.getNotaFinal() != null) {
@@ -564,7 +563,7 @@ public class HistorialAcademico extends HttpServlet {
         table.addCell(cell);
 
         //fila 2
-        cell = new PdfPCell(new Phrase(carrera.getRegimen().getNotaMinimaAprobacion() + " a 100", NORMAL));
+        cell = new PdfPCell(new Phrase("61 a 100", NORMAL));
         cell.setColspan(12);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);
@@ -587,7 +586,7 @@ public class HistorialAcademico extends HttpServlet {
         table.addCell(cell);
 
         //fila 3
-        cell = new PdfPCell(new Phrase("0 a " + (carrera.getRegimen().getNotaMinimaAprobacion() - 1), NORMAL));
+        cell = new PdfPCell(new Phrase("0 a 60", NORMAL));
         cell.setColspan(12);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);
@@ -616,7 +615,7 @@ public class HistorialAcademico extends HttpServlet {
         table.addCell(cell);
 
         //fila 5
-        cell = new PdfPCell(new Phrase(carrera.getRegimen().getNotaMinimaAprobacion().toString(), NORMAL));
+        cell = new PdfPCell(new Phrase("61", NORMAL));
         cell.setColspan(12);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);

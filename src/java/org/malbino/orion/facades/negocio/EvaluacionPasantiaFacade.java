@@ -46,7 +46,7 @@ public class EvaluacionPasantiaFacade {
         double promedioNotaFinal = (notaPasantia.getNotaEmpresa().doubleValue() + notaPasantia.getNotaTutor().doubleValue()) / 2.0;
         Integer notaFinal = Redondeo.redondear_HALFUP(promedioNotaFinal, 0).intValue();
         notaPasantia.setNotaFinal(notaFinal);
-        if (notaFinal >= notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+        if (notaFinal >= notaPasantia.getGrupoPasantia().getGestionAcademica().getModalidadEvaluacion().getNotaMinimaAprobacion()) {
             notaPasantia.setCondicion(Condicion.APROBADO);
         } else {
             notaPasantia.setCondicion(Condicion.REPROBADO);
@@ -62,7 +62,7 @@ public class EvaluacionPasantiaFacade {
         double promedioNotaFinal = (notaPasantia.getNotaEmpresa().doubleValue() + notaPasantia.getNotaTutor().doubleValue()) / 2.0;
         Integer notaFinal = Redondeo.redondear_HALFUP(promedioNotaFinal, 0).intValue();
         notaPasantia.setNotaFinal(notaFinal);
-        if (notaFinal >= notaPasantia.getGrupoPasantia().getPasantia().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+        if (notaFinal >= notaPasantia.getGrupoPasantia().getGestionAcademica().getModalidadEvaluacion().getNotaMinimaAprobacion()) {
             notaPasantia.setCondicion(Condicion.APROBADO);
         } else {
             notaPasantia.setCondicion(Condicion.REPROBADO);

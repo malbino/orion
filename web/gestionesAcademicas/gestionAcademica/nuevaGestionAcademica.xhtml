@@ -37,6 +37,14 @@
                                                 <f:selectItems value="#{GestionAcademicaController.listaPeriodos()}" var="periodo" itemLabel="#{periodo.toString()}" itemValue="#{periodo}"/>  
                                             </p:selectOneMenu> 
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="modalidadEvaluacion" value="Modalidad Evaluación: " style="font-size: small"/>
+                                            <p:selectOneMenu id="modalidadEvaluacion" value="#{GestionAcademicaController.nuevaGestionAcademica.modalidadEvaluacion}" converter="#{ModalidadEvaluacionConverter}" autoWidth="false" required="true" requiredMessage="* Modalidad Evaluación requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GestionAcademicaController.listaModalidadesEvaluacion()}" var="modalidadEvaluacion" itemLabel="#{modalidadEvaluacion.toString()}" itemValue="#{modalidadEvaluacion}"/>
+                                            </p:selectOneMenu> 
+                                        </div>
 
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="inicio" value="Inicio:" style="font-size: small"/>

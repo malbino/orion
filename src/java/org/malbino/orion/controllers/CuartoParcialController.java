@@ -34,6 +34,7 @@ import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Funcionalidad;
+import org.malbino.orion.enums.ModalidadEvaluacion;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
@@ -98,7 +99,7 @@ public class CuartoParcialController extends AbstractController implements Seria
 
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
-        return gestionAcademicaFacade.listaGestionAcademica(Regimen.ANUAL, true);
+        return gestionAcademicaFacade.listaGestionAcademica(ModalidadEvaluacion.ANUAL_4P, true);
     }
 
     @Override

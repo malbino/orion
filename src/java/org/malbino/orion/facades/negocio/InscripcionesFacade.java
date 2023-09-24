@@ -363,7 +363,7 @@ public class InscripcionesFacade {
                 }
             }
         }
-        if (inscrito.getTipo().equals(Tipo.REGULAR) && listIterator.hasNext() && oferta.size() <= inscrito.getCarrera().getRegimen().getCantidadMaximaReprobaciones()) {
+        if (inscrito.getTipo().equals(Tipo.REGULAR) && listIterator.hasNext() && oferta.size() <= inscrito.getGestionAcademica().getModalidadEvaluacion().getCantidadMaximaReprobaciones()) {
             listaMaterias = materiaFacade.listaMaterias(inscrito.getCarrera(), mencion, listIterator.next());
             listaMaterias.removeAll(listaMateriaAprobadas);
 
@@ -412,7 +412,7 @@ public class InscripcionesFacade {
                 }
             }
         }
-        if (inscrito.getTipo().equals(Tipo.REGULAR) && listIterator.hasNext() && oferta.size() <= inscrito.getCarrera().getRegimen().getCantidadMaximaReprobaciones()) {
+        if (inscrito.getTipo().equals(Tipo.REGULAR) && listIterator.hasNext() && oferta.size() <= inscrito.getGestionAcademica().getModalidadEvaluacion().getCantidadMaximaReprobaciones()) {
             listaMaterias = materiaFacade.listaMaterias(inscrito.getCarrera(), mencion, listIterator.next());
             listaMaterias.removeAll(listaMateriaAprobadas);
 

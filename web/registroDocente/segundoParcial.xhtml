@@ -82,10 +82,13 @@
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{SegundoParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 3}">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{SegundoParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 2}">
+                                                    <p:dataExporter type="xls" target="notasSemestral2P" fileName="notas" />
+                                                </p:menuitem>
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{SegundoParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 3}">
                                                     <p:dataExporter type="xls" target="notasSemestral" fileName="notas" />
                                                 </p:menuitem>
-                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{SegundoParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{SegundoParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 4}">
                                                     <p:dataExporter type="xls" target="notasAnual" fileName="notas" />
                                                 </p:menuitem>
                                                 <p:menuitem value="Lista Estudiantes" icon="fa fa-file-excel-o" ajax="false">
@@ -98,10 +101,78 @@
                                     <p:spacer/>
 
                                     <p:outputPanel id="panelNotas">
+                                        <p:dataTable id="notasSemestral2P" var="nota" value="#{SegundoParcialController.notas}"
+                                                     rowIndexVar="rowIndex" editable="true" editMode="cell" reflow="true" 
+                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                     rendered="#{SegundoParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 2}">
+
+                                            <p:column headerText="Nro">  
+                                                <h:outputText value="#{rowIndex + 1}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Estudiante">  
+                                                <h:outputText value="#{nota.inscrito.estudiante.toString()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="MO" style="text-align: center;">  
+                                                <h:outputText value="#{nota.modalidad.abreviatura}"/>
+                                            </p:column>
+
+                                            <p:column headerText="T1" >  
+                                                <h:outputText value="#{nota.teoria1}" />
+                                            </p:column>
+
+                                            <p:column headerText="P1" >  
+                                                <h:outputText value="#{nota.practica1}" />
+                                            </p:column>
+
+                                            <p:column headerText="N1" >  
+                                                <h:outputText value="#{nota.nota1}" />
+                                            </p:column>
+
+                                            <p:column headerText="T2" >  
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{nota.teoria2}" /></f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputNumber value="#{nota.teoria2}" minValue="0" maxValue="30" decimalPlaces="0" size="3">
+                                                            <p:ajax event="keyup" listener="#{SegundoParcialController.editarNota(nota)}" update="nota2 nf condicion" />  
+                                                        </p:inputNumber>
+                                                    </f:facet> 
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="P2" >  
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{nota.practica2}" /></f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputNumber value="#{nota.practica2}" minValue="0" maxValue="70" decimalPlaces="0" size="3">
+                                                            <p:ajax event="keyup" listener="#{SegundoParcialController.editarNota(nota)}" update="nota2 nf condicion" />  
+                                                        </p:inputNumber>
+                                                    </f:facet> 
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="N2">  
+                                                <h:outputText id="nota2" value="#{nota.nota2}"/>
+                                            </p:column>
+
+                                            <p:column headerText="NF" style="text-align: center;">
+                                                <h:outputText id="nf" value="#{nota.notaFinal}"/>
+                                            </p:column>
+
+                                            <p:column headerText="RE" style="text-align: center;">  
+                                                <h:outputText value="#{nota.recuperatorio}"/>
+                                            </p:column>
+
+                                            <p:column headerText="CO" style="text-align: center;">
+                                                <h:outputText id="condicion" value="#{nota.condicion.abreviatura}"/>
+                                            </p:column>
+                                        </p:dataTable>
+
                                         <p:dataTable id="notasSemestral" var="nota" value="#{SegundoParcialController.notas}"
                                                      rowIndexVar="rowIndex" editable="true" editMode="cell" reflow="true" 
                                                      emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
-                                                     rendered="#{SegundoParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 3}">
+                                                     rendered="#{SegundoParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 3}">
 
                                             <p:column headerText="Nro">  
                                                 <h:outputText value="#{rowIndex + 1}"/>
@@ -181,7 +252,7 @@
                                         <p:dataTable id="notasAnual" var="nota" value="#{SegundoParcialController.notas}" 
                                                      rowIndexVar="rowIndex" editable="true" editMode="cell" reflow="true" 
                                                      emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
-                                                     rendered="#{SegundoParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
+                                                     rendered="#{SegundoParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 4}">
 
                                             <p:column headerText="Nro">  
                                                 <h:outputText value="#{rowIndex + 1}"/>

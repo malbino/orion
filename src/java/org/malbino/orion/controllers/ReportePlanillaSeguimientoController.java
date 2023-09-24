@@ -167,9 +167,9 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
     public void generarXLSX() {
         XSSFWorkbook workbook = null;
 
-        if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
+        if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 3) {
             workbook = leerArchivo(PATHNAME_SEMESTRAL);
-        } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 4) {
+        } else if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 4) {
             workbook = leerArchivo(PATHNAME_ANUAL);
         }
 

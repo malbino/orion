@@ -292,7 +292,7 @@ public class CentralizadorCalificacionesFacade {
                                             observacion = Condicion.ABANDONO.toString();
 
                                             cantidadAbandonos++;
-                                        } else if (notasAprobadas.size() > 0 && notasReprobadas.size() < gestionAcademica.getRegimen().getCantidadMaximaReprobaciones()) {
+                                        } else if (notasAprobadas.size() > 0 && notasReprobadas.size() < gestionAcademica.getModalidadEvaluacion().getCantidadMaximaReprobaciones()) {
                                             observacion = Condicion.APROBADO.toString();
 
                                             cantidadAprobados++;

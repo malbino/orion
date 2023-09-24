@@ -94,10 +94,10 @@
 
                                         <f:facet name="right">
                                             <p:menuButton icon="fa fa-gear" title="Opciones">
-                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{RegistroNotasTercerParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 3}">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{RegistroNotasTercerParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 3}">
                                                     <p:dataExporter type="xls" target="notasSemestral" fileName="notas" />
                                                 </p:menuitem>
-                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{RegistroNotasTercerParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false" rendered="#{RegistroNotasTercerParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 4}">
                                                     <p:dataExporter type="xls" target="notasAnual" fileName="notas" />
                                                 </p:menuitem>
                                                 <p:menuitem value="Lista Estudiantes" icon="fa fa-file-excel-o" ajax="false">
@@ -113,7 +113,7 @@
                                         <p:dataTable id="notasSemestral" var="nota" value="#{RegistroNotasTercerParcialController.notas}"
                                                      rowIndexVar="rowIndex" editable="true" editMode="cell" reflow="true" 
                                                      emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
-                                                     rendered="#{RegistroNotasTercerParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 3}">
+                                                     rendered="#{RegistroNotasTercerParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 3}">
 
                                             <p:column headerText="Nro">  
                                                 <h:outputText value="#{rowIndex + 1}"/>
@@ -193,7 +193,7 @@
                                         <p:dataTable id="notasAnual" var="nota" value="#{RegistroNotasTercerParcialController.notas}" 
                                                      rowIndexVar="rowIndex" editable="true" editMode="cell" reflow="true" 
                                                      emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
-                                                     rendered="#{RegistroNotasTercerParcialController.seleccionGestionAcademica.regimen.cantidadParciales == 4}">
+                                                     rendered="#{RegistroNotasTercerParcialController.seleccionGestionAcademica.modalidadEvaluacion.cantidadParciales == 4}">
 
                                             <p:column headerText="Nro">  
                                                 <h:outputText value="#{rowIndex + 1}"/>

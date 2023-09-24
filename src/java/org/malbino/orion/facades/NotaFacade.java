@@ -115,8 +115,8 @@ public class NotaFacade extends AbstractFacade<Nota> {
             Query q = em.createQuery("SELECT n FROM Nota n JOIN n.inscrito i JOIN n.grupo g JOIN g.empleado e JOIN n.materia m WHERE i.id_inscrito=:id_inscrito AND e.id_persona=:id_persona AND n.notaFinal>=:notaMinimaPruebaRecuperacion AND n.notaFinal<:notaMinimaAprobacion ORDER BY m.nivel, m.numero");
             q.setParameter("id_inscrito", inscrito.getId_inscrito());
             q.setParameter("id_persona", id_persona);
-            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion());
-            q.setParameter("notaMinimaAprobacion", inscrito.getCarrera().getRegimen().getNotaMinimaAprobacion());
+            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getGestionAcademica().getModalidadEvaluacion().getNotaMinimmaPruebaRecuperacion());
+            q.setParameter("notaMinimaAprobacion", inscrito.getGestionAcademica().getModalidadEvaluacion().getNotaMinimaAprobacion());
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -132,8 +132,8 @@ public class NotaFacade extends AbstractFacade<Nota> {
         try {
             Query q = em.createQuery("SELECT n FROM Nota n JOIN n.inscrito i JOIN n.materia m WHERE i.id_inscrito=:id_inscrito AND n.notaFinal>=:notaMinimaPruebaRecuperacion AND n.notaFinal<:notaMinimaAprobacion ORDER BY m.nivel, m.numero");
             q.setParameter("id_inscrito", inscrito.getId_inscrito());
-            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion());
-            q.setParameter("notaMinimaAprobacion", inscrito.getCarrera().getRegimen().getNotaMinimaAprobacion());
+            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getGestionAcademica().getModalidadEvaluacion().getNotaMinimmaPruebaRecuperacion());
+            q.setParameter("notaMinimaAprobacion", inscrito.getGestionAcademica().getModalidadEvaluacion().getNotaMinimaAprobacion());
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -447,8 +447,8 @@ public class NotaFacade extends AbstractFacade<Nota> {
         try {
             Query q = em.createQuery("SELECT n FROM Nota n JOIN n.inscrito i JOIN n.materia m WHERE i.id_inscrito=:id_inscrito AND n.notaFinal>=:notaMinimaPruebaRecuperacion AND n.notaFinal<:notaMinimaAprobacion AND n.recuperatorio IS NULL ORDER BY m.nivel, m.numero");
             q.setParameter("id_inscrito", inscrito.getId_inscrito());
-            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion());
-            q.setParameter("notaMinimaAprobacion", inscrito.getCarrera().getRegimen().getNotaMinimaAprobacion());
+            q.setParameter("notaMinimaPruebaRecuperacion", inscrito.getGestionAcademica().getModalidadEvaluacion().getNotaMinimmaPruebaRecuperacion());
+            q.setParameter("notaMinimaAprobacion", inscrito.getGestionAcademica().getModalidadEvaluacion().getNotaMinimaAprobacion());
 
             l = q.getResultList();
         } catch (Exception e) {

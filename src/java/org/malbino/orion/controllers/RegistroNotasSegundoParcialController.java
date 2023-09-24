@@ -35,6 +35,7 @@ import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.EventoLog;
+import org.malbino.orion.enums.ModalidadEvaluacion;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.facades.ActividadFacade;
 import org.malbino.orion.facades.GrupoFacade;
@@ -104,7 +105,7 @@ public class RegistroNotasSegundoParcialController extends AbstractController im
 
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
-        return gestionAcademicaFacade.listaGestionAcademica(Regimen.ANUAL, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, true);
+        return gestionAcademicaFacade.listaGestionAcademica(ModalidadEvaluacion.SEMESTRAL_2P, ModalidadEvaluacion.SEMESTRAL_3P, ModalidadEvaluacion.ANUAL_4P, true);
     }
 
     @Override
@@ -331,11 +332,11 @@ public class RegistroNotasSegundoParcialController extends AbstractController im
     public void bajarPlanilla() {
         XSSFWorkbook workbook = null;
 
-        if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 2) {
+        if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 2) {
             workbook = leerArchivo(PATHNAME_SEMESTRAL2P);
-        } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
+        } else if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 3) {
             workbook = leerArchivo(PATHNAME_SEMESTRAL);
-        } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 4) {
+        } else if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 4) {
             workbook = leerArchivo(PATHNAME_ANUAL);
         }
 

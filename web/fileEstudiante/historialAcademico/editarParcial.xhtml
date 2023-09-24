@@ -71,7 +71,7 @@
                                         </div>
                                     </div>
 
-                                    <p:outputPanel styleClass="ui-g ui-fluid" rendered="#{HistorialAcademicoController.seleccionNota.gestionAcademica.regimen.cantidadParciales >= 3}">
+                                    <p:outputPanel styleClass="ui-g ui-fluid" rendered="#{HistorialAcademicoController.seleccionNota.gestionAcademica.modalidadEvaluacion.cantidadParciales >= 3}">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="teoria3" value="Teoria 3:" style="font-size: small"/>
                                             <p:inputNumber id="teoria3" value="#{HistorialAcademicoController.seleccionNota.teoria3}"
@@ -95,7 +95,7 @@
                                         </div>
                                     </p:outputPanel>
 
-                                    <p:outputPanel styleClass="ui-g ui-fluid" rendered="#{HistorialAcademicoController.seleccionNota.gestionAcademica.regimen.cantidadParciales == 4}">
+                                    <p:outputPanel styleClass="ui-g ui-fluid" rendered="#{HistorialAcademicoController.seleccionNota.gestionAcademica.modalidadEvaluacion.cantidadParciales == 4}">
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="teoria4" value="Teoria 4:" style="font-size: small"/>
                                             <p:inputNumber id="teoria4" value="#{HistorialAcademicoController.seleccionNota.teoria4}"

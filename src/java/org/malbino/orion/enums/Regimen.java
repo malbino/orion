@@ -10,26 +10,17 @@ package org.malbino.orion.enums;
  * @author Martin
  */
 public enum Regimen {
-    SEMESTRAL("SEMESTRAL", "S", 5, 2, 3, 61, 40),
-    ANUAL("ANUAL", "A", 10, 3, 4, 61, 40),
-    SEMESTRAL_2P("SEMESTRAL 2P", "S", 5, 2, 2, 61, 40);
+    SEMESTRAL("SEMESTRAL", "S", 5),
+    ANUAL("ANUAL", "A", 10);
 
     private String nombre;
     private String inicial;
     private Integer cuotas;
-    private Integer cantidadMaximaReprobaciones;
-    private Integer cantidadParciales;
-    private Integer notaMinimaAprobacion;
-    private Integer notaMinimmaPruebaRecuperacion;
 
-    private Regimen(String nombre, String inicial, Integer cuotas, Integer cantidadMaximaReprobaciones, Integer cantidadParciales, Integer notaMinimaAprobacion, Integer notaMinimmaPruebaRecuperacion) {
+    private Regimen(String nombre, String inicial, Integer cuotas) {
         this.nombre = nombre;
         this.inicial = inicial;
         this.cuotas = cuotas;
-        this.cantidadMaximaReprobaciones = cantidadMaximaReprobaciones;
-        this.cantidadParciales = cantidadParciales;
-        this.notaMinimaAprobacion = notaMinimaAprobacion;
-        this.notaMinimmaPruebaRecuperacion = notaMinimmaPruebaRecuperacion;
     }
 
     /**
@@ -72,63 +63,6 @@ public enum Regimen {
      */
     public void setCuotas(Integer cuotas) {
         this.cuotas = cuotas;
-    }
-
-    /**
-     * @return the cantidadMaximaReprobaciones
-     */
-    public Integer getCantidadMaximaReprobaciones() {
-        return cantidadMaximaReprobaciones;
-    }
-
-    /**
-     * @param cantidadMaximaReprobaciones the cantidadMaximaReprobaciones to set
-     */
-    public void setCantidadMaximaReprobaciones(Integer cantidadMaximaReprobaciones) {
-        this.cantidadMaximaReprobaciones = cantidadMaximaReprobaciones;
-    }
-
-    /**
-     * @return the cantidadParciales
-     */
-    public Integer getCantidadParciales() {
-        return cantidadParciales;
-    }
-
-    /**
-     * @param cantidadParciales the cantidadParciales to set
-     */
-    public void setCantidadParciales(Integer cantidadParciales) {
-        this.cantidadParciales = cantidadParciales;
-    }
-
-    /**
-     * @return the notaMinimaAprobacion
-     */
-    public Integer getNotaMinimaAprobacion() {
-        return notaMinimaAprobacion;
-    }
-
-    /**
-     * @param notaMinimaAprobacion the notaMinimaAprobacion to set
-     */
-    public void setNotaMinimaAprobacion(Integer notaMinimaAprobacion) {
-        this.notaMinimaAprobacion = notaMinimaAprobacion;
-    }
-
-    /**
-     * @return the notaMinimmaPruebaRecuperacion
-     */
-    public Integer getNotaMinimmaPruebaRecuperacion() {
-        return notaMinimmaPruebaRecuperacion;
-    }
-
-    /**
-     * @param notaMinimmaPruebaRecuperacion the notaMinimmaPruebaRecuperacion to
-     * set
-     */
-    public void setNotaMinimmaPruebaRecuperacion(Integer notaMinimmaPruebaRecuperacion) {
-        this.notaMinimmaPruebaRecuperacion = notaMinimmaPruebaRecuperacion;
     }
 
     @Override

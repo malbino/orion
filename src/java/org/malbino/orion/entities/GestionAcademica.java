@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import org.malbino.orion.enums.ModalidadEvaluacion;
 import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.util.Fecha;
@@ -40,6 +41,7 @@ public class GestionAcademica implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fin;
     private Boolean vigente;
+    private ModalidadEvaluacion modalidadEvaluacion;
 
     public GestionAcademica() {
     }
@@ -216,5 +218,19 @@ public class GestionAcademica implements Serializable {
             s = gestion + " ";
         }
         return s;
+    }
+
+    /**
+     * @return the modalidadEvaluacion
+     */
+    public ModalidadEvaluacion getModalidadEvaluacion() {
+        return modalidadEvaluacion;
+    }
+
+    /**
+     * @param modalidadEvaluacion the modalidadEvaluacion to set
+     */
+    public void setModalidadEvaluacion(ModalidadEvaluacion modalidadEvaluacion) {
+        this.modalidadEvaluacion = modalidadEvaluacion;
     }
 }

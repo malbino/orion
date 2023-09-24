@@ -168,11 +168,11 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
         Seguimiento seguimiento = seguimientoAcademicoFacade.seguimientoAcademico(seleccionGestionAcademica, seleccionCarrera, seleccionMencion, seleccionNivel, seleccionTurno, seleccionParalelo);
 
         XSSFWorkbook workbook = null;
-        if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 2) {
+        if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 2) {
             workbook = leerArchivo(PATHNAME_SEMESTRAL2P);
-        } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
+        } else if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 3) {
             workbook = leerArchivo(PATHNAME_SEMESTRAL);
-        } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 4) {
+        } else if (seleccionGestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 4) {
             workbook = leerArchivo(PATHNAME_ANUAL);
         }
 

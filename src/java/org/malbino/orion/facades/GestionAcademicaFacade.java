@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.enums.ModalidadEvaluacion;
 import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Regimen;
 
@@ -101,41 +102,6 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
         return l;
     }
 
-    public List<GestionAcademica> listaGestionAcademica(Regimen regimen1, Regimen regimen2, boolean vigente) {
-        List<GestionAcademica> l = new ArrayList();
-
-        try {
-            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE (ga.regimen=:regimen1 OR ga.regimen=:regimen2) AND ga.vigente=:vigente ORDER BY ga.gestion, ga.periodo");
-            q.setParameter("regimen1", regimen1);
-            q.setParameter("regimen2", regimen2);
-            q.setParameter("vigente", vigente);
-
-            l = q.getResultList();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
-    public List<GestionAcademica> listaGestionAcademica(Regimen regimen1, Regimen regimen2, Regimen regimen3, boolean vigente) {
-        List<GestionAcademica> l = new ArrayList();
-
-        try {
-            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE (ga.regimen=:regimen1 OR ga.regimen=:regimen2 OR ga.regimen=:regimen3) AND ga.vigente=:vigente ORDER BY ga.gestion, ga.periodo");
-            q.setParameter("regimen1", regimen1);
-            q.setParameter("regimen2", regimen2);
-            q.setParameter("regimen3", regimen3);
-            q.setParameter("vigente", vigente);
-
-            l = q.getResultList();
-        } catch (Exception e) {
-
-        }
-
-        return l;
-    }
-
     public List<GestionAcademica> listaGestionAcademica() {
         List<GestionAcademica> l = new ArrayList();
 
@@ -186,6 +152,57 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
 
         try {
             Query q = em.createQuery("SELECT DISTINCT ga.gestion FROM GestionAcademica ga ORDER BY ga.gestion, ga.periodo");
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<GestionAcademica> listaGestionAcademica(ModalidadEvaluacion modalidadEvaluacion1, boolean vigente) {
+        List<GestionAcademica> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE ga.modalidadEvaluacion=:modalidadEvaluacion1 AND ga.vigente=:vigente ORDER BY ga.gestion, ga.periodo");
+            q.setParameter("modalidadEvaluacion1", modalidadEvaluacion1);
+            q.setParameter("vigente", vigente);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<GestionAcademica> listaGestionAcademica(ModalidadEvaluacion modalidadEvaluacion1, ModalidadEvaluacion modalidadEvaluacion2, boolean vigente) {
+        List<GestionAcademica> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE (ga.modalidadEvaluacion=:modalidadEvaluacion1 OR ga.modalidadEvaluacion=:modalidadEvaluacion2) AND ga.vigente=:vigente ORDER BY ga.gestion, ga.periodo");
+            q.setParameter("modalidadEvaluacion1", modalidadEvaluacion1);
+            q.setParameter("modalidadEvaluacion2", modalidadEvaluacion2);
+            q.setParameter("vigente", vigente);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<GestionAcademica> listaGestionAcademica(ModalidadEvaluacion modalidadEvaluacion1, ModalidadEvaluacion modalidadEvaluacion2, ModalidadEvaluacion modalidadEvaluacion3, boolean vigente) {
+        List<GestionAcademica> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT ga FROM GestionAcademica ga WHERE (ga.modalidadEvaluacion=:modalidadEvaluacion1 OR ga.modalidadEvaluacion=:modalidadEvaluacion2 OR ga.modalidadEvaluacion=:modalidadEvaluacion3) AND ga.vigente=:vigente ORDER BY ga.gestion, ga.periodo");
+            q.setParameter("modalidadEvaluacion1", modalidadEvaluacion1);
+            q.setParameter("modalidadEvaluacion2", modalidadEvaluacion2);
+            q.setParameter("modalidadEvaluacion3", modalidadEvaluacion3);
+            q.setParameter("vigente", vigente);
 
             l = q.getResultList();
         } catch (Exception e) {
