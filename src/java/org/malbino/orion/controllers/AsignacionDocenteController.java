@@ -7,7 +7,6 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -81,7 +80,7 @@ public class AsignacionDocenteController extends AbstractController implements S
     }
 
     public Nivel[] listaNiveles() {
-        return Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
+        return Nivel.values(seleccionCarrera.getRegimen());
     }
 
     public void buscar() {

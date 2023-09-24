@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -52,6 +51,7 @@ import org.primefaces.model.StreamedContent;
 @SessionScoped
 public class ReporteSeguimientoAcademicoController extends AbstractController implements Serializable {
 
+    private static final String PATHNAME_SEMESTRAL2P = File.separator + "resources" + File.separator + "uploads" + File.separator + "seguimiento_academico_semestral2p.xlsx";
     private static final String PATHNAME_SEMESTRAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "seguimiento_academico_semestral.xlsx";
     private static final String PATHNAME_ANUAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "seguimiento_academico_anual.xlsx";
 
@@ -112,7 +112,7 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
     public Nivel[] listaNiveles() {
         Nivel[] niveles = new Nivel[0];
         if (seleccionGestionAcademica != null && seleccionCarrera != null) {
-            niveles = Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
+            niveles = Nivel.values(seleccionCarrera.getRegimen());
         }
         return niveles;
     }
@@ -168,7 +168,9 @@ public class ReporteSeguimientoAcademicoController extends AbstractController im
         Seguimiento seguimiento = seguimientoAcademicoFacade.seguimientoAcademico(seleccionGestionAcademica, seleccionCarrera, seleccionMencion, seleccionNivel, seleccionTurno, seleccionParalelo);
 
         XSSFWorkbook workbook = null;
-        if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
+        if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 2) {
+            workbook = leerArchivo(PATHNAME_SEMESTRAL2P);
+        } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
             workbook = leerArchivo(PATHNAME_SEMESTRAL);
         } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 4) {
             workbook = leerArchivo(PATHNAME_ANUAL);

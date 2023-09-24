@@ -7,7 +7,6 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,7 +34,7 @@ import org.malbino.orion.util.Fecha;
 @Named("GrupoPasantiaController")
 @SessionScoped
 public class GrupoPasantiaController extends AbstractController implements Serializable {
-
+    
     @EJB
     GrupoPasantiaFacade grupoPasantiaFacade;
     @EJB
@@ -44,48 +43,48 @@ public class GrupoPasantiaController extends AbstractController implements Seria
     ProgramacionGruposPasantiasFacade programacionGruposPasantiasFacade;
     @Inject
     LoginController loginController;
-
+    
     private List<GrupoPasantia> gruposPasantias;
     private GrupoPasantia seleccionGrupoPasantia;
-
+    
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
     private Nivel seleccionNivel;
     private Mencion seleccionMencion;
     private Turno seleccionTurno;
     private Integer capacidad;
-
+    
     private String keyword;
-
+    
     @PostConstruct
     public void init() {
         gruposPasantias = new ArrayList();
         seleccionGrupoPasantia = null;
-
+        
         seleccionGestionAcademica = null;
         seleccionCarrera = null;
         seleccionNivel = null;
         seleccionMencion = null;
         seleccionTurno = null;
         capacidad = null;
-
+        
         keyword = null;
     }
-
+    
     public void reinit() {
         if (seleccionGestionAcademica != null && seleccionCarrera != null) {
             gruposPasantias = grupoPasantiaFacade.listaGrupoPasantias(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
         }
         seleccionGrupoPasantia = null;
-
+        
         seleccionNivel = null;
         seleccionMencion = null;
         seleccionTurno = null;
         capacidad = null;
-
+        
         keyword = null;
     }
-
+    
     @Override
     public List<Carrera> listaCarreras() {
         List<Carrera> l = new ArrayList();
@@ -94,25 +93,25 @@ public class GrupoPasantiaController extends AbstractController implements Seria
         }
         return l;
     }
-
+    
     public Nivel[] listaNiveles() {
-        return Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
+        return Nivel.values(seleccionCarrera.getRegimen());
     }
-
+    
     public List<Mencion> listaMenciones() {
         return mencionFacade.listaMenciones(seleccionCarrera.getId_carrera());
     }
-
+    
     public void buscar() {
         if (seleccionGestionAcademica != null && seleccionCarrera != null) {
             gruposPasantias = grupoPasantiaFacade.buscar(keyword, seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
         }
     }
-
+    
     public long cantidadNotasGrupoPasantia(GrupoPasantia grupoPasantia) {
         return grupoPasantiaFacade.cantidadNotasPasantiaGrupoPasantia(grupoPasantia.getId_grupopasantia());
     }
-
+    
     public void programarGrupoPasantias() throws IOException {
         List<GrupoPasantia> gruposPasantia = programacionGruposPasantiasFacade.programarGruposPasantias(seleccionGestionAcademica, seleccionCarrera, seleccionNivel, seleccionMencion, seleccionTurno, capacidad);
         if (!gruposPasantia.isEmpty()) {
@@ -124,13 +123,13 @@ public class GrupoPasantiaController extends AbstractController implements Seria
             toGruposPasantias();
         }
     }
-
+    
     public void editarGrupoPasantia() throws IOException {
         if (grupoPasantiaFacade.edit(seleccionGrupoPasantia)) {
             this.toGruposPasantias();
         }
     }
-
+    
     public void eliminarGrupoPasantia() throws IOException {
         long cantidadNotasGrupoPasantia = grupoPasantiaFacade.cantidadNotasPasantiaGrupoPasantia(seleccionGrupoPasantia.getId_grupopasantia());
         if (cantidadNotasGrupoPasantia == 0) {
@@ -141,18 +140,18 @@ public class GrupoPasantiaController extends AbstractController implements Seria
             this.mensajeDeError("No se puede eliminar grupoPasantias con estudiantes inscritos.");
         }
     }
-
+    
     public void toProgramarGruposPasantias() throws IOException {
         this.redireccionarViewId("/gestionesAcademicas/grupoPasantia/programarGruposPasantias");
     }
-
+    
     public void toEditarGrupoPasantia() throws IOException {
         this.redireccionarViewId("/gestionesAcademicas/grupoPasantia/editarGrupoPasantia");
     }
-
+    
     public void toGruposPasantias() throws IOException {
         reinit();
-
+        
         this.redireccionarViewId("/gestionesAcademicas/grupoPasantia/gruposPasantias");
     }
 

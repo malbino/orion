@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -113,7 +112,7 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
     public Nivel[] listaNiveles() {
         Nivel[] niveles = new Nivel[0];
         if (seleccionCarrera != null) {
-            niveles = Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
+            niveles = Nivel.values(seleccionCarrera.getRegimen());
         }
         return niveles;
     }
@@ -361,7 +360,7 @@ public class ReportePlanillaSeguimientoController extends AbstractController imp
         }
 
         descargarArchivo(workbook, seleccionGrupo);
-        
+
         //log
         logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte planilla de seguimiento en formato XLSX", loginController.getUsr().toString()));
     }

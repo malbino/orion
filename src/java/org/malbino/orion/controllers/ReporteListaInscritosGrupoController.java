@@ -7,7 +7,6 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,7 +34,7 @@ public class ReporteListaInscritosGrupoController extends AbstractController imp
     GrupoFacade grupoFacade;
     @Inject
     LoginController loginController;
-    
+
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
     private Nivel seleccionNivel;
@@ -68,7 +67,7 @@ public class ReporteListaInscritosGrupoController extends AbstractController imp
     public Nivel[] listaNiveles() {
         Nivel[] niveles = new Nivel[0];
         if (seleccionGestionAcademica != null && seleccionCarrera != null) {
-            niveles = Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
+            niveles = Nivel.values(seleccionCarrera.getRegimen());
         }
         return niveles;
     }
@@ -86,7 +85,7 @@ public class ReporteListaInscritosGrupoController extends AbstractController imp
             this.insertarParametro("id_grupo", seleccionGrupo.getId_grupo());
 
             toListaInscritosGrupo();
-            
+
             //log
             logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte lista inscritos por grupo", loginController.getUsr().toString()));
         }

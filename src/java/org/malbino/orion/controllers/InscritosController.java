@@ -7,7 +7,6 @@ package org.malbino.orion.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -97,7 +96,7 @@ public class InscritosController extends AbstractController implements Serializa
     public Nivel[] listaNiveles() {
         Nivel[] niveles = new Nivel[0];
         if (seleccionGestionAcademica != null && seleccionCarrera != null) {
-            niveles = Arrays.stream(Nivel.values()).filter(nivel -> nivel.getRegimen().equals(seleccionCarrera.getRegimen())).toArray(Nivel[]::new);
+            niveles = Nivel.values(seleccionCarrera.getRegimen());
         }
         return niveles;
     }
