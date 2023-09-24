@@ -39,170 +39,185 @@
 
                                     <p:spacer/>
                                     <p:outputPanel id="panelHistorialAcademico">
-                                        <p:dataTable id="historialAcademicoSemestral" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}"
-                                                     rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
-                                                     rendered="#{HistorialAcademicoEstudianteController.seleccionCarreraEstudiante.carrera.regimen.cantidadParciales == 3}">
-                                            <p:column headerText="Gestion" groupRow="true">  
+                                        <p:dataTable id="historialAcademico" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}"
+                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%" sortBy="#{nota.gestionAcademica.id_gestionacademica}"
+                                                     styleClass="hide-table-header">
+
+                                            <p:headerRow field="gestionAcademica.id_gestionacademica" expandable="true">
+                                                <p:column>
+                                                    <h:outputText value="Gestion" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="Nº" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="NI" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="Codigo" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="Materia" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="GR" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="MO" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="T1" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="P1" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="N1" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="T2" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="P2" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="N2" />
+                                                </p:column>
+
+                                                <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales >= 3}">
+                                                    <h:outputText value="T3" />
+                                                </p:column>
+
+                                                <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales >= 3}">
+                                                    <h:outputText value="P3" />
+                                                </p:column>
+
+                                                <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales >= 3}">
+                                                    <h:outputText value="N3" />
+                                                </p:column>
+
+                                                <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales == 4}">
+                                                    <h:outputText value="T4" />
+                                                </p:column>
+
+                                                <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales == 4}">
+                                                    <h:outputText value="P4" />
+                                                </p:column>
+
+                                                <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales == 4}">
+                                                    <h:outputText value="N4" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="NF" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="RE" />
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="CO" />
+                                                </p:column>
+                                            </p:headerRow>
+
+                                            <p:column groupRow="true">  
                                                 <h:outputText value="#{nota.gestionAcademica.toString()}"/>
                                             </p:column>
 
-                                            <p:column headerText="Nº">
-                                                <h:outputText value="#{rowIndex + 1}"/>
+                                            <p:column>
+                                                <h:outputText value="#{nota.materia.numero}"/>
                                             </p:column>
 
-                                            <p:column headerText="NI">  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.materia.nivel.abreviatura}"/>
                                             </p:column>
 
-                                            <p:column headerText="Codigo" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.materia.codigo}"/>
                                             </p:column>
 
-                                            <p:column headerText="Materia" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.materia.nombre}"/>
                                             </p:column>
 
-                                            <p:column headerText="GR" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.grupo.codigo}"/>
                                             </p:column>
 
-                                            <p:column headerText="MO" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.modalidad.abreviatura}"/>
                                             </p:column>
 
-                                            <p:column headerText="T1" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.teoria1}" />
                                             </p:column>
 
-                                            <p:column headerText="P1" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.practica1}" />
                                             </p:column>
 
-                                            <p:column headerText="N1">  
-                                                <h:outputText value="#{nota.nota1}" />
-                                            </p:column>
-
-                                            <p:column headerText="T2" >  
-                                                <h:outputText value="#{nota.teoria2}" />
-                                            </p:column>
-
-                                            <p:column headerText="P2" >  
-                                                <h:outputText value="#{nota.practica2}" />
-                                            </p:column>
-
-                                            <p:column headerText="N2" >  
-                                                <h:outputText value="#{nota.nota2}" />
-                                            </p:column>
-
-                                            <p:column headerText="T3" >  
-                                                <h:outputText value="#{nota.teoria3}" />
-                                            </p:column>
-
-                                            <p:column headerText="P3" >  
-                                                <h:outputText value="#{nota.practica3}" />
-                                            </p:column>
-
-                                            <p:column headerText="N3" >  
-                                                <h:outputText value="#{nota.nota3}" />
-                                            </p:column>
-
-                                            <p:column headerText="NF" >  
-                                                <h:outputText id="nf" value="#{nota.notaFinal}"/>
-                                            </p:column>
-
-                                            <p:column headerText="RE" >  
-                                                <h:outputText value="#{nota.recuperatorio}"/>
-                                            </p:column>
-
-                                            <p:column headerText="CO" >  
-                                                <h:outputText id="condicion" value="#{nota.condicion.abreviatura}"/>
-                                            </p:column>
-                                        </p:dataTable>
-
-                                        <p:dataTable id="historialAcademicoAnual" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}" reflow="true" 
-                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
-                                                     rendered="#{HistorialAcademicoEstudianteController.seleccionCarreraEstudiante.carrera.regimen.cantidadParciales == 4}">
-                                            <p:column headerText="Gestion" groupRow="true">  
-                                                <h:outputText value="#{nota.gestionAcademica.toString()}"/>
-                                            </p:column>
-
-                                            <p:column headerText="NI">  
-                                                <h:outputText value="#{nota.materia.nivel.abreviatura}"/>
-                                            </p:column>
-
-                                            <p:column headerText="Codigo" >  
-                                                <h:outputText value="#{nota.materia.codigo}"/>
-                                            </p:column>
-
-                                            <p:column headerText="Materia" >  
-                                                <h:outputText value="#{nota.materia.nombre}"/>
-                                            </p:column>
-
-                                            <p:column headerText="GR" >  
-                                                <h:outputText value="#{nota.grupo.codigo}"/>
-                                            </p:column>
-
-                                            <p:column headerText="MO" >  
-                                                <h:outputText value="#{nota.modalidad.abreviatura}"/>
-                                            </p:column>
-
-                                            <p:column headerText="T1" >  
-                                                <h:outputText value="#{nota.teoria1}" />
-                                            </p:column>
-
-                                            <p:column headerText="P1" >  
-                                                <h:outputText value="#{nota.practica1}" />
-                                            </p:column>
-
-                                            <p:column headerText="N1">  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.nota1}"/>
                                             </p:column>
 
-                                            <p:column headerText="T2" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.teoria2}" />
                                             </p:column>
 
-                                            <p:column headerText="P2" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.practica2}" />
                                             </p:column>
 
-                                            <p:column headerText="N2" >  
+                                            <p:column>  
                                                 <h:outputText value="#{nota.nota2}" />
                                             </p:column>
 
-                                            <p:column headerText="T3" >  
+                                            <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales >= 3}">  
                                                 <h:outputText value="#{nota.teoria3}" />
                                             </p:column>
 
-                                            <p:column headerText="P3" >  
+                                            <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales >= 3}">  
                                                 <h:outputText value="#{nota.practica3}" />
                                             </p:column>
 
-                                            <p:column headerText="N3" >  
+                                            <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales >= 3}">  
                                                 <h:outputText value="#{nota.nota3}" />
                                             </p:column>
 
-                                            <p:column headerText="T4" >  
+                                            <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales == 4}">  
                                                 <h:outputText value="#{nota.teoria4}" />
                                             </p:column>
 
-                                            <p:column headerText="P4" >  
+                                            <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales == 4}">  
                                                 <h:outputText value="#{nota.practica4}" />
                                             </p:column>
 
-                                            <p:column headerText="N4">  
+                                            <p:column rendered="#{nota.gestionAcademica.regimen.cantidadParciales == 4}">  
                                                 <h:outputText value="#{nota.nota4}" />
                                             </p:column>
 
-                                            <p:column headerText="NF" >  
+                                            <p:column>  
                                                 <h:outputText id="nf" value="#{nota.notaFinal}"/>
                                             </p:column>
 
-                                            <p:column headerText="RE" >  
+                                            <p:column>  
                                                 <h:outputText id="recuperatorio" value="#{nota.recuperatorio}" />
                                             </p:column>
 
-                                            <p:column headerText="CO" >  
+                                            <p:column>  
                                                 <h:outputText id="condicion" value="#{nota.condicion.abreviatura}"/>
                                             </p:column>
                                         </p:dataTable>

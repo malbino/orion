@@ -145,7 +145,7 @@
                                                 <p:cellEditor>
                                                     <f:facet name="output"><h:outputText value="#{nota.recuperatorio}" /></f:facet>
                                                     <f:facet name="input">
-                                                        <p:inputNumber value="#{nota.recuperatorio}" minValue="0" maxValue="#{nota.materia.carrera.regimen.notaMinimaAprobacion}" decimalPlaces="0" size="3">
+                                                        <p:inputNumber value="#{nota.recuperatorio}" minValue="0" maxValue="#{nota.gestionAcademica.regimen.notaMinimaAprobacion}" decimalPlaces="0" size="3">
                                                             <p:ajax event="keyup" listener="#{RegistroNotasPruebaRecuperacionController.editarNota(nota)}" update="condicion" />  
                                                         </p:inputNumber>
                                                     </f:facet> 
@@ -242,7 +242,7 @@
                                                 <p:cellEditor>
                                                     <f:facet name="output"><h:outputText value="#{nota.recuperatorio}" /></f:facet>
                                                     <f:facet name="input">
-                                                        <p:inputNumber value="#{nota.recuperatorio}" minValue="0" maxValue="#{nota.materia.carrera.regimen.notaMinimaAprobacion}" decimalPlaces="0" size="3">
+                                                        <p:inputNumber value="#{nota.recuperatorio}" minValue="0" maxValue="#{nota.gestionAcademica.regimen.notaMinimaAprobacion}" decimalPlaces="0" size="3">
                                                             <p:ajax event="keyup" listener="#{RegistroNotasPruebaRecuperacionController.editarNota(nota)}" update="condicion"/>
                                                         </p:inputNumber>
                                                     </f:facet> 

@@ -298,20 +298,22 @@ public abstract class AbstractController implements Serializable {
             nota.setNota2(nota2);
         }
 
-        Integer nota3 = 0;
-        if (nota.getTeoria3() != null) {
-            nota3 += nota.getTeoria3();
-        }
-        if (nota.getPractica3() != null) {
-            nota3 += nota.getPractica3();
-        }
-        if (nota.getTeoria3() == null && nota.getPractica3() == null) {
-            nota.setNota3(null);
-        } else {
-            nota.setNota3(nota3);
+        if (nota.getGestionAcademica().getRegimen().getCantidadParciales() >= 3) {
+            Integer nota3 = 0;
+            if (nota.getTeoria3() != null) {
+                nota3 += nota.getTeoria3();
+            }
+            if (nota.getPractica3() != null) {
+                nota3 += nota.getPractica3();
+            }
+            if (nota.getTeoria3() == null && nota.getPractica3() == null) {
+                nota.setNota3(null);
+            } else {
+                nota.setNota3(nota3);
+            }
         }
 
-        if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
+        if (nota.getGestionAcademica().getRegimen().getCantidadParciales() == 4) {
             Integer nota4 = 0;
             if (nota.getTeoria4() != null) {
                 nota4 += nota.getTeoria4();
@@ -333,32 +335,34 @@ public abstract class AbstractController implements Serializable {
         if (nota.getNota2() != null) {
             notaFinal += nota.getNota2();
         }
-        if (nota.getNota3() != null) {
-            notaFinal += nota.getNota3();
+        if (nota.getGestionAcademica().getRegimen().getCantidadParciales() >= 3) {
+            if (nota.getNota3() != null) {
+                notaFinal += nota.getNota3();
+            }
         }
-        if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
+        if (nota.getGestionAcademica().getRegimen().getCantidadParciales() == 4) {
             if (nota.getNota4() != null) {
                 notaFinal += nota.getNota4();
             }
         }
 
-        if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 3) {
-            if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null) {
+        if (nota.getGestionAcademica().getRegimen().getCantidadParciales() == 2) {
+            if (nota.getNota1() == null && nota.getNota2() == null) {
                 nota.setNotaFinal(null);
                 nota.setCondicion(Condicion.ABANDONO);
             } else {
-                Double promedio = notaFinal.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
+                Double promedio = notaFinal.doubleValue() / nota.getGestionAcademica().getRegimen().getCantidadParciales().doubleValue();
                 Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
                 nota.setNotaFinal(promedioRedondeado);
 
                 if (nota.getRecuperatorio() != null) {
-                    if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                    if (nota.getRecuperatorio() >= nota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
                         nota.setCondicion(Condicion.APROBADO);
                     } else {
                         nota.setCondicion(Condicion.REPROBADO);
                     }
                 } else if (nota.getNotaFinal() != null) {
-                    if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                    if (nota.getNotaFinal() >= nota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
                         nota.setCondicion(Condicion.APROBADO);
                     } else if (nota.getNotaFinal() == 0) {
                         nota.setCondicion(Condicion.ABANDONO);
@@ -367,23 +371,48 @@ public abstract class AbstractController implements Serializable {
                     }
                 }
             }
-        } else if (nota.getMateria().getCarrera().getRegimen().getCantidadParciales() == 4) {
-            if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null && nota.getNota4() == null) {
+        } else if (nota.getGestionAcademica().getRegimen().getCantidadParciales() == 3) {
+            if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null) {
                 nota.setNotaFinal(null);
                 nota.setCondicion(Condicion.ABANDONO);
             } else {
-                Double promedio = notaFinal.doubleValue() / nota.getMateria().getCarrera().getRegimen().getCantidadParciales().doubleValue();
+                Double promedio = notaFinal.doubleValue() / nota.getGestionAcademica().getRegimen().getCantidadParciales().doubleValue();
                 Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
                 nota.setNotaFinal(promedioRedondeado);
 
                 if (nota.getRecuperatorio() != null) {
-                    if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                    if (nota.getRecuperatorio() >= nota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
                         nota.setCondicion(Condicion.APROBADO);
                     } else {
                         nota.setCondicion(Condicion.REPROBADO);
                     }
                 } else if (nota.getNotaFinal() != null) {
-                    if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                    if (nota.getNotaFinal() >= nota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
+                        nota.setCondicion(Condicion.APROBADO);
+                    } else if (nota.getNotaFinal() == 0) {
+                        nota.setCondicion(Condicion.ABANDONO);
+                    } else {
+                        nota.setCondicion(Condicion.REPROBADO);
+                    }
+                }
+            }
+        } else if (nota.getGestionAcademica().getRegimen().getCantidadParciales() == 4) {
+            if (nota.getNota1() == null && nota.getNota2() == null && nota.getNota3() == null && nota.getNota4() == null) {
+                nota.setNotaFinal(null);
+                nota.setCondicion(Condicion.ABANDONO);
+            } else {
+                Double promedio = notaFinal.doubleValue() / nota.getGestionAcademica().getRegimen().getCantidadParciales().doubleValue();
+                Integer promedioRedondeado = Redondeo.redondear_HALFUP(promedio, 0).intValue();
+                nota.setNotaFinal(promedioRedondeado);
+
+                if (nota.getRecuperatorio() != null) {
+                    if (nota.getRecuperatorio() >= nota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
+                        nota.setCondicion(Condicion.APROBADO);
+                    } else {
+                        nota.setCondicion(Condicion.REPROBADO);
+                    }
+                } else if (nota.getNotaFinal() != null) {
+                    if (nota.getNotaFinal() >= nota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
                         nota.setCondicion(Condicion.APROBADO);
                     } else if (nota.getNotaFinal() == 0) {
                         nota.setCondicion(Condicion.ABANDONO);

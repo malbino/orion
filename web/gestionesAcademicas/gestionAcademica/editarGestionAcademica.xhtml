@@ -39,6 +39,14 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="regimen" value="Regimen: " style="font-size: small"/>
+                                            <p:selectOneMenu id="regimen" value="#{GestionAcademicaController.seleccionGestionAcademica.regimen}" converter="#{RegimenConverter}" autoWidth="false" required="true" requiredMessage="* Regimen requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{GestionAcademicaController.listaRegimenes()}" var="regimen" itemLabel="#{regimen.toString()}" itemValue="#{regimen}"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="inicio" value="Inicio:" style="font-size: small"/>
                                             <p:calendar id="inicio" value="#{GestionAcademicaController.seleccionGestionAcademica.inicio}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Inicio requerido."/>  
                                         </div>

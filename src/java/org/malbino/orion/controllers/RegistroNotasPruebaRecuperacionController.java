@@ -64,13 +64,13 @@ public class RegistroNotasPruebaRecuperacionController extends AbstractControlle
     @Override
     public void editarNota(Nota nota) {
         if (nota.getRecuperatorio() != null) {
-            if (nota.getRecuperatorio() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+            if (nota.getRecuperatorio() >= nota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
                 nota.setCondicion(Condicion.APROBADO);
             } else {
                 nota.setCondicion(Condicion.REPROBADO);
             }
         } else if (nota.getNotaFinal() != null) {
-            if (nota.getNotaFinal() >= nota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+            if (nota.getNotaFinal() >= nota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
                 nota.setCondicion(Condicion.APROBADO);
             } else {
                 nota.setCondicion(Condicion.REPROBADO);

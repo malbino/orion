@@ -165,10 +165,10 @@ public class HistorialAcademicoController extends AbstractController implements 
 
     public void editarRecuperatorio() throws IOException {
         List<Nota> listaNotasReprobadas = notaFacade.listaNotasReprobadas(seleccionNota.getGestionAcademica(), seleccionNota.getMateria().getCarrera(), seleccionCarreraEstudiante.getMencion(), seleccionNota.getEstudiante());
-        if (listaNotasReprobadas.size() <= seleccionNota.getMateria().getCarrera().getRegimen().getCantidadMaximaReprobaciones()) {
+        if (listaNotasReprobadas.size() <= seleccionNota.getGestionAcademica().getRegimen().getCantidadMaximaReprobaciones()) {
             if (seleccionNota.getNotaFinal() != null
-                    && seleccionNota.getNotaFinal() >= seleccionNota.getMateria().getCarrera().getRegimen().getNotaMinimmaPruebaRecuperacion()
-                    && seleccionNota.getNotaFinal() < seleccionNota.getMateria().getCarrera().getRegimen().getNotaMinimaAprobacion()) {
+                    && seleccionNota.getNotaFinal() >= seleccionNota.getGestionAcademica().getRegimen().getNotaMinimmaPruebaRecuperacion()
+                    && seleccionNota.getNotaFinal() < seleccionNota.getGestionAcademica().getRegimen().getNotaMinimaAprobacion()) {
                 if (fileEstudianteFacade.editarRecuperatorio(seleccionNota)) {
                     //log
                     logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA, seleccionNota.getId_nota(), "Actualización nota recuperatorio", loginController.getUsr().toString()));
@@ -240,7 +240,7 @@ public class HistorialAcademicoController extends AbstractController implements 
 
     public void toLogNota() throws IOException {
         this.logNota();
-        
+
         this.redireccionarViewId("/fileEstudiante/historialAcademico/logNota");
     }
 

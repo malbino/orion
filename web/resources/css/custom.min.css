@@ -6110,3 +6110,7 @@ ul.notifications {
 	min-height: 300px;
 	border: 1px solid #e5e5e5
 }
+
+.hide-table-header thead {
+    display: none !important;
+}
