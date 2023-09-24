@@ -59,6 +59,7 @@ public class RegistroNotasSegundoParcialController extends AbstractController im
     private static final String PATHNAME = File.separator + "resources" + File.separator + "uploads" + File.separator + "registro_pedagogico.xlsx";
     private static final String PARCIAL = "SEGUNDO PARCIAL";
 
+    private static final String PATHNAME_SEMESTRAL2P = File.separator + "resources" + File.separator + "uploads" + File.separator + "planilla_seguimiento_semestral2p.xlsx";
     private static final String PATHNAME_SEMESTRAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "planilla_seguimiento_semestral.xlsx";
     private static final String PATHNAME_ANUAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "planilla_seguimiento_anual.xlsx";
 
@@ -100,7 +101,7 @@ public class RegistroNotasSegundoParcialController extends AbstractController im
         seleccionGrupo = null;
         notas = new ArrayList();
     }
-    
+
     @Override
     public List<GestionAcademica> listaGestionesAcademicas() {
         return gestionAcademicaFacade.listaGestionAcademica(Regimen.ANUAL, Regimen.SEMESTRAL, Regimen.SEMESTRAL_2P, true);
@@ -330,7 +331,9 @@ public class RegistroNotasSegundoParcialController extends AbstractController im
     public void bajarPlanilla() {
         XSSFWorkbook workbook = null;
 
-        if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
+        if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 2) {
+            workbook = leerArchivo(PATHNAME_SEMESTRAL2P);
+        } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 3) {
             workbook = leerArchivo(PATHNAME_SEMESTRAL);
         } else if (seleccionGestionAcademica.getRegimen().getCantidadParciales() == 4) {
             workbook = leerArchivo(PATHNAME_ANUAL);
