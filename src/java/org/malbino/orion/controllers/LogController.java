@@ -56,7 +56,11 @@ public class LogController extends AbstractController implements Serializable {
     }
 
     public void buscar() {
-        logs = logFacade.buscarLogs(desde, hasta, eventoLog, entidadLog, descripcion, usuario);
+        if (desde != null || hasta != null || eventoLog != null || entidadLog != null || (descripcion != null && !descripcion.isEmpty()) || (usuario != null && !usuario.isEmpty())) {
+            logs = logFacade.buscarLogs(desde, hasta, eventoLog, entidadLog, descripcion, usuario);
+        } else {
+            logs = new ArrayList<>();
+        }
     }
 
     /**
