@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.1] - 2023-10-19
+### Added
+### Changed
+### Removed
+### Fixed
+- Orden notas Historial Academico
+
+## [2.6.0] - 2023-09-28
+### Added
+- Soporte modalidades de evaluacion (2 parciales regimen semestral)
+### Changed
+### Removed
+### Fixed
+
 ## [2.5.1] - 2023-08-15
 ### Added
 ### Changed

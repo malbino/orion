@@ -71,107 +71,107 @@
 
                                     <p:outputPanel id="panelHistorialAcademico">
                                         <p:dataTable id="historialAcademico" var="nota" value="#{HistorialAcademicoController.historialAcademico}"
-                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%" sortBy="#{nota.gestionAcademica.id_gestionacademica}"
+                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%" sortBy="#{nota.gestionAcademica.gestionPeriodo()}"
                                                      styleClass="hide-table-header">
 
-                                            <p:headerRow field="gestionAcademica.id_gestionacademica" expandable="true">
+                                            <p:headerRow groupBy="#{nota.gestionAcademica.gestionPeriodo()}" expandable="true">
                                                 <p:column>
-                                                     <h:outputText value="Gestion" />
+                                                    <h:outputText value="Gestion" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="" />
+                                                    <h:outputText value="" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="Nº" />
+                                                    <h:outputText value="Nº" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="NI" />
+                                                    <h:outputText value="NI" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="Codigo" />
+                                                    <h:outputText value="Codigo" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="Materia" />
+                                                    <h:outputText value="Materia" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="GR" />
+                                                    <h:outputText value="GR" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="MO" />
+                                                    <h:outputText value="MO" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="T1" />
+                                                    <h:outputText value="T1" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="P1" />
+                                                    <h:outputText value="P1" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="N1" />
+                                                    <h:outputText value="N1" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="T2" />
+                                                    <h:outputText value="T2" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="P2" />
+                                                    <h:outputText value="P2" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="N2" />
+                                                    <h:outputText value="N2" />
                                                 </p:column>
-                                                
+
                                                 <p:column rendered="#{nota.gestionAcademica.modalidadEvaluacion.cantidadParciales >= 3}">
-                                                     <h:outputText value="T3" />
+                                                    <h:outputText value="T3" />
                                                 </p:column>
-                                                
+
                                                 <p:column rendered="#{nota.gestionAcademica.modalidadEvaluacion.cantidadParciales >= 3}">
-                                                     <h:outputText value="P3" />
+                                                    <h:outputText value="P3" />
                                                 </p:column>
-                                                
+
                                                 <p:column rendered="#{nota.gestionAcademica.modalidadEvaluacion.cantidadParciales >= 3}">
-                                                     <h:outputText value="N3" />
+                                                    <h:outputText value="N3" />
                                                 </p:column>
-                                                
+
                                                 <p:column rendered="#{nota.gestionAcademica.modalidadEvaluacion.cantidadParciales == 4}">
-                                                     <h:outputText value="T4" />
+                                                    <h:outputText value="T4" />
                                                 </p:column>
-                                                
+
                                                 <p:column rendered="#{nota.gestionAcademica.modalidadEvaluacion.cantidadParciales == 4}">
-                                                     <h:outputText value="P4" />
+                                                    <h:outputText value="P4" />
                                                 </p:column>
-                                                
+
                                                 <p:column rendered="#{nota.gestionAcademica.modalidadEvaluacion.cantidadParciales == 4}">
-                                                     <h:outputText value="N4" />
+                                                    <h:outputText value="N4" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="NF" />
+                                                    <h:outputText value="NF" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="RE" />
+                                                    <h:outputText value="RE" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="CO" />
+                                                    <h:outputText value="CO" />
                                                 </p:column>
-                                                
+
                                                 <p:column>
-                                                     <h:outputText value="" />
+                                                    <h:outputText value="" />
                                                 </p:column>
                                             </p:headerRow>
-                                            
+
                                             <p:column groupRow="true">  
                                                 <h:outputText value="#{nota.gestionAcademica.toString()}"/>
                                             </p:column>

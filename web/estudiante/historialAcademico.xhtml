@@ -40,10 +40,10 @@
                                     <p:spacer/>
                                     <p:outputPanel id="panelHistorialAcademico">
                                         <p:dataTable id="historialAcademico" var="nota" value="#{HistorialAcademicoEstudianteController.historialAcademico}"
-                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%" sortBy="#{nota.gestionAcademica.id_gestionacademica}"
+                                                     emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%" sortBy="#{nota.gestionAcademica.gestionPeriodo()}"
                                                      styleClass="hide-table-header">
 
-                                            <p:headerRow field="gestionAcademica.id_gestionacademica" expandable="true">
+                                            <p:headerRow groupBy="#{nota.gestionAcademica.gestionPeriodo()}" expandable="true">
                                                 <p:column>
                                                     <h:outputText value="Gestion" />
                                                 </p:column>

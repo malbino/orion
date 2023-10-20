@@ -61,7 +61,7 @@ public class GestionAcademica implements Serializable {
     public String shortNameMoodle() {
         return toString();
     }
-    
+
     public long inicioMoodle() {
         return inicio.getTime() / 1000;
     }
@@ -218,6 +218,10 @@ public class GestionAcademica implements Serializable {
             s = gestion + " ";
         }
         return s;
+    }
+
+    public String gestionPeriodo() {
+        return gestion + periodo.getPeriodoRomano();
     }
 
     /**
