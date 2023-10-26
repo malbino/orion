@@ -22,6 +22,7 @@ import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.facades.MateriaFacade;
 import org.malbino.orion.facades.MencionFacade;
+import org.malbino.orion.facades.negocio.PlanEstudioFacade;
 import org.malbino.orion.util.Fecha;
 
 /**
@@ -31,100 +32,111 @@ import org.malbino.orion.util.Fecha;
 @Named("MateriaController")
 @SessionScoped
 public class MateriaController extends AbstractController implements Serializable {
-
+    
     @EJB
     MateriaFacade materiaFacade;
     @EJB
     MencionFacade mencionFacade;
+    @EJB
+    PlanEstudioFacade planEstudioFacade;
     @Inject
     LoginController loginController;
-
+    
     private List<Materia> materias;
     private Materia nuevaMateria;
     private Materia seleccionMateria;
     private Carrera seleccionCarrera;
-
+    
     private String keyword;
-
+    
     @PostConstruct
     public void init() {
         materias = new ArrayList();
         nuevaMateria = new Materia();
         seleccionMateria = null;
-
+        
         keyword = null;
     }
-
+    
     public void reinit() {
         if (seleccionCarrera != null) {
             materias = materiaFacade.listaMaterias(seleccionCarrera);
         }
         nuevaMateria = new Materia();
         seleccionMateria = null;
-
+        
         keyword = null;
     }
-
+    
     public void buscar() {
         if (seleccionCarrera != null) {
             materias = materiaFacade.buscar(keyword, seleccionCarrera.getId_carrera());
         }
     }
-
+    
     public Nivel[] listaNiveles() {
         return Nivel.values(seleccionCarrera.getRegimen());
     }
-
+    
     public List<Mencion> listaMenciones() {
         return mencionFacade.listaMenciones(seleccionCarrera.getId_carrera());
     }
-
+    
     public List<Materia> listaMateriasCrear() {
         return materiaFacade.listaMaterias(seleccionCarrera, nuevaMateria.getMencion());
     }
-
+    
     public List<Materia> listaMateriasEditar() {
         return materiaFacade.listaMaterias(seleccionMateria.getCarrera(), seleccionMateria.getMencion(), seleccionMateria.getId_materia());
     }
-
+    
     public void crearMateria() throws IOException {
         nuevaMateria.setCarrera(seleccionCarrera);
         if (materiaFacade.buscarPorCodigo(nuevaMateria.getCodigo(), nuevaMateria.getCarrera(), nuevaMateria.getMencion()).isEmpty()) {
             if (materiaFacade.create(nuevaMateria)) {
                 //log
                 logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.MATERIA, nuevaMateria.getId_materia(), "Creación materia", loginController.getUsr().toString()));
-
+                
                 this.toMaterias();
             }
         } else {
             this.mensajeDeError("Materia repetida.");
         }
     }
-
+    
     public void editarMateria() throws IOException {
         if (materiaFacade.buscarPorCodigo(seleccionMateria.getCodigo(), seleccionMateria.getId_materia(), seleccionMateria.getCarrera(), seleccionMateria.getMencion()).isEmpty()) {
             if (materiaFacade.edit(seleccionMateria)) {
                 //log
                 logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.MATERIA, seleccionMateria.getId_materia(), "Actualización materia", loginController.getUsr().toString()));
-
+                
                 this.toMaterias();
             }
         } else {
             this.mensajeDeError("Materia repetida.");
         }
     }
-
+    
+    public void eliminarMateria() throws IOException {
+        if (planEstudioFacade.eliminarMateria(seleccionMateria)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.DELETE, EntidadLog.MATERIA, seleccionMateria.getId_materia(), "Borrado materia", loginController.getUsr().toString()));
+            
+            this.toMaterias();
+        }
+    }
+    
     public void toNuevaMateria() throws IOException {
         this.redireccionarViewId("/planesEstudio/materia/nuevaMateria");
     }
-
+    
     public void toEditarMateria() throws IOException {
         this.redireccionarViewId("/planesEstudio/materia/editarMateria");
     }
-
+    
     public void toMaterias() throws IOException {
         reinit();
-
+        
         this.redireccionarViewId("/planesEstudio/materia/materias");
     }
 

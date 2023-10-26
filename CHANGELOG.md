@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.2] - 2023-10-25
+### Added
+- Se agrego la eliminacion de materias
+### Changed
+### Removed
+### Fixed
+
 ## [2.6.1] - 2023-10-19
 ### Added
 ### Changed

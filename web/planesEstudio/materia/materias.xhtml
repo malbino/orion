@@ -110,9 +110,35 @@
 
                                                     <f:actionListener binding="#{MateriaController.toEditarMateria()}"/>
                                                 </p:commandButton>
+
+                                                <p:commandButton id="eliminar" process="@this" icon="fa fa-remove" title="Eliminar" update="form">  
+                                                    <f:setPropertyActionListener value="#{materia}" target="#{MateriaController.seleccionMateria}" />
+
+                                                    <f:actionListener binding="#{MateriaController.eliminarMateria()}"/>
+                                                    <p:confirm header="Confirmación" icon="fa fa-exclamation-triangle" />
+                                                </p:commandButton>
                                             </h:panelGroup>
                                         </p:column> 
                                     </p:dataTable>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <f:facet name="message">
+                                            ¡ADVERTENCIA!
+                                            <br />
+                                            <br />
+                                            Al eliminar la materia también se eliminaran todos los
+                                            <br />
+                                            grupos y notas asociadas a la misma. Recuerde que el proceso
+                                            <br />
+                                            de eliminación es IRREVERSIBLE.
+                                            <br />
+                                            <br />
+                                            Esta seguro?
+                                        </f:facet>
+
+                                        <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-remove" />
+                                    </p:confirmDialog>
                                 </div>
                             </div>
                         </h:form>

@@ -8,6 +8,7 @@ package org.malbino.orion.entities;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -50,10 +52,16 @@ public class Materia implements Serializable {
     @JoinColumn(name = "id_carrera")
     @ManyToOne
     private Carrera carrera;
-    
+
     @JoinColumn(name = "id_mencion")
     @ManyToOne
     private Mencion mencion;
+
+    @OneToMany(mappedBy = "materia", orphanRemoval = true)
+    private List<Grupo> grupos;
+
+    @OneToMany(mappedBy = "materia", orphanRemoval = true)
+    private List<Nota> notas;
 
     @Transient
     private Grupo grupo;
@@ -273,5 +281,33 @@ public class Materia implements Serializable {
      */
     public void setMencion(Mencion mencion) {
         this.mencion = mencion;
+    }
+
+    /**
+     * @return the grupos
+     */
+    public List<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    /**
+     * @param grupos the grupos to set
+     */
+    public void setGrupos(List<Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    /**
+     * @return the notas
+     */
+    public List<Nota> getNotas() {
+        return notas;
+    }
+
+    /**
+     * @param notas the notas to set
+     */
+    public void setNotas(List<Nota> notas) {
+        this.notas = notas;
     }
 }

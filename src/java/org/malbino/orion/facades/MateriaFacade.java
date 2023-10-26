@@ -223,4 +223,19 @@ public class MateriaFacade extends AbstractFacade<Materia> {
 
         return l;
     }
+    
+    public List<Materia> listaMaterias(int id_prerequisito) {
+        List<Materia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT m FROM Materia m JOIN m.prerequisitos p WHERE p.id_materia=:id_prerequisito");
+            q.setParameter("id_prerequisito", id_prerequisito);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }
