@@ -96,7 +96,7 @@ public class ReporteFichaEvaluacionEmpresaController extends AbstractController 
     public void toFichaEvaluacionEmpresa() throws IOException {
         this.insertarParametro("id_notapasantia", seleccionNotaPasantia.getId_notapasantia());
 
-        this.redireccionarViewId("/reportes/fichaEvaluacionEmpresa/fichaEvaluacionEmpresa");
+        this.redireccionarViewId("/reportes/pasantias/fichaEvaluacionEmpresa/fichaEvaluacionEmpresa");
 
         //log
         logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte ficha evaluación empresa", loginController.getUsr().toString()));
@@ -105,7 +105,7 @@ public class ReporteFichaEvaluacionEmpresaController extends AbstractController 
     public void toReporteFichaEvaluacionEmpresa() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/fichaEvaluacionEmpresa/reporteFichaEvaluacionEmpresa");
+        this.redireccionarViewId("/reportes/pasantias/fichaEvaluacionEmpresa/reporteFichaEvaluacionEmpresa");
     }
 
     /**

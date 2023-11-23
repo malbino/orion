@@ -96,7 +96,7 @@ public class ReporteFichaEvaluacionTutorController extends AbstractController im
     public void toFichaEvaluacionTutor() throws IOException {
         this.insertarParametro("id_notapasantia", seleccionNotaPasantia.getId_notapasantia());
 
-        this.redireccionarViewId("/reportes/fichaEvaluacionTutor/fichaEvaluacionTutor");
+        this.redireccionarViewId("/reportes/pasantias/fichaEvaluacionTutor/fichaEvaluacionTutor");
         
         //log
         logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, "Generación reporte ficha evaluación tutor", loginController.getUsr().toString()));
@@ -105,7 +105,7 @@ public class ReporteFichaEvaluacionTutorController extends AbstractController im
     public void toReporteFichaEvaluacionTutor() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/fichaEvaluacionTutor/reporteFichaEvaluacionTutor");
+        this.redireccionarViewId("/reportes/pasantias/fichaEvaluacionTutor/reporteFichaEvaluacionTutor");
     }
 
     /**

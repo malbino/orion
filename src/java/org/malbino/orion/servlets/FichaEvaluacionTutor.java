@@ -37,7 +37,7 @@ import org.malbino.orion.util.Fecha;
  *
  * @author tincho
  */
-@WebServlet(name = "FichaEvaluacionTutor", urlPatterns = {"/reportes/pasantias/fichaEvaluacionEmpresa/FichaEvaluacionTutor"})
+@WebServlet(name = "FichaEvaluacionTutor", urlPatterns = {"/reportes/pasantias/fichaEvaluacionTutor/FichaEvaluacionTutor"})
 public class FichaEvaluacionTutor extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
