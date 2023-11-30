@@ -23,19 +23,34 @@
                                 <h:form id="form">
                                     <p:messages/>
 
-                                    <div class="ui-g ui-fluid">                                      
-                                        <div class="ui-g-12 ui-md-4">
+                                    <div class="ui-g ui-fluid"> 
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="inicio" value="Inicio:" style="font-size: small"/>
+                                            <p:calendar id="inicio" value="#{NotaPasantiaController.seleccionNotaPasantia.inicio}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Inicio requerido."/>  
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="fin" value="Fin:" style="font-size: small"/>
+                                            <p:calendar id="fin" value="#{NotaPasantiaController.seleccionNotaPasantia.fin}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fin requerido."/>  
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-3">
                                             <p:outputLabel for="notaEmpresa" value="Nota Empresa:" style="font-size: small"/>
                                             <p:inputNumber id="notaEmpresa" value="#{NotaPasantiaController.seleccionNotaPasantia.notaEmpresa}"
                                                            minValue="0" maxValue="100" decimalPlaces="0"
                                                            required="true" requiredMessage="* Nota Empresa requerida."/>
                                         </div>
 
-                                        <div class="ui-g-12 ui-md-4">
+                                        <div class="ui-g-12 ui-md-3">
                                             <p:outputLabel for="notaTutor" value="Nota Tutor:" style="font-size: small"/>
                                             <p:inputNumber id="notaTutor" value="#{NotaPasantiaController.seleccionNotaPasantia.notaTutor}"
                                                            minValue="0" maxValue="100" decimalPlaces="0"
                                                            required="true" requiredMessage="* Nota Tutor requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-12">
+                                            <p:outputLabel for="observaciones" value="Observaciones:" style="font-size: small"/>
+                                            <p:inputTextarea id="observaciones" value="#{NotaPasantiaController.seleccionNotaPasantia.observacionesTutor}"/>
                                         </div>
                                     </div>
 

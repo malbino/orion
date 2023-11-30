@@ -7,13 +7,16 @@ package org.malbino.orion.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,7 +43,7 @@ public class NotaPasantia implements Serializable {
     private Integer notaFinal;
     private Condicion condicion;
     private Boolean contratado;
-    private String observaciones;
+    private String observacionesEmpresa;
 
     @JoinColumn(name = "id_persona")
     @ManyToOne
@@ -54,20 +57,32 @@ public class NotaPasantia implements Serializable {
     @ManyToOne
     private Empresa empresa;
 
+    // consultoria sile orion
+    @Temporal(TemporalType.DATE)
+    private Date inicio;
+    @Temporal(TemporalType.DATE)
+    private Date fin;
+    private String horario;
+    private String observacionesTutor;
+
+    @OneToMany(mappedBy = "notaPasantia", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<Adjunto> adjuntos;
+
     public NotaPasantia() {
     }
 
-    public NotaPasantia(Date fecha, Long codigo, Integer notaTutor, Integer notaEmpresa, Integer notaFinal, Condicion condicion, String observaciones, Estudiante estudiante, GrupoPasantia grupoPasantia, Empresa empresa) {
+    public NotaPasantia(Date fecha, Long codigo, Integer notaTutor, Integer notaEmpresa, Integer notaFinal, Condicion condicion, String observaciones, Estudiante estudiante, GrupoPasantia grupoPasantia, Empresa empresa, String horario) {
         this.fecha = fecha;
         this.codigo = codigo;
         this.notaTutor = notaTutor;
         this.notaEmpresa = notaEmpresa;
         this.notaFinal = notaFinal;
         this.condicion = condicion;
-        this.observaciones = observaciones;
+        this.observacionesEmpresa = observaciones;
         this.estudiante = estudiante;
         this.grupoPasantia = grupoPasantia;
         this.empresa = empresa;
+        this.horario = horario;
     }
 
     @Override
@@ -106,6 +121,14 @@ public class NotaPasantia implements Serializable {
 
     public String contratadoToString() {
         return contratado ? "Sí" : "No";
+    }
+    
+    public String inicio_ddMMyyyy() {
+        return Fecha.formatearFecha_ddMMyyyy(inicio);
+    }
+    
+    public String fin_ddMMyyyy() {
+        return Fecha.formatearFecha_ddMMyyyy(fin);
     }
 
     /**
@@ -249,17 +272,17 @@ public class NotaPasantia implements Serializable {
     }
 
     /**
-     * @return the observaciones
+     * @return the observacionesEmpresa
      */
-    public String getObservaciones() {
-        return observaciones;
+    public String getObservacionesEmpresa() {
+        return observacionesEmpresa;
     }
 
     /**
-     * @param observaciones the observaciones to set
+     * @param observacionesEmpresa the observacionesEmpresa to set
      */
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public void setObservacionesEmpresa(String observacionesEmpresa) {
+        this.observacionesEmpresa = observacionesEmpresa;
     }
 
     /**
@@ -276,4 +299,73 @@ public class NotaPasantia implements Serializable {
         this.contratado = contratado;
     }
 
+    /**
+     * @return the inicio
+     */
+    public Date getInicio() {
+        return inicio;
+    }
+
+    /**
+     * @param inicio the inicio to set
+     */
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
+    }
+
+    /**
+     * @return the fin
+     */
+    public Date getFin() {
+        return fin;
+    }
+
+    /**
+     * @param fin the fin to set
+     */
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
+    /**
+     * @return the horario
+     */
+    public String getHorario() {
+        return horario;
+    }
+
+    /**
+     * @param horario the horario to set
+     */
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
+
+    /**
+     * @return the observacionesTutor
+     */
+    public String getObservacionesTutor() {
+        return observacionesTutor;
+    }
+
+    /**
+     * @param observacionesTutor the observacionesTutor to set
+     */
+    public void setObservacionesTutor(String observacionesTutor) {
+        this.observacionesTutor = observacionesTutor;
+    }
+
+    /**
+     * @return the adjuntos
+     */
+    public List<Adjunto> getAdjuntos() {
+        return adjuntos;
+    }
+
+    /**
+     * @param adjuntos the adjuntos to set
+     */
+    public void setAdjuntos(List<Adjunto> adjuntos) {
+        this.adjuntos = adjuntos;
+    }
 }

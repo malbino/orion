@@ -25,7 +25,7 @@
                                     <p:messages/>
 
                                     <div class="ui-g ui-fluid">
-                                        
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
                                             <p:calendar id="fecha" value="#{InscripcionPasantiaController.seleccionFecha}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
@@ -85,6 +85,11 @@
                                                 <f:selectItem itemLabel="" itemValue="" />
                                                 <f:selectItems value="#{InscripcionPasantiaController.listaEmpresas()}" var="empresa" itemLabel="#{empresa.toString()}" itemValue="#{empresa}"/>
                                             </p:selectOneMenu>
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="horario" value="Horario:" style="font-size: small"/>
+                                            <p:inputText id="horario" value="#{InscripcionPasantiaController.horario}" required="true" requiredMessage="* Horario requerido."/>
                                         </div>
                                     </div>
 

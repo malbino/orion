@@ -202,6 +202,32 @@ public class FichaEvaluacionTutor extends HttpServlet {
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setColspan(50);
+        cell.setFixedHeight(20f);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+        
+        phrase = new Phrase();
+        phrase.add(new Chunk("Inicio: ", NEGRITA));
+        if (notaPasantia.getInicio() != null) {
+            phrase.add(new Chunk(notaPasantia.inicio_ddMMyyyy(), NORMAL));
+        }
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setColspan(50);
+        cell.setFixedHeight(20f);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
+        
+        phrase = new Phrase();
+        phrase.add(new Chunk("Fin: ", NEGRITA));
+        if (notaPasantia.getFin() != null) {
+            phrase.add(new Chunk(notaPasantia.fin_ddMMyyyy(), NORMAL));
+        }
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setColspan(100);
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -263,6 +289,16 @@ public class FichaEvaluacionTutor extends HttpServlet {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setColspan(25);
+        table.addCell(cell);
+        
+        phrase = new Phrase();
+        phrase.add(new Chunk("Observaciones:\n", NEGRITA));
+        phrase.add(new Chunk(notaPasantia.getObservacionesTutor(), NORMAL));
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setColspan(100);
+        cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
 
         return table;

@@ -58,6 +58,8 @@ public class InscripcionPasantiaController extends AbstractController implements
     private GrupoPasantia seleccionGrupoPasantia;
     private Empresa seleccionEmpresa;
 
+    private String horario;
+
     @PostConstruct
     public void init() {
         seleccionFecha = null;
@@ -68,6 +70,8 @@ public class InscripcionPasantiaController extends AbstractController implements
         seleccionPasantia = null;
         seleccionGrupoPasantia = null;
         seleccionEmpresa = null;
+        
+        horario = null;
     }
 
     public void reinit() {
@@ -79,6 +83,8 @@ public class InscripcionPasantiaController extends AbstractController implements
         seleccionPasantia = null;
         seleccionGrupoPasantia = null;
         seleccionEmpresa = null;
+        
+        horario = null;
     }
 
     @Override
@@ -131,7 +137,7 @@ public class InscripcionPasantiaController extends AbstractController implements
     public void registrarPasantia() throws IOException {
         if (notaPasantiaFacade.buscarNotaPasantia(seleccionEstudiante, seleccionGrupoPasantia, seleccionEmpresa) == null) {
             if (seleccionEstudiante.getDiplomaBachiller()) {
-                NotaPasantia notaPasantia = pasantiaEstudianteFacade.registrarPasantia(seleccionFecha, seleccionEstudiante, seleccionGrupoPasantia, seleccionCarreraEstudiante, seleccionEmpresa);
+                NotaPasantia notaPasantia = pasantiaEstudianteFacade.registrarPasantia(seleccionFecha, seleccionEstudiante, seleccionGrupoPasantia, seleccionCarreraEstudiante, seleccionEmpresa, horario);
                 if (notaPasantia != null) {
                     //log
                     logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.NOTA_PASANTIA, notaPasantia.getId_notapasantia(), "Creación nota pasantía por inscripción a pasantía", loginController.getUsr().toString()));
@@ -256,6 +262,20 @@ public class InscripcionPasantiaController extends AbstractController implements
      */
     public void setSeleccionFecha(Date seleccionFecha) {
         this.seleccionFecha = seleccionFecha;
+    }
+
+    /**
+     * @return the horario
+     */
+    public String getHorario() {
+        return horario;
+    }
+
+    /**
+     * @param horario the horario to set
+     */
+    public void setHorario(String horario) {
+        this.horario = horario;
     }
 
 }

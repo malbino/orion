@@ -307,7 +307,7 @@ public class FichaEvaluacionEmpresa extends HttpServlet {
 
         phrase = new Phrase();
         phrase.add(new Chunk("Observaciones:\n", NEGRITA));
-        phrase.add(new Chunk(notaPasantia.getObservaciones(), NORMAL));
+        phrase.add(new Chunk(notaPasantia.getObservacionesEmpresa(), NORMAL));
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);

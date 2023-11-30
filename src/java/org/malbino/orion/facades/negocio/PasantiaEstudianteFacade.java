@@ -69,7 +69,7 @@ public class PasantiaEstudianteFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public NotaPasantia registrarPasantia(Date fecha, Estudiante estudiante, GrupoPasantia grupoPasantia, CarreraEstudiante carreraEstudiante, Empresa empresa) {
+    public NotaPasantia registrarPasantia(Date fecha, Estudiante estudiante, GrupoPasantia grupoPasantia, CarreraEstudiante carreraEstudiante, Empresa empresa, String horario) {
         em.merge(estudiante);
 
         Long maximoCodigo = notaPasantiaFacade.maximoCodigo(grupoPasantia.getGestionAcademica().getId_gestionacademica(), carreraEstudiante.getCarrera().getId_carrera());
@@ -80,7 +80,7 @@ public class PasantiaEstudianteFacade {
             codigo = maximoCodigo + 1;
         }
 
-        NotaPasantia notaPasantia = new NotaPasantia(fecha, codigo, 0, 0, 0, Condicion.ABANDONO, "", estudiante, grupoPasantia, empresa);
+        NotaPasantia notaPasantia = new NotaPasantia(fecha, codigo, 0, 0, 0, Condicion.ABANDONO, "", estudiante, grupoPasantia, empresa, horario);
         em.persist(notaPasantia);
 
         Indicador[] indicadores = Indicador.values();

@@ -185,6 +185,21 @@ public class FichaInscripcion extends HttpServlet {
         cell.setFixedHeight(20f);
         cell.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell);
+        
+        phrase = new Phrase();
+        phrase.add(new Chunk("Horario: ", NEGRITA));
+        if (notaPasantia.getHorario() != null) {
+            phrase.add(new Chunk(notaPasantia.getHorario(), NORMAL));
+        }
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setPaddingLeft(30f);
+        cell.setPaddingRight(30f);
+        cell.setColspan(100);
+        cell.setFixedHeight(20f);
+        cell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(" ", SUBTITULO));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
