@@ -27,12 +27,19 @@ public class Adjunto implements Serializable {
     private Integer id_adjunto;
 
     private String nombre;
+    private String url;
 
     @JoinColumn(name = "id_notapasantia")
     @ManyToOne
     private NotaPasantia notaPasantia;
 
     public Adjunto() {
+    }
+
+    public Adjunto(String nombre, String url, NotaPasantia notaPasantia) {
+        this.nombre = nombre;
+        this.url = url;
+        this.notaPasantia = notaPasantia;
     }
 
     /**
@@ -64,6 +71,20 @@ public class Adjunto implements Serializable {
     }
 
     /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
      * @return the notaPasantia
      */
     public NotaPasantia getNotaPasantia() {
@@ -76,6 +97,5 @@ public class Adjunto implements Serializable {
     public void setNotaPasantia(NotaPasantia notaPasantia) {
         this.notaPasantia = notaPasantia;
     }
-
     
 }

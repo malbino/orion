@@ -10,9 +10,18 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Inject;
+import org.apache.commons.io.FilenameUtils;
+import org.malbino.orion.entities.Adjunto;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.GrupoPasantia;
@@ -26,6 +35,8 @@ import org.malbino.orion.facades.IndicadorPasantiaFacade;
 import org.malbino.orion.facades.NotaPasantiaFacade;
 import org.malbino.orion.facades.negocio.EvaluacionPasantiaFacade;
 import org.malbino.orion.util.Fecha;
+import org.primefaces.event.FileUploadEvent;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,6 +45,8 @@ import org.malbino.orion.util.Fecha;
 @Named("NotaPasantiaController")
 @SessionScoped
 public class NotaPasantiaController extends AbstractController implements Serializable {
+
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(NotaPasantiaController.class);
 
     @EJB
     NotaPasantiaFacade notaPasantiaFacade;
@@ -113,7 +126,7 @@ public class NotaPasantiaController extends AbstractController implements Serial
         if (evaluacionPasantiaFacade.evaluacionEmpresa(seleccionNotaPasantia, indicadoresPasantia)) {
             //log
             logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA_PASANTIA, seleccionNotaPasantia.getId_notapasantia(), "Actualización nota pasantía por evaluación de la empresa", loginController.getUsr().toString()));
-            
+
             toPasantias();
         }
     }
@@ -122,7 +135,7 @@ public class NotaPasantiaController extends AbstractController implements Serial
         if (evaluacionPasantiaFacade.evaluacionTutor(seleccionNotaPasantia)) {
             //log
             logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA_PASANTIA, seleccionNotaPasantia.getId_notapasantia(), "Actualización nota pasantía por evaluación del tutor", loginController.getUsr().toString()));
-            
+
             toPasantias();
         }
     }
@@ -133,6 +146,21 @@ public class NotaPasantiaController extends AbstractController implements Serial
             logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.NOTA_PASANTIA, seleccionNotaPasantia.getId_notapasantia(), "Actualización pasantía", loginController.getUsr().toString()));
 
             toPasantias();
+        }
+    }
+
+    public void subirArchivo(FileUploadEvent event) {
+        Path folder = Paths.get(realPath() + "/resources/uploads/pasantias");
+        String extension = FilenameUtils.getExtension(event.getFile().getFileName());
+        Path file = null;
+        try (InputStream input = event.getFile().getInputStream()) {
+            file = Files.createTempFile(folder, null, "." + extension);
+            Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
+
+            Adjunto adjunto = new Adjunto(event.getFile().getFileName(), file.getFileName().toString(), seleccionNotaPasantia);
+            seleccionNotaPasantia.getAdjuntos().add(adjunto);
+        } catch (IOException ex) {
+            Logger.getLogger(InstitutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -148,6 +176,10 @@ public class NotaPasantiaController extends AbstractController implements Serial
 
     public void toEvaluacionTutor() throws IOException {
         this.redireccionarViewId("/pasantias/pasantias/evaluacionTutor");
+    }
+
+    public void toArchivosAdjuntos() throws IOException {
+        this.redireccionarViewId("/pasantias/pasantias/archivosAdjuntos");
     }
 
     public void toPasantias() throws IOException {

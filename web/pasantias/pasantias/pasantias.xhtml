@@ -141,6 +141,12 @@
 
                                                     <f:actionListener binding="#{NotaPasantiaController.toEvaluacionTutor()}"/>
                                                 </p:commandButton>
+
+                                                <p:commandButton id="archivosAdjutnos" process="@this" icon="fa fa-files-o" title="Archivos Adjuntos" >  
+                                                    <f:setPropertyActionListener value="#{notaPasantia}" target="#{NotaPasantiaController.seleccionNotaPasantia}" />
+
+                                                    <f:actionListener binding="#{NotaPasantiaController.toArchivosAdjuntos()}" />
+                                                </p:commandButton>
                                             </h:panelGroup>
                                         </p:column>
                                     </p:dataTable>
