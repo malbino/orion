@@ -181,7 +181,7 @@ public class NotasFaltantes extends HttpServlet {
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         table.addCell(cell);
 
-        List<Nota> notasFaltantes = notaFacade.listaNotasFaltantesSemestral(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera());
+        List<Nota> notasFaltantes = notaFacade.listaNotasFaltantesSemestral(gestionAcademica, carrera.getId_carrera());
         for (int i = 0; i < notasFaltantes.size(); i++) {
             Nota nota = notasFaltantes.get(i);
 

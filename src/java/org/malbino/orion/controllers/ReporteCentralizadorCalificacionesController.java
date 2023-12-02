@@ -99,7 +99,7 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
 
             List<Nota> notasFaltantes = new ArrayList<>();
             if (seleccionCarrera.getRegimen().equals(Regimen.SEMESTRAL)) {
-                notasFaltantes = notaFacade.listaNotasFaltantesSemestral(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
+                notasFaltantes = notaFacade.listaNotasFaltantesSemestral(seleccionGestionAcademica, seleccionCarrera.getId_carrera());
             }
             if (seleccionCarrera.getRegimen().equals(Regimen.ANUAL)) {
                 notasFaltantes = notaFacade.listaNotasFaltantesAnual(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
@@ -155,7 +155,7 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
     public void generarXLSX() {
         List<Nota> notasFaltantes = new ArrayList<>();
         if (seleccionCarrera.getRegimen().equals(Regimen.SEMESTRAL)) {
-            notasFaltantes = notaFacade.listaNotasFaltantesSemestral(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());
+            notasFaltantes = notaFacade.listaNotasFaltantesSemestral(seleccionGestionAcademica, seleccionCarrera.getId_carrera());
         }
         if (seleccionCarrera.getRegimen().equals(Regimen.ANUAL)) {
             notasFaltantes = notaFacade.listaNotasFaltantesAnual(seleccionGestionAcademica.getId_gestionacademica(), seleccionCarrera.getId_carrera());

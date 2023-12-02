@@ -336,11 +336,19 @@ public class NotaFacade extends AbstractFacade<Nota> {
         return l;
     }
 
-    public List<Nota> listaNotasFaltantesSemestral(int id_gestionacademica, int id_carrera) {
+    public List<Nota> listaNotasFaltantesSemestral(GestionAcademica gestionAcademica, int id_carrera) {
         List<Nota> l = new ArrayList();
         try {
-            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND (n.nota1 IS NULL OR n.nota2 IS NULL OR n.nota3 IS NULL) ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
-            q.setParameter("id_gestionacademica", id_gestionacademica);
+            String qlString = null;
+            if (gestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 2) {
+                qlString = "SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND (n.nota1 IS NULL OR n.nota2 IS NULL) ORDER BY e.primerApellido, e.segundoApellido, e.nombre";
+
+            } else if (gestionAcademica.getModalidadEvaluacion().getCantidadParciales() == 3) {
+                qlString = "SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.curricular=:curricular AND n.modalidad=:modalidad AND (n.nota1 IS NULL OR n.nota2 IS NULL OR n.nota3 IS NULL) ORDER BY e.primerApellido, e.segundoApellido, e.nombre";
+            }
+
+            Query q = em.createQuery(qlString);
+            q.setParameter("id_gestionacademica", gestionAcademica.getId_gestionacademica());
             q.setParameter("id_carrera", id_carrera);
             q.setParameter("curricular", Boolean.TRUE);
             q.setParameter("modalidad", Modalidad.REGULAR);

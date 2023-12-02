@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.4] - 2023-12-02
+### Added
+- Archivos adjuntos pasantia
+- Reporte Carta de Solicitud
+- Reporte Certificado de Pasantia
+- Reporte Lista de Pasantias
+### Changed
+### Removed
+### Fixed
+- Notas faltantes 2 parciales semestral
+
 ## [2.6.3] - 2023-11-22
 ### Added
 ### Changed
