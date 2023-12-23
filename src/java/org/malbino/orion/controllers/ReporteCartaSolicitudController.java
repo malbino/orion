@@ -147,7 +147,7 @@ public class ReporteCartaSolicitudController extends AbstractController implemen
             if (runs != null) {
                 for (XWPFRun r : runs) {
                     String text = r.getText(0);
-                    System.out.println("text: " + text);
+                    
                     if (text != null && text.contains("<<FECHA>>")) {
                         text = text.replace("<<FECHA>>", Fecha.formatearFecha_ddMMMMyyyy(notaPasantia.getFecha()));
                         r.setText(text, 0);

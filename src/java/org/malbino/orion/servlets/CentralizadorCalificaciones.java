@@ -41,11 +41,11 @@ public class CentralizadorCalificaciones extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
 
-    private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD, BaseColor.BLACK);
-    private static final Font SUBTITULO = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.BLACK);
-    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
-    private static final Font NEGRITA_PEQUENA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, BaseColor.BLACK);
+    private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
+    private static final Font SUBTITULO = FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, BaseColor.BLACK);
+    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, BaseColor.BLACK);
+    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, BaseColor.BLACK);
+    private static final Font NEGRITA_PEQUENA = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, BaseColor.BLACK);
 
     //8.5 x 13 pulgadas (1 pulgada = 72 puntos)
     private static final Rectangle OFICIO_FOLIO = new Rectangle(612, 936);
@@ -202,7 +202,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     table.addCell(cell);
 
                     cell = new PdfPCell(new Phrase("CÉDULA DE IDENTIDAD", NEGRITA));
-                    cell.setColspan(8);
+                    cell.setColspan(6);
                     cell.setRowspan(6);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -211,14 +211,23 @@ public class CentralizadorCalificaciones extends HttpServlet {
 
                     for (MateriaCentralizador materiaCentralizador : paginaNotas.getMateriasCentralizador()) {
                         cell = new PdfPCell(new Phrase(materiaCentralizador.getCodigo(), NEGRITA_PEQUENA));
-                        cell.setColspan(5);
+                        cell.setColspan(4);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         cell.setBackgroundColor(new BaseColor(155, 187, 89));
                         table.addCell(cell);
                     }
 
+                    cell = new PdfPCell(new Phrase("ESTADO", NEGRITA));
+                    cell.setColspan(7);
+                    cell.setRowspan(6);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setRotation(90);
+                    cell.setBackgroundColor(new BaseColor(216, 228, 188));
+                    table.addCell(cell);
+                    
                     cell = new PdfPCell(new Phrase("OBSERVACIONES", NEGRITA));
-                    cell.setColspan(8);
+                    cell.setColspan(13);
                     cell.setRowspan(6);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -240,7 +249,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
 
                     for (MateriaCentralizador materiaCentralizador : paginaNotas.getMateriasCentralizador()) {
                         cell = new PdfPCell(new Phrase(materiaCentralizador.getNombre(), NEGRITA_PEQUENA));
-                        cell.setColspan(5);
+                        cell.setColspan(4);
                         cell.setRowspan(5);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -312,19 +321,24 @@ public class CentralizadorCalificaciones extends HttpServlet {
                         table.addCell(cell);
 
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getCi(), NORMAL));
-                        cell.setColspan(8);
+                        cell.setColspan(6);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         table.addCell(cell);
 
                         for (String nota : estudianteCentralizador.getNotas()) {
                             cell = new PdfPCell(new Phrase(nota, NORMAL));
-                            cell.setColspan(5);
+                            cell.setColspan(4);
                             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                             table.addCell(cell);
                         }
 
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getObservaciones(), NORMAL));
-                        cell.setColspan(8);
+                        cell.setColspan(7);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        table.addCell(cell);
+                        
+                        cell = new PdfPCell(new Phrase("", NORMAL));
+                        cell.setColspan(13);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         table.addCell(cell);
                     }
