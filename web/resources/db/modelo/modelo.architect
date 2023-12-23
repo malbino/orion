@@ -29,7 +29,7 @@
     <table id="TAB4" populated="true" UUID="42cb8043-adb4-4442-a0c3-aaf670b93161" name="actividad" objectType="TABLE" physicalName="actividad" >
      <remarks></remarks>
      <folder id="FOLTAB41" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL5" populated="true" UUID="8406cde7-9fa3-4e76-a7f4-e2ee266c8ea8" autoIncrement="true" name="ID_ACTIVIDAD" nullable="0" physicalName="ID_ACTIVIDAD" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL5" populated="true" UUID="8406cde7-9fa3-4e76-a7f4-e2ee266c8ea8" autoIncrement="true" defaultValue="" name="ID_ACTIVIDAD" nullable="0" physicalName="ID_ACTIVIDAD" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL6" populated="true" UUID="eecde8c4-371c-4c69-8100-184e0ad6e90a" autoIncrement="false" defaultValue="NULL" name="DESCRIPCION" nullable="1" physicalName="DESCRIPCION" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -67,7 +67,7 @@
     <table id="TAB16" populated="true" UUID="1e07d722-96ce-4c61-9414-67100be731e9" name="adjunto" objectType="TABLE" physicalName="adjunto" >
      <remarks></remarks>
      <folder id="FOLTAB161" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL17" populated="true" UUID="8baf3855-3a18-4183-b7d0-86d3ed49bddf" autoIncrement="true" name="ID_ADJUNTO" nullable="0" physicalName="ID_ADJUNTO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL17" populated="true" UUID="8baf3855-3a18-4183-b7d0-86d3ed49bddf" autoIncrement="true" defaultValue="" name="ID_ADJUNTO" nullable="0" physicalName="ID_ADJUNTO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL18" populated="true" UUID="cc1a37e1-590c-42a1-958c-703d3f7205e9" autoIncrement="false" defaultValue="NULL" name="NOMBRE" nullable="1" physicalName="NOMBRE" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -96,7 +96,7 @@
     <table id="TAB25" populated="true" UUID="6b20c680-7462-44bd-8558-7b19aae58e41" name="asistencia" objectType="TABLE" physicalName="asistencia" >
      <remarks></remarks>
      <folder id="FOLTAB251" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL26" populated="true" UUID="42edfa6e-750c-4a6c-8a67-6e834f2a7a22" autoIncrement="true" name="ID_ASISTENCIA" nullable="0" physicalName="ID_ASISTENCIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL26" populated="true" UUID="42edfa6e-750c-4a6c-8a67-6e834f2a7a22" autoIncrement="true" defaultValue="" name="ID_ASISTENCIA" nullable="0" physicalName="ID_ASISTENCIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL27" populated="true" UUID="0b9180b4-4ad2-446e-b88a-8e21a0c1dc4a" autoIncrement="false" defaultValue="NULL" name="DESCRIPCION" nullable="1" physicalName="DESCRIPCION" precision="4095" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -133,7 +133,7 @@
     <table id="TAB39" populated="true" UUID="f3639dbf-87b2-4d15-8802-f865d62cd7de" name="campus" objectType="TABLE" physicalName="campus" >
      <remarks></remarks>
      <folder id="FOLTAB391" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL40" populated="true" UUID="6d96f4fb-9565-4a85-a83d-2c59f4c7dab0" autoIncrement="true" name="ID_CAMPUS" nullable="0" physicalName="ID_CAMPUS" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL40" populated="true" UUID="6d96f4fb-9565-4a85-a83d-2c59f4c7dab0" autoIncrement="true" defaultValue="" name="ID_CAMPUS" nullable="0" physicalName="ID_CAMPUS" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL41" populated="true" UUID="5e581813-5ad6-4666-b907-828c676a54db" autoIncrement="false" defaultValue="NULL" name="DIRECCION" nullable="1" physicalName="DIRECCION" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -171,7 +171,7 @@
     <table id="TAB52" populated="true" UUID="8d056b3d-20ce-4410-923f-3194d4116c28" name="carrera" objectType="TABLE" physicalName="carrera" >
      <remarks></remarks>
      <folder id="FOLTAB521" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL53" populated="true" UUID="57af2d78-0e0c-405e-a9d4-e64f06421182" autoIncrement="true" name="ID_CARRERA" nullable="0" physicalName="ID_CARRERA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL53" populated="true" UUID="57af2d78-0e0c-405e-a9d4-e64f06421182" autoIncrement="true" defaultValue="" name="ID_CARRERA" nullable="0" physicalName="ID_CARRERA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL54" populated="true" UUID="f09214f0-3be1-4ab2-a9dc-37820381f5b6" autoIncrement="false" defaultValue="NULL" name="CODIGO" nullable="1" physicalName="CODIGO" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -233,7 +233,7 @@
     <table id="TAB74" populated="true" UUID="62203ae6-d543-45b8-892d-55e05235fcc9" name="comprobante" objectType="TABLE" physicalName="comprobante" >
      <remarks></remarks>
      <folder id="FOLTAB741" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL75" populated="true" UUID="2baa8c3d-abfa-471e-94af-1c99bea16c57" autoIncrement="true" name="ID_COMPROBANTE" nullable="0" physicalName="ID_COMPROBANTE" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL75" populated="true" UUID="2baa8c3d-abfa-471e-94af-1c99bea16c57" autoIncrement="true" defaultValue="" name="ID_COMPROBANTE" nullable="0" physicalName="ID_COMPROBANTE" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL76" populated="true" UUID="99407b7b-db9e-4de3-99a6-e5abe9867ccc" autoIncrement="false" defaultValue="NULL" name="CODIGO" nullable="1" physicalName="CODIGO" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
@@ -301,10 +301,10 @@
     <table id="TAB102" populated="true" UUID="ee4483aa-a513-4edf-8fcc-715f483357e5" name="cuenta" objectType="TABLE" physicalName="cuenta" >
      <remarks></remarks>
      <folder id="FOLTAB1021" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL103" populated="true" UUID="5c5f4d2a-8c9c-4d21-8484-9cc1cc513dd9" autoIncrement="false" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL103" populated="true" UUID="5c5f4d2a-8c9c-4d21-8484-9cc1cc513dd9" autoIncrement="false" defaultValue="" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
-      <column id="COL104" populated="true" UUID="eaef0271-d24b-4e2c-85c2-8bed505d48fc" autoIncrement="false" name="id_rol" nullable="0" physicalName="id_rol" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL104" populated="true" UUID="eaef0271-d24b-4e2c-85c2-8bed505d48fc" autoIncrement="false" defaultValue="" name="id_rol" nullable="0" physicalName="id_rol" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       </folder>
@@ -325,10 +325,10 @@
     <table id="TAB110" populated="true" UUID="21c19824-9e06-47d3-bdb7-7cb02a806dd7" name="cursa" objectType="TABLE" physicalName="cursa" >
      <remarks></remarks>
      <folder id="FOLTAB1101" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL111" populated="true" UUID="ffd8f0cf-8e7d-4918-a0a4-08941fd1e36e" autoIncrement="false" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL111" populated="true" UUID="ffd8f0cf-8e7d-4918-a0a4-08941fd1e36e" autoIncrement="false" defaultValue="" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
-      <column id="COL112" populated="true" UUID="cf887223-97ed-47d4-9924-be7ed24d7fdc" autoIncrement="false" name="id_carrera" nullable="0" physicalName="id_carrera" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL112" populated="true" UUID="cf887223-97ed-47d4-9924-be7ed24d7fdc" autoIncrement="false" defaultValue="" name="id_carrera" nullable="0" physicalName="id_carrera" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL113" populated="true" UUID="5ce2be28-4e46-4ce5-9f61-5eefc1b6dc20" autoIncrement="false" defaultValue="NULL" name="id_mencion" nullable="1" physicalName="id_mencion" precision="10" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
@@ -358,7 +358,7 @@
     <table id="TAB122" populated="true" UUID="b7add620-bdcc-4f29-b5cc-b70044c83d16" name="detalle" objectType="TABLE" physicalName="detalle" >
      <remarks></remarks>
      <folder id="FOLTAB1221" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL123" populated="true" UUID="1a46d233-d313-4947-a8bf-0e9c71ed4911" autoIncrement="true" name="ID_DETALLE" nullable="0" physicalName="ID_DETALLE" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL123" populated="true" UUID="1a46d233-d313-4947-a8bf-0e9c71ed4911" autoIncrement="true" defaultValue="" name="ID_DETALLE" nullable="0" physicalName="ID_DETALLE" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL124" populated="true" UUID="6e2b922c-8843-408f-b323-4b7d23b47fe3" autoIncrement="false" defaultValue="NULL" name="CONCEPTO" nullable="1" physicalName="CONCEPTO" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
@@ -403,7 +403,7 @@
     <table id="TAB139" populated="true" UUID="defe508b-0184-4036-bad3-7552e98fb0cb" name="empleado" objectType="TABLE" physicalName="empleado" >
      <remarks></remarks>
      <folder id="FOLTAB1391" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL140" populated="true" UUID="249d6e9b-0e6e-480a-b1fe-a1334cad1f69" autoIncrement="false" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL140" populated="true" UUID="249d6e9b-0e6e-480a-b1fe-a1334cad1f69" autoIncrement="false" defaultValue="" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL141" populated="true" UUID="0d6ec668-b162-45a8-8e49-67f1c9cf5536" autoIncrement="false" defaultValue="NULL" name="ABREVIATURAPROFESION" nullable="1" physicalName="ABREVIATURAPROFESION" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -426,7 +426,7 @@
     <table id="TAB145" populated="true" UUID="b7612557-9d49-4a21-81a8-761d0251be9e" name="empresa" objectType="TABLE" physicalName="empresa" >
      <remarks></remarks>
      <folder id="FOLTAB1451" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL146" populated="true" UUID="d4f01c0f-91b4-4789-8186-fba0313aa022" autoIncrement="false" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL146" populated="true" UUID="d4f01c0f-91b4-4789-8186-fba0313aa022" autoIncrement="false" defaultValue="" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL147" populated="true" UUID="c0d25d9c-298a-4f52-b04d-04cbb84b23e6" autoIncrement="false" defaultValue="NULL" name="ACTIVIDAD" nullable="1" physicalName="ACTIVIDAD" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -479,7 +479,7 @@
     <table id="TAB161" populated="true" UUID="90bfac87-75f2-40d1-8d2e-8b94d0c45444" name="estudiante" objectType="TABLE" physicalName="estudiante" >
      <remarks></remarks>
      <folder id="FOLTAB1611" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL162" populated="true" UUID="35174099-d474-4021-8ff4-5c3c037549a7" autoIncrement="false" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL162" populated="true" UUID="35174099-d474-4021-8ff4-5c3c037549a7" autoIncrement="false" defaultValue="" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL163" populated="true" UUID="56cced4d-3a81-4697-8fb0-9a458ea5b10e" autoIncrement="false" defaultValue="NULL" name="FECHA" nullable="1" physicalName="FECHA" precision="10" referenceCount="1" scale="0" sourceDataTypeName="DATE" type="91" >
@@ -526,7 +526,7 @@
     <table id="TAB176" populated="true" UUID="2f535263-3dc1-4344-be81-9c400f5511c4" name="gestionacademica" objectType="TABLE" physicalName="gestionacademica" >
      <remarks></remarks>
      <folder id="FOLTAB1761" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL177" populated="true" UUID="42a97353-b0d6-458c-853e-6fa0bb8258d7" autoIncrement="true" name="ID_GESTIONACADEMICA" nullable="0" physicalName="ID_GESTIONACADEMICA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL177" populated="true" UUID="42a97353-b0d6-458c-853e-6fa0bb8258d7" autoIncrement="true" defaultValue="" name="ID_GESTIONACADEMICA" nullable="0" physicalName="ID_GESTIONACADEMICA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL178" populated="true" UUID="7a937d71-c744-4cb8-889a-a4a99a75ec00" autoIncrement="false" defaultValue="NULL" name="FIN" nullable="1" physicalName="FIN" precision="10" referenceCount="1" scale="0" sourceDataTypeName="DATE" type="91" >
@@ -569,7 +569,7 @@
     <table id="TAB191" populated="true" UUID="fbaeaa13-41b2-4775-901b-1e92da0e2578" name="grupo" objectType="TABLE" physicalName="grupo" >
      <remarks></remarks>
      <folder id="FOLTAB1911" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL192" populated="true" UUID="ab007838-ab21-426c-a5b0-c1c0b152e025" autoIncrement="true" name="ID_GRUPO" nullable="0" physicalName="ID_GRUPO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL192" populated="true" UUID="ab007838-ab21-426c-a5b0-c1c0b152e025" autoIncrement="true" defaultValue="" name="ID_GRUPO" nullable="0" physicalName="ID_GRUPO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL193" populated="true" UUID="bcc45069-a9eb-4658-8a84-9e2e5b8c13c8" autoIncrement="false" defaultValue="0" name="ABIERTO" nullable="1" physicalName="ABIERTO" precision="3" referenceCount="1" scale="0" sourceDataTypeName="BIT" type="-7" >
@@ -622,7 +622,7 @@
     <table id="TAB213" populated="true" UUID="4d5b07f1-60c5-42d8-ad0f-07cfa7148e3e" name="grupopasantia" objectType="TABLE" physicalName="grupopasantia" >
      <remarks></remarks>
      <folder id="FOLTAB2131" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL214" populated="true" UUID="d24059a4-8e98-4680-8e44-e061442a794f" autoIncrement="true" name="ID_GRUPOPASANTIA" nullable="0" physicalName="ID_GRUPOPASANTIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL214" populated="true" UUID="d24059a4-8e98-4680-8e44-e061442a794f" autoIncrement="true" defaultValue="" name="ID_GRUPOPASANTIA" nullable="0" physicalName="ID_GRUPOPASANTIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL215" populated="true" UUID="2a0b5e6a-59e7-4183-9fc6-00a6444cf5e6" autoIncrement="false" defaultValue="0" name="ABIERTO" nullable="1" physicalName="ABIERTO" precision="3" referenceCount="1" scale="0" sourceDataTypeName="BIT" type="-7" >
@@ -675,7 +675,7 @@
     <table id="TAB235" populated="true" UUID="f76aa879-68d3-406e-b68f-009c858a58b7" name="indicadorpasantia" objectType="TABLE" physicalName="indicadorpasantia" >
      <remarks></remarks>
      <folder id="FOLTAB2351" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL236" populated="true" UUID="ff7d6fea-7fa9-434d-aa16-d078153f20b1" autoIncrement="true" name="ID_INDICADORPASANTIA" nullable="0" physicalName="ID_INDICADORPASANTIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL236" populated="true" UUID="ff7d6fea-7fa9-434d-aa16-d078153f20b1" autoIncrement="true" defaultValue="" name="ID_INDICADORPASANTIA" nullable="0" physicalName="ID_INDICADORPASANTIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL237" populated="true" UUID="7834c88e-774a-475d-87f8-e972ec86dac3" autoIncrement="false" defaultValue="NULL" name="EVALUACION" nullable="1" physicalName="EVALUACION" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
@@ -708,7 +708,7 @@
     <table id="TAB247" populated="true" UUID="7ae0ecef-b28b-437d-8600-9f4e1e14bcaf" name="inscrito" objectType="TABLE" physicalName="inscrito" >
      <remarks></remarks>
      <folder id="FOLTAB2471" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL248" populated="true" UUID="a63ccc49-c322-47a4-b9fb-840f842222b7" autoIncrement="true" name="ID_INSCRITO" nullable="0" physicalName="ID_INSCRITO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL248" populated="true" UUID="a63ccc49-c322-47a4-b9fb-840f842222b7" autoIncrement="true" defaultValue="" name="ID_INSCRITO" nullable="0" physicalName="ID_INSCRITO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL249" populated="true" UUID="a0f3ec0c-d60c-4055-8228-f5936e243f90" autoIncrement="false" defaultValue="NULL" name="CODIGO" nullable="1" physicalName="CODIGO" precision="19" referenceCount="1" scale="0" sourceDataTypeName="BIGINT" type="-5" >
@@ -765,7 +765,7 @@
     <table id="TAB271" populated="true" UUID="ddd29a0f-5d3a-4f7c-afd1-34fc5cd7216d" name="instituto" objectType="TABLE" physicalName="instituto" >
      <remarks></remarks>
      <folder id="FOLTAB2711" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL272" populated="true" UUID="1c1e13da-905a-4354-8b23-e01f6da649b6" autoIncrement="true" name="ID_INSTITUTO" nullable="0" physicalName="ID_INSTITUTO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL272" populated="true" UUID="1c1e13da-905a-4354-8b23-e01f6da649b6" autoIncrement="true" defaultValue="" name="ID_INSTITUTO" nullable="0" physicalName="ID_INSTITUTO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL273" populated="true" UUID="5bc6346d-cddb-483d-8152-a20ef004bee3" autoIncrement="false" defaultValue="NULL" name="ACTIVIDADECONOMICA" nullable="1" physicalName="ACTIVIDADECONOMICA" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -827,7 +827,7 @@
     <table id="TAB292" populated="true" UUID="c6d58d1b-59d3-4b3d-bbfb-7ad1e4d656a8" name="log" objectType="TABLE" physicalName="log" >
      <remarks></remarks>
      <folder id="FOLTAB2921" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL293" populated="true" UUID="fbbc0753-4739-4454-bbe7-bace9c638513" autoIncrement="true" name="ID_LOG" nullable="0" physicalName="ID_LOG" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL293" populated="true" UUID="fbbc0753-4739-4454-bbe7-bace9c638513" autoIncrement="true" defaultValue="" name="ID_LOG" nullable="0" physicalName="ID_LOG" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL294" populated="true" UUID="65460433-fbd3-45db-9aed-879ab7e1ec89" autoIncrement="false" defaultValue="NULL" name="DESCRIPCION" nullable="1" physicalName="DESCRIPCION" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -862,7 +862,7 @@
     <table id="TAB302" populated="true" UUID="622a872a-e10c-4aa2-ba0f-c65f3154bb57" name="materia" objectType="TABLE" physicalName="materia" >
      <remarks></remarks>
      <folder id="FOLTAB3021" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL303" populated="true" UUID="c9230ae1-24d5-4024-99d0-f36dcf015eb1" autoIncrement="true" name="ID_MATERIA" nullable="0" physicalName="ID_MATERIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL303" populated="true" UUID="c9230ae1-24d5-4024-99d0-f36dcf015eb1" autoIncrement="true" defaultValue="" name="ID_MATERIA" nullable="0" physicalName="ID_MATERIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL304" populated="true" UUID="603b6626-be90-4471-ba44-d4b527aab301" autoIncrement="false" defaultValue="NULL" name="CODIGO" nullable="1" physicalName="CODIGO" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -916,7 +916,7 @@
     <table id="TAB322" populated="true" UUID="cbd428ef-2e7c-46fb-9749-000ea2397652" name="mencion" objectType="TABLE" physicalName="mencion" >
      <remarks></remarks>
      <folder id="FOLTAB3221" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL323" populated="true" UUID="8a7d3e13-ffc1-4a95-b553-f8680c2aa17c" autoIncrement="true" name="ID_MENCION" nullable="0" physicalName="ID_MENCION" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL323" populated="true" UUID="8a7d3e13-ffc1-4a95-b553-f8680c2aa17c" autoIncrement="true" defaultValue="" name="ID_MENCION" nullable="0" physicalName="ID_MENCION" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL324" populated="true" UUID="9be4357f-ffd2-4ebb-90b0-7e9c7bb0aa25" autoIncrement="false" defaultValue="NULL" name="CODIGO" nullable="1" physicalName="CODIGO" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -949,7 +949,7 @@
     <table id="TAB334" populated="true" UUID="c0d88851-2010-42e0-8c3f-e7c8e98c5d1a" name="nota" objectType="TABLE" physicalName="nota" >
      <remarks></remarks>
      <folder id="FOLTAB3341" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL335" populated="true" UUID="ceb913dc-7c0f-4cac-a42f-9c797b681984" autoIncrement="true" name="ID_NOTA" nullable="0" physicalName="ID_NOTA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL335" populated="true" UUID="ceb913dc-7c0f-4cac-a42f-9c797b681984" autoIncrement="true" defaultValue="" name="ID_NOTA" nullable="0" physicalName="ID_NOTA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL336" populated="true" UUID="8851a2ee-8d23-42ed-9a75-e1046feb68e2" autoIncrement="false" defaultValue="NULL" name="MODALIDAD" nullable="1" physicalName="MODALIDAD" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
@@ -1046,7 +1046,7 @@
     <table id="TAB371" populated="true" UUID="cf1b71c8-a8e4-4bc7-b207-fa1b41573315" name="notapasantia" objectType="TABLE" physicalName="notapasantia" >
      <remarks></remarks>
      <folder id="FOLTAB3711" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL372" populated="true" UUID="ea3c89a1-709d-4311-a0b5-5afe2903fa3d" autoIncrement="true" name="ID_NOTAPASANTIA" nullable="0" physicalName="ID_NOTAPASANTIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL372" populated="true" UUID="ea3c89a1-709d-4311-a0b5-5afe2903fa3d" autoIncrement="true" defaultValue="" name="ID_NOTAPASANTIA" nullable="0" physicalName="ID_NOTAPASANTIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL373" populated="true" UUID="93b30080-1418-4138-abfb-3cb441f04c14" autoIncrement="false" defaultValue="NULL" name="CODIGO" nullable="1" physicalName="CODIGO" precision="19" referenceCount="1" scale="0" sourceDataTypeName="BIGINT" type="-5" >
@@ -1123,7 +1123,7 @@
     <table id="TAB401" populated="true" UUID="6ae0a5bb-28f1-4749-b5fa-1cebeea676ea" name="pago" objectType="TABLE" physicalName="pago" >
      <remarks></remarks>
      <folder id="FOLTAB4011" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL402" populated="true" UUID="89de9b55-0ade-42e7-94dc-d0ca78ffbcf3" autoIncrement="true" name="ID_PAGO" nullable="0" physicalName="ID_PAGO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL402" populated="true" UUID="89de9b55-0ade-42e7-94dc-d0ca78ffbcf3" autoIncrement="true" defaultValue="" name="ID_PAGO" nullable="0" physicalName="ID_PAGO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL403" populated="true" UUID="2bd1a4bf-7d97-4b0d-8e6e-518fc27bbbd9" autoIncrement="false" defaultValue="NULL" name="CONCEPTO" nullable="1" physicalName="CONCEPTO" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
@@ -1165,7 +1165,7 @@
     <table id="TAB417" populated="true" UUID="e02004b5-aa52-4dab-8408-52d57dc56de0" name="pasantia" objectType="TABLE" physicalName="pasantia" >
      <remarks></remarks>
      <folder id="FOLTAB4171" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL418" populated="true" UUID="7da9000c-8e46-40a4-83e7-0598ec47c867" autoIncrement="true" name="ID_PASANTIA" nullable="0" physicalName="ID_PASANTIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL418" populated="true" UUID="7da9000c-8e46-40a4-83e7-0598ec47c867" autoIncrement="true" defaultValue="" name="ID_PASANTIA" nullable="0" physicalName="ID_PASANTIA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL419" populated="true" UUID="d783c35b-41d8-496b-b763-1cd119157bb4" autoIncrement="false" defaultValue="NULL" name="CODIGO" nullable="1" physicalName="CODIGO" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -1214,7 +1214,7 @@
     <table id="TAB436" populated="true" UUID="f760fe4e-a3b1-4c93-9638-ff24ce2aa290" name="persona" objectType="TABLE" physicalName="persona" >
      <remarks></remarks>
      <folder id="FOLTAB4361" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL437" populated="true" UUID="7633dbca-b4b4-4b89-a063-f55a8109a4d7" autoIncrement="true" name="ID_PERSONA" nullable="0" physicalName="ID_PERSONA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL437" populated="true" UUID="7633dbca-b4b4-4b89-a063-f55a8109a4d7" autoIncrement="true" defaultValue="" name="ID_PERSONA" nullable="0" physicalName="ID_PERSONA" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL438" populated="true" UUID="677d5b26-73ba-4733-bbee-8cacb5f49ce0" autoIncrement="false" defaultValue="NULL" name="tipo" nullable="1" physicalName="tipo" precision="31" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -1276,7 +1276,7 @@
     <table id="TAB455" populated="true" UUID="12293b68-5d1b-4509-a4e6-82defdbd2367" name="postulante" objectType="TABLE" physicalName="postulante" >
      <remarks></remarks>
      <folder id="FOLTAB4551" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL456" populated="true" UUID="1472fde9-faaa-4d41-89ff-b331232a948f" autoIncrement="true" name="ID_POSTULANTE" nullable="0" physicalName="ID_POSTULANTE" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL456" populated="true" UUID="1472fde9-faaa-4d41-89ff-b331232a948f" autoIncrement="true" defaultValue="" name="ID_POSTULANTE" nullable="0" physicalName="ID_POSTULANTE" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL457" populated="true" UUID="e4a0de36-a0e7-4d15-a94a-d537c853e88b" autoIncrement="false" defaultValue="NULL" name="CARACTERCOLEGIO" nullable="1" physicalName="CARACTERCOLEGIO" precision="10" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
@@ -1377,10 +1377,10 @@
     <table id="TAB489" populated="true" UUID="6ce36c79-5908-47a0-a267-8d33b4202ef2" name="prerequisito" objectType="TABLE" physicalName="prerequisito" >
      <remarks></remarks>
      <folder id="FOLTAB4891" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL490" populated="true" UUID="0c2bcfe6-3936-4c68-8407-a0b98b4cd919" autoIncrement="false" name="id_materia" nullable="0" physicalName="id_materia" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL490" populated="true" UUID="0c2bcfe6-3936-4c68-8407-a0b98b4cd919" autoIncrement="false" defaultValue="" name="id_materia" nullable="0" physicalName="id_materia" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
-      <column id="COL491" populated="true" UUID="ccb96f40-3a65-4813-bed8-b2ea68642879" autoIncrement="false" name="id_prerequisito" nullable="0" physicalName="id_prerequisito" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL491" populated="true" UUID="ccb96f40-3a65-4813-bed8-b2ea68642879" autoIncrement="false" defaultValue="" name="id_prerequisito" nullable="0" physicalName="id_prerequisito" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       </folder>
@@ -1401,10 +1401,10 @@
     <table id="TAB497" populated="true" UUID="079ddebd-c830-4524-ab43-31f8f33ae7ec" name="privilegio" objectType="TABLE" physicalName="privilegio" >
      <remarks></remarks>
      <folder id="FOLTAB4971" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL498" populated="true" UUID="c08ece64-0603-47b6-94bb-d665f89d99c8" autoIncrement="false" name="id_recurso" nullable="0" physicalName="id_recurso" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL498" populated="true" UUID="c08ece64-0603-47b6-94bb-d665f89d99c8" autoIncrement="false" defaultValue="" name="id_recurso" nullable="0" physicalName="id_recurso" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
-      <column id="COL499" populated="true" UUID="899c45b3-799a-4e1c-8089-849d9ed53679" autoIncrement="false" name="id_rol" nullable="0" physicalName="id_rol" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL499" populated="true" UUID="899c45b3-799a-4e1c-8089-849d9ed53679" autoIncrement="false" defaultValue="" name="id_rol" nullable="0" physicalName="id_rol" precision="10" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       </folder>
@@ -1425,7 +1425,7 @@
     <table id="TAB505" populated="true" UUID="13412db2-f6c3-4b2c-ae8f-ef85f039c277" name="recurso" objectType="TABLE" physicalName="recurso" >
      <remarks></remarks>
      <folder id="FOLTAB5051" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL506" populated="true" UUID="8e77224d-fb59-4d82-8762-1678eeb8ad44" autoIncrement="true" name="ID_RECURSO" nullable="0" physicalName="ID_RECURSO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL506" populated="true" UUID="8e77224d-fb59-4d82-8762-1678eeb8ad44" autoIncrement="true" defaultValue="" name="ID_RECURSO" nullable="0" physicalName="ID_RECURSO" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL507" populated="true" UUID="fe46bce8-8067-41e2-ae1a-c12db6d62bf7" autoIncrement="false" defaultValue="NULL" name="NOMBRE" nullable="1" physicalName="NOMBRE" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -1448,7 +1448,7 @@
     <table id="TAB511" populated="true" UUID="584907d9-82d5-427d-bf4e-8f13e1ea7b80" name="rol" objectType="TABLE" physicalName="rol" >
      <remarks></remarks>
      <folder id="FOLTAB5111" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL512" populated="true" UUID="6356feb2-1269-4768-9bae-1d9214d80820" autoIncrement="true" name="ID_ROL" nullable="0" physicalName="ID_ROL" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL512" populated="true" UUID="6356feb2-1269-4768-9bae-1d9214d80820" autoIncrement="true" defaultValue="" name="ID_ROL" nullable="0" physicalName="ID_ROL" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL513" populated="true" UUID="3532518d-a53c-4275-a709-6f94a049f761" autoIncrement="false" defaultValue="NULL" name="NOMBRE" nullable="1" physicalName="NOMBRE" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -1471,7 +1471,7 @@
     <table id="TAB518" populated="true" UUID="a214c37d-10b0-4a34-8e18-10b499d4a221" name="usuario" objectType="TABLE" physicalName="usuario" >
      <remarks></remarks>
      <folder id="FOLTAB5181" populated="true" name="Columns" physicalName="Columns" type="1">
-      <column id="COL519" populated="true" UUID="d6366ea7-5f72-4902-b12d-6fefff8e2820" autoIncrement="false" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
+      <column id="COL519" populated="true" UUID="d6366ea7-5f72-4902-b12d-6fefff8e2820" autoIncrement="false" defaultValue="" name="id_persona" nullable="0" physicalName="id_persona" precision="10" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="INT" type="4" >
        <remarks></remarks>
       </column>
       <column id="COL520" populated="true" UUID="a4ba4b1c-5ddb-4f6e-8266-3e284b9a987a" autoIncrement="false" defaultValue="NULL" name="CONTRASENA" nullable="1" physicalName="CONTRASENA" precision="255" referenceCount="1" scale="0" sourceDataTypeName="VARCHAR" type="12" >
@@ -3314,38 +3314,38 @@
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="0.9999999999999998" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
-  <table-pane table-ref="TAB642" x="1276" y="249" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB651" x="1798" y="617" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB660" x="1788" y="450" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB674" x="801" y="1144" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB687" x="488" y="825" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB709" x="172" y="615" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB737" x="1804" y="749" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB745" x="832" y="1005" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB757" x="141" y="292" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB774" x="1247" y="406" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB780" x="1297" y="1063" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB796" x="818" y="541" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB812" x="1080" y="22" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB827" x="1510" y="25" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB849" x="814" y="325" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB871" x="1517" y="1178" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB883" x="788" y="88" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB907" x="1057" y="1046" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB928" x="212" y="861" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB938" x="875" y="799" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB958" x="523" y="1117" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB970" x="1794" y="38" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1007" x="1544" y="882" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1037" x="148" y="20" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1053" x="220" y="1098" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1072" x="1303" y="544" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1091" x="481" y="59" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1125" x="1190" y="941" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1133" x="1808" y="1035" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1141" x="1810" y="1184" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1147" x="1810" y="876" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB1154" x="445" y="504" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB642" x="1155" y="263" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB651" x="1677" y="631" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB660" x="1667" y="464" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB674" x="680" y="1158" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB687" x="367" y="839" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB709" x="51" y="629" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB737" x="1683" y="763" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB745" x="711" y="1019" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB757" x="20" y="306" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB774" x="1126" y="420" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB780" x="1176" y="1077" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB796" x="697" y="555" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB812" x="959" y="36" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB827" x="1389" y="39" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB849" x="693" y="339" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB871" x="1396" y="1192" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB883" x="667" y="102" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB907" x="936" y="1060" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB928" x="91" y="875" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB938" x="754" y="813" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB958" x="402" y="1131" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB970" x="1673" y="52" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1007" x="1423" y="896" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1037" x="27" y="34" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1053" x="99" y="1112" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1072" x="1182" y="558" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1091" x="360" y="73" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1125" x="1069" y="955" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1133" x="1687" y="1049" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1141" x="1689" y="1198" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1147" x="1689" y="890" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB1154" x="324" y="518" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-link relationship-ref="REL1162" pkConnection="0.8938053097345132" fkConnection="0.045454545454545456" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="66"/>
   <table-link relationship-ref="REL1164" pkConnection="0.2818181818181818" fkConnection="0.8360655737704918" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="24"/>
   <table-link relationship-ref="REL1166" pkConnection="0.6350710900473934" fkConnection="0.3764705882352941" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
