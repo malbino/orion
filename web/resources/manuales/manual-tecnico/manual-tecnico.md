@@ -55,15 +55,15 @@ Tabla | Descripción
 actividad | Actividades del calendario académico
 adjunto | Archivos adjuntos para las pasantias
 asistencia | Asistencia del cuadernillo de pasantias
-aampus | Campus donde se llevan a cabo las clases
-aarrera | Carreras del instituto
-aomprobante | Comprobante de pago para las matriculas y otros conceptos
-auenta | Cuenta de usuario
-aursa | Carrera que cursa un estudiante
-aetalle | Detalle del comprobante de pago
-ampleado | Empleados del instituto
-ampresa | Empresas para las pasantias
-astudiante | Estudiantes del instituto
+campus | Campus donde se llevan a cabo las clases
+carrera | Carreras del instituto
+comprobante | Comprobante de pago para las matriculas y otros conceptos
+cuenta | Cuenta de usuario
+cursa | Carrera que cursa un estudiante
+detalle | Detalle del comprobante de pago
+empleado | Empleados del instituto
+empresa | Empresas para las pasantias
+estudiante | Estudiantes del instituto
 gestionacademica | Gestiones académicas anuales y semestrales
 grupo | Grupos para las materias
 grupopasantia | Grupos para las pasantias
@@ -89,7 +89,7 @@ usuario | Usuarios del sistema
 
 Para el despliegue del sistema se deb seguir los siguientes pasos.
 
-## 4.1 Conexion con la base de datos
+### 4.1 Conexion con la base de datos
 
 Ingrese a la consola de administracion de Payara con su nombre de usuario y contraseña y siga los siguiente pasos.
 
@@ -111,7 +111,7 @@ Ingrese a la consola de administracion de Payara con su nombre de usuario y cont
 
 ![](https://raw.githubusercontent.com/malbino/orion/master/web/resources/manuales/manual-tecnico/images/04.png)
 
-## 4.2 JavaMail Session
+### 4.2 JavaMail Session
 
 Ingrese a la consola de administracion de Payara con su nombre de usuario y contraseña y siga los siguiente pasos.
 
