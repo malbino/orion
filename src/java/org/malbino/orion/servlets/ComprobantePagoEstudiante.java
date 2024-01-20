@@ -41,7 +41,17 @@ import org.malbino.orion.util.Redondeo;
  *
  * @author tincho
  */
-@WebServlet(name = "ComprobantePagoEstudiante", urlPatterns = {"/pagos/nuevoPagoEstudiante/ComprobantePagoEstudiante", "/pagos/pagos/ComprobantePagoEstudiante"})
+@WebServlet(
+        name = "ComprobantePagoEstudiante",
+        urlPatterns = {
+            "/inscripciones/cambioCarrera/ComprobantePagoEstudiante",
+            "/inscripciones/estudianteNuevo/ComprobantePagoEstudiante",
+            "/inscripciones/estudianteNuevoPostulacion/ComprobantePagoEstudiante",
+            "/inscripciones/estudianteRegular/ComprobantePagoEstudiante",
+            "/pagos/nuevoPagoEstudiante/ComprobantePagoEstudiante",
+            "/pagos/pagos/ComprobantePagoEstudiante"
+        }
+)
 public class ComprobantePagoEstudiante extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
@@ -94,9 +104,9 @@ public class ComprobantePagoEstudiante extends HttpServlet {
                 document.newPage();
 
                 document.add(comprobante(comprobante, estudiante));
-                
+
                 document.newPage();
-                
+
                 document.add(cuenta(request, estudiante));
 
                 document.close();
@@ -298,7 +308,7 @@ public class ComprobantePagoEstudiante extends HttpServlet {
         cell.setColspan(15);
         cell.setBorder(Rectangle.RIGHT);
         table.addCell(cell);
-        
+
         //fila 3
         cell = new PdfPCell(new Phrase("Becado:", NEGRITA));
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

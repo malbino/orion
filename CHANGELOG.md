@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.5] - 2024-01-19
+### Added
+### Changed
+### Removed
+### Fixed
+- Impresion Comprobante de Pago en inscripciones
+
 ## [2.6.4] - 2023-12-02
 ### Added
 - Archivos adjuntos pasantia
