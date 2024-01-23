@@ -137,7 +137,7 @@ public class PostulantesController extends AbstractController implements Seriali
             if (postulanteFacade.buscarPostulante(nuevoPostulante.getCi(), nuevoPostulante.getGestionAcademica().getId_gestionacademica(), nuevoPostulante.getCarrera().getId_carrera()) == null) {
                 if (admisionesFacade.registrarPostulante(nuevoPostulante)) {
                     //log
-                    logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.POSTULANTE, nuevoPostulante.getId_postulante(), "Creación por registro de formulario de postulación", loginController.getUsr().toString()));
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.POSTULANTE, nuevoPostulante.getId_postulante(), "Creación por registro de formulario de postulación"));
 
                     this.insertarParametro("id_postulante", nuevoPostulante.getId_postulante());
 
@@ -176,7 +176,7 @@ public class PostulantesController extends AbstractController implements Seriali
             if (seleccionPostulante != null) {
                 if (!pagoFacade.listaPagosAdeudadosPostulante(seleccionPostulante.getId_postulante()).isEmpty()) {
                     //log
-                    logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.POSTULANTE, seleccionPostulante.getId_postulante(), "Impresión formulario de postulación", loginController.getUsr().toString()));
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.POSTULANTE, seleccionPostulante.getId_postulante(), "Impresión formulario de postulación"));
 
                     this.insertarParametro("id_postulante", seleccionPostulante.getId_postulante());
 
@@ -197,7 +197,7 @@ public class PostulantesController extends AbstractController implements Seriali
             if (postulanteFacade.buscarPostulante(seleccionPostulante.getCi(), seleccionPostulante.getGestionAcademica().getId_gestionacademica(), seleccionPostulante.getCarrera().getId_carrera(), seleccionPostulante.getId_postulante()) == null) {
                 if (postulanteFacade.edit(seleccionPostulante)) {
                     //log
-                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.POSTULANTE, seleccionPostulante.getId_postulante(), "Creación por actualización de formulario de postulación", loginController.getUsr().toString()));
+                    logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.POSTULANTE, seleccionPostulante.getId_postulante(), "Creación por actualización de formulario de postulación"));
 
                     toHome();
                 } else {

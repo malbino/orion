@@ -58,6 +58,14 @@ public class Log implements Serializable {
         this.usuario = usuario;
     }
 
+    public Log(Date fecha, EventoLog eventoLog, EntidadLog entidadLog, Integer idEntidad, String descripcion) {
+        this.fecha = fecha;
+        this.eventoLog = eventoLog;
+        this.entidadLog = entidadLog;
+        this.idEntidad = idEntidad;
+        this.descripcion = descripcion;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
