@@ -88,24 +88,27 @@ public class CertificadoEgreso extends HttpServlet {
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setFixedHeight(Conversiones.mmToPtos(73));
+        cell.setFixedHeight(Conversiones.mmToPtos(66));
         cell.setColspan(60);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(egresado.getCarrera().getCampus().getInstituto().getNombreRegulador(), NORMAL));
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setFixedHeight(Conversiones.mmToPtos(7));
+        cell.setFixedHeight(Conversiones.mmToPtos(14));
         cell.setColspan(60);
+        cell.setPaddingLeft(120);
+        cell.setPaddingRight(120);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(egresado.getCarrera().getCampus().getInstituto().getResolucionMinisterial(), NORMAL));
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setFixedHeight(Conversiones.mmToPtos(7));
         cell.setColspan(60);
+        cell.setPaddingLeft(190);
         table.addCell(cell);
 
         //nombre egresado
@@ -179,7 +182,7 @@ public class CertificadoEgreso extends HttpServlet {
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setFixedHeight(Conversiones.mmToPtos(6));
         cell.setColspan(20);
-        cell.setPaddingLeft(70f);
+        cell.setPaddingLeft(90f);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase(Fecha.formatearFecha_MMMM(egresado.getEstudiante().getFechaNacimiento()).toUpperCase(), PEQUEÑA));
@@ -231,7 +234,7 @@ public class CertificadoEgreso extends HttpServlet {
         table.addCell(cell);
 
         //fecha
-        cell = new PdfPCell(new Phrase("Cochabamba", PEQUEÑA));
+        cell = new PdfPCell(new Phrase(egresado.getCarrera().getCampus().getCiudad(), PEQUEÑA));
         cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setBorder(PdfPCell.NO_BORDER);

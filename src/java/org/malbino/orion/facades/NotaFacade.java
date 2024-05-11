@@ -20,6 +20,7 @@ import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.entities.Nota;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Modalidad;
+import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.TipoNota;
 
 /**
@@ -72,7 +73,7 @@ public class NotaFacade extends AbstractFacade<Nota> {
 
         return l;
     }
-
+    
     public List<Nota> listaNotasGrupo(int id_grupo) {
         List<Nota> l = new ArrayList();
 
@@ -187,6 +188,44 @@ public class NotaFacade extends AbstractFacade<Nota> {
             q.setParameter("estudiante", estudiante);
             q.setParameter("carrera", carrera);
             q.setParameter("mencion", mencion);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Nota> reporteHistorialAcademico(Estudiante estudiante, Carrera carrera, Mencion mencion, Nivel nivel) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.nivel=:nivel AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY m.numero");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("nivel", nivel);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+    
+    public List<Nota> reporteHistorialAcademicoRecuperatorio(Estudiante estudiante, Carrera carrera, Mencion mencion, Nivel nivel) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.nivel=:nivel AND m.curricular=TRUE AND n.condicion=:condicion AND n.recuperatorio IS NOT NULL ORDER BY m.numero");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("nivel", nivel);
             q.setParameter("condicion", Condicion.APROBADO);
 
             l = q.getResultList();

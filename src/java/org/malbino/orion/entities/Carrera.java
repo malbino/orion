@@ -35,6 +35,7 @@ public class Carrera implements Serializable {
     @Column(unique = true)
     private String codigo;
     private String nombre;
+    private String area;
     private Regimen regimen;
     private NivelAcademico nivelAcademico;
     private Integer version;
@@ -65,7 +66,7 @@ public class Carrera implements Serializable {
     public String nameMoodle() {
         return nombre + " v" + version;
     }
-    
+
     public String fullNameMoodle() {
         return nameMoodle();
     }
@@ -310,5 +311,19 @@ public class Carrera implements Serializable {
      */
     public void setCreditajeAdmision(Integer creditajeAdmision) {
         this.creditajeAdmision = creditajeAdmision;
+    }
+
+    /**
+     * @return the area
+     */
+    public String getArea() {
+        return area;
+    }
+
+    /**
+     * @param area the area to set
+     */
+    public void setArea(String area) {
+        this.area = area;
     }
 }

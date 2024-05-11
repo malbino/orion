@@ -33,6 +33,12 @@
                                             <p:outputLabel for="sucursal" value="Sucursal:" style="font-size: small"/>
                                             <p:inputText id="sucursal" value="#{CampusController.nuevoCampus.sucursal}" required="true" requiredMessage="* Sucursal requerida." />
                                         </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="ciudad" value="Ciudad:" style="font-size: small"/>
+                                            <p:inputText id="ciudad" value="#{CampusController.nuevoCampus.ciudad}" required="true" requiredMessage="* Ciudad requerida." />
+                                        </div>
+
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="direccion" value="Dirección:" style="font-size: small"/>
                                             <p:inputText id="direccion" value="#{CampusController.nuevoCampus.direccion}" required="true" requiredMessage="* Dirección requerida." />
@@ -41,7 +47,6 @@
                                         <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="telefono" value="Teléfono:"/> 
                                             <p:inputMask id="telefono" value="#{CampusController.nuevoCampus.telefono}" mask="9999999" required="false"/>
-
                                         </div>
                                     </div>
 

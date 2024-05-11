@@ -31,6 +31,7 @@ public class Campus implements Serializable {
     private String nombre;
     @Column(unique = true)
     private String sucursal;
+    private String ciudad;
     private String direccion;
     private Integer telefono;
 
@@ -153,6 +154,20 @@ public class Campus implements Serializable {
     @Override
     public String toString() {
         return nombre;
+    }
+
+    /**
+     * @return the ciudad
+     */
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    /**
+     * @param ciudad the ciudad to set
+     */
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
 }

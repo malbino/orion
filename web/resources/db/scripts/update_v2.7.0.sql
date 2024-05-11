@@ -13,3 +13,9 @@ INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES (67, 4);
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES (67, 6);
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES (67, 7);
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES (67, 8);
+
+ALTER TABLE `campus`
+	ADD COLUMN `CIUDAD` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8_spanish_ci' AFTER `id_instituto`;
+
+ALTER TABLE `carrera`
+	ADD COLUMN `AREA` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8_spanish_ci' AFTER `id_jefecarrera`;

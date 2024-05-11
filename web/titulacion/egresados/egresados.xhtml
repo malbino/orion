@@ -31,6 +31,11 @@
                                                 <f:selectItems value="#{EgresadosController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
                                             </p:selectOneMenu>
                                         </div>
+                                        
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="fecha" value="Fecha:" style="font-size: small"/>
+                                            <p:calendar id="fecha" value="#{EgresadosController.seleccionFecha}" locale="es" pattern="dd/MM/yyyy" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Fecha requerida."/>  
+                                        </div>
                                     </div>
 
                                     <p:toolbar>
@@ -69,6 +74,10 @@
                                         </div>
                                     </div>
                                     <p:defaultCommand target="buscar"/>
+
+                                    <p:remoteCommand name="descargarCertificadoCalificaciones" actionListener="#{EgresadosController.descargarCertificadoCalificaciones()}" update="form">
+                                        <p:fileDownload value="#{EgresadosController.download}"/>
+                                    </p:remoteCommand>
 
                                     <p:dataTable id="egresados" var="egresado" value="#{EgresadosController.egresados}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
                                                  paginator="true" rows="10"
@@ -117,10 +126,14 @@
 
                                         <p:column exportable="false"> 
                                             <h:panelGroup id="group" >
-                                                <p:commandButton id="imprimir" process="@this" icon="fa fa-print" title="Imprimir">  
+                                                <p:commandButton process="@this" icon="fa fa-print" title="Imprimir Certificado de Egreso">  
                                                     <f:setPropertyActionListener value="#{egresado}" target="#{EgresadosController.seleccionEgresado}" />
 
                                                     <f:actionListener binding="#{EgresadosController.imprimirCertificadoEgreso()}"/>
+                                                </p:commandButton>
+
+                                                <p:commandButton process="@this" icon="fa fa-file-excel-o" title="Descargar Certificado de Calificaciones" oncomplete="descargarCertificadoCalificaciones()">  
+                                                    <f:setPropertyActionListener value="#{egresado}" target="#{EgresadosController.seleccionEgresado}" />
                                                 </p:commandButton>
                                             </h:panelGroup>
                                         </p:column> 

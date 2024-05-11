@@ -11,8 +11,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.malbino.orion.entities.Carrera;
+import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Mencion;
+import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.ModalidadEvaluacion;
+import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Periodo;
 import org.malbino.orion.enums.Regimen;
 
@@ -203,6 +208,25 @@ public class GestionAcademicaFacade extends AbstractFacade<GestionAcademica> {
             q.setParameter("modalidadEvaluacion2", modalidadEvaluacion2);
             q.setParameter("modalidadEvaluacion3", modalidadEvaluacion3);
             q.setParameter("vigente", vigente);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<GestionAcademica> listaGestionesAcademicas(Estudiante estudiante, Carrera carrera, Mencion mencion, Nivel nivel) {
+        List<GestionAcademica> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT DISTINCT ga FROM Nota n JOIN n.materia m JOIN n.gestionAcademica ga WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.nivel=:nivel AND m.curricular=TRUE AND n.condicion=:condicion ORDER BY m.numero");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("nivel", nivel);
+            q.setParameter("condicion", Condicion.APROBADO);
 
             l = q.getResultList();
         } catch (Exception e) {

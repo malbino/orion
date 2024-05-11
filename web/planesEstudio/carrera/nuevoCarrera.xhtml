@@ -36,6 +36,11 @@
                                         </div>
 
                                         <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="area" value="Area:" style="font-size: small"/>
+                                            <p:inputText id="area" value="#{CarreraController.nuevaCarrera.area}" required="true" requiredMessage="* Area requerida." />
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="regimen" value="Régimen:" style="font-size: small"/>
                                             <p:selectOneMenu id="regimen" value="#{CarreraController.nuevaCarrera.regimen}" converter="#{RegimenConverter}" autoWidth="false" required="true" requiredMessage="* Regimen requerido."> 
                                                 <f:selectItem itemLabel="" itemValue="" />
