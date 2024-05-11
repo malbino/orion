@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.7.0] - 2024-05-11
+### Added
+- Certificado de Egreso
+- Certificado de Calificaciones
+### Changed
+### Removed
+### Fixed
+
 ## [2.6.6] - 2024-01-19
 ### Added
 ### Changed
