@@ -81,6 +81,21 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         return l;
     }
 
+    public List<Estudiante> listaEstudiantes(int id_carrera) {
+        List<Estudiante> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT e FROM Estudiante e, CarreraEstudiante ce WHERE (e.id_persona=ce.carreraEstudianteId.id_persona) AND ce.carreraEstudianteId.id_carrera=:id_carrera ORDER BY e.primerApellido, e.segundoApellido, e.nombre");
+            q.setParameter("id_carrera", id_carrera);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
     public List<Estudiante> buscar(String keyword) {
         List<Estudiante> l = new ArrayList();
 

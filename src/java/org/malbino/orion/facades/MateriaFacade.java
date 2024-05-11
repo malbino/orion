@@ -191,6 +191,24 @@ public class MateriaFacade extends AbstractFacade<Materia> {
         return l;
     }
 
+    public List<Materia> listaMateriaAprobadas(Estudiante estudiante, Carrera carrera, Mencion mencion) {
+        List<Materia> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT m FROM Nota n JOIN n.materia m WHERE n.estudiante=:estudiante AND m.carrera=:carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND n.condicion=:condicion ORDER BY m.nivel, m.mencion, m.numero");
+            q.setParameter("estudiante", estudiante);
+            q.setParameter("carrera", carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("condicion", Condicion.APROBADO);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
     public Long cantidadMaximaMateriasNivel(Carrera carrera, Mencion mencion) {
         Long l = 0l;
 
@@ -223,7 +241,7 @@ public class MateriaFacade extends AbstractFacade<Materia> {
 
         return l;
     }
-    
+
     public List<Materia> listaMaterias(int id_prerequisito) {
         List<Materia> l = new ArrayList();
 

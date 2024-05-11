@@ -41,6 +41,7 @@ import org.malbino.orion.facades.RecursoFacade;
     "/registroDocente/*",
     "/registroNotas/*",
     "/reportes/*",
+    "/titulacion/*",
     "/calendarioAcademico.xhtml",
     "/cambiarContrasena.xhtml",
     "/home.xhtml"

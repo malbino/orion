@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="#{root}/WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Egresados <small>gestión de egresados</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:messages/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                            <p:selectOneMenu id="carrera" value="#{EgresadosController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false"> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{EgresadosController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:commandButton icon="fa fa-search" value="Buscar" actionListener="#{EgresadosController.buscarSinKeyword()}" update="form"/>
+
+                                            <p:spacer width="10"/>
+
+                                            <p:commandButton icon="fa fa-trash" value="Limpiar" actionListener="#{EgresadosController.reinit()}" update="form"/>
+
+                                            <p:spacer width="10"/>
+
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar Egresados" actionListener="#{EgresadosController.actualizarEgresados()}" update="form"/> 
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="egresados" fileName="egresados" />
+                                                </p:menuitem>
+                                                <p:menuitem value="Lista Completa" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="lista_completa" fileName="lista_completa" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{EgresadosController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{EgresadosController.buscarConKeyword()}" update="egresados"/>           
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="egresados" var="egresado" value="#{EgresadosController.egresados}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%"
+                                                 paginator="true" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Matrícula" >  
+                                            <h:outputText value="#{egresado.estudiante.matricula}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Primer Apellido" >  
+                                            <h:outputText value="#{egresado.estudiante.primerApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Segundo Apellido" >  
+                                            <h:outputText value="#{egresado.estudiante.segundoApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{egresado.estudiante.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="DNI" >  
+                                            <h:outputText value="#{egresado.estudiante.dniLugar()}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Teléfono" >  
+                                            <h:outputText value="#{egresado.estudiante.telefono}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Celular" >  
+                                            <h:outputText value="#{egresado.estudiante.celular}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Carrera" >  
+                                            <h:outputText value="#{egresado.carrera}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Gestión Académica" >  
+                                            <h:outputText value="#{egresado.gestionAcademica}"/> 
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="imprimir" process="@this" icon="fa fa-print" title="Imprimir">  
+                                                    <f:setPropertyActionListener value="#{egresado}" target="#{EgresadosController.seleccionEgresado}" />
+
+                                                    <f:actionListener binding="#{EgresadosController.imprimirCertificadoEgreso()}"/>
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+
+                                    <p:dataTable id="lista_completa" var="egresado" value="#{EgresadosController.egresados}" rowIndexVar="rowIndex" rendered="false">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Matricula" >  
+                                            <h:outputText value="#{egresado.estudiante.matricula}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" >  
+                                            <h:outputText value="#{egresado.estudiante.fecha_ddMMyyyy()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Diploma Bachiller" >  
+                                            <h:outputText value="#{egresado.estudiante.diplomaBachiller_siNo()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Primer Apellido" >  
+                                            <h:outputText value="#{egresado.estudiante.primerApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Segundo Apellido" >  
+                                            <h:outputText value="#{egresado.estudiante.segundoApellido}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{egresado.estudiante.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Sexo" >  
+                                            <h:outputText value="#{egresado.estudiante.sexo}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha Nacimiento" >  
+                                            <h:outputText value="#{egresado.estudiante.fechaNacimiento_ddMMyyyy()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Lugar Nacimiento" >  
+                                            <h:outputText value="#{egresado.estudiante.lugarNacimiento}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nacionalidad" >  
+                                            <h:outputText value="#{egresado.estudiante.nacionalidad}"/>
+                                        </p:column>
+
+                                        <p:column headerText="DNI" >  
+                                            <h:outputText value="#{egresado.estudiante.dniLugar()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Dirección" >  
+                                            <h:outputText value="#{egresado.estudiante.direccion}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Telefono" >  
+                                            <h:outputText value="#{egresado.estudiante.telefono}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Celular" >  
+                                            <h:outputText value="#{egresado.estudiante.celular}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Email" >  
+                                            <h:outputText value="#{egresado.estudiante.email}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre Contacto" >  
+                                            <h:outputText value="#{egresado.estudiante.nombreContacto}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Celular Contacto" >  
+                                            <h:outputText value="#{egresado.estudiante.celularContacto}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Parentesco Contacto" >  
+                                            <h:outputText value="#{egresado.estudiante.parentescoContacto}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre Colegio" >  
+                                            <h:outputText value="#{egresado.estudiante.nombreColegio}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Caracter Colegio" >  
+                                            <h:outputText value="#{egresado.estudiante.caracterColegio}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Egreso Colegio" >  
+                                            <h:outputText value="#{egresado.estudiante.egresoColegio}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Carrera" >  
+                                            <h:outputText value="#{egresado.carrera}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Gestión Académica" >  
+                                            <h:outputText value="#{egresado.gestionAcademica}"/> 
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

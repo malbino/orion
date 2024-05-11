@@ -168,6 +168,12 @@
                                             </ul>
                                         </li>
 
+                                        <li style="display: #{LoginController.displayMenu('/titulacion/')}"><a><i class="fa fa-graduation-cap"></i> Titulación <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li style="display: #{LoginController.display('/titulacion/egresados/')}"><a href="#{request.contextPath}/titulacion/egresados/egresados.xhtml">Egresados</a></li>
+                                            </ul>
+                                        </li>
+
                                         <li style="display: #{LoginController.displayMenu('/reportes/')}"><a><i class="fa fa-bar-chart"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
                                                 <li style="display: #{LoginController.display('/reportes/dashboard.xhtml')}"><a href="#{request.contextPath}/reportes/dashboard.xhtml">Dashboard</a></li>

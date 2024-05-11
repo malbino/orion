@@ -56,4 +56,12 @@ public class Empleado extends Usuario implements Serializable {
         this.abreviaturaProfesion = abreviaturaProfesion;
     }
 
+    public String nombreFirma() {
+        String s = this.getAbreviaturaProfesion() + " " + this.getNombre() + " " + this.getPrimerApellido();
+        if (this.getSegundoApellido() != null && !this.getSegundoApellido().isEmpty()) {
+            s += " " + this.getSegundoApellido();
+        }
+        return s;
+    }
+
 }

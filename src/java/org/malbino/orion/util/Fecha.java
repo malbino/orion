@@ -136,6 +136,12 @@ public class Fecha {
         return sdf.format(fecha);
     }
 
+    public static String formatearFecha_dd(Date fecha) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd");
+
+        return sdf.format(fecha);
+    }
+
     public static String formatearFecha_MMMM(Date fecha) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMMM");
 
@@ -263,13 +269,27 @@ public class Fecha {
         return años;
     }
 
+    public static int extrarDia(Date fecha) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(fecha);
+
+        return c.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static int extrarMes(Date fecha) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(fecha);
+
+        return c.get(Calendar.MONTH) + 1;
+    }
+
     public static int extrarAño(Date fecha) {
         Calendar c = Calendar.getInstance();
         c.setTime(fecha);
 
         return c.get(Calendar.YEAR);
     }
-    
+
     public static String formatearFecha_MMyyyy(Date fecha) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
 
