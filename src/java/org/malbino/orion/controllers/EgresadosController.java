@@ -34,10 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Egresado;
 import org.malbino.orion.entities.GestionAcademica;
-import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Nota;
-import org.malbino.orion.enums.EntidadLog;
-import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Regimen;
 import org.malbino.orion.facades.EgresadoFacade;
@@ -60,8 +57,10 @@ public class EgresadosController extends AbstractController implements Serializa
 
     private static final Logger log = LoggerFactory.getLogger(EgresadosController.class);
 
-    private static final String PATHNAME_SEMESTRAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "certificado_calificaciones_semestral.xlsx";
-    private static final String PATHNAME_ANUAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "certificado_calificaciones_anual.xlsx";
+    private static final String PATHNAME_CE = File.separator + "resources" + File.separator + "uploads" + File.separator + "certificado_egreso.xlsx";
+
+    private static final String PATHNAME_CC_SEMESTRAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "certificado_calificaciones_semestral.xlsx";
+    private static final String PATHNAME_CC_ANUAL = File.separator + "resources" + File.separator + "uploads" + File.separator + "certificado_calificaciones_anual.xlsx";
 
     @EJB
     EgresadoFacade egresadoFacade;
@@ -126,21 +125,10 @@ public class EgresadosController extends AbstractController implements Serializa
         }
     }
 
-    public void imprimirCertificadoEgreso() throws IOException {
-        if (seleccionEgresado != null) {
-            //log
-            logFacade.create(new Log(Fecha.getDate(), EventoLog.READ, EntidadLog.EGRESADO, seleccionEgresado.getId_egresado(), "Impresión certificado de egreso", loginController.getUsr().toString()));
-
-            this.insertarParametro("egresado", seleccionEgresado);
-            this.insertarParametro("fecha", seleccionFecha);
-            toCertificadoEgreso();
-        }
-    }
-
     public XSSFWorkbook leerArchivo(String pathname) {
         XSSFWorkbook workbook = null;
 
-        try (FileInputStream file = new FileInputStream(this.realPath() + pathname)) {
+        try ( FileInputStream file = new FileInputStream(this.realPath() + pathname)) {
             workbook = new XSSFWorkbook(file);
         } catch (IOException e) {
             this.mensajeDeError("Error: No se pudo leer el archivo.");
@@ -167,12 +155,96 @@ public class EgresadosController extends AbstractController implements Serializa
         }
     }
 
+    public void descargarCertificadoEgreso() {
+        XSSFWorkbook workbook = leerArchivo(PATHNAME_CE);
+
+        XSSFCellStyle styleBold = workbook.createCellStyle();
+        styleBold.setAlignment(HorizontalAlignment.LEFT);
+        styleBold.setVerticalAlignment(VerticalAlignment.CENTER);
+        XSSFFont fontBold = workbook.createFont();
+        fontBold.setFontName(HSSFFont.FONT_ARIAL);
+        fontBold.setFontHeightInPoints((short) 8);
+        fontBold.setBold(true);
+        styleBold.setFont(fontBold);
+
+        XSSFCellStyle styleSmall = workbook.createCellStyle();
+        styleSmall.setAlignment(HorizontalAlignment.LEFT);
+        styleSmall.setVerticalAlignment(VerticalAlignment.CENTER);
+        XSSFFont fontSmall = workbook.createFont();
+        fontSmall.setFontName(HSSFFont.FONT_ARIAL);
+        fontSmall.setFontHeightInPoints((short) 6);
+        styleSmall.setFont(fontSmall);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        if (sheet != null) {
+            log.info("Sheet: " + sheet.getSheetName());
+            if (sheet != null) {
+                Iterator<Row> rowIterator = sheet.rowIterator();
+
+                int rowNum = 0;
+                while (rowIterator.hasNext()) {
+                    Row row = rowIterator.next();
+
+                    Iterator<Cell> cellIterator = row.cellIterator();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+
+                        if (cell.getCellTypeEnum() == CellType.STRING) {
+                            if (cell.getStringCellValue().contains("<<INSTITUTO>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<INSTITUTO>>", seleccionEgresado.getCarrera().getCampus().getInstituto().getNombreRegulador()));
+                            } else if (cell.getStringCellValue().contains("<<RM>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<RM>>", seleccionEgresado.getCarrera().getResolucionMinisterial1()));
+                            } else if (cell.getStringCellValue().contains("<<PAPELLIDO>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<PAPELLIDO>>", seleccionEgresado.getEstudiante().getPrimerApellido()));
+                            } else if (cell.getStringCellValue().contains("<<SAPELLIDO>>")) {
+                                if (seleccionEgresado.getEstudiante().getSegundoApellido() != null && !seleccionEgresado.getEstudiante().getSegundoApellido().isEmpty()) {
+                                    cell.setCellValue(cell.getStringCellValue().replace("<<SAPELLIDO>>", seleccionEgresado.getEstudiante().getSegundoApellido()));
+                                } else {
+                                    cell.setCellValue(cell.getStringCellValue().replace("<<SAPELLIDO>>", ""));
+                                }
+                            } else if (cell.getStringCellValue().contains("<<NOMBRE>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<NOMBRE>>", seleccionEgresado.getEstudiante().getNombre()));
+                            } else if (cell.getStringCellValue().contains("<<NACIONALIDAD>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<NACIONALIDAD>>", seleccionEgresado.getEstudiante().getNacionalidad()));
+                            } else if (cell.getStringCellValue().contains("<<CIUDAD>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<CIUDAD>>", seleccionEgresado.getEstudiante().getLugarNacimiento()));
+                            } else if (cell.getStringCellValue().contains("<<DIA_N>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<DIA_N>>", Fecha.formatearFecha_dd(seleccionEgresado.getEstudiante().getFechaNacimiento())));
+                            } else if (cell.getStringCellValue().contains("<<MES_N>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<MES_N>>", Fecha.formatearFecha_MMMM(seleccionEgresado.getEstudiante().getFechaNacimiento())));
+                            } else if (cell.getStringCellValue().contains("<<AÑO_N>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<AÑO_N>>", Fecha.formatearFecha_yyyy(seleccionEgresado.getEstudiante().getFechaNacimiento())));
+                            } else if (cell.getStringCellValue().contains("<<DNI>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<DNI>>", seleccionEgresado.getEstudiante().dniLugar()));
+                            } else if (cell.getStringCellValue().contains("<<CARRERA>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<CARRERA>>", seleccionEgresado.getCarrera().getNombre()));
+                            } else if (cell.getStringCellValue().contains("<<NIVEL_ACADEMICO>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<NIVEL_ACADEMICO>>", seleccionEgresado.getCarrera().getNivelAcademico().getNombre()));
+                            } else if (cell.getStringCellValue().contains("<<CIUDAD>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<CIUDAD>>", seleccionEgresado.getCarrera().getCampus().getCiudad()));
+                            } else if (cell.getStringCellValue().contains("<<DIA_I>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<DIA_I>>", Fecha.formatearFecha_dd(seleccionFecha)));
+                            } else if (cell.getStringCellValue().contains("<<MES_I>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<MES_I>>", Fecha.formatearFecha_MMMM(seleccionFecha)));
+                            } else if (cell.getStringCellValue().contains("<<AÑO_I>>")) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<AÑO_I>>", Fecha.formatearFecha_yyyy(seleccionFecha)));
+                            }
+                        }
+                    }
+                }
+            }
+
+            String name = "CE - " + seleccionEgresado.getEstudiante().toString() + " - " + seleccionEgresado.getCarrera().getNombre();
+            descargarArchivo(workbook, name);
+        }
+    }
+
     public void descargarCertificadoCalificaciones() {
         XSSFWorkbook workbook = null;
         if (seleccionEgresado.getCarrera().getRegimen().equals(Regimen.SEMESTRAL)) {
-            workbook = leerArchivo(PATHNAME_SEMESTRAL);
+            workbook = leerArchivo(PATHNAME_CC_SEMESTRAL);
         } else if (seleccionEgresado.getCarrera().getRegimen().equals(Regimen.ANUAL)) {
-            workbook = leerArchivo(PATHNAME_ANUAL);
+            workbook = leerArchivo(PATHNAME_CC_ANUAL);
         }
 
         XSSFCellStyle styleBold = workbook.createCellStyle();
@@ -445,12 +517,8 @@ public class EgresadosController extends AbstractController implements Serializa
             }
         }
 
-        String name = seleccionEgresado.getEstudiante().toString() + " - " + seleccionEgresado.getCarrera().getNombre();
+        String name = "CC - " + seleccionEgresado.getEstudiante().toString() + " - " + seleccionEgresado.getCarrera().getNombre();
         descargarArchivo(workbook, name);
-    }
-
-    public void toCertificadoEgreso() throws IOException {
-        this.redireccionarViewId("/titulacion/egresados/certificadoEgreso");
     }
 
     public void toEgresados() throws IOException {
