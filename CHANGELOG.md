@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.8.0] - 2024-08-01
+### Added
+- Gestion plantillas reportes
+### Changed
+### Removed
+### Fixed
+
 ## [2.7.0] - 2024-05-11
 ### Added
 - Certificado de Egreso
