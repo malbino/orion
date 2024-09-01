@@ -7,6 +7,7 @@ package org.malbino.orion.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,13 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author malbino
  */
 @Entity
-@Table(name = "aula")
+@Table(name = "aula", uniqueConstraints = @UniqueConstraint(columnNames = {"nombre", "id_campus"}))
 public class Aula implements Serializable {
 
     @Id
@@ -29,7 +31,7 @@ public class Aula implements Serializable {
 
     private String nombre;
     private String descripcion;
-    private int capacidad;
+    private Integer capacidad;
 
     @JoinColumn(name = "id_campus")
     @ManyToOne
@@ -85,7 +87,7 @@ public class Aula implements Serializable {
      * @param nombre the nombre to set
      */
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.toUpperCase();
     }
 
     /**
@@ -99,20 +101,20 @@ public class Aula implements Serializable {
      * @param descripcion the descripcion to set
      */
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.toUpperCase();
     }
 
     /**
      * @return the capacidad
      */
-    public int getCapacidad() {
+    public Integer getCapacidad() {
         return capacidad;
     }
 
     /**
      * @param capacidad the capacidad to set
      */
-    public void setCapacidad(int capacidad) {
+    public void setCapacidad(Integer capacidad) {
         this.capacidad = capacidad;
     }
 

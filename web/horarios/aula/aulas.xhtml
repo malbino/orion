@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <h:form id="form">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Aula <small>gestión de aulas</small></h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="campus" value="Campus: " style="font-size: small"/>
+                                            <p:selectOneMenu id="campus" value="#{AulaController.seleccionCampus}" converter="#{CampusConverter}" autoWidth="false">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{AulaController.listaCampus()}" var="campus" itemLabel="#{campus.toString()}" itemValue="#{campus}"/>
+
+                                                <p:ajax listener="#{AulaController.reinit()}" update="aulas"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:button icon="fa fa-plus" value="Nuevo" outcome="/horarios/aula/nuevaAula"/>
+
+                                            <p:spacer width="10"/>
+
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{AulaController.reinit()}" update="form"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="aulas" fileName="aulas" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{AulaController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{AulaController.buscar()}" update="aulas"/>           
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="aulas" var="aula" value="#{AulaController.aulas}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre" >  
+                                            <h:outputText value="#{aula.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Descripción" >  
+                                            <h:outputText value="#{aula.descripcion}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Capacidad" >  
+                                            <h:outputText value="#{aula.capacidad}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Campus" >  
+                                            <h:outputText value="#{aula.campus}"/> 
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  
+                                                    <f:setPropertyActionListener value="#{aula}" target="#{AulaController.seleccionAula}" />
+
+                                                    <f:actionListener binding="#{AulaController.toEditarAula()}"/>
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
