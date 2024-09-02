@@ -5,6 +5,7 @@
 package org.malbino.orion.util;
 
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -294,5 +295,9 @@ public class Fecha {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
 
         return sdf.format(fecha);
+    }
+    
+    public static long minutos(Date inicio, Date fin) {
+        return ChronoUnit.MINUTES.between(inicio.toInstant(), fin.toInstant());
     }
 }

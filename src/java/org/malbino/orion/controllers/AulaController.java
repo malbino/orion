@@ -73,7 +73,7 @@ public class AulaController extends AbstractController implements Serializable {
         if (aulaFacade.buscarPorNombre(nuevaAula.getNombre(), nuevaAula.getCampus().getId_campus()) == null) {
             if (aulaFacade.create(nuevaAula)) {
                 //log
-                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.CARRERA, nuevaAula.getId_aula(), "Creación aula", loginController.getUsr().toString()));
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.CREATE, EntidadLog.AULA, nuevaAula.getId_aula(), "Creación aula", loginController.getUsr().toString()));
 
                 this.toAulas();
             }
@@ -86,7 +86,7 @@ public class AulaController extends AbstractController implements Serializable {
         if (aulaFacade.buscarPorNombre(seleccionAula.getNombre(), seleccionAula.getId_aula(), seleccionAula.getCampus().getId_campus()) == null) {
             if (aulaFacade.edit(seleccionAula)) {
                 //log
-                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.CARRERA, seleccionAula.getId_aula(), "Actualización aula", loginController.getUsr().toString()));
+                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.AULA, seleccionAula.getId_aula(), "Actualización aula", loginController.getUsr().toString()));
 
                 this.toAulas();
             }

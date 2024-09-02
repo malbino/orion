@@ -28,6 +28,7 @@ import org.malbino.orion.enums.Caracter;
 import org.malbino.orion.enums.Concepto;
 import org.malbino.orion.enums.Condicion;
 import org.malbino.orion.enums.Departamento;
+import org.malbino.orion.enums.Dia;
 import org.malbino.orion.enums.EntidadLog;
 import org.malbino.orion.enums.Evaluacion;
 import org.malbino.orion.enums.EventoLog;
@@ -274,6 +275,10 @@ public abstract class AbstractController implements Serializable {
 
     public ModalidadEvaluacion[] listaModalidadesEvaluacion() {
         return ModalidadEvaluacion.values();
+    }
+
+    public Dia[] listaDias() {
+        return Dia.values();
     }
 
     public void editarNota(Nota nota) {

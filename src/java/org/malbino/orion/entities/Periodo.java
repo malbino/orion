@@ -12,15 +12,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import org.malbino.orion.enums.Dia;
+import org.malbino.orion.util.Fecha;
 
 /**
  *
  * @author malbino
  */
 @Entity
-@Table(name = "periodo")
+@Table(name = "periodo", uniqueConstraints = @UniqueConstraint(columnNames = {"dia", "inicio", "fin"}))
 public class Periodo implements Serializable {
 
     @Id
@@ -28,8 +32,12 @@ public class Periodo implements Serializable {
     private Integer id_periodo;
 
     private Dia dia;
-    private Date desde;
-    private Date hasta;
+    private Date inicio;
+    private Date fin;
+
+    @JoinColumn(name = "id_instituto")
+    @ManyToOne
+    private Instituto instituto;
 
     public Periodo() {
     }
@@ -37,7 +45,7 @@ public class Periodo implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 29 * hash + Objects.hashCode(this.getId_periodo());
+        hash = 79 * hash + Objects.hashCode(this.id_periodo);
         return hash;
     }
 
@@ -53,7 +61,19 @@ public class Periodo implements Serializable {
             return false;
         }
         final Periodo other = (Periodo) obj;
-        return Objects.equals(this.getId_periodo(), other.getId_periodo());
+        return Objects.equals(this.id_periodo, other.id_periodo);
+    }
+
+    public String inicio_HHmm() {
+        return Fecha.formatearFecha_HHmm(inicio);
+    }
+
+    public String fin_HHmm() {
+        return Fecha.formatearFecha_HHmm(fin);
+    }
+    
+    public long minutos() {
+        return Fecha.minutos(inicio, fin);
     }
 
     /**
@@ -85,31 +105,46 @@ public class Periodo implements Serializable {
     }
 
     /**
-     * @return the desde
+     * @return the inicio
      */
-    public Date getDesde() {
-        return desde;
+    public Date getInicio() {
+        return inicio;
     }
 
     /**
-     * @param desde the desde to set
+     * @param inicio the inicio to set
      */
-    public void setDesde(Date desde) {
-        this.desde = desde;
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
     }
 
     /**
-     * @return the hasta
+     * @return the fin
      */
-    public Date getHasta() {
-        return hasta;
+    public Date getFin() {
+        return fin;
     }
 
     /**
-     * @param hasta the hasta to set
+     * @param fin the fin to set
      */
-    public void setHasta(Date hasta) {
-        this.hasta = hasta;
+    public void setFin(Date fin) {
+        this.fin = fin;
     }
 
+    /**
+     * @return the instituto
+     */
+    public Instituto getInstituto() {
+        return instituto;
+    }
+
+    /**
+     * @param instituto the instituto to set
+     */
+    public void setInstituto(Instituto instituto) {
+        this.instituto = instituto;
+    }
+    
+    
 }
