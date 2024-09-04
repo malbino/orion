@@ -370,7 +370,7 @@ public class EgresadosController extends AbstractController implements Serializa
                                         cell.setCellValue(cell.getStringCellValue().replace("<<LITERAL>>", ""));
                                     }
                                 } else if (cell.getStringCellValue().contains("<<CONDICION>>")) {
-                                    cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", nota.getCondicion().getNombre()));
+                                    cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", nota.getCondicion().getNombre() + " - " + nota.getGestionAcademica().codigo()));
                                 }
                             } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                 if (cell.getNumericCellValue() == -100) {
@@ -402,7 +402,7 @@ public class EgresadosController extends AbstractController implements Serializa
                                 } else if (cell.getStringCellValue().contains("<<LITERAL>>")) {
                                     cell.setCellValue(cell.getStringCellValue().replace("<<LITERAL>>", NumberToLetterConverter.convertNumberToLetter(nota.getNotaFinal())));
                                 } else if (cell.getStringCellValue().contains("<<CONDICION>>")) {
-                                    cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", "RECUPERACIÓN"));
+                                    cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", "RECUPERACIÓN - " + nota.getGestionAcademica().codigo()));
                                 }
                             } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                 if (cell.getNumericCellValue() == -100) {
@@ -431,7 +431,7 @@ public class EgresadosController extends AbstractController implements Serializa
                             if (cell.getStringCellValue().contains("<<CODIGO>>")) {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<CODIGO>>", ""));
                             } else if (cell.getStringCellValue().contains("<<MATERIA>>")) {
-                                cell.setCellValue(cell.getStringCellValue().replace("<<MATERIA>>", "RECUPERACIÓN"));
+                                cell.setCellValue(cell.getStringCellValue().replace("<<MATERIA>>", "PRUEBA DE RECUPERACIÓN"));
                                 cell.setCellStyle(styleBold);
                             } else if (cell.getStringCellValue().contains("<<LITERAL>>")) {
                                 cell.setCellValue(cell.getStringCellValue().replace("<<LITERAL>>", ""));
