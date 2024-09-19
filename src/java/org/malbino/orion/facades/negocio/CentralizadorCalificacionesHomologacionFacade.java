@@ -36,12 +36,13 @@ import org.malbino.orion.util.Redondeo;
  */
 @Stateless
 @LocalBean
-public class CentralizadorCalificacionesPRAEFacade {
+public class CentralizadorCalificacionesHomologacionFacade {
 
     private static final int CANTIDAD_MAXIMA_ESTUDIANTES = 20;
     private static final int CANTIDAD_MAXIMA_MATERIAS = 10;
 
-    private static final String TITULO_CC_PR = "CENTRALIZADOR DE CALIFICACIONES\nPRUEBA RECUPERATORIA ADICIONAL EXCEPCIONAL";
+    private static final String TITULO_CC_H = "CENTRALIZADOR DE CALIFICACIONES\nHOMOLOGACIÓN DE ASIGNATURAS - PLAN DE ESTUDIOS ";
+    private static final String NOTA_CC_H = "Elaboración de Centralizador de Calificaciones - Homologación de Asignaturas, en cumplimiento a Resolución Ministerial N° 0189/2023";
 
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;
@@ -68,7 +69,7 @@ public class CentralizadorCalificacionesPRAEFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public List<Estudiante> listaEstudiantesPRAE(int id_gestioncademica, int id_carrera, Mencion mencion, Nivel nivel) {
+    public List<Estudiante> listaEstudiantesHomologacion(int id_gestioncademica, int id_carrera, Mencion mencion, Nivel nivel) {
         List<Estudiante> l = new ArrayList();
 
         try {
@@ -79,7 +80,7 @@ public class CentralizadorCalificacionesPRAEFacade {
             q.setParameter("nivel", nivel);
             //condiciones centralizador
             q.setParameter("curricular", true);
-            q.setParameter("modalidad", Modalidad.PRUEBA_RECUPERATORIA_ADICIONAL_EXCEPCIONAL);
+            q.setParameter("modalidad", Modalidad.HOMOLOGACION);
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -110,7 +111,7 @@ public class CentralizadorCalificacionesPRAEFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public List<Nota> listaNotasPRAE(int id_gestioncademica, int id_carrera, Mencion mencion, Nivel nivel) {
+    public List<Nota> listaNotasHomologacion(int id_gestioncademica, int id_carrera, Mencion mencion, Nivel nivel) {
         List<Nota> l = new ArrayList();
 
         try {
@@ -121,7 +122,7 @@ public class CentralizadorCalificacionesPRAEFacade {
             q.setParameter("nivel", nivel);
             //condiciones centralizador
             q.setParameter("curricular", true);
-            q.setParameter("modalidad", Modalidad.PRUEBA_RECUPERATORIA_ADICIONAL_EXCEPCIONAL);
+            q.setParameter("modalidad", Modalidad.HOMOLOGACION);
 
             l = q.getResultList();
         } catch (Exception e) {
@@ -132,7 +133,7 @@ public class CentralizadorCalificacionesPRAEFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Centralizador centralizadorCalificacionesPRAE(GestionAcademica gestionAcademica, Carrera carrera, int numeroLibro, int numeroFolio) {
+    public Centralizador centralizadorCalificacionesHomologacion(GestionAcademica gestionAcademica, Carrera carrera, int numeroLibro, int numeroFolio) {
         Centralizador centralizador = new Centralizador( //centralizador calificaciones
                 carrera.getCampus().getInstituto().getUbicacion(),
                 carrera.getCampus().getInstituto().getNombreRegulador(),
@@ -149,7 +150,7 @@ public class CentralizadorCalificacionesPRAEFacade {
             for (Mencion mencion : menciones) { //menciones
                 int numeroEstudiante = 1;
 
-                List<Estudiante> estudiantes = listaEstudiantesPRAE(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel);
+                List<Estudiante> estudiantes = listaEstudiantesHomologacion(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel);
                 Iterator<Estudiante> iteratorEstudiantes = estudiantes.iterator();
                 if (!estudiantes.isEmpty()) {
                     //materias centralizador
@@ -168,7 +169,7 @@ public class CentralizadorCalificacionesPRAEFacade {
                     }
 
                     //notas
-                    List<Nota> notas = listaNotasPRAE(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel);
+                    List<Nota> notas = listaNotasHomologacion(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel);
 
                     int cantidadPaginas = Redondeo.redondear_UP(((double) estudiantes.size() / CANTIDAD_MAXIMA_ESTUDIANTES), 0).intValue();
                     for (int pagina = 1; pagina <= cantidadPaginas; pagina++) { //paginas
@@ -176,14 +177,14 @@ public class CentralizadorCalificacionesPRAEFacade {
                         String codigoRegistro;
                         if (mencion == null) {
                             codigoRegistro
-                                    = "CCPRAE-"
+                                    = "CCH-"
                                     + gestionAcademica.codigo() + "-"
                                     + carrera.getCodigo() + "-"
                                     + nivel.getAbreviatura() + "-"
                                     + pagina;
                         } else {
                             codigoRegistro
-                                    = "CCPRAE-"
+                                    = "CCH-"
                                     + gestionAcademica.codigo() + "-"
                                     + carrera.getCodigo() + "-"
                                     + nivel.getAbreviatura() + "-"
@@ -192,7 +193,7 @@ public class CentralizadorCalificacionesPRAEFacade {
                         }
                         PaginaNotas paginaNotas = new PaginaNotas(
                                 codigoRegistro,
-                                TITULO_CC_PR,
+                                TITULO_CC_H + carrera.getResolucionMinisterial1(),
                                 numeroLibro,
                                 numeroFolio,
                                 "",
@@ -201,7 +202,7 @@ public class CentralizadorCalificacionesPRAEFacade {
                                 carrera.getNombre(),
                                 carrera.getRegimen().getNombre(),
                                 nivel.getOrdinal(),
-                                "",
+                                NOTA_CC_H,
                                 CANTIDAD_MAXIMA_MATERIAS,
                                 CANTIDAD_MAXIMA_ESTUDIANTES
                         );
@@ -241,7 +242,7 @@ public class CentralizadorCalificacionesPRAEFacade {
                                         notasEstudianteCentralizador[j] = " ";
                                     }
                                 }
-                                estudianteCentralizador.setObservaciones(Condicion.RECUPERACION.toString()); //observacion
+                                estudianteCentralizador.setObservaciones(Condicion.APROBADO.toString()); //observacion
 
                                 estudianteCentralizador.setNotas(notasEstudianteCentralizador);
 

@@ -324,7 +324,7 @@ public class ReporteCentralizadorCalificacionesPRAEController extends AbstractCo
                                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                                             rowNum = row.getRowNum();
                                         } else if (cell.getStringCellValue().contains("<<*>>")) {
-                                            cell.setCellValue(cell.getStringCellValue().replace("<<*>>", ""));
+                                            cell.setCellValue(cell.getStringCellValue().replace("<<*>>", paginaNotas.getNota()));
                                         }
                                     } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                         if (cell.getNumericCellValue() == -1) {
@@ -497,11 +497,11 @@ public class ReporteCentralizadorCalificacionesPRAEController extends AbstractCo
     public void toReporteCentralizadorCalificacionesPRAE() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/centralizadorCalificacionesPRAE/reporteCentralizadorCalificacionesPRAE");
+        this.redireccionarViewId("/reportes/centralizadores/centralizadorCalificacionesPRAE/reporteCentralizadorCalificacionesPRAE");
     }
 
     public void toCentralizadorCalificacionesPRAE() throws IOException {
-        this.redireccionarViewId("/reportes/centralizadorCalificacionesPRAE/centralizadorCalificacionesPRAE");
+        this.redireccionarViewId("/reportes/centralizadores/centralizadorCalificacionesPRAE/centralizadorCalificacionesPRAE");
     }
 
     /**

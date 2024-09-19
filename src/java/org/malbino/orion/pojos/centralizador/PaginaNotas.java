@@ -21,6 +21,7 @@ public class PaginaNotas extends PaginaCentralizador{
     private String carrera;
     private String regimen;
     private String curso;
+    private String nota;
 
     private MateriaCentralizador[] materiasCentralizador;
     private EstudianteCentralizador[] estudiantesCentralizador;
@@ -28,7 +29,7 @@ public class PaginaNotas extends PaginaCentralizador{
     private int cantidadMaximaMaterias;
     private int cantidadMaximaEstudiantes;
 
-    public PaginaNotas(String codigoRegistro, String titulo, Integer numeroLibro, Integer numeroFolio, String turno, String gestion, String nivel, String carrera, String regimen, String curso, int cantidadMaximaMaterias, int cantidadMaximaEstudiantes) {
+    public PaginaNotas(String codigoRegistro, String titulo, Integer numeroLibro, Integer numeroFolio, String turno, String gestion, String nivel, String carrera, String regimen, String curso, String nota, int cantidadMaximaMaterias, int cantidadMaximaEstudiantes) {
         this.codigoRegistro = codigoRegistro;
         this.titulo = titulo;
         this.numeroLibro = numeroLibro;
@@ -39,6 +40,7 @@ public class PaginaNotas extends PaginaCentralizador{
         this.carrera = carrera;
         this.regimen = regimen;
         this.curso = curso;
+        this.nota = nota;
 
         this.materiasCentralizador = new MateriaCentralizador[cantidadMaximaMaterias];
         this.estudiantesCentralizador = new EstudianteCentralizador[cantidadMaximaEstudiantes];
@@ -238,6 +240,20 @@ public class PaginaNotas extends PaginaCentralizador{
      */
     public void setCantidadMaximaEstudiantes(int cantidadMaximaEstudiantes) {
         this.cantidadMaximaEstudiantes = cantidadMaximaEstudiantes;
+    }
+
+    /**
+     * @return the nota
+     */
+    public String getNota() {
+        return nota;
+    }
+
+    /**
+     * @param nota the nota to set
+     */
+    public void setNota(String nota) {
+        this.nota = nota;
     }
 
 }

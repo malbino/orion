@@ -54,8 +54,6 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
 
     private static final String PATHNAME = File.separator + "resources" + File.separator + "uploads" + File.separator + "centralizador.xlsx";
 
-    private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
-
     @EJB
     CentralizadorCalificacionesFacade centralizadorCalificacionesFacade;
     @EJB
@@ -125,7 +123,7 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
     public XSSFWorkbook leerArchivo(String pathname) {
         XSSFWorkbook workbook = null;
 
-        try (FileInputStream file = new FileInputStream(this.realPath() + pathname)) {
+        try ( FileInputStream file = new FileInputStream(this.realPath() + pathname)) {
             workbook = new XSSFWorkbook(file);
         } catch (IOException e) {
             this.mensajeDeError("Error: No se pudo leer el archivo.");
@@ -340,11 +338,7 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                                             rowNum = row.getRowNum();
                                         } else if (cell.getStringCellValue().contains("<<*>>")) {
-                                            if (paginaNotas.getTitulo().equals(TITULO_CC)) {
-                                                cell.setCellValue(cell.getStringCellValue().replace("<<*>>", "* N/P = No se Presento\nCuando el estudiante no se hubiera presentado a la asignatura"));
-                                            } else {
-                                                cell.setCellValue(cell.getStringCellValue().replace("<<*>>", ""));
-                                            }
+                                            cell.setCellValue(cell.getStringCellValue().replace("<<*>>", paginaNotas.getNota()));
                                         }
                                     } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                         if (cell.getNumericCellValue() == -1) {
@@ -517,11 +511,11 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
     public void toReporteCentralizadorCalificaciones() throws IOException {
         reinit();
 
-        this.redireccionarViewId("/reportes/centralizadorCalificaciones/reporteCentralizadorCalificaciones");
+        this.redireccionarViewId("/reportes/centralizadores/centralizadorCalificaciones/reporteCentralizadorCalificaciones");
     }
 
     public void toCentralizadorCalificaciones() throws IOException {
-        this.redireccionarViewId("/reportes/centralizadorCalificaciones/centralizadorCalificaciones");
+        this.redireccionarViewId("/reportes/centralizadores/centralizadorCalificaciones/centralizadorCalificaciones");
     }
 
     /**

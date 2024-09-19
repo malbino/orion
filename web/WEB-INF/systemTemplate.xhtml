@@ -223,9 +223,15 @@
                                                     </ul>
                                                 </li>
 
+                                                <li style="display: #{LoginController.displayMenu('/reportes/centralizadores/')}"><a>Centralizadores<span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        <li style="display: #{LoginController.display('/reportes/centralizadores/centralizadorCalificaciones/')}"><a href="#{request.contextPath}/reportes/centralizadores/centralizadorCalificaciones/reporteCentralizadorCalificaciones.xhtml">Centralizador Calificaciones</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/centralizadores/centralizadorCalificacionesPRAE/')}"><a href="#{request.contextPath}/reportes/centralizadores/centralizadorCalificacionesPRAE/reporteCentralizadorCalificacionesPRAE.xhtml">Centralizador Calificaciones PRAE</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/centralizadores/centralizadorCalificacionesHomologacion/')}"><a href="#{request.contextPath}/reportes/centralizadores/centralizadorCalificacionesHomologacion/reporteCentralizadorCalificacionesHomologacion.xhtml">Centralizador Calificaciones Homologación</a></li>
+                                                    </ul>
+                                                </li>
+
                                                 <li style="display: #{LoginController.display('/reportes/historialAcademico/')}"><a href="#{request.contextPath}/reportes/historialAcademico/reporteHistorialAcademico.xhtml">Historial Academico</a></li>
-                                                <li style="display: #{LoginController.display('/reportes/centralizadorCalificaciones/')}"><a href="#{request.contextPath}/reportes/centralizadorCalificaciones/reporteCentralizadorCalificaciones.xhtml">Centralizador Calificaciones</a></li>
-                                                <li style="display: #{LoginController.display('/reportes/centralizadorCalificacionesPRAE/')}"><a href="#{request.contextPath}/reportes/centralizadorCalificacionesPRAE/reporteCentralizadorCalificacionesPRAE.xhtml">Centralizador Calificaciones PRAE</a></li>
                                             </ul>
                                         </li>
 

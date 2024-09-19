@@ -45,6 +45,7 @@ public class CentralizadorCalificacionesFacade {
 
     private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
     private static final String TITULO_CC_PR = "CENTRALIZADOR DE CALIFICACIONES\nPRUEBA DE RECUPERACIÓN";
+    private static final String NOTA_CC = "* N/P = No se Presento\nCuando el estudiante no se hubiera presentado a la asignatura";
 
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;
@@ -270,6 +271,7 @@ public class CentralizadorCalificacionesFacade {
                                         carrera.getNombre(),
                                         carrera.getRegimen().getNombre(),
                                         nivel.getOrdinal() + " " + paralelo,
+                                        NOTA_CC,
                                         CANTIDAD_MAXIMA_MATERIAS,
                                         CANTIDAD_MAXIMA_ESTUDIANTES
                                 );
@@ -407,7 +409,7 @@ public class CentralizadorCalificacionesFacade {
 
                             int cantidadPaginas = Redondeo.redondear_UP(((double) estudiantes.size() / CANTIDAD_MAXIMA_ESTUDIANTES), 0).intValue();
                             for (int pagina = 1; pagina <= cantidadPaginas; pagina++) { //paginas
-                                //paginas centralziador
+                                //paginas centralizador
                                 String codigoRegistro;
                                 if (mencion == null) {
                                     codigoRegistro
@@ -440,6 +442,7 @@ public class CentralizadorCalificacionesFacade {
                                         carrera.getNombre(),
                                         carrera.getRegimen().getNombre(),
                                         nivel.getOrdinal() + " " + paralelo,
+                                        "",
                                         CANTIDAD_MAXIMA_MATERIAS,
                                         CANTIDAD_MAXIMA_ESTUDIANTES
                                 );

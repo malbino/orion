@@ -36,7 +36,7 @@ import org.malbino.orion.pojos.centralizador.PaginaNotas;
  *
  * @author tincho
  */
-@WebServlet(name = "CentralizadorCalificaciones", urlPatterns = {"/reportes/centralizadorCalificaciones/CentralizadorCalificaciones", "/reportes/centralizadorCalificacionesPRAE/CentralizadorCalificaciones"})
+@WebServlet(name = "CentralizadorCalificaciones", urlPatterns = {"/reportes/centralizadores/centralizadorCalificaciones/CentralizadorCalificaciones", "/reportes/centralizadores/centralizadorCalificacionesPRAE/CentralizadorCalificaciones", "/reportes/centralizadores/centralizadorCalificacionesHomologacion/CentralizadorCalificaciones"})
 public class CentralizadorCalificaciones extends HttpServlet {
 
     private static final String CONTENIDO_PDF = "application/pdf";
@@ -53,8 +53,6 @@ public class CentralizadorCalificaciones extends HttpServlet {
     private static final int MARGEN_DERECHO = -80;
     private static final int MARGEN_SUPERIOR = 30;
     private static final int MARGEN_INFERIOR = 30;
-
-    private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -225,7 +223,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setRotation(90);
                     cell.setBackgroundColor(new BaseColor(216, 228, 188));
                     table.addCell(cell);
-                    
+
                     cell = new PdfPCell(new Phrase("OBSERVACIONES", NEGRITA));
                     cell.setColspan(13);
                     cell.setRowspan(6);
@@ -336,20 +334,18 @@ public class CentralizadorCalificaciones extends HttpServlet {
                         cell.setColspan(7);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         table.addCell(cell);
-                        
+
                         cell = new PdfPCell(new Phrase("", NORMAL));
                         cell.setColspan(13);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                         table.addCell(cell);
                     }
 
-                    if (paginaNotas.getTitulo().equals(TITULO_CC)) {
-                        cell = new PdfPCell(new Phrase("* N/P = No se Presento\nCuando el estudiante no se hubiera presentado a la asignatura", NEGRITA_PEQUENA));
-                        cell.setColspan(90);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                        cell.setBorder(PdfPCell.NO_BORDER);
-                        table.addCell(cell);
-                    }
+                    cell = new PdfPCell(new Phrase(paginaNotas.getNota(), NEGRITA_PEQUENA));
+                    cell.setColspan(90);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
 
                     //firmas
                     cell = new PdfPCell(new Phrase("......................................................................", NORMAL));
