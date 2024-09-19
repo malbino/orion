@@ -26,14 +26,6 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="dia" value="Dia:" style="font-size: small"/>
-                                            <p:selectOneMenu id="dia" value="#{PeriodoController.nuevoPeriodo.dia}" converter="#{DiaConverter}" autoWidth="false" required="true" requiredMessage="* Dia requerido."> 
-                                                <f:selectItem itemLabel="" itemValue="" />
-                                                <f:selectItems value="#{PeriodoController.listaDias()}" var="periodo" itemLabel="#{periodo}" itemValue="#{periodo}"/>  
-                                            </p:selectOneMenu> 
-                                        </div>
-
-                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="inicio" value="Inicio:" style="font-size: small"/>
                                             <p:calendar id="inicio" value="#{PeriodoController.nuevoPeriodo.inicio}" timeOnly="true" locale="es" pattern="HH:mm" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Inicio requerido."/>  
                                         </div>

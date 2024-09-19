@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.malbino.orion.enums.Dia;
 
 /**
  *
@@ -38,9 +40,23 @@ public class Clase implements Serializable {
     @JoinColumn(name = "id_periodo")
     @ManyToOne
     private Periodo periodo;
+    
+    private Dia dia;
+    
+    @Transient
+    private String nombre;
 
     public Clase() {
     }
+
+    public Clase(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Clase(Periodo periodo, Dia dia) {
+        this.periodo = periodo;
+        this.dia = dia;
+    }   
 
     @Override
     public int hashCode() {
@@ -62,6 +78,11 @@ public class Clase implements Serializable {
         }
         final Clase other = (Clase) obj;
         return Objects.equals(this.getId_clase(), other.getId_clase());
+    }
+
+    @Override
+    public String toString() {
+        return this.dia.toString() + " | " + this.periodo.toString() + " | " + this.grupo.toString();
     }
 
     /**
@@ -119,6 +140,34 @@ public class Clase implements Serializable {
     public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
     }
- 
+
+    /**
+     * @return the dia
+     */
+    public Dia getDia() {
+        return dia;
+    }
+
+    /**
+     * @param dia the dia to set
+     */
+    public void setDia(Dia dia) {
+        this.dia = dia;
+    }
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
     
 }

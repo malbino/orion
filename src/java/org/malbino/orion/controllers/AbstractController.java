@@ -145,6 +145,10 @@ public abstract class AbstractController implements Serializable {
         PrimeFaces.current().executeScript(js);
     }
 
+    protected void actualizar(String id) {
+        PrimeFaces.current().ajax().update(id);
+    }
+
     public List<Empleado> completarEmpleado(String consulta) {
         List<Empleado> empleados = empleadoFacade.findAll();
         List<Empleado> empleadosFiltrados = new ArrayList();

@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import org.malbino.orion.enums.Dia;
 import org.malbino.orion.util.Fecha;
 
 /**
@@ -31,7 +30,6 @@ public class Periodo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_periodo;
 
-    private Dia dia;
     private Date inicio;
     private Date fin;
 
@@ -64,6 +62,15 @@ public class Periodo implements Serializable {
         return Objects.equals(this.id_periodo, other.id_periodo);
     }
 
+    @Override
+    public String toString() {
+        return Fecha.formatearFecha_HHmm(inicio) + " - " + Fecha.formatearFecha_HHmm(fin);
+    }
+
+    public String toHtml() {
+        return "<br/>" + Fecha.formatearFecha_HHmm(inicio) + "<br/>" + Fecha.formatearFecha_HHmm(fin) + "<br/><br/>";
+    }
+
     public String inicio_HHmm() {
         return Fecha.formatearFecha_HHmm(inicio);
     }
@@ -71,7 +78,7 @@ public class Periodo implements Serializable {
     public String fin_HHmm() {
         return Fecha.formatearFecha_HHmm(fin);
     }
-    
+
     public long minutos() {
         return Fecha.minutos(inicio, fin);
     }
@@ -88,20 +95,6 @@ public class Periodo implements Serializable {
      */
     public void setId_periodo(Integer id_periodo) {
         this.id_periodo = id_periodo;
-    }
-
-    /**
-     * @return the dia
-     */
-    public Dia getDia() {
-        return dia;
-    }
-
-    /**
-     * @param dia the dia to set
-     */
-    public void setDia(Dia dia) {
-        this.dia = dia;
     }
 
     /**
@@ -145,6 +138,5 @@ public class Periodo implements Serializable {
     public void setInstituto(Instituto instituto) {
         this.instituto = instituto;
     }
-    
-    
+
 }

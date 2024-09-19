@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="#{root}/WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <h:form id="form">
+                            <p:growl id="messages" escape="false" />
+
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <h2>Horario Paralelo <small>gestión horarios por paralelo</small></h2>
+                                        </div>
+                                    </div>   
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">                  
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="gestionAcademica" value="Gestion academica: " style="font-size: small"/>
+                                            <p:selectOneMenu id="gestionAcademica" value="#{HorarioParaleloController.seleccionGestionAcademica}" converter="#{GestionAcademicaConverter}" autoWidth="false" required="true" requiredMessage="* Gestion academica requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{HorarioParaleloController.listaGestionesAcademicas()}" var="gestionAcademica" itemLabel="#{gestionAcademica.toString()}" itemValue="#{gestionAcademica}"/>  
+
+                                                <p:ajax  update="carrera nivel turno paralelo"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="carrera" value="Carrera: " style="font-size: small"/>
+                                            <p:selectOneMenu id="carrera" value="#{HorarioParaleloController.seleccionCarrera}" converter="#{CarreraConverter}" autoWidth="false" required="true" requiredMessage="* Carrera requerida."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{HorarioParaleloController.listaCarreras()}" var="carrera" itemLabel="#{carrera.toString()}" itemValue="#{carrera}"/>  
+
+                                                <p:ajax update="nivel turno paralelo"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="nivel" value="Nivel:" style="font-size: small"/>
+                                            <p:selectOneMenu id="nivel" value="#{HorarioParaleloController.seleccionNivel}" converter="#{NivelConverter}" autoWidth="false" required="true" requiredMessage="* Nivel requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{HorarioParaleloController.listaNiveles()}" var="nivel" itemLabel="#{nivel.toString()}" itemValue="#{nivel}"/>  
+
+                                                <p:ajax update="turno paralelo"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="turno" value="Turnos:" style="font-size: small"/>
+                                            <p:selectOneMenu id="turno" value="#{HorarioParaleloController.seleccionTurno}" converter="#{TurnoConverter}" autoWidth="false" required="true" requiredMessage="* Turno requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{HorarioParaleloController.listaTurnos()}" var="turno" itemLabel="#{turno.toString()}" itemValue="#{turno}"/>  
+
+                                                <p:ajax update="paralelo"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="paralelo" value="Paralelo:" style="font-size: small"/>
+                                            <p:selectOneMenu id="paralelo" value="#{HorarioParaleloController.seleccionParalelo}" autoWidth="false" required="true" requiredMessage="* Paralelo requerido."> 
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{HorarioParaleloController.listaParalelos()}"/>
+
+                                                <p:ajax listener="#{HorarioParaleloController.cargarHorario()}" update="horario dlg1"/>
+                                            </p:selectOneMenu> 
+                                        </div>
+                                    </div>
+
+                                    <p:remoteCommand name="cargarHorario" actionListener="#{HorarioParaleloController.cargarHorario()}" update="horario"/>
+                                    <p:dataGrid id="horario" var="clase" value="#{HorarioParaleloController.horario}" columns="8" layout="tabular">
+                                        <p:card style="text-align: center" rendered="#{clase.nombre ne null}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{clase.nombre}" style="font-weight: bold" escape="false"/>
+                                            </f:facet>
+                                        </p:card>
+
+                                        <p:card style="text-align: center" rendered="#{clase.nombre eq null}">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{clase.grupo.materia.codigo}"/>
+                                            </f:facet>
+                                            <f:facet name="title">
+                                                <h:outputText value="#{clase.aula.nombre}"/>
+                                            </f:facet>
+                                            <f:facet name="subtitle">
+                                                <h:outputText value="#{clase.grupo.empleado.primerApellido}"/>
+                                            </f:facet>
+
+                                            <f:facet name="footer">
+                                                <p:commandButton icon="fa fa-copy" title="Copiar">
+                                                    <f:setPropertyActionListener value="#{clase}" target="#{HorarioParaleloController.seleccionClase}" />
+                                                    
+                                                    <f:actionListener binding="#{HorarioParaleloController.copiarClase()}"/>
+                                                </p:commandButton>
+                                                <p:commandButton icon="fa fa-pencil" title="Editar">
+                                                    <f:setPropertyActionListener value="#{clase}" target="#{HorarioParaleloController.seleccionClase}" />
+                                                    
+                                                    <f:actionListener binding="#{HorarioParaleloController.toEditarClase()}"/>
+                                                </p:commandButton>
+                                                <p:commandButton icon="fa fa-close" title="Eliminar">
+                                                    <f:setPropertyActionListener value="#{clase}" target="#{HorarioParaleloController.seleccionClase}" />
+                                                    
+                                                    <f:actionListener binding="#{HorarioParaleloController.eliminarClase()}"/>
+                                                </p:commandButton>
+                                            </f:facet>
+                                        </p:card>
+                                    </p:dataGrid>
+
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+
+                <p:dialog id="dlg1" header="Editar Clase" widgetVar="dlg1" showEffect="fade" focus="form_dlg1:botonAceptar" closeOnEscape="true" resizable="false" height="240" width="800" >
+                    <div class="x_content">
+                        <h:form id="form_dlg1">
+                            <div class="ui-g ui-fluid">
+                                <div class="ui-g-12 ui-md-12">
+                                    <p:outputLabel for="grupo" value="Grupo: " style="font-size: small"/>
+                                    <p:selectOneMenu id="grupo" value="#{HorarioParaleloController.seleccionClase.grupo}" converter="#{GrupoConverter}" autoWidth="false" required="true" requiredMessage="* Grupo requerido.">
+                                        <f:selectItem itemLabel="" itemValue=""/>
+                                        <f:selectItems value="#{HorarioParaleloController.listaGrupos()}" var="grupo" itemLabel="#{grupo.toString_Horario()}" itemValue="#{grupo}"/>
+                                    </p:selectOneMenu>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-12">
+                                    <p:outputLabel for="aula" value="Aula: " style="font-size: small"/>
+                                    <p:selectOneMenu id="aula" value="#{HorarioParaleloController.seleccionClase.aula}" converter="#{AulaConverter}" autoWidth="false" required="true" requiredMessage="* Aula requerida.">
+                                        <f:selectItem itemLabel="" itemValue=""/>
+                                        <f:selectItems value="#{HorarioParaleloController.listaAulas()}" var="aula" itemLabel="#{aula.toString()}" itemValue="#{aula}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+
+                            <div class="ui-g ui-fluid">
+                                <div class="ui-g-12 ui-md-2">
+                                    <p:commandButton id="botonAceptar" icon="fa fa-save" value="Editar" actionListener="#{HorarioParaleloController.editarClase()}" update="form_dlg1 form:messages"/>
+                                </div>
+                                <div class="ui-g-12 ui-md-2">
+                                    <p:commandButton id="botonCancelar" icon="fa fa-remove" value="Cancelar" process="@this" actionListener="#{HorarioParaleloController.cancelarClase()}"/> 
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>                
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

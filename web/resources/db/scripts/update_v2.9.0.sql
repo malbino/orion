@@ -22,3 +22,11 @@ INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recur
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 6);
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 7);
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 8);
+
+-- funcionalidad Horarios > HorarioParalelo
+INSERT INTO `recurso` (`ID_RECURSO`, `NOMBRE`, `URLPATTERN`) VALUES ((SELECT MAX(r.id_recurso)+1 FROM recurso r), 'Horarios > Horario Paralelo', '/horarios/horarioParalelo.xhtml');
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 1);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 4);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 6);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 7);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 8);

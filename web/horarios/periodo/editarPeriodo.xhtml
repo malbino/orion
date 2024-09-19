@@ -25,11 +25,6 @@
 
                                     <div class="ui-g ui-fluid">
                                         <div class="ui-g-12 ui-md-4">
-                                            <p:outputLabel for="dia" value="Dia:" style="font-size: small"/>
-                                            <p:inputText id="dia" value="#{PeriodoController.seleccionPeriodo.dia}" required="true" requiredMessage="* Nombre requerido." />
-                                        </div>
-
-                                        <div class="ui-g-12 ui-md-4">
                                             <p:outputLabel for="inicio" value="Inicio:" style="font-size: small"/>
                                             <p:calendar id="inicio" value="#{PeriodoController.seleccionPeriodo.inicio}" timeOnly="true" locale="es" pattern="HH:mm" mask="true" showButtonPanel="true" navigator="true" required="true" requiredMessage="* Inicio requerido."/>  
                                         </div>

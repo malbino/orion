@@ -276,4 +276,23 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
 
         return l;
     }
+    
+    public List<Grupo> listaGrupos(int id_gestionacademica, int id_carrera, Nivel nivel, Turno turno, String paralelo) {
+        List<Grupo> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT g FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m JOIN m.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND m.nivel=:nivel AND g.turno=:turno AND g.codigo=:paralelo ORDER BY m.nombre, g.codigo");
+            q.setParameter("id_gestionacademica", id_gestionacademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("nivel", nivel);
+            q.setParameter("turno", turno);
+            q.setParameter("paralelo", paralelo);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
 }

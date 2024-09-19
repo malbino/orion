@@ -68,7 +68,7 @@ public class PeriodoController extends AbstractController implements Serializabl
 
     public void crearPeriodo() throws IOException {
         nuevoPeriodo.setInstituto(instituto);
-        if (periodoFacade.buscar(nuevoPeriodo.getDia(), nuevoPeriodo.getInicio(), nuevoPeriodo.getFin()) == null) {
+        if (periodoFacade.buscar(nuevoPeriodo.getInicio(), nuevoPeriodo.getFin()) == null) {
             if (nuevoPeriodo.getFin().compareTo(nuevoPeriodo.getInicio()) > 0) {
                 if (periodoFacade.create(nuevoPeriodo)) {
                     //log
@@ -85,7 +85,7 @@ public class PeriodoController extends AbstractController implements Serializabl
     }
 
     public void editarPeriodo() throws IOException {
-        if (periodoFacade.buscar(seleccionPeriodo.getDia(), seleccionPeriodo.getInicio(), seleccionPeriodo.getFin(), seleccionPeriodo.getId_periodo()) == null) {
+        if (periodoFacade.buscar(seleccionPeriodo.getInicio(), seleccionPeriodo.getFin(), seleccionPeriodo.getId_periodo()) == null) {
             if (seleccionPeriodo.getFin().compareTo(seleccionPeriodo.getInicio()) > 0) {
                 if (periodoFacade.edit(seleccionPeriodo)) {
                     //log

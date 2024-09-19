@@ -61,6 +61,11 @@ public class Aula implements Serializable {
         return Objects.equals(this.getId_aula(), other.getId_aula());
     }
 
+    @Override
+    public String toString() {
+        return this.nombre + " [" + this.descripcion + ", " + this.capacidad + "]";
+    }
+
     /**
      * @return the id_aula
      */
