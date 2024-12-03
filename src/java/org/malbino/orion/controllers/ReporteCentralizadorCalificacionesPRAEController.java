@@ -115,7 +115,7 @@ public class ReporteCentralizadorCalificacionesPRAEController extends AbstractCo
     public XSSFWorkbook leerArchivo(String pathname) {
         XSSFWorkbook workbook = null;
 
-        try (FileInputStream file = new FileInputStream(this.realPath() + pathname)) {
+        try ( FileInputStream file = new FileInputStream(this.realPath() + pathname)) {
             workbook = new XSSFWorkbook(file);
         } catch (IOException e) {
             this.mensajeDeError("Error: No se pudo leer el archivo.");
@@ -324,7 +324,7 @@ public class ReporteCentralizadorCalificacionesPRAEController extends AbstractCo
                                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                                             rowNum = row.getRowNum();
                                         } else if (cell.getStringCellValue().contains("<<*>>")) {
-                                            cell.setCellValue(cell.getStringCellValue().replace("<<*>>", paginaNotas.getNota()));
+                                            cell.setCellValue(cell.getStringCellValue().replace("<<*>>", ""));
                                         }
                                     } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                         if (cell.getNumericCellValue() == -1) {
@@ -429,7 +429,7 @@ public class ReporteCentralizadorCalificacionesPRAEController extends AbstractCo
                                         } else if (cell.getStringCellValue().contains("<<CI>>")) {
                                             cell.setCellValue(cell.getStringCellValue().replace("<<CI>>", estudianteCentralizador.getCi()));
                                         } else if (cell.getStringCellValue().contains("<<CONDICION>>")) {
-                                            cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", estudianteCentralizador.getObservaciones()));
+                                            cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", estudianteCentralizador.getEstado()));
                                         }
                                     }
                                 }

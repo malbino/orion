@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.1] - 2024-09-19
+### Added
+### Changed
+- Adecuacion Centralizador de Calificaciones DDE/SESFP/INS/0146/2024
+### Removed
+### Fixed
+
 ## [2.9.0] - 2024-09-19
 ### Added
 - Centralizador Calificaciones Homologación

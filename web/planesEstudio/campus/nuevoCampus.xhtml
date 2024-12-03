@@ -48,6 +48,11 @@
                                             <p:outputLabel for="telefono" value="Teléfono:"/> 
                                             <p:inputMask id="telefono" value="#{CampusController.nuevoCampus.telefono}" mask="9999999" required="false"/>
                                         </div>
+
+                                        <div class="ui-g-12 ui-md-4">
+                                            <p:outputLabel for="codigoRITT" value="Codigo RITT:" style="font-size: small"/>
+                                            <p:inputText id="codigoRITT" value="#{CampusController.nuevoCampus.codigoRITT}" required="true" requiredMessage="* Codigo RITT requerido." />
+                                        </div>
                                     </div>
 
                                     <div class="ui-g ui-fluid">

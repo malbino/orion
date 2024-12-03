@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Estudiante;
 import org.malbino.orion.entities.GestionAcademica;
+import org.malbino.orion.entities.Grupo;
 import org.malbino.orion.entities.Materia;
 import org.malbino.orion.entities.Mencion;
 import org.malbino.orion.entities.Nota;
@@ -26,11 +27,14 @@ import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.pojos.centralizador.Centralizador;
 import org.malbino.orion.pojos.centralizador.EstudianteCentralizador;
+import org.malbino.orion.pojos.centralizador.GrupoCentralizador;
 import org.malbino.orion.pojos.centralizador.MateriaCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaEstadisticas;
 import org.malbino.orion.pojos.centralizador.PaginaNotas;
 import org.malbino.orion.util.Redondeo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,12 +44,14 @@ import org.malbino.orion.util.Redondeo;
 @LocalBean
 public class CentralizadorCalificacionesFacade {
 
+    private static final Logger log = LoggerFactory.getLogger(CentralizadorCalificacionesFacade.class);
+
     private static final int CANTIDAD_MAXIMA_ESTUDIANTES = 20;
     private static final int CANTIDAD_MAXIMA_MATERIAS = 10;
 
     private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
     private static final String TITULO_CC_PR = "CENTRALIZADOR DE CALIFICACIONES\nPRUEBA DE RECUPERACIÓN";
-    private static final String NOTA_CC = "* N/P = No se Presento\nCuando el estudiante no se hubiera presentado a la asignatura";
+    private static final String NOTA_CC = "N/P = No se Presento\nAP = Aprobado\nPRE = Prerequisito";
 
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;
@@ -159,6 +165,29 @@ public class CentralizadorCalificacionesFacade {
     }
 
     @Transactional(Transactional.TxType.REQUIRED)
+    public List<Grupo> listaGrupos(int id_gestioncademica, int id_carrera, Mencion mencion, Nivel nivel, Turno turno, String paralelo) {
+        List<Grupo> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT g FROM Grupo g JOIN g.gestionAcademica ga JOIN g.materia m JOIN m.carrera c WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.nivel=:nivel AND g.turno=:turno AND g.codigo=:paralelo AND m.curricular=:curricular ORDER BY m.numero");
+            q.setParameter("id_gestionacademica", id_gestioncademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("nivel", nivel);
+            q.setParameter("turno", turno);
+            q.setParameter("paralelo", paralelo);
+            //condiciones centralizador
+            q.setParameter("curricular", true);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
     public List<Nota> listaNotas(int id_gestioncademica, int id_carrera, Mencion mencion, Nivel nivel, Turno turno, String paralelo) {
         List<Nota> l = new ArrayList();
 
@@ -177,6 +206,69 @@ public class CentralizadorCalificacionesFacade {
             l = q.getResultList();
         } catch (Exception e) {
 
+        }
+
+        return l;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public List<Nota> listaNotas(int id_gestioncademica, int id_carrera, Mencion mencion) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.curricular=:curricular AND n.modalidad=:modalidad ORDER BY e.primerApellido, e.segundoApellido, e.nombre, m.numero");
+            q.setParameter("id_gestionacademica", id_gestioncademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("mencion", mencion);
+            //condiciones centralizador
+            q.setParameter("curricular", true);
+            q.setParameter("modalidad", Modalidad.REGULAR);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    public List<Nota> listaNotas(int id_gestioncademica, int id_carrera, Mencion mencion, Nivel nivel) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.id_gestionacademica=:id_gestionacademica AND c.id_carrera=:id_carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.nivel=:nivel AND m.curricular=:curricular AND n.modalidad=:modalidad ORDER BY e.primerApellido, e.segundoApellido, e.nombre, m.numero");
+            q.setParameter("id_gestionacademica", id_gestioncademica);
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("mencion", mencion);
+            q.setParameter("nivel", nivel);
+            //condiciones centralizador
+            q.setParameter("curricular", true);
+            q.setParameter("modalidad", Modalidad.REGULAR);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+
+        }
+
+        return l;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    public List<Nota> listaNotas(GestionAcademica gestionAcademica, int id_carrera, Mencion mencion, Nivel nivel) {
+        List<Nota> l = new ArrayList();
+
+        try {
+            Query q = em.createQuery("SELECT n FROM Nota n JOIN n.gestionAcademica ga JOIN n.materia m JOIN m.carrera c JOIN n.estudiante e WHERE ga.inicio<:inicio AND c.id_carrera=:id_carrera AND (m.mencion IS NULL OR m.mencion=:mencion) AND m.curricular=:curricular AND n.modalidad=:modalidad ORDER BY e.primerApellido, e.segundoApellido, e.nombre, m.numero");
+            q.setParameter("inicio", gestionAcademica.getInicio());
+            q.setParameter("id_carrera", id_carrera);
+            q.setParameter("mencion", mencion);
+            //condiciones centralizador
+            q.setParameter("curricular", true);
+            q.setParameter("modalidad", Modalidad.REGULAR);
+
+            l = q.getResultList();
+        } catch (Exception e) {
+            log.error(e.toString());
         }
 
         return l;
@@ -233,35 +325,36 @@ public class CentralizadorCalificacionesFacade {
                                 materiasCentralizador[i] = materiaCentralizador;
                             }
 
+                            //grupos
+                            List<Grupo> grupos = listaGrupos(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel, turno, paralelo);
+                            Iterator<Grupo> iteratorGrupos = grupos.iterator();
+                            GrupoCentralizador[] gruposCentralizador = new GrupoCentralizador[CANTIDAD_MAXIMA_MATERIAS];
+                            for (int i = 0; i < CANTIDAD_MAXIMA_MATERIAS; i++) {
+                                GrupoCentralizador grupoCentralizador;
+                                if (iteratorGrupos.hasNext()) {
+                                    Grupo grupo = iteratorGrupos.next();
+                                    if (grupo.getEmpleado() != null) {
+                                        grupoCentralizador = new GrupoCentralizador(grupo.getEmpleado().nombreFirma(), grupo.getMateria().getNombre());
+                                    } else {
+                                        grupoCentralizador = new GrupoCentralizador(" ", grupo.getMateria().getNombre());
+                                    }
+                                } else {
+                                    grupoCentralizador = new GrupoCentralizador(" ", " ");
+                                }
+                                gruposCentralizador[i] = grupoCentralizador;
+                            }
+
                             //notas
                             List<Nota> notas = listaNotas(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel, turno, paralelo);
+                            List<Nota> notasNivel = listaNotas(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion, nivel);
+                            List<Nota> notasAnteriores = listaNotas(gestionAcademica, carrera.getId_carrera(), mencion, nivel);
+                            List<Nota> notasGestionAcademica = listaNotas(gestionAcademica.getId_gestionacademica(), carrera.getId_carrera(), mencion);
 
                             int cantidadPaginas = Redondeo.redondear_UP(((double) estudiantes.size() / CANTIDAD_MAXIMA_ESTUDIANTES), 0).intValue();
                             for (int pagina = 1; pagina <= cantidadPaginas; pagina++) { //paginas
                                 //paginas centralizador
-                                String codigoRegistro;
-                                if (mencion == null) {
-                                    codigoRegistro
-                                            = "CC-"
-                                            + gestionAcademica.codigo() + "-"
-                                            + carrera.getCodigo() + "-"
-                                            + nivel.getAbreviatura() + "-"
-                                            + turno.getInicial() + "-"
-                                            + paralelo + "-"
-                                            + pagina;
-                                } else {
-                                    codigoRegistro
-                                            = "CC-"
-                                            + gestionAcademica.codigo() + "-"
-                                            + carrera.getCodigo() + "-"
-                                            + nivel.getAbreviatura() + "-"
-                                            + mencion.getCodigo() + "-"
-                                            + turno.getInicial() + "-"
-                                            + paralelo + "-"
-                                            + pagina;
-                                }
                                 PaginaNotas paginaNotas = new PaginaNotas(
-                                        codigoRegistro,
+                                        carrera.getCampus().getCodigoRITT(),
                                         TITULO_CC,
                                         numeroLibro,
                                         numeroFolio,
@@ -270,7 +363,7 @@ public class CentralizadorCalificacionesFacade {
                                         carrera.getNivelAcademico().getNombre(),
                                         carrera.getNombre(),
                                         carrera.getRegimen().getNombre(),
-                                        nivel.getOrdinal() + " " + paralelo,
+                                        nivel.getOrdinal() + " - PARALELO " + paralelo,
                                         NOTA_CC,
                                         CANTIDAD_MAXIMA_MATERIAS,
                                         CANTIDAD_MAXIMA_ESTUDIANTES
@@ -284,30 +377,61 @@ public class CentralizadorCalificacionesFacade {
                                     if (iteratorEstudiantes.hasNext()) {
                                         Estudiante estudiante = iteratorEstudiantes.next();
 
-                                        //observacion
                                         List<Nota> notasEstudiante = notas.stream().filter(n -> n.getEstudiante().equals(estudiante)).collect(Collectors.toList());
                                         List<Nota> notasCero = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getNotaFinal() != null && n.getNotaFinal() == 0).collect(Collectors.toList());
                                         List<Nota> notasAprobadas = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getCondicion().equals(Condicion.APROBADO)).collect(Collectors.toList());
                                         List<Nota> notasReprobadas = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getCondicion().equals(Condicion.REPROBADO) && n.getNotaFinal() > 0).collect(Collectors.toList());
-                                        String observacion = "";
+
+                                        List<Nota> notasReprobadasAbandonadasGestionAcademica = notasGestionAcademica.stream().filter(n -> n.getEstudiante().equals(estudiante) && (n.getCondicion() != null && (n.getCondicion().equals(Condicion.REPROBADO) || n.getCondicion().equals(Condicion.ABANDONO)))).collect(Collectors.toList());
+
+                                        //estado
+                                        String estado = "";
                                         if (notasCero.size() == notasEstudiante.size()) {
-                                            observacion = Condicion.ABANDONO.toString();
+                                            estado = Condicion.ABANDONO.toString();
 
                                             cantidadAbandonos++;
-                                        } else if (notasAprobadas.size() > 0 && notasReprobadas.size() < gestionAcademica.getModalidadEvaluacion().getCantidadMaximaReprobaciones()) {
-                                            observacion = Condicion.APROBADO.toString();
+                                        } else if (notasAprobadas.size() > 0 && notasReprobadas.size() <= gestionAcademica.getModalidadEvaluacion().getCantidadMaximaReprobaciones()) {
+                                            estado = Condicion.APROBADO.toString();
 
                                             cantidadAprobados++;
                                         } else {
-                                            observacion = Condicion.REPROBADO.toString();
+                                            estado = Condicion.REPROBADO.toString();
 
                                             cantidadReprobados++;
+                                        }
+
+                                        //observacion
+                                        String observacion = "";
+
+                                        String observacionAsignaturasPendientes = "";
+                                        for (Nota notaAprobada : notasAprobadas) {
+                                            List<Nota> notasAnterioresReprobadasAbandonadas = notasAnteriores.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getMateria().equals(notaAprobada.getMateria()) && (n.getCondicion() != null && (n.getCondicion().equals(Condicion.REPROBADO) || n.getCondicion().equals(Condicion.ABANDONO)))).collect(Collectors.toList());
+
+                                            if (!notasAnterioresReprobadasAbandonadas.isEmpty()) {
+                                                observacionAsignaturasPendientes = "ASIG. PEND. - REPROBADO " + notasAnterioresReprobadasAbandonadas.get(notasAnterioresReprobadasAbandonadas.size() - 1).getGestionAcademica().codigo();
+                                            }
+                                        }
+                                        if (!observacionAsignaturasPendientes.isEmpty()) {
+                                            observacion = observacionAsignaturasPendientes;
+                                        }
+
+                                        String observacionAsignaturasReprobadas = "";
+                                        for (Nota notaReprobadaAbandonadaGestionAcademica : notasReprobadasAbandonadasGestionAcademica) {
+                                            List<Nota> notasAnterioresReprobadasAbandonadas = notasAnteriores.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getMateria().equals(notaReprobadaAbandonadaGestionAcademica.getMateria()) && (n.getCondicion() != null && (n.getCondicion().equals(Condicion.REPROBADO) || n.getCondicion().equals(Condicion.ABANDONO)))).collect(Collectors.toList());
+
+                                            if ((notasAnterioresReprobadasAbandonadas.size() + 1) >= 2) {
+                                                observacionAsignaturasReprobadas = "REPROBADO " + (notasAnterioresReprobadasAbandonadas.size() + 1) + "ª VEZ - ARTÍCULO 18";
+                                            }
+                                        }
+                                        if (!observacionAsignaturasReprobadas.isEmpty()) {
+                                            observacion = observacionAsignaturasReprobadas;
                                         }
 
                                         estudianteCentralizador = new EstudianteCentralizador(
                                                 String.valueOf(numeroEstudiante),
                                                 estudiante.toString(),
                                                 estudiante.dniLugar(),
+                                                estado,
                                                 observacion,
                                                 CANTIDAD_MAXIMA_MATERIAS
                                         );
@@ -318,14 +442,14 @@ public class CentralizadorCalificacionesFacade {
                                             if (iteratorMaterias.hasNext()) {
                                                 Materia materia = iteratorMaterias.next();
 
-                                                List<Nota> collect = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getMateria().equals(materia)).collect(Collectors.toList());
-                                                Iterator<Nota> iteratorCollect = collect.iterator();
-                                                if (iteratorCollect.hasNext()) {
-                                                    Nota nota = iteratorCollect.next();
+                                                List<Nota> notasMateriaParalelo = notas.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getMateria().equals(materia)).collect(Collectors.toList());
+                                                Iterator<Nota> iteratorNotasMateriaParalelo = notasMateriaParalelo.iterator();
+                                                if (iteratorNotasMateriaParalelo.hasNext()) {
+                                                    Nota nota = iteratorNotasMateriaParalelo.next();
                                                     if (nota.getRecuperatorio() != null) {
                                                         notasEstudianteCentralizador[j] = nota.getRecuperatorio().toString();
                                                     } else if (nota.getNotaFinal() != null) {
-                                                        if (nota.getNotaFinal() == 0 && !estudianteCentralizador.getObservaciones().equals(Condicion.ABANDONO.toString())) {
+                                                        if (nota.getNotaFinal() == 0) {
                                                             notasEstudianteCentralizador[j] = "N/P";
                                                         } else {
                                                             notasEstudianteCentralizador[j] = nota.getNotaFinal().toString();
@@ -334,17 +458,38 @@ public class CentralizadorCalificacionesFacade {
                                                         notasEstudianteCentralizador[j] = "";
                                                     }
                                                 } else {
-                                                    notasEstudianteCentralizador[j] = "-";
+                                                    List<Nota> notasMateriaNivel = notasNivel.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getMateria().equals(materia)).collect(Collectors.toList());
+                                                    Iterator<Nota> iteratorNotasMateriaNivel = notasMateriaNivel.iterator();
+                                                    if (iteratorNotasMateriaNivel.hasNext()) {
+                                                        notasEstudianteCentralizador[j] = "";
+                                                    } else {
+                                                        List<Nota> notasAnterioresAprobadas = notasAnteriores.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getMateria().equals(materia) && (n.getCondicion() != null && n.getCondicion().equals(Condicion.APROBADO))).collect(Collectors.toList());
+                                                        Iterator<Nota> iteradorNotasAnterioresAprobadas = notasAnterioresAprobadas.iterator();
+                                                        if (iteradorNotasAnterioresAprobadas.hasNext()) {
+                                                            notasEstudianteCentralizador[j] = "AP";
+                                                        } else {
+                                                            List<Materia> materiasAprobadas = new ArrayList<>();
+                                                            for (Nota notaAnteriorAprobada : notasAnterioresAprobadas) {
+                                                                materiasAprobadas.add(notaAnteriorAprobada.getMateria());
+                                                            }
+                                                            List<Materia> prerequisitos = materia.getPrerequisitos();
+                                                            if (!materiasAprobadas.containsAll(prerequisitos)) {
+                                                                notasEstudianteCentralizador[j] = "PRE";
+                                                            } else {
+                                                                notasEstudianteCentralizador[j] = "";
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             } else {
-                                                notasEstudianteCentralizador[j] = " ";
+                                                notasEstudianteCentralizador[j] = "";
                                             }
                                         }
                                         estudianteCentralizador.setNotas(notasEstudianteCentralizador);
 
                                         numeroEstudiante++;
                                     } else {
-                                        estudianteCentralizador = new EstudianteCentralizador(" ", " ", " ", " ", CANTIDAD_MAXIMA_MATERIAS);
+                                        estudianteCentralizador = new EstudianteCentralizador(" ", " ", " ", " ", " ", CANTIDAD_MAXIMA_MATERIAS);
 
                                         String[] notasEstudianteCentralizador = new String[CANTIDAD_MAXIMA_MATERIAS];
                                         for (int j = 0; j < CANTIDAD_MAXIMA_MATERIAS; j++) {
@@ -370,6 +515,7 @@ public class CentralizadorCalificacionesFacade {
                             porcentajeAbandonos = Redondeo.redondear_HALFUP(((cantidadAbandonos.doubleValue() / cantidadInscritos.doubleValue()) * 100.0), 0).intValue();
 
                             PaginaEstadisticas paginaEstadisticas = new PaginaEstadisticas(
+                                    CANTIDAD_MAXIMA_MATERIAS,
                                     cantidadInscritos,
                                     porcentajeInscritos,
                                     cantidadAprobados,
@@ -379,6 +525,7 @@ public class CentralizadorCalificacionesFacade {
                                     cantidadAbandonos,
                                     porcentajeAbandonos
                             );
+                            paginaEstadisticas.setGruposCentralizador(gruposCentralizador);
 
                             paginasCentralizador.add(paginaEstadisticas);
                         }
@@ -409,30 +556,9 @@ public class CentralizadorCalificacionesFacade {
 
                             int cantidadPaginas = Redondeo.redondear_UP(((double) estudiantes.size() / CANTIDAD_MAXIMA_ESTUDIANTES), 0).intValue();
                             for (int pagina = 1; pagina <= cantidadPaginas; pagina++) { //paginas
-                                //paginas centralizador
-                                String codigoRegistro;
-                                if (mencion == null) {
-                                    codigoRegistro
-                                            = "CCPR-"
-                                            + gestionAcademica.codigo() + "-"
-                                            + carrera.getCodigo() + "-"
-                                            + nivel.getAbreviatura() + "-"
-                                            + turno.getInicial() + "-"
-                                            + paralelo + "-"
-                                            + pagina;
-                                } else {
-                                    codigoRegistro
-                                            = "CCPR-"
-                                            + gestionAcademica.codigo() + "-"
-                                            + carrera.getCodigo() + "-"
-                                            + nivel.getAbreviatura() + "-"
-                                            + mencion.getCodigo() + "-"
-                                            + turno.getInicial() + "-"
-                                            + paralelo + "-"
-                                            + pagina;
-                                }
+                                //paginas centralziador
                                 PaginaNotas paginaNotas = new PaginaNotas(
-                                        codigoRegistro,
+                                        carrera.getCampus().getCodigoRITT(),
                                         TITULO_CC_PR,
                                         numeroLibro,
                                         numeroFolio,
@@ -441,7 +567,7 @@ public class CentralizadorCalificacionesFacade {
                                         carrera.getNivelAcademico().getNombre(),
                                         carrera.getNombre(),
                                         carrera.getRegimen().getNombre(),
-                                        nivel.getOrdinal() + " " + paralelo,
+                                        nivel.getOrdinal() + " - PARALELO " + paralelo,
                                         "",
                                         CANTIDAD_MAXIMA_MATERIAS,
                                         CANTIDAD_MAXIMA_ESTUDIANTES
@@ -482,13 +608,13 @@ public class CentralizadorCalificacionesFacade {
                                                 notasEstudianteCentralizador[j] = " ";
                                             }
                                         }
-                                        estudianteCentralizador.setObservaciones(Condicion.RECUPERACION.toString()); //observacion
+                                        estudianteCentralizador.setEstado(Condicion.RECUPERACION.toString()); //estado
 
                                         estudianteCentralizador.setNotas(notasEstudianteCentralizador);
 
                                         numeroEstudiante++;
                                     } else {
-                                        estudianteCentralizador = new EstudianteCentralizador(" ", " ", " ", " ", CANTIDAD_MAXIMA_MATERIAS);
+                                        estudianteCentralizador = new EstudianteCentralizador(" ", " ", " ", " ", " ", CANTIDAD_MAXIMA_MATERIAS);
 
                                         String[] notasEstudianteCentralizador = new String[CANTIDAD_MAXIMA_MATERIAS];
                                         for (int j = 0; j < CANTIDAD_MAXIMA_MATERIAS; j++) {

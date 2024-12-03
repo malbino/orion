@@ -9,8 +9,11 @@ package org.malbino.orion.pojos.centralizador;
  *
  * @author Tincho
  */
-public class PaginaEstadisticas extends PaginaCentralizador{
-    
+public class PaginaEstadisticas extends PaginaCentralizador {
+
+    private int cantidadMaximaMaterias;
+    private GrupoCentralizador[] gruposCentralizador;
+
     private int cantidadInscritos;
     private int porcentajeInscritos;
     private int cantidadAprobados;
@@ -20,7 +23,9 @@ public class PaginaEstadisticas extends PaginaCentralizador{
     private int cantidadNoSePresento;
     private int porcentajeNoSePresento;
 
-    public PaginaEstadisticas(int cantidadInscritos, int porcentajeInscritos, int cantidadAprobados, int porcentajeAprobados, int cantidadReprobados, int porcentajeReprobados, int cantidadNoSePresento, int porcentajeNoSePresento) {
+    public PaginaEstadisticas(int cantidadMaximaMaterias, int cantidadInscritos, int porcentajeInscritos, int cantidadAprobados, int porcentajeAprobados, int cantidadReprobados, int porcentajeReprobados, int cantidadNoSePresento, int porcentajeNoSePresento) {
+        this.gruposCentralizador = new GrupoCentralizador[cantidadMaximaMaterias];
+
         this.cantidadInscritos = cantidadInscritos;
         this.porcentajeInscritos = porcentajeInscritos;
         this.cantidadAprobados = cantidadAprobados;
@@ -29,6 +34,34 @@ public class PaginaEstadisticas extends PaginaCentralizador{
         this.porcentajeReprobados = porcentajeReprobados;
         this.cantidadNoSePresento = cantidadNoSePresento;
         this.porcentajeNoSePresento = porcentajeNoSePresento;
+    }
+
+    /**
+     * @return the cantidadMaximaMaterias
+     */
+    public int getCantidadMaximaMaterias() {
+        return cantidadMaximaMaterias;
+    }
+
+    /**
+     * @param cantidadMaximaMaterias the cantidadMaximaMaterias to set
+     */
+    public void setCantidadMaximaMaterias(int cantidadMaximaMaterias) {
+        this.cantidadMaximaMaterias = cantidadMaximaMaterias;
+    }
+
+    /**
+     * @return the gruposCentralizador
+     */
+    public GrupoCentralizador[] getGruposCentralizador() {
+        return gruposCentralizador;
+    }
+
+    /**
+     * @param gruposCentralizador the gruposCentralizador to set
+     */
+    public void setGruposCentralizador(GrupoCentralizador[] gruposCentralizador) {
+        this.gruposCentralizador = gruposCentralizador;
     }
 
     /**
@@ -142,6 +175,5 @@ public class PaginaEstadisticas extends PaginaCentralizador{
     public void setPorcentajeNoSePresento(int porcentajeNoSePresento) {
         this.porcentajeNoSePresento = porcentajeNoSePresento;
     }
-    
-    
+
 }

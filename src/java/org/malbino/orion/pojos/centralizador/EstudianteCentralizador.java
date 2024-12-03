@@ -15,16 +15,18 @@ public class EstudianteCentralizador {
     private String nombre;
     private String ci;
     private String[] notas;
-    private String observaciones;
-    
+    private String estado;
+    private String observacion;
+
     private int cantidadMaximaMaterias;
 
-    public EstudianteCentralizador(String numero, String nombre, String ci, String observaciones, int cantidadMaximaMaterias) {
+    public EstudianteCentralizador(String numero, String nombre, String ci, String estado, String observacion, int cantidadMaximaMaterias) {
         this.numero = numero;
         this.nombre = nombre;
         this.ci = ci;
         this.notas = notas = new String[cantidadMaximaMaterias];
-        this.observaciones = observaciones;
+        this.estado = estado;
+        this.observacion = observacion;
     }
 
     public EstudianteCentralizador(String numero, String nombre, String ci, int cantidadMaximaMaterias) {
@@ -91,17 +93,17 @@ public class EstudianteCentralizador {
     }
 
     /**
-     * @return the observaciones
+     * @return the estado
      */
-    public String getObservaciones() {
-        return observaciones;
+    public String getEstado() {
+        return estado;
     }
 
     /**
-     * @param observaciones the observaciones to set
+     * @param estado the estado to set
      */
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     /**
@@ -116,5 +118,19 @@ public class EstudianteCentralizador {
      */
     public void setCantidadMaximaMaterias(int cantidadMaximaMaterias) {
         this.cantidadMaximaMaterias = cantidadMaximaMaterias;
+    }
+
+    /**
+     * @return the observacion
+     */
+    public String getObservacion() {
+        return observacion;
+    }
+
+    /**
+     * @param observacion the observacion to set
+     */
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
     }
 }

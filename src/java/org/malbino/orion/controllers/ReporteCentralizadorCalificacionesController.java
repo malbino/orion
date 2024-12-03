@@ -37,6 +37,7 @@ import org.malbino.orion.facades.NotaFacade;
 import org.malbino.orion.facades.negocio.CentralizadorCalificacionesFacade;
 import org.malbino.orion.pojos.centralizador.Centralizador;
 import org.malbino.orion.pojos.centralizador.EstudianteCentralizador;
+import org.malbino.orion.pojos.centralizador.GrupoCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaEstadisticas;
 import org.malbino.orion.pojos.centralizador.PaginaNotas;
@@ -53,6 +54,8 @@ import org.primefaces.model.StreamedContent;
 public class ReporteCentralizadorCalificacionesController extends AbstractController implements Serializable {
 
     private static final String PATHNAME = File.separator + "resources" + File.separator + "uploads" + File.separator + "centralizador.xlsx";
+
+    private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
 
     @EJB
     CentralizadorCalificacionesFacade centralizadorCalificacionesFacade;
@@ -338,7 +341,11 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                                         } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                                             rowNum = row.getRowNum();
                                         } else if (cell.getStringCellValue().contains("<<*>>")) {
-                                            cell.setCellValue(cell.getStringCellValue().replace("<<*>>", paginaNotas.getNota()));
+                                            if (paginaNotas.getTitulo().equals(TITULO_CC)) {
+                                                cell.setCellValue(cell.getStringCellValue().replace("<<*>>", "* N/P = No se Presento\nCuando el estudiante no se hubiera presentado a la asignatura"));
+                                            } else {
+                                                cell.setCellValue(cell.getStringCellValue().replace("<<*>>", ""));
+                                            }
                                         }
                                     } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                         if (cell.getNumericCellValue() == -1) {
@@ -369,81 +376,81 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                                 while (cellIterator.hasNext()) {
                                     Cell cell = cellIterator.next();
 
-                                    if (cell.getCellTypeEnum() == CellType.NUMERIC) {
-                                        if (cell.getNumericCellValue() == -3) {
-                                            if (!estudianteCentralizador.getNumero().equals(" ")) {
-                                                cell.setCellValue(Integer.parseInt(estudianteCentralizador.getNumero()));
-                                            } else {
-                                                cell.setCellValue(estudianteCentralizador.getNumero());
-                                            }
-                                        } else if (cell.getNumericCellValue() == -10) {
-                                            if (notas[0] != null && !notas[0].isEmpty() && !notas[0].equals(" ") && !notas[0].equals("N/P") && !notas[0].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[0]));
-                                            } else {
-                                                cell.setCellValue(notas[0]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -20) {
-                                            if (notas[1] != null && !notas[1].isEmpty() && !notas[1].equals(" ") && !notas[1].equals("N/P") && !notas[1].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[1]));
-                                            } else {
-                                                cell.setCellValue(notas[1]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -30) {
-                                            if (notas[2] != null && !notas[2].isEmpty() && !notas[2].equals(" ") && !notas[2].equals("N/P") && !notas[2].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[2]));
-                                            } else {
-                                                cell.setCellValue(notas[2]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -40) {
-                                            if (notas[3] != null && !notas[3].isEmpty() && !notas[3].equals(" ") && !notas[3].equals("N/P") && !notas[3].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[3]));
-                                            } else {
-                                                cell.setCellValue(notas[3]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -50) {
-                                            if (notas[4] != null && !notas[4].isEmpty() && !notas[4].equals(" ") && !notas[4].equals("N/P") && !notas[4].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[4]));
-                                            } else {
-                                                cell.setCellValue(notas[4]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -60) {
-                                            if (notas[5] != null && !notas[5].isEmpty() && !notas[5].equals(" ") && !notas[5].equals("N/P") && !notas[5].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[5]));
-                                            } else {
-                                                cell.setCellValue(notas[5]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -70) {
-                                            if (notas[6] != null && !notas[6].isEmpty() && !notas[6].equals(" ") && !notas[6].equals("N/P") && !notas[6].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[6]));
-                                            } else {
-                                                cell.setCellValue(notas[6]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -80) {
-                                            if (notas[7] != null && !notas[7].isEmpty() && !notas[7].equals(" ") && !notas[7].equals("N/P") && !notas[7].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[7]));
-                                            } else {
-                                                cell.setCellValue(notas[7]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -90) {
-                                            if (notas[8] != null && !notas[8].isEmpty() && !notas[8].equals(" ") && !notas[8].equals("N/P") && !notas[8].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[8]));
-                                            } else {
-                                                cell.setCellValue(notas[8]);
-                                            }
-                                        } else if (cell.getNumericCellValue() == -100) {
-                                            if (notas[9] != null && !notas[9].isEmpty() && !notas[9].equals(" ") && !notas[9].equals("N/P") && !notas[9].equals("-")) {
-                                                cell.setCellValue(Integer.parseInt(notas[9]));
-                                            } else {
-                                                cell.setCellValue(notas[9]);
-                                            }
-                                        }
-                                    } else if (cell.getCellTypeEnum() == CellType.STRING) {
-                                        if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
+                                    if (cell.getCellTypeEnum() == CellType.STRING) {
+                                        if (cell.getStringCellValue().contains("<<N>>")) {
+                                            cell.setCellValue(cell.getStringCellValue().replace("<<N>>", estudianteCentralizador.getNumero()));
+                                        } else if (cell.getStringCellValue().contains("<<ESTUDIANTE>>")) {
                                             cell.setCellValue(cell.getStringCellValue().replace("<<ESTUDIANTE>>", estudianteCentralizador.getNombre()));
                                         } else if (cell.getStringCellValue().contains("<<CI>>")) {
                                             cell.setCellValue(cell.getStringCellValue().replace("<<CI>>", estudianteCentralizador.getCi()));
+                                        } else if (cell.getStringCellValue().contains("<<A>>")) {
+                                            if (notas[0] != null) {
+                                                cell.setCellValue(notas[0]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<B>>")) {
+                                            if (notas[1] != null) {
+                                                cell.setCellValue(notas[1]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<C>>")) {
+                                            if (notas[2] != null) {
+                                                cell.setCellValue(notas[2]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<D>>")) {
+                                            if (notas[3] != null) {
+                                                cell.setCellValue(notas[3]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<E>>")) {
+                                            if (notas[4] != null) {
+                                                cell.setCellValue(notas[4]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<F>>")) {
+                                            if (notas[5] != null) {
+                                                cell.setCellValue(notas[5]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<G>>")) {
+                                            if (notas[6] != null) {
+                                                cell.setCellValue(notas[6]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<H>>")) {
+                                            if (notas[7] != null) {
+                                                cell.setCellValue(notas[7]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<I>>")) {
+                                            if (notas[8] != null) {
+                                                cell.setCellValue(notas[8]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
+                                        } else if (cell.getStringCellValue().contains("<<J>>")) {
+                                            if (notas[9] != null) {
+                                                cell.setCellValue(notas[9]);
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
                                         } else if (cell.getStringCellValue().contains("<<CONDICION>>")) {
-                                            cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", estudianteCentralizador.getObservaciones()));
+                                            cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", estudianteCentralizador.getEstado()));
+                                        } else if (cell.getStringCellValue().contains("<<OBSERVACION>>")) {
+                                            if (estudianteCentralizador.getObservacion() != null) {
+                                                cell.setCellValue(estudianteCentralizador.getObservacion());
+                                            } else {
+                                                cell.setCellValue("");
+                                            }
                                         }
                                     }
                                 }
@@ -467,8 +474,59 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                                 Iterator<Cell> cellIterator = row.cellIterator();
                                 while (cellIterator.hasNext()) {
                                     Cell cell = cellIterator.next();
+                                    GrupoCentralizador[] gruposCentralizador = paginaEstadisticas.getGruposCentralizador();
 
-                                    if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+                                    if (cell.getCellTypeEnum() == CellType.STRING) {
+                                        if (cell.getStringCellValue().contains("<<D1>>")) {
+                                            cell.setCellValue(gruposCentralizador[0].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D2>>")) {
+                                            cell.setCellValue(gruposCentralizador[1].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D3>>")) {
+                                            cell.setCellValue(gruposCentralizador[2].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D4>>")) {
+                                            cell.setCellValue(gruposCentralizador[3].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D5>>")) {
+                                            cell.setCellValue(gruposCentralizador[4].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D6>>")) {
+                                            cell.setCellValue(gruposCentralizador[5].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D7>>")) {
+                                            cell.setCellValue(gruposCentralizador[6].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D8>>")) {
+                                            cell.setCellValue(gruposCentralizador[7].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D9>>")) {
+                                            cell.setCellValue(gruposCentralizador[8].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D10>>")) {
+                                            cell.setCellValue(gruposCentralizador[9].getDocente());
+                                        } else if (cell.getStringCellValue().contains("<<D11>>")) {
+                                            cell.setCellValue("");
+                                        } else if (cell.getStringCellValue().contains("<<D12>>")) {
+                                            cell.setCellValue("");
+                                        } else if (cell.getStringCellValue().contains("<<M1>>")) {
+                                            cell.setCellValue(gruposCentralizador[0].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M2>>")) {
+                                            cell.setCellValue(gruposCentralizador[1].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M3>>")) {
+                                            cell.setCellValue(gruposCentralizador[2].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M4>>")) {
+                                            cell.setCellValue(gruposCentralizador[3].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M5>>")) {
+                                            cell.setCellValue(gruposCentralizador[4].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M6>>")) {
+                                            cell.setCellValue(gruposCentralizador[5].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M7>>")) {
+                                            cell.setCellValue(gruposCentralizador[6].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M8>>")) {
+                                            cell.setCellValue(gruposCentralizador[7].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M9>>")) {
+                                            cell.setCellValue(gruposCentralizador[8].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M10>>")) {
+                                            cell.setCellValue(gruposCentralizador[9].getMateria());
+                                        } else if (cell.getStringCellValue().contains("<<M11>>")) {
+                                            cell.setCellValue("");
+                                        } else if (cell.getStringCellValue().contains("<<M12>>")) {
+                                            cell.setCellValue("");
+                                        }
+                                    } else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                                         if (cell.getNumericCellValue() == -10) {
                                             cell.setCellValue(paginaEstadisticas.getCantidadInscritos());
                                         } else if (cell.getNumericCellValue() == -0.2) {

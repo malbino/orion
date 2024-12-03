@@ -10,7 +10,6 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.malbino.orion.pojos.centralizador.Centralizador;
 import org.malbino.orion.pojos.centralizador.EstudianteCentralizador;
+import org.malbino.orion.pojos.centralizador.GrupoCentralizador;
 import org.malbino.orion.pojos.centralizador.MateriaCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaCentralizador;
 import org.malbino.orion.pojos.centralizador.PaginaEstadisticas;
@@ -53,6 +53,8 @@ public class CentralizadorCalificaciones extends HttpServlet {
     private static final int MARGEN_DERECHO = -80;
     private static final int MARGEN_SUPERIOR = 30;
     private static final int MARGEN_INFERIOR = 30;
+
+    private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -142,6 +144,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setColspan(20);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setBorder(Rectangle.NO_BORDER);
+                    cell.setBackgroundColor(new BaseColor(255, 255, 0));
                     table.addCell(cell);
 
                     cell = new PdfPCell(new Phrase(" ", NEGRITA));
@@ -311,41 +314,49 @@ public class CentralizadorCalificaciones extends HttpServlet {
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getNumero(), NORMAL));
                         cell.setColspan(2);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         table.addCell(cell);
 
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getNombre(), NORMAL));
                         cell.setColspan(22);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         table.addCell(cell);
 
                         cell = new PdfPCell(new Phrase(estudianteCentralizador.getCi(), NORMAL));
                         cell.setColspan(6);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         table.addCell(cell);
 
                         for (String nota : estudianteCentralizador.getNotas()) {
                             cell = new PdfPCell(new Phrase(nota, NORMAL));
                             cell.setColspan(4);
                             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                            cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                             table.addCell(cell);
                         }
 
-                        cell = new PdfPCell(new Phrase(estudianteCentralizador.getObservaciones(), NORMAL));
+                        cell = new PdfPCell(new Phrase(estudianteCentralizador.getEstado(), NORMAL));
                         cell.setColspan(7);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase("", NORMAL));
+                        cell = new PdfPCell(new Phrase(estudianteCentralizador.getObservacion(), NORMAL));
                         cell.setColspan(13);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                         table.addCell(cell);
                     }
 
-                    cell = new PdfPCell(new Phrase(paginaNotas.getNota(), NEGRITA_PEQUENA));
-                    cell.setColspan(90);
-                    cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                    cell.setBorder(PdfPCell.NO_BORDER);
-                    table.addCell(cell);
+                    if (paginaNotas.getTitulo().equals(TITULO_CC)) {
+                        cell = new PdfPCell(new Phrase(paginaNotas.getNota(), NEGRITA_PEQUENA));
+                        cell.setColspan(90);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setBorder(PdfPCell.NO_BORDER);
+                        table.addCell(cell);
+                    }
 
                     //firmas
                     cell = new PdfPCell(new Phrase("......................................................................", NORMAL));
@@ -415,26 +426,69 @@ public class CentralizadorCalificaciones extends HttpServlet {
 
                     document.add(new Phrase(" "));
 
-                    PdfPTable table = new PdfPTable(20);
-                    table.setSpacingBefore(300);
-                    table.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.setWidthPercentage(25);
+                    PdfPTable table = new PdfPTable(100);
 
-                    PdfPCell cell = new PdfPCell(new Phrase("ESTADISTICAS", SUBTITULO));
-                    cell.setColspan(20);
+                    //firmas
+                    GrupoCentralizador[] gruposCentralizador = paginaEstadisticas.getGruposCentralizador();
+                    for (int i = 0; i < 12; i++) {
+                        if (i < gruposCentralizador.length) {
+                            Phrase phrase = new Phrase();
+                            phrase.add(new Chunk(gruposCentralizador[i].getDocente(), NORMAL));
+                            phrase.add(new Chunk("\n", NORMAL));
+                            phrase.add(new Chunk(gruposCentralizador[i].getMateria(), NORMAL));
+                            PdfPCell cell = new PdfPCell(phrase);
+                            cell.setColspan(25);
+                            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            cell.setPaddingTop(100);
+                            table.addCell(cell);
+                        } else {
+                            Phrase phrase = new Phrase();
+                            phrase.add(new Chunk(" ", NORMAL));
+                            phrase.add(new Chunk("\n", NORMAL));
+                            phrase.add(new Chunk(" ", NORMAL));
+                            PdfPCell cell = new PdfPCell(phrase);
+                            cell.setColspan(25);
+                            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                            cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                            cell.setBorder(PdfPCell.NO_BORDER);
+                            cell.setPaddingTop(100);
+                            table.addCell(cell);
+                        }
+                    }
+
+                    //estadisticas
+                    PdfPCell cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
+                    cell = new PdfPCell(new Phrase("ESTADISTICAS", SUBTITULO));
+                    cell.setColspan(30);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setBorder(PdfPCell.NO_BORDER);
                     table.addCell(cell);
 
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     cell = new PdfPCell(new Phrase(" ", SUBTITULO));
-                    cell.setColspan(20);
+                    cell.setColspan(100);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setBorder(PdfPCell.NO_BORDER);
                     table.addCell(cell);
 
                     //titulos
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     cell = new PdfPCell(new Phrase("DETALLE", NEGRITA));
-                    cell.setColspan(10);
+                    cell.setColspan(20);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     cell.setBackgroundColor(new BaseColor(216, 228, 188));
                     table.addCell(cell);
@@ -451,9 +505,19 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setBackgroundColor(new BaseColor(216, 228, 188));
                     table.addCell(cell);
 
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     //inscritos
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     cell = new PdfPCell(new Phrase("ESTUDIANTES INSCRITOS", NORMAL));
-                    cell.setColspan(10);
+                    cell.setColspan(20);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
@@ -467,9 +531,19 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     table.addCell(cell);
 
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     //aprobados
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     cell = new PdfPCell(new Phrase("ESTUDIANTES APROBADOS", NORMAL));
-                    cell.setColspan(10);
+                    cell.setColspan(20);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
@@ -483,9 +557,19 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     table.addCell(cell);
 
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     //reprobados
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     cell = new PdfPCell(new Phrase("ESTUDIANTES REPROBADOS", NORMAL));
-                    cell.setColspan(10);
+                    cell.setColspan(20);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
@@ -499,9 +583,19 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     table.addCell(cell);
 
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
                     //no se presentaron
-                    cell = new PdfPCell(new Phrase("NO SE PRESENTARON", NORMAL));
-                    cell.setColspan(10);
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
+                    table.addCell(cell);
+
+                    cell = new PdfPCell(new Phrase("ABANDONO", NORMAL));
+                    cell.setColspan(20);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                     table.addCell(cell);
 
@@ -513,6 +607,11 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell = new PdfPCell(new Phrase(paginaEstadisticas.getPorcentajeNoSePresento() + " %", NORMAL));
                     cell.setColspan(5);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    table.addCell(cell);
+
+                    cell = new PdfPCell(new Phrase(" ", NORMAL));
+                    cell.setColspan(35);
+                    cell.setBorder(PdfPCell.NO_BORDER);
                     table.addCell(cell);
 
                     document.add(table);

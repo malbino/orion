@@ -173,25 +173,8 @@ public class CentralizadorCalificacionesPRAEFacade {
                     int cantidadPaginas = Redondeo.redondear_UP(((double) estudiantes.size() / CANTIDAD_MAXIMA_ESTUDIANTES), 0).intValue();
                     for (int pagina = 1; pagina <= cantidadPaginas; pagina++) { //paginas
                         //paginas centralziador
-                        String codigoRegistro;
-                        if (mencion == null) {
-                            codigoRegistro
-                                    = "CCPRAE-"
-                                    + gestionAcademica.codigo() + "-"
-                                    + carrera.getCodigo() + "-"
-                                    + nivel.getAbreviatura() + "-"
-                                    + pagina;
-                        } else {
-                            codigoRegistro
-                                    = "CCPRAE-"
-                                    + gestionAcademica.codigo() + "-"
-                                    + carrera.getCodigo() + "-"
-                                    + nivel.getAbreviatura() + "-"
-                                    + mencion.getCodigo() + "-"
-                                    + pagina;
-                        }
                         PaginaNotas paginaNotas = new PaginaNotas(
-                                codigoRegistro,
+                                carrera.getCampus().getCodigoRITT(),
                                 TITULO_CC_PR,
                                 numeroLibro,
                                 numeroFolio,
@@ -241,13 +224,13 @@ public class CentralizadorCalificacionesPRAEFacade {
                                         notasEstudianteCentralizador[j] = " ";
                                     }
                                 }
-                                estudianteCentralizador.setObservaciones(Condicion.RECUPERACION.toString()); //observacion
+                                estudianteCentralizador.setEstado(Condicion.RECUPERACION.toString()); //observacion
 
                                 estudianteCentralizador.setNotas(notasEstudianteCentralizador);
 
                                 numeroEstudiante++;
                             } else {
-                                estudianteCentralizador = new EstudianteCentralizador(" ", " ", " ", " ", CANTIDAD_MAXIMA_MATERIAS);
+                                estudianteCentralizador = new EstudianteCentralizador(" ", " ", " ", " ", " ", CANTIDAD_MAXIMA_MATERIAS);
 
                                 String[] notasEstudianteCentralizador = new String[CANTIDAD_MAXIMA_MATERIAS];
                                 for (int j = 0; j < CANTIDAD_MAXIMA_MATERIAS; j++) {

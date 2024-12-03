@@ -417,7 +417,13 @@ public class ReporteCentralizadorCalificacionesHomologacionController extends Ab
                                     } else if (cell.getStringCellValue().contains("<<CI>>")) {
                                         cell.setCellValue(cell.getStringCellValue().replace("<<CI>>", estudianteCentralizador.getCi()));
                                     } else if (cell.getStringCellValue().contains("<<CONDICION>>")) {
-                                        cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", estudianteCentralizador.getObservaciones()));
+                                        cell.setCellValue(cell.getStringCellValue().replace("<<CONDICION>>", estudianteCentralizador.getEstado()));
+                                    } else if (cell.getStringCellValue().contains("<<OBSERVACION>>")) {
+                                        if (estudianteCentralizador.getObservacion() != null) {
+                                            cell.setCellValue(estudianteCentralizador.getObservacion());
+                                        } else {
+                                            cell.setCellValue("");
+                                        }
                                     }
                                 }
                             }
