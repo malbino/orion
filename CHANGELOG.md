@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.9.1] - 2024-09-19
+## [2.9.2] - 2024-12-03
+### Added
+### Changed
+### Removed
+### Fixed
+- Plantilla Excel Centralizador de Calificaciones DDE/SESFP/INS/0146/2024
+
+## [2.9.1] - 2024-12-03
 ### Added
 ### Changed
 - Adecuacion Centralizador de Calificaciones DDE/SESFP/INS/0146/2024
