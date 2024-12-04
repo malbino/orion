@@ -342,7 +342,7 @@ public class ReporteCentralizadorCalificacionesController extends AbstractContro
                                             rowNum = row.getRowNum();
                                         } else if (cell.getStringCellValue().contains("<<*>>")) {
                                             if (paginaNotas.getTitulo().equals(TITULO_CC)) {
-                                                cell.setCellValue(cell.getStringCellValue().replace("<<*>>", "* N/P = No se Presento\nCuando el estudiante no se hubiera presentado a la asignatura"));
+                                                cell.setCellValue(cell.getStringCellValue().replace("<<*>>", paginaNotas.getNota()));
                                             } else {
                                                 cell.setCellValue(cell.getStringCellValue().replace("<<*>>", ""));
                                             }
