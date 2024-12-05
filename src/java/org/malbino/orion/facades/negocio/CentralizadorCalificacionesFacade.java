@@ -51,7 +51,7 @@ public class CentralizadorCalificacionesFacade {
 
     private static final String TITULO_CC = "CENTRALIZADOR DE CALIFICACIONES";
     private static final String TITULO_CC_PR = "CENTRALIZADOR DE CALIFICACIONES\nPRUEBA DE RECUPERACIÓN";
-    private static final String NOTA_CC = "N/P = No se Presento\nAP = Aprobado\nPRE = Prerequisito";
+    private static final String NOTA_CC = "NP = No se Presento\nAP = Aprobado\nPRE = Prerequisito";
 
     @PersistenceContext(unitName = "orionPU")
     private EntityManager em;
@@ -450,7 +450,7 @@ public class CentralizadorCalificacionesFacade {
                                                         notasEstudianteCentralizador[j] = nota.getRecuperatorio().toString();
                                                     } else if (nota.getNotaFinal() != null) {
                                                         if (nota.getNotaFinal() == 0) {
-                                                            notasEstudianteCentralizador[j] = "N/P";
+                                                            notasEstudianteCentralizador[j] = "NP";
                                                         } else {
                                                             notasEstudianteCentralizador[j] = nota.getNotaFinal().toString();
                                                         }
