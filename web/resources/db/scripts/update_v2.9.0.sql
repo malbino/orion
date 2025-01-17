@@ -23,8 +23,32 @@ INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recur
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 7);
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 8);
 
--- funcionalidad Horarios > HorarioParalelo
+-- funcionalidad Horarios > Horario Paralelo
 INSERT INTO `recurso` (`ID_RECURSO`, `NOMBRE`, `URLPATTERN`) VALUES ((SELECT MAX(r.id_recurso)+1 FROM recurso r), 'Horarios > Horario Paralelo', '/horarios/horarioParalelo.xhtml');
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 1);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 4);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 6);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 7);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 8);
+
+-- funcionalidad Reportes > Horarios > Horario Aula
+INSERT INTO `recurso` (`ID_RECURSO`, `NOMBRE`, `URLPATTERN`) VALUES ((SELECT MAX(r.id_recurso)+1 FROM recurso r), 'Reportes > Horarios > Horario Aula', '/reportes/horarios/horarioAula/');
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 1);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 4);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 6);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 7);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 8);
+
+-- funcionalidad Reportes > Horarios > Horario Paralelo
+INSERT INTO `recurso` (`ID_RECURSO`, `NOMBRE`, `URLPATTERN`) VALUES ((SELECT MAX(r.id_recurso)+1 FROM recurso r), 'Reportes > Horarios > Horario Paralelo', '/reportes/horarios/horarioParalelo/');
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 1);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 4);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 6);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 7);
+INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 8);
+
+-- funcionalidad Reportes > Horarios > Horario Docente
+INSERT INTO `recurso` (`ID_RECURSO`, `NOMBRE`, `URLPATTERN`) VALUES ((SELECT MAX(r.id_recurso)+1 FROM recurso r), 'Reportes > Horarios > Horario Docente', '/reportes/horarios/horarioDocente/');
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 1);
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 4);
 INSERT INTO `privilegio` (`id_recurso`, `id_rol`) VALUES ((SELECT MAX(r.id_recurso) FROM recurso r), 6);

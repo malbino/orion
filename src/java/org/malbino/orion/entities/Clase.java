@@ -32,17 +32,17 @@ public class Clase implements Serializable {
     @JoinColumn(name = "id_aula")
     @ManyToOne
     private Aula aula;
-    
+
     @JoinColumn(name = "id_grupo")
     @ManyToOne
     private Grupo grupo;
-    
+
     @JoinColumn(name = "id_periodo")
     @ManyToOne
     private Periodo periodo;
-    
+
     private Dia dia;
-    
+
     @Transient
     private String nombre;
 
@@ -56,7 +56,7 @@ public class Clase implements Serializable {
     public Clase(Periodo periodo, Dia dia) {
         this.periodo = periodo;
         this.dia = dia;
-    }   
+    }
 
     @Override
     public int hashCode() {
@@ -83,6 +83,16 @@ public class Clase implements Serializable {
     @Override
     public String toString() {
         return this.dia.toString() + " | " + this.periodo.toString() + " | " + this.grupo.toString();
+    }
+
+    public String toString_Paralelo() {
+        String s = grupo.getMateria().getNombre() + "\n\n";
+        if (grupo.getEmpleado() != null) {
+            s += grupo.getEmpleado().nombreHorario();
+        } else {
+            s += "Por designar";
+        }
+        return s;
     }
 
     /**
@@ -168,6 +178,5 @@ public class Clase implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
+
 }

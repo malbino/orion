@@ -194,6 +194,14 @@
                                                         <li style="display: #{LoginController.display('/reportes/inscripciones/listaInscritosMulticarrera/')}"><a href="#{request.contextPath}/reportes/inscripciones/listaInscritosMulticarrera/reporteListaInscritosMulticarrera.xhtml">Lista Inscritos Multicarrera</a></li>
                                                     </ul>
                                                 </li>
+                                                
+                                                <li style="display: #{LoginController.displayMenu('/reportes/horarios/')}"><a>Horarios<span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        <li style="display: #{LoginController.display('/reportes/horarios/horarioAula/')}"><a href="#{request.contextPath}/reportes/horarios/horarioAula/reporteHorarioAula.xhtml">Horario Aula</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/horarios/horarioParalelo/')}"><a href="#{request.contextPath}/reportes/horarios/horarioParalelo/reporteHorarioParalelo.xhtml">Horario Paralelo</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/horarios/horarioDocente/')}"><a href="#{request.contextPath}/reportes/horarios/horarioDocente/reporteHorarioDocente.xhtml">Horario Docente</a></li>
+                                                    </ul>
+                                                </li>
 
                                                 <li style="display: #{LoginController.displayMenu('/reportes/pasantias/')}"><a>Pasantias<span class="fa fa-chevron-down"></span></a>
                                                     <ul class="nav child_menu">

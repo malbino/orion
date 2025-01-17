@@ -64,4 +64,8 @@ public class Empleado extends Usuario implements Serializable {
         return s;
     }
 
+    public String nombreHorario() {
+        String s = this.getNombre().split(" ")[0] + " " + this.getPrimerApellido();
+        return s;
+    }
 }
