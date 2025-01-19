@@ -247,4 +247,26 @@ public class Grupo implements Serializable {
     public String toString_RegistroParcial() {
         return materia.getNombre() + " [" + codigo + ", " + turno.getNombre() + "]";
     }
+
+    public String toString_Horario() {
+        String s = materia.getNombre() + " [Por designar]";
+        if (empleado != null) {
+            s = materia.getNombre() + " [" + empleado.toString() + "]";
+        }
+        return s;
+    }
+
+    public String toHtml_Horario() {
+        String s = "<br/>";
+
+        s += materia.getCodigo() + " [" + codigo + ", " + turno.getNombre() + "]" + "<br/>";
+        s += materia.getCarrera().getCodigo() + " [" + materia.getCarrera().getResolucionMinisterial1() + "]" + "<br/>";
+        String e = "Por designar";
+        if (empleado != null) {
+            e = empleado.getPrimerApellido();
+        }
+        s += e + "<br/>";
+
+        return s;
+    }
 }

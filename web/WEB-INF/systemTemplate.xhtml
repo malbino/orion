@@ -94,6 +94,9 @@
                                         <li style="display: #{LoginController.displayMenu('/horarios/')}"><a><i class="fa fa-clock-o"></i> Horarios <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
                                                 <li style="display: #{LoginController.display('/horarios/asignacionDocente/')}"><a href="#{request.contextPath}/horarios/asignacionDocente/asignacionDocente.xhtml">Asignación Docente</a></li>
+                                                <li style="display: #{LoginController.display('/horarios/aula/')}"><a href="#{request.contextPath}/horarios/aula/aulas.xhtml">Aulas</a></li>
+                                                <li style="display: #{LoginController.display('/horarios/periodo/')}"><a href="#{request.contextPath}/horarios/periodo/periodos.xhtml">Periodos</a></li>
+                                                <li style="display: #{LoginController.display('/horarios/horarioParalelo.xhtml')}"><a href="#{request.contextPath}/horarios/horarioParalelo.xhtml">Horario Paaralelo</a></li>
                                             </ul>
                                         </li>
 
@@ -189,6 +192,14 @@
                                                         <li style="display: #{LoginController.display('/reportes/inscripciones/libroInscripciones/')}"><a href="#{request.contextPath}/reportes/inscripciones/libroInscripciones/reporteLibroInscripciones.xhtml">Libro de Inscripciones</a></li>
                                                         <li style="display: #{LoginController.display('/reportes/inscripciones/libroInscripcionesCarrera/')}"><a href="#{request.contextPath}/reportes/inscripciones/libroInscripcionesCarrera/reporteLibroInscripcionesCarrera.xhtml">Libro de Inscripciones Carrera</a></li>
                                                         <li style="display: #{LoginController.display('/reportes/inscripciones/listaInscritosMulticarrera/')}"><a href="#{request.contextPath}/reportes/inscripciones/listaInscritosMulticarrera/reporteListaInscritosMulticarrera.xhtml">Lista Inscritos Multicarrera</a></li>
+                                                    </ul>
+                                                </li>
+                                                
+                                                <li style="display: #{LoginController.displayMenu('/reportes/horarios/')}"><a>Horarios<span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        <li style="display: #{LoginController.display('/reportes/horarios/horarioAula/')}"><a href="#{request.contextPath}/reportes/horarios/horarioAula/reporteHorarioAula.xhtml">Horario Aula</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/horarios/horarioParalelo/')}"><a href="#{request.contextPath}/reportes/horarios/horarioParalelo/reporteHorarioParalelo.xhtml">Horario Paralelo</a></li>
+                                                        <li style="display: #{LoginController.display('/reportes/horarios/horarioDocente/')}"><a href="#{request.contextPath}/reportes/horarios/horarioDocente/reporteHorarioDocente.xhtml">Horario Docente</a></li>
                                                     </ul>
                                                 </li>
 

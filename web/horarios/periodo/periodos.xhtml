@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Periodo <small>gestión de periodos</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <h:form id="form">
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:button icon="fa fa-plus" value="Nuevo" outcome="/horarios/periodo/nuevoPeriodo"/>
+
+                                            <p:spacer width="10"/>
+
+                                            <p:commandButton icon="fa fa-refresh" value="Actualizar" actionListener="#{PeriodoController.reinit()}" update="form"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:menuButton icon="fa fa-gear" title="Opciones">
+                                                <p:menuitem value="Exportar" icon="fa fa-file-excel-o" ajax="false">
+                                                    <p:dataExporter type="xls" target="periodos" fileName="periodos" />
+                                                </p:menuitem>
+                                            </p:menuButton>
+                                        </f:facet>
+                                    </p:toolbar>
+
+                                    <p:spacer/>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <div class="ui-inputgroup">
+                                                <p:inputText value="#{PeriodoController.keyword}" style="height: 100%"/>
+                                                <p:commandButton id="buscar" icon="fa fa-search" actionListener="#{PeriodoController.buscar()}" update="periodos"/>           
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:defaultCommand target="buscar"/>
+
+                                    <p:dataTable id="periodos" var="periodo" value="#{PeriodoController.periodos}" rowIndexVar="rowIndex" reflow="true" emptyMessage="Ningún registro encontrado." tableStyle="width:auto; min-width:100%">
+                                        <p:column headerText="Nº">
+                                            <h:outputText value="#{rowIndex + 1}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Inicio" >  
+                                            <h:outputText value="#{periodo.inicio_HHmm()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fin" >  
+                                            <h:outputText value="#{periodo.fin_HHmm()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Minutos" >  
+                                            <h:outputText value="#{periodo.minutos()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Instituto" >  
+                                            <h:outputText value="#{periodo.instituto}"/> 
+                                        </p:column>
+
+                                        <p:column exportable="false"> 
+                                            <h:panelGroup id="group" >
+                                                <p:commandButton id="editar" process="@this" icon="fa fa-edit" title="Editar">  
+                                                    <f:setPropertyActionListener value="#{periodo}" target="#{PeriodoController.seleccionPeriodo}" />
+
+                                                    <f:actionListener binding="#{PeriodoController.toEditarPeriodo()}"/>
+                                                </p:commandButton>
+                                            </h:panelGroup>
+                                        </p:column> 
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
