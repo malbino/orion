@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.10.0] - 2025-01-18
+### Added
+- Gestion de aulas
+- Gestion de periodos
+- Horario Paralelo
+- Reporte Horario Aula
+- Reporte Horario Paralelo
+- Reporte Horario Docente
+### Changed
+### Removed
+### Fixed
+
 ## [2.9.3] - 2024-12-05
 ### Added
 ### Changed
