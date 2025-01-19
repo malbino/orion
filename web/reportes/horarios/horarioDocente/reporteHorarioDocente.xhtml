@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="#{root}/WEB-INF/systemTemplate.xhtml">
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <h:form id="form">
+                            <p:messages id="messages"/>
+
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-4">
+                                            <h2>Reporte Horario Docente <small>generar horario por docente</small></h2>
+                                        </div>
+                                    </div>   
+
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">                  
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-3">
+                                            <p:outputLabel for="docente" value="Docente:" style="font-size: small"/>
+                                            <p:autoComplete id="docente" value="#{ReporteHorarioDocenteController.seleccionEmpleado}" completeMethod="#{ReporteHorarioDocenteController.completarEmpleado}" minQueryLength="3" queryDelay="1000" scrollHeight="300"
+                                                            var="docente" itemLabel="#{docente.toString()}" itemValue="#{docente}" converter="#{EmpleadoConverter}" forceSelection="true"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-md-2">
+                                            <p:commandButton value="Generar" icon="fa fa-gear" actionListener="#{ReporteHorarioDocenteController.generarReporte()}" update="messages"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

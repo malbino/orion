@@ -10,20 +10,25 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.malbino.orion.entities.Aula;
 import org.malbino.orion.entities.Carrera;
 import org.malbino.orion.entities.Clase;
 import org.malbino.orion.entities.GestionAcademica;
 import org.malbino.orion.entities.Grupo;
+import org.malbino.orion.entities.Log;
 import org.malbino.orion.entities.Periodo;
 import org.malbino.orion.enums.Dia;
+import org.malbino.orion.enums.EntidadLog;
+import org.malbino.orion.enums.EventoLog;
 import org.malbino.orion.enums.Nivel;
 import org.malbino.orion.enums.Turno;
 import org.malbino.orion.facades.AulaFacade;
 import org.malbino.orion.facades.ClaseFacade;
 import org.malbino.orion.facades.GrupoFacade;
 import org.malbino.orion.facades.PeriodoFacade;
+import org.malbino.orion.util.Fecha;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +50,9 @@ public class HorarioParaleloController extends AbstractController implements Ser
     AulaFacade aulaFacade;
     @EJB
     ClaseFacade claseFacade;
+
+    @Inject
+    LoginController loginController;
 
     private GestionAcademica seleccionGestionAcademica;
     private Carrera seleccionCarrera;
@@ -175,6 +183,9 @@ public class HorarioParaleloController extends AbstractController implements Ser
                         Clase claseEmpleado = claseFacade.buscar(seleccionClase.getPeriodo(), seleccionClase.getDia(), seleccionClase.getGrupo().getEmpleado());
                         if (claseEmpleado == null) {
                             if (claseFacade.edit(seleccionClase)) {
+                                //log
+                                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.CLASE, seleccionClase.getId_clase(), "Actualización clase", loginController.getUsr().toString()));
+
                                 this.ejecutar("cargarHorario()");
                             } else {
                                 this.mensajeDeError("No se pudo editar la clase.");
@@ -197,6 +208,9 @@ public class HorarioParaleloController extends AbstractController implements Ser
                         Clase claseEmpleado = claseFacade.buscar(seleccionClase.getPeriodo(), seleccionClase.getDia(), seleccionClase.getGrupo().getEmpleado(), seleccionClase.getId_clase());
                         if (claseEmpleado == null) {
                             if (claseFacade.edit(seleccionClase)) {
+                                //log
+                                logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.CLASE, seleccionClase.getId_clase(), "Actualización clase", loginController.getUsr().toString()));
+
                                 this.ejecutar("cargarHorario()");
                             } else {
                                 this.mensajeDeError("No se pudo editar la clase.");
@@ -225,6 +239,9 @@ public class HorarioParaleloController extends AbstractController implements Ser
                 Clase claseEmpleado = claseFacade.buscar(seleccionClase.getPeriodo(), seleccionClase.getDia(), seleccionClase.getGrupo().getEmpleado());
                 if (claseEmpleado == null) {
                     if (claseFacade.edit(seleccionClase)) {
+                        //log
+                        logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.CLASE, seleccionClase.getId_clase(), "Actualización clase", loginController.getUsr().toString()));
+
                         this.ejecutar("PF('dlg1').hide()");
                         this.ejecutar("cargarHorario()");
                     } else {
@@ -248,6 +265,9 @@ public class HorarioParaleloController extends AbstractController implements Ser
                 Clase claseEmpleado = claseFacade.buscar(seleccionClase.getPeriodo(), seleccionClase.getDia(), seleccionClase.getGrupo().getEmpleado(), seleccionClase.getId_clase());
                 if (claseEmpleado == null) {
                     if (claseFacade.edit(seleccionClase)) {
+                        //log
+                        logFacade.create(new Log(Fecha.getDate(), EventoLog.UPDATE, EntidadLog.CLASE, seleccionClase.getId_clase(), "Actualización clase", loginController.getUsr().toString()));
+
                         this.ejecutar("PF('dlg1').hide()");
                         this.ejecutar("cargarHorario()");
                     } else {
@@ -273,6 +293,9 @@ public class HorarioParaleloController extends AbstractController implements Ser
 
     public void eliminarClase() {
         if (claseFacade.remove(seleccionClase)) {
+            //log
+            logFacade.create(new Log(Fecha.getDate(), EventoLog.DELETE, EntidadLog.CLASE, seleccionClase.getId_clase(), "Borrado clase", loginController.getUsr().toString()));
+
             this.ejecutar("cargarHorario()");
         } else {
             this.mensajeDeError("No se pudo eliminar la clase.");
