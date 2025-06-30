@@ -50,6 +50,9 @@ public class Nota implements Serializable {
     private Integer recuperatorio;
     private Modalidad modalidad;
     private Condicion condicion;
+    
+    private Integer numeroLibro;
+    private Integer numeroFolio;
 
     @JoinColumn(name = "id_gestionacademica")
     @ManyToOne
@@ -416,5 +419,33 @@ public class Nota implements Serializable {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the numeroLibro
+     */
+    public Integer getNumeroLibro() {
+        return numeroLibro;
+    }
+
+    /**
+     * @param numeroLibro the numeroLibro to set
+     */
+    public void setNumeroLibro(Integer numeroLibro) {
+        this.numeroLibro = numeroLibro;
+    }
+
+    /**
+     * @return the numeroFolio
+     */
+    public Integer getNumeroFolio() {
+        return numeroFolio;
+    }
+
+    /**
+     * @param numeroFolio the numeroFolio to set
+     */
+    public void setNumeroFolio(Integer numeroFolio) {
+        this.numeroFolio = numeroFolio;
     }
 }

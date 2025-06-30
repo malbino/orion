@@ -457,6 +457,11 @@ public class CentralizadorCalificacionesFacade {
                                                     } else {
                                                         notasEstudianteCentralizador[j] = "";
                                                     }
+
+                                                    // libro y folio
+                                                    nota.setNumeroLibro(numeroLibro);
+                                                    nota.setNumeroFolio(numeroFolio);
+                                                    em.merge(nota);
                                                 } else {
                                                     List<Nota> notasMateriaNivel = notasNivel.stream().filter(n -> n.getEstudiante().equals(estudiante) && n.getMateria().equals(materia)).collect(Collectors.toList());
                                                     Iterator<Nota> iteratorNotasMateriaNivel = notasMateriaNivel.iterator();
@@ -603,6 +608,11 @@ public class CentralizadorCalificacionesFacade {
                                                     } else {
                                                         notasEstudianteCentralizador[j] = "";
                                                     }
+
+                                                    // libro y folio
+                                                    nota.setNumeroLibro(numeroLibro);
+                                                    nota.setNumeroFolio(numeroFolio);
+                                                    em.merge(nota);
                                                 }
                                             } else {
                                                 notasEstudianteCentralizador[j] = " ";

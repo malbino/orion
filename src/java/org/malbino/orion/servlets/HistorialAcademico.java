@@ -50,12 +50,12 @@ public class HistorialAcademico extends HttpServlet {
     private static final String CONTENIDO_PDF = "application/pdf";
 
     private static final Font TITULO = FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
-    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, BaseColor.BLACK);
-    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, BaseColor.BLACK);
+    private static final Font NEGRITA = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, BaseColor.BLACK);
+    private static final Font NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, BaseColor.BLACK);
     private static final Font ESPACIO = FontFactory.getFont(FontFactory.HELVETICA, 2, Font.NORMAL, BaseColor.BLACK);
-    private static final Font NORMAL_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.ITALIC, BaseColor.BLACK);
-    private static final Font NEGRITA_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLDITALIC, BaseColor.BLACK);
-    private static final Font NEGRITA_PLOMO = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, BaseColor.LIGHT_GRAY);
+    private static final Font NORMAL_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.ITALIC, BaseColor.BLACK);
+    private static final Font NEGRITA_ITALICA = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLDITALIC, BaseColor.BLACK);
+    private static final Font NEGRITA_PLOMO = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, BaseColor.LIGHT_GRAY);
 
     //8.5 x 13 pulgadas (1 pulgada = 72 puntos)
     private static final Rectangle OFICIO_FOLIO = new Rectangle(612, 936);
@@ -290,6 +290,20 @@ public class HistorialAcademico extends HttpServlet {
         cell.setBackgroundColor(new BaseColor(183, 222, 232));
         table.addCell(cell);
 
+        cell = new PdfPCell(new Phrase("LIBRO", NEGRITA));
+        cell.setColspan(3);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("FOLIO", NEGRITA));
+        cell.setColspan(3);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setBackgroundColor(new BaseColor(183, 222, 232));
+        table.addCell(cell);
+
         cell = new PdfPCell(new Phrase("GEST. ACAD.", NEGRITA));
         cell.setColspan(4);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -312,7 +326,7 @@ public class HistorialAcademico extends HttpServlet {
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("ASIGNATURA", NEGRITA));
-        cell.setColspan(28);
+        cell.setColspan(22);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell.setBackgroundColor(new BaseColor(183, 222, 232));
@@ -355,6 +369,24 @@ public class HistorialAcademico extends HttpServlet {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             table.addCell(cell);
 
+            if (nota.getNumeroLibro() != null) {
+                cell = new PdfPCell(new Phrase(nota.getNumeroLibro().toString(), NORMAL));
+            } else {
+                cell = new PdfPCell(new Phrase(" ", NORMAL));
+            }
+            cell.setColspan(3);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            table.addCell(cell);
+
+            if (nota.getNumeroFolio() != null) {
+                cell = new PdfPCell(new Phrase(nota.getNumeroFolio().toString(), NORMAL));
+            } else {
+                cell = new PdfPCell(new Phrase(" ", NORMAL));
+            }
+            cell.setColspan(3);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            table.addCell(cell);
+
             cell = new PdfPCell(new Phrase(nota.getGestionAcademica().codigo(), NORMAL));
             cell.setColspan(4);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -371,7 +403,7 @@ public class HistorialAcademico extends HttpServlet {
             table.addCell(cell);
 
             cell = new PdfPCell(new Phrase(nota.getMateria().getNombre(), NORMAL));
-            cell.setColspan(28);
+            cell.setColspan(22);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             table.addCell(cell);
 

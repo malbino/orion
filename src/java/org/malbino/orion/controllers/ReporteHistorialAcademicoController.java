@@ -107,7 +107,7 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
     public XSSFWorkbook leerArchivo(String pathname) {
         XSSFWorkbook workbook = null;
 
-        try (FileInputStream file = new FileInputStream(this.realPath() + pathname)) {
+        try ( FileInputStream file = new FileInputStream(this.realPath() + pathname)) {
             workbook = new XSSFWorkbook(file);
         } catch (IOException e) {
             this.mensajeDeError("Error: No se pudo leer el archivo.");
@@ -311,7 +311,19 @@ public class ReporteHistorialAcademicoController extends AbstractController impl
                             }
                         }
                     } else if (cell.getCellTypeEnum() == CellType.STRING) {
-                        if (cell.getStringCellValue().contains("<<GA>>")) {
+                        if (cell.getStringCellValue().contains("<<LIBRO>>")) {
+                            if (nota.getNumeroLibro() != null) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<LIBRO>>", nota.getNumeroLibro().toString()));
+                            } else {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<LIBRO>>", " "));
+                            }
+                        } else if (cell.getStringCellValue().contains("<<FOLIO>>")) {
+                            if (nota.getNumeroFolio() != null) {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<FOLIO>>", nota.getNumeroFolio().toString()));
+                            } else {
+                                cell.setCellValue(cell.getStringCellValue().replace("<<FOLIO>>", " "));
+                            }
+                        } else if (cell.getStringCellValue().contains("<<GA>>")) {
                             cell.setCellValue(cell.getStringCellValue().replace("<<GA>>", nota.getGestionAcademica().codigo()));
                         } else if (cell.getStringCellValue().contains("<<NIVEL>>")) {
                             cell.setCellValue(cell.getStringCellValue().replace("<<NIVEL>>", nota.getMateria().getNivel().getOrdinal()));
