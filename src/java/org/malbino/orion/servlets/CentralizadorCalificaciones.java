@@ -104,7 +104,7 @@ public class CentralizadorCalificaciones extends HttpServlet {
                     cell.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell);
 
-                    String realPath = getServletContext().getRealPath("/resources/images/nuevoLogoMinisterio.png");
+                    String realPath = getServletContext().getRealPath("/resources/images/logoMinedu.jpg");
                     Image image = Image.getInstance(realPath);
                     image.setAlignment(Image.ALIGN_CENTER);
                     cell = new PdfPCell();
